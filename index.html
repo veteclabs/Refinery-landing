@@ -801,10 +801,26 @@
         scrollYAtOpen = window.scrollY;
         openedAt = Date.now();
       }
-      hamburgerBtn.addEventListener('click', function() {
+      // 터치는 감지되는데(탭 하이라이트는 보임) 메뉴는 안 열리는 증상은,
+      // 카카오톡/인스타그램 인앱 브라우저 등 일부 모바일 웹뷰에서 <button>에
+      // 바인딩한 'click' 이벤트가 터치 후 씹히거나 아주 늦게 발생하는 문제일
+      // 가능성이 높다 — 이런 환경에서도 확실히 동작하도록 'touchend'에서
+      // 직접 토글을 처리하고, 그 뒤 이어지는 합성 클릭은 preventDefault로
+      // 무시한다. 순수 마우스 환경(트랙패드 등)을 위해 'click'도 남겨두되,
+      // 같은 탭에서 두 이벤트가 겹쳐 두 번 토글되지 않도록 디바운스한다.
+      var lastToggleAt = 0;
+      function toggleMobileNav() {
+        var now = Date.now();
+        if (now - lastToggleAt < 400) return;
+        lastToggleAt = now;
         if (mobileNavPanel.classList.contains('open')) closeMobileNav();
         else openMobileNav();
-      });
+      }
+      hamburgerBtn.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        toggleMobileNav();
+      }, { passive: false });
+      hamburgerBtn.addEventListener('click', toggleMobileNav);
       mobileNavPanel.querySelectorAll('a').forEach(function(a) {
         a.addEventListener('click', closeMobileNav);
       });
