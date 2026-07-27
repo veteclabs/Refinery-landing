@@ -194,12 +194,12 @@
       padding: 12px;
       font-weight: 500;
     }
-    .mobile-nav-panel .mobile-nav-cta:hover { background: transparent; color: #76A6D7; border-color: #76A6D7; }
+    .mobile-nav-panel .mobile-nav-cta:hover, .mobile-nav-panel .mobile-nav-cta:active { background: transparent; color: #76A6D7; border-color: #76A6D7; }
     @media (max-width: 900px) {
       .nav-hamburger { display: flex; }
     }
-    .btn-primary:hover { background: #f4f4f5; }
-    nav .btn-primary:hover { background: transparent; color: #76A6D7; border-color: #76A6D7; }
+    .btn-primary:hover, .btn-primary:active { background: #f4f4f5; }
+    nav .btn-primary:hover, nav .btn-primary:active { background: transparent; color: #76A6D7; border-color: #76A6D7; }
 
     section { padding: 130px 0; }
     section:not(#hero) { background: #ffffff; }
@@ -786,12 +786,14 @@
         hamburgerBtn.innerHTML = '<i class="ph ph-list"></i>';
       }
       var scrollYAtOpen = 0;
+      var openedAt = 0;
       function openMobileNav() {
         nav.classList.remove('nav-hidden');
         mobileNavPanel.classList.add('open');
         hamburgerBtn.setAttribute('aria-expanded', 'true');
         hamburgerBtn.innerHTML = '<i class="ph ph-x"></i>';
         scrollYAtOpen = window.scrollY;
+        openedAt = Date.now();
       }
       hamburgerBtn.addEventListener('click', function() {
         if (mobileNavPanel.classList.contains('open')) closeMobileNav();
@@ -812,13 +814,17 @@
       });
 
       // 메뉴가 열린 상태에서 화면을 스크롤하면 메뉴를 닫는다.
-      // 단, 모바일에서 스크롤 직후(관성 스크롤이 미세하게 남아있는 상태) 햄버거를 누르면
-      // 메뉴가 열리자마자 그 잔여 스크롤이 곧바로 다시 닫아버려 "눌러도 아무것도 안 뜨는"
-      // 것처럼 보이는 문제가 있었다 — 열릴 때의 스크롤 위치 대비 일정량(24px) 이상
-      // 실제로 이동했을 때만 닫도록 해서 관성 스크롤의 미세한 흔들림은 무시한다.
+      // 단, 모바일 브라우저는 주소창이 접히고/펼쳐질 때도 window.scrollY 값이
+      // 실제 터치 스크롤 없이 수십~수백px 단위로 저절로 바뀐다. 특히 스크롤을
+      // 내리다가 바로 햄버거를 누르면, 열리는 순간 주소창이 접히면서 발생하는
+      // 이 "가짜 스크롤"이 임계값(24px)을 훌쩍 넘어버려 메뉴가 열리자마자
+      // 곧바로 닫혀 "눌러도 안 뜨는" 것처럼 보였다 — 열린 직후 짧은 유예시간(500ms)
+      // 동안은 스크롤에 의한 자동 닫힘을 무시해서, 실제로 사용자가 스크롤을
+      // 이어가는 경우에만 닫히도록 한다.
       window.addEventListener('scroll', function() {
         if (!mobileNavPanel.classList.contains('open')) return;
-        if (Math.abs(window.scrollY - scrollYAtOpen) > 24) closeMobileNav();
+        if (Date.now() - openedAt < 500) return;
+        if (Math.abs(window.scrollY - scrollYAtOpen) > 40) closeMobileNav();
       }, { passive: true });
     }
   })();
