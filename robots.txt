@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://refinery-landing-nine.vercel.app/sitemap.xml
