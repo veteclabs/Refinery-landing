@@ -1,0 +1,20 @@
+<svg id="레이어_1" data-name="레이어 1" xmlns="http://www.w3.org/2000/svg" width="620" height="620" viewBox="0 0 620 620">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+      }
+
+      .cls-2 {
+        fill: #ffffff;
+      }
+    </style>
+  </defs>
+  <g id="그룹_752" data-name="그룹 752">
+    <rect id="사각형_24485" data-name="사각형 24485" class="cls-1" width="620" height="620"/>
+    <g id="그룹_751" data-name="그룹 751">
+      <path id="패스_6211" data-name="패스 6211" class="cls-2" d="M380,40H100a60,60,0,0,0-60,60V380a60,60,0,0,0,60,60h50a30,30,0,0,1-30-30V150a30,30,0,0,1,30-30H410a30,30,0,0,1,30,30V100a60,60,0,0,0-60-60Z"/>
+      <path id="패스_6212" data-name="패스 6212" class="cls-2" d="M520,180H470a30,30,0,0,1,30,30V470a30,30,0,0,1-30,30H210a30,30,0,0,1-30-30v50a60,60,0,0,0,60,60H520a60,60,0,0,0,60-60V240A60,60,0,0,0,520,180Z"/>
+    </g>
+  </g>
+</svg>

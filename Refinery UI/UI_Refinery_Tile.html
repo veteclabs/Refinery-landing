@@ -1,0 +1,1451 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script>
+if (location.search.indexOf('embed=1') !== -1) {
+  document.documentElement.style.visibility = 'hidden';
+}
+</script>
+
+<meta charset="UTF-8">
+<title>Refinery — 타일</title>
+<!-- ============================================================
+     Refinery — 타일 (Overview)
+     Global Nav: 타일 · data-view="tile"
+     Styles: refinery.css (single source of truth · linked)
+     Components used: app-shell, rfn-widget(--link), rfn-btn, chip, tag, mono
+     Built following skill: refinery-html-page (Refinery_DesignSystem_Guide.md)
+     Generated: 2026-05-26
+     ============================================================ -->
+<link rel="icon" type="image/svg+xml" href="fav_refienry-symbol.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<link rel="stylesheet" href="refinery.css">
+</head>
+<body data-view="tile" data-tile-page="overview">
+<script>try{if(window.self===window.top && localStorage.getItem("refinery-theme")==="dark")document.body.classList.add("dark");}catch(e){}</script>
+
+<div class="app">
+
+  <!-- ============ Global Nav ============ -->
+  <aside class="rail">
+    <button class="rail-expand-btn" id="railExpand" title="내비게이션 펼치기"><i class="ph ph-caret-right"></i></button>
+    <div class="logo-dot">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 32 32">
+        <g transform="translate(-8 -14)">
+          <g transform="translate(10.289 16.289)">
+            <g transform="translate(1.318 1.318)">
+              <path fill="#16202C" d="M55.606,40H42.754A2.754,2.754,0,0,0,40,42.754V55.606a2.754,2.754,0,0,0,2.754,2.754h2.3a1.377,1.377,0,0,1-1.377-1.377V45.049a1.377,1.377,0,0,1,1.377-1.377H56.983a1.377,1.377,0,0,1,1.377,1.377v-2.3A2.754,2.754,0,0,0,55.606,40Z" transform="translate(-40 -40)"/>
+              <path fill="#16202C" d="M195.606,180h-2.3a1.377,1.377,0,0,1,1.377,1.377v11.934a1.377,1.377,0,0,1-1.377,1.377H181.377A1.377,1.377,0,0,1,180,193.311v2.3a2.754,2.754,0,0,0,2.754,2.754h12.852a2.754,2.754,0,0,0,2.754-2.754V182.754A2.754,2.754,0,0,0,195.606,180Z" transform="translate(-173.574 -173.574)"/>
+            </g>
+          </g>
+        </g>
+      </svg>
+      <span class="logo-name">Refinery</span>
+      <button class="rail-collapse-btn" id="railCollapse" title="내비게이션 접기">
+        <i class="ph ph-sidebar-simple"></i>
+      </button>
+    </div>
+
+    <div class="rail-scroll">
+      <!-- ============ 영역 1 : 개인/콘텐츠 ============ -->
+      <div class="ic" title="홈">
+        <i class="ph ph-house"></i>
+        <span class="lbl">홈</span>
+      </div>
+      <div class="ic" title="검색">
+        <i class="ph ph-magnifying-glass"></i>
+        <span class="lbl">검색</span>
+      </div>
+      <div class="ic" title="알림">
+        <i class="ph ph-bell"></i>
+        <span class="lbl">알림</span>
+        <span class="rail-badge rail-badge-count">13</span>
+      </div>
+      <div class="ic" title="최근">
+        <i class="ph ph-clock-counter-clockwise"></i>
+        <span class="lbl">최근</span>
+      </div>
+      <div class="ic" title="즐겨찾기">
+        <i class="ph ph-star"></i>
+        <span class="lbl">즐겨찾기</span>
+      </div>
+      <div class="ic" title="파일">
+        <i class="ph ph-file"></i>
+        <span class="lbl">파일</span>
+      </div>
+      <div class="ic" title="데이터셋">
+        <i class="ph ph-database"></i>
+        <span class="lbl">데이터셋</span>
+      </div>
+
+      <div class="sep"></div>
+
+      <!-- ============ FAVORITES ============ -->
+      <div class="fav-section" id="favSection">
+        <button class="rail-group-title" id="favGroupToggle" type="button" aria-expanded="true" aria-controls="favGroupItems">
+          <span class="lbl">Favorites</span>
+          <i class="ph ph-caret-down caret"></i>
+        </button>
+        <div class="rail-group-items" id="favGroupItems"></div>
+        <div class="sep"></div>
+      </div>
+
+      <!-- ============ 영역 2 : Application ============ -->
+      <button class="rail-group-title" id="appGroupToggle" type="button" aria-expanded="true" aria-controls="appGroupItems">
+        <span class="lbl">Application</span>
+        <i class="ph ph-caret-down caret"></i>
+      </button>
+      <div class="rail-group-items" id="appGroupItems">
+        <div class="ic" title="대시보드" data-key="dashboard" data-nav="UI_Refinery_Dashboard.html">
+          <i class="ph ph-squares-four"></i>
+          <span class="lbl">대시보드</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="AI 어시스턴트" data-key="llm">
+          <i class="ph ph-sparkle"></i>
+          <span class="lbl">AI 어시스턴트</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="공장/도면" data-key="factory">
+          <i class="ph ph-factory"></i>
+          <span class="lbl">공장/도면</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="플레이트" data-key="plate" data-view="plate" data-nav="UI_Refinery_Plate.html">
+          <i class="ph ph-presentation"></i>
+          <span class="lbl">플레이트</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic active" title="타일" data-key="tile" data-view="tile" data-nav="UI_Refinery_Tile.html">
+          <i class="ph ph-grid-four"></i>
+          <span class="lbl">타일</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="분석" data-key="analytics">
+          <i class="ph ph-chart-bar"></i>
+          <span class="lbl">분석</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="에너지" data-key="energy">
+          <i class="ph ph-lightning"></i>
+          <span class="lbl">에너지</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="노트북" data-key="notebook">
+          <i class="ph ph-notebook"></i>
+          <span class="lbl">노트북</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="시트" data-key="sheet">
+          <i class="ph ph-table"></i>
+          <span class="lbl">시트</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="파이프라인" data-key="pipeline" data-view="pipeline" data-nav="UI_Refinery_Pipeline.html">
+          <i class="ph ph-flow-arrow"></i>
+          <span class="lbl">파이프라인</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="온톨로지" data-key="ontology" data-view="ontology" data-nav="UI_Refinery_Ontology.html">
+          <i class="ph ph-tree-structure"></i>
+          <span class="lbl">온톨로지</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="캘린더" data-key="calendar" data-view="calendar" data-nav="UI_Refinery_Calendar.html">
+          <i class="ph ph-calendar-blank"></i>
+          <span class="lbl">캘린더</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="코드 리포지토리" data-key="code-repo">
+          <i class="ph ph-brackets-angle"></i>
+          <span class="lbl">코드 리포지토리</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="오브젝트 탐색기" data-key="object-explorer">
+          <i class="ph ph-stack"></i>
+          <span class="lbl">오브젝트</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="데이터 흐름" data-key="data-flow">
+          <i class="ph ph-pulse"></i>
+          <span class="lbl">데이터흐름</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="데이터 품질" data-key="data-quality">
+          <i class="ph ph-check-square"></i>
+          <span class="lbl">데이터품질</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="탐색기" data-key="explorer">
+          <i class="ph ph-compass"></i>
+          <span class="lbl">탐색기</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="에너지 고지서" data-key="energy-bill">
+          <i class="ph ph-receipt"></i>
+          <span class="lbl">에너지 고지서</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+      </div>
+
+      <div class="sep"></div>
+
+      <!-- ============ 영역 3 : 시스템 ============ -->
+      <div class="ic" title="설정">
+        <i class="ph ph-gear"></i>
+        <span class="lbl">설정</span>
+      </div>
+      <div class="ic" title="조직관리">
+        <i class="ph ph-users-three"></i>
+        <span class="lbl">조직관리</span>
+      </div>
+      <div class="ic" title="도움말">
+        <i class="ph ph-question"></i>
+        <span class="lbl">도움말</span>
+      </div>
+      <div class="ic" title="Design System" data-nav="UI_Refinery_DesignSystem.html">
+        <i class="ph ph-palette"></i>
+        <span class="lbl">Design System</span>
+      </div>
+    </div>
+
+    <div class="bot">
+      <div class="bot-user-wrap">
+      <div class="bot-user" id="userBtn" role="button" tabindex="0" aria-haspopup="menu" aria-expanded="false" aria-controls="userPopover">
+        <div class="avatar"><span class="avatar-initial"></span></div>
+        <div class="bot-info">
+          <div class="bot-name">Hyeyoung Han</div>
+          <div class="bot-email">hyhan@vetec.co.kr</div>
+        </div>
+        <i class="ph ph-caret-up caret"></i>
+      </div>
+
+      <div class="user-popover" id="userPopover" role="menu" aria-hidden="true">
+        <div class="user-pop-head">
+          <div class="avatar"><span class="avatar-initial"></span></div>
+          <div class="info">
+            <div class="name">Hyeyoung Han</div>
+            <div class="email">hyhan@vetec.co.kr</div>
+          </div>
+        </div>
+
+        <div class="user-pop-list">
+          <button class="user-pop-item" role="menuitem" data-action="user-settings">
+            <i class="ph ph-user-gear"></i>
+            <span class="lbl">사용자 설정</span>
+          </button>
+          <button class="user-pop-item" role="menuitem" data-action="notif-settings">
+            <i class="ph ph-bell-ringing"></i>
+            <span class="lbl">알림 설정</span>
+          </button>
+          <button class="user-pop-item" role="menuitem" data-action="notif-list">
+            <i class="ph ph-bell"></i>
+            <span class="lbl">알림 목록</span>
+            <span class="badge">3</span>
+          </button>
+        </div>
+
+        <div class="user-pop-sep"></div>
+
+        <div class="user-pop-theme" role="group" aria-label="화면 모드">
+          <div class="user-pop-theme-label">
+            <i class="ph ph-circle-half"></i>
+            <span class="lbl">화면 모드</span>
+          </div>
+          <div class="seg theme-seg">
+            <button class="on" id="themeLight" type="button" title="Light 모드로 전환">
+              <i class="ph ph-sun"></i>Light
+            </button>
+            <button id="themeDark" type="button" title="Dark 모드로 전환">
+              <i class="ph ph-moon"></i>Dark
+            </button>
+          </div>
+        </div>
+
+        <div class="user-pop-sep"></div>
+
+        <div class="user-pop-list">
+          <button class="user-pop-item" role="menuitem" data-action="logout">
+            <i class="ph ph-sign-out"></i>
+            <span class="lbl">로그아웃</span>
+          </button>
+        </div>
+      </div>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ============ Sub Nav (Overview + Categories) ============ -->
+  <aside class="side">
+    <button class="side-expand-btn" id="sideToggle" title="메뉴 펼치기"><i class="ph ph-caret-right"></i></button>
+    <div class="search">
+      <i class="ph ph-magnifying-glass"></i>
+      <input id="sideSearchInput" placeholder="타일 검색..." style="font-family:var(--font-kr)">
+      <kbd>/</kbd>
+    </div>
+
+    <div class="nav">
+      <!-- ======== Sub Nav: Tile View ======== -->
+      <div data-side-view="tile">
+        <div class="group" style="margin-top:4px">
+          <div class="item child active" data-tile-page="overview">Overview</div>
+          <div class="item child" data-tile-page="chart">차트</div>
+          <div class="item child" data-tile-page="value">값</div>
+          <div class="item child" data-tile-page="table">테이블</div>
+          <div class="item child" data-tile-page="ontology">온톨로지</div>
+          <div class="item child" data-tile-page="alarm">알람</div>
+          <div class="item child" data-tile-page="layout">레이아웃</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-close-bar">
+      <button id="sideCollapse" class="side-collapse-inner">
+        <i class="ph ph-caret-left"></i>
+        <span>메뉴 접기</span>
+      </button>
+    </div>
+  </aside>
+
+
+  <!-- ============ main ============ -->
+  <section class="main">
+
+    <header class="topbar">
+      <button class="side-collapse-btn" id="sideToggleTopbar" title="서브 메뉴 접기 / 펼치기">
+        <i class="ph ph-caret-left"></i>
+      </button>
+      <div class="crumbs" data-crumbs-view="tile">
+        <i class="ph ph-grid-four"></i>
+        <span>타일</span>
+        <i class="ph ph-caret-right"></i>
+        <span class="here">Overview</span>
+      </div>
+      <div class="actions">
+        <div class="density-wrap">
+          <div class="icon-btn" id="densityBtn" title="화면 밀도">
+            <i class="ph ph-text-aa"></i>
+          </div>
+          <div class="density-popover" id="densityPopover" role="menu" aria-hidden="true">
+            <div class="density-pop-head">
+              <div class="density-pop-title">화면 밀도</div>
+              <div class="density-pop-sub">정보 밀도와 가독성을 조정합니다</div>
+            </div>
+            <div class="density-pop-list">
+              <button class="density-opt" data-density="compact" role="menuitemradio">
+                <span class="density-opt-icn"><i class="ph ph-text-aa"></i></span>
+                <span class="density-opt-text">
+                  <span class="density-opt-label">Compact</span>
+                  <span class="density-opt-desc">데이터 밀집 표시</span>
+                </span>
+                <span class="density-opt-check"><i class="ph ph-check"></i></span>
+              </button>
+              <button class="density-opt on" data-density="default" role="menuitemradio" aria-checked="true">
+                <span class="density-opt-icn"><i class="ph ph-text-aa"></i></span>
+                <span class="density-opt-text">
+                  <span class="density-opt-label">Default</span>
+                  <span class="density-opt-desc">기본 보기</span>
+                </span>
+                <span class="density-opt-check"><i class="ph ph-check"></i></span>
+              </button>
+              <button class="density-opt" data-density="comfortable" role="menuitemradio">
+                <span class="density-opt-icn"><i class="ph ph-text-aa"></i></span>
+                <span class="density-opt-text">
+                  <span class="density-opt-label">Comfortable</span>
+                  <span class="density-opt-desc">가독성 우선</span>
+                </span>
+                <span class="density-opt-check"><i class="ph ph-check"></i></span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="icon-btn" id="fullscreenBtn" title="전체화면">
+          <i class="ph ph-corners-out ic-expand"></i>
+          <i class="ph ph-corners-in ic-compress"></i>
+        </div>
+        <div class="search-wrap">
+          <div class="icon-btn" id="searchBtn" title="검색"><i class="ph ph-magnifying-glass"></i></div>
+          <div class="search-popover" id="searchPopover" aria-hidden="true">
+            <div class="search">
+              <i class="ph ph-magnifying-glass"></i>
+              <input id="topbarSearchInput" placeholder="통합 검색..." style="font-family:var(--font-kr)">
+              <kbd>ESC</kbd>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="page">
+    <div data-page-view="tile">
+
+      <!-- ===== Page Header ===== -->
+      <div class="page-head">
+        <h1>Overview</h1>
+        <span class="rfn-badge rfn-badge--sm" data-tile-count>19</span>
+        <div class="spacer"></div>
+        <button class="rfn-btn rfn-btn--primary">
+          <i class="ph ph-plus"></i>New
+        </button>
+      </div>
+
+      <!-- ===== Grid: 4-column tile catalog (each card = span 4) ===== -->
+      <div class="grid">
+
+        <!-- Tile · 게이지 -->
+        <article class="rfn-widget rfn-widget--link" style="grid-column:span 4" data-tile-category="value">
+          <div class="rfn-widget-body" style="gap:12px;padding:14px 16px">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+              <span aria-hidden="true" style="width:28px;height:28px;border-radius:8px;background:var(--good-50);display:inline-flex;align-items:center;justify-content:center;color:var(--good);flex:none"><i class="ph ph-gauge rfn-ic--md"></i></span>
+              <div style="display:flex;gap:4px;align-items:center">
+                <span class="tag warn" title="우선순위 P0">P0</span>
+                <span class="tag neutral" title="타일 코드 GAU">GAU</span>
+              </div>
+            </div>
+            <header style="display:flex;flex-direction:column;gap:2px;padding-bottom:12px;border-bottom:1px solid var(--ink-100)">
+              <h3 style="margin:0;font-family:var(--font-kr);font-weight:700;font-size:var(--fs-section);color:var(--ink-900);letter-spacing:-.01em">게이지</h3>
+              <span class="mono" style="font-size:var(--fs-mono);color:var(--ink-500)">value.gauge</span>
+            </header>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-size:var(--fs-caption);color:var(--ink-500);font-family:var(--font-en)">Category</span>
+              <span class="chip chip--static chip--pill" title="값 카테고리" style="margin-left:auto"><i class="ph ph-hash" style="color:var(--good)"></i>값</span>
+              <span class="chip chip--static chip--pill" title="단일 데이터 바인딩"><i class="ph ph-link"></i>단일 바인딩</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-size:var(--fs-caption);color:var(--ink-500);font-family:var(--font-en)">Connection</span>
+              <span class="chip chip--static chip--pill" title="실시간 스트림 연결" style="margin-left:auto"><i class="ph ph-broadcast"></i>실시간</span>
+              <span class="chip chip--static chip--pill" title="최신값 스냅샷 연결"><i class="ph ph-clock-counter-clockwise"></i>최신값</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Tile · 계층 트리 -->
+        <article class="rfn-widget rfn-widget--link" style="grid-column:span 4" data-tile-category="ontology">
+          <div class="rfn-widget-body" style="gap:12px;padding:14px 16px">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+              <span aria-hidden="true" style="width:28px;height:28px;border-radius:8px;background:var(--dv-9-50);display:inline-flex;align-items:center;justify-content:center;color:var(--dv-9);flex:none"><i class="ph ph-tree-structure rfn-ic--md"></i></span>
+              <div style="display:flex;gap:4px;align-items:center">
+                <span class="tag warn" title="우선순위 P0">P0</span>
+                <span class="tag neutral" title="타일 코드 TRE">TRE</span>
+              </div>
+            </div>
+            <header style="display:flex;flex-direction:column;gap:2px;padding-bottom:12px;border-bottom:1px solid var(--ink-100)">
+              <h3 style="margin:0;font-family:var(--font-kr);font-weight:700;font-size:var(--fs-section);color:var(--ink-900);letter-spacing:-.01em">계층 트리</h3>
+              <span class="mono" style="font-size:var(--fs-mono);color:var(--ink-500)">ontology.tree</span>
+            </header>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-size:var(--fs-caption);color:var(--ink-500);font-family:var(--font-en)">Category</span>
+              <span class="chip chip--static chip--pill" title="온톨로지 카테고리" style="margin-left:auto"><i class="ph ph-tree-structure" style="color:var(--dv-9)"></i>온톨로지</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-size:var(--fs-caption);color:var(--ink-500);font-family:var(--font-en)">Connection</span>
+              <span class="chip chip--static chip--pill" title="온톨로지 바인딩" style="margin-left:auto"><i class="ph ph-tree-structure"></i>온톨로지</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Tile · 구분선 -->
+        <article class="rfn-widget rfn-widget--link" style="grid-column:span 4" data-tile-category="layout">
+          <div class="rfn-widget-body" style="gap:12px;padding:14px 16px">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+              <span aria-hidden="true" style="width:28px;height:28px;border-radius:8px;background:var(--dv-10-50);display:inline-flex;align-items:center;justify-content:center;color:var(--dv-10);flex:none"><i class="ph ph-minus rfn-ic--md"></i></span>
+              <div style="display:flex;gap:4px;align-items:center">
+                <span class="tag warn" title="우선순위 P0">P0</span>
+                <span class="tag neutral" title="타일 코드 DIV">DIV</span>
+              </div>
+            </div>
+            <header style="display:flex;flex-direction:column;gap:2px;padding-bottom:12px;border-bottom:1px solid var(--ink-100)">
+              <h3 style="margin:0;font-family:var(--font-kr);font-weight:700;font-size:var(--fs-section);color:var(--ink-900);letter-spacing:-.01em">구분선</h3>
+              <span class="mono" style="font-size:var(--fs-mono);color:var(--ink-500)">layout.divider</span>
+            </header>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-size:var(--fs-caption);color:var(--ink-500);font-family:var(--font-en)">Category</span>
+              <span class="chip chip--static chip--pill" title="레이아웃 카테고리" style="margin-left:auto"><i class="ph ph-layout" style="color:var(--dv-10)"></i>레이아웃</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-size:var(--fs-caption);color:var(--ink-500);font-family:var(--font-en)">Connection</span>
+              <span class="chip chip--static chip--pill" title="정적 — 고정된 데이터 / 콘텐츠" style="margin-left:auto"><i class="ph ph-database"></i>정적</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Tile · 마크다운 텍스트 -->
+        <article class="rfn-widget rfn-widget--link" style="grid-column:span 4" data-tile-category="layout">
+          <div class="rfn-widget-body" style="gap:12px;padding:14px 16px">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+              <span aria-hidden="true" style="width:28px;height:28px;border-radius:8px;background:var(--dv-10-50);display:inline-flex;align-items:center;justify-content:center;color:var(--dv-10);flex:none"><i class="ph ph-text-aa rfn-ic--md"></i></span>
+              <div style="display:flex;gap:4px;align-items:center">
+                <span class="tag warn" title="우선순위 P0">P0</span>
+                <span class="tag neutral" title="타일 코드 TXT">TXT</span>
+              </div>
+            </div>
+            <header style="display:flex;flex-direction:column;gap:2px;padding-bottom:12px;border-bottom:1px solid var(--ink-100)">
+              <h3 style="margin:0;font-family:var(--font-kr);font-weight:700;font-size:var(--fs-section);color:var(--ink-900);letter-spacing:-.01em">마크다운 텍스트</h3>
+              <span class="mono" style="font-size:var(--fs-mono);color:var(--ink-500)">layout.text</span>
+            </header>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-size:var(--fs-caption);color:var(--ink-500);font-family:var(--font-en)">Category</span>
+              <span class="chip chip--static chip--pill" title="레이아웃 카테고리" style="margin-left:auto"><i class="ph ph-layout" style="color:var(--dv-10)"></i>레이아웃</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-size:var(--fs-caption);color:var(--ink-500);font-family:var(--font-en)">Connection</span>
+              <span class="chip chip--static chip--pill" title="정적 — 고정된 데이터 / 콘텐츠" style="margin-left:auto"><i class="ph ph-database"></i>정적</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Tile · 분포 차트 -->
+        <article class="rfn-widget rfn-widget--link" style="grid-column:span 4" data-tile-category="chart">
+          <div class="rfn-widget-body" style="gap:12px;padding:14px 16px">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+              <span aria-hidden="true" style="width:28px;height:28px;border-radius:8px;background:var(--dv-1-50);display:inline-flex;align-items:center;justify-content:center;color:var(--dv-1);flex:none"><i class="ph ph-chart-donut rfn-ic--md"></i></span>
+              <div style="display:flex;gap:4px;align-items:center">
+                <span class="tag warn" title="우선순위 P0">P0</span>
+                <span class="tag neutral" title="타일 코드 DST">DST</span>
+              </div>
+            </div>
+            <header style="display:flex;flex-direction:column;gap:2px;padding-bottom:12px;border-bottom:1px solid var(--ink-100)">
+              <h3 style="margin:0;font-family:var(--font-kr);font-weight:700;font-size:var(--fs-section);color:var(--ink-900);letter-spacing:-.01em">분포 차트</h3>
+              <span class="mono" style="font-size:var(--fs-mono);color:var(--ink-500)">chart.distribution</span>
+            </header>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-size:var(--fs-caption);color:var(--ink-500);font-family:var(--font-en)">Category</span>
+              <span class="chip chip--static chip--pill" title="차트 카테고리" style="margin-left:auto"><i class="ph ph-chart-bar" style="color:var(--dv-1)"></i>차트</span>
+              <span class="chip chip--static chip--pill" title="다중 데이터 바인딩"><i class="ph ph-share-network"></i>다중 바인딩</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-size:var(--fs-caption);color:var(--ink-500);font-family:var(--font-en)">Connection</span>
+              <span class="chip chip--static chip--pill" title="최신값 스냅샷 연결" style="margin-left:auto"><i class="ph ph-clock-counter-clockwise"></i>최신값</span>
+            </div>
+            <div style="margin-top:auto;border-top:1px solid var(--ink-100);padding-top:12px;display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end">
+              <span class="rfn-badge" title="Donut 변형"><i class="ph ph-chart-donut"></i>Donut</span>
+              <span class="rfn-badge" title="Pie 변형"><i class="ph ph-chart-pie"></i>Pie</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Tile · 숫자 표시 -->
+        <article class="rfn-widget rfn-widget--link" style="grid-column:span 4" data-tile-category="value">
+          <div class="rfn-widget-body" style="gap:12px;padding:14px 16px">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+              <span aria-hidden="true" style="width:28px;height:28px;border-radius:8px;background:var(--good-50);display:inline-flex;align-items:center;justify-content:center;color:var(--good);flex:none"><i class="ph ph-numpad rfn-ic--md"></i></span>
+              <div style="display:flex;gap:4px;align-items:center">
+                <span class="tag warn" title="우선순위 P0">P0</span>
+                <span class="tag neutral" title="타일 코드 NUM">NUM</span>
+              </div>
+            </div>
+            <header style="display:flex;flex-direction:column;gap:2px;padding-bottom:12px;border-bottom:1px solid var(--ink-100)">
+              <h3 style="margin:0;font-family:var(--font-kr);font-weight:700;font-size:var(--fs-section);color:var(--ink-900);letter-spacing:-.01em">숫자 표시</h3>
+              <span class="mono" style="font-size:var(--fs-mono);color:var(--ink-500)">value.number</span>
+            </header>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-size:var(--fs-caption);color:var(--ink-500);font-family:var(--font-en)">Category</span>
+              <span class="chip chip--static chip--pill" title="값 카테고리" style="margin-left:auto"><i class="ph ph-hash" style="color:var(--good)"></i>값</span>
+              <span class="chip chip--static chip--pill" title="다중 데이터 바인딩"><i class="ph ph-share-network"></i>다중 바인딩</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-size:var(--fs-caption);color:var(--ink-500);font-family:var(--font-en)">Connection</span>
+              <span class="chip chip--static chip--pill" title="실시간 스트림 연결" style="margin-left:auto"><i class="ph ph-broadcast"></i>실시간</span>
+              <span class="chip chip--static chip--pill" title="최신값 스냅샷 연결"><i class="ph ph-clock-counter-clockwise"></i>최신값</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Tile · 시계열 차트 -->
+        <article class="rfn-widget rfn-widget--link" style="grid-column:span 4" data-tile-category="chart">
+          <div class="rfn-widget-body" style="gap:12px;padding:14px 16px">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+              <span aria-hidden="true" style="width:28px;height:28px;border-radius:8px;background:var(--dv-1-50);display:inline-flex;align-items:center;justify-content:center;color:var(--dv-1);flex:none"><i class="ph ph-chart-line rfn-ic--md"></i></span>
+              <div style="display:flex;gap:4px;align-items:center">
+                <span class="tag warn" title="우선순위 P0">P0</span>
+                <span class="tag neutral" title="타일 코드 TSC">TSC</span>
+              </div>
+            </div>
+            <header style="display:flex;flex-direction:column;gap:2px;padding-bottom:12px;border-bottom:1px solid var(--ink-100)">
+              <h3 style="margin:0;font-family:var(--font-kr);font-weight:700;font-size:var(--fs-section);color:var(--ink-900);letter-spacing:-.01em">시계열 차트</h3>
+              <span class="mono" style="font-size:var(--fs-mono);color:var(--ink-500)">chart.timeseries</span>
+            </header>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-size:var(--fs-caption);color:var(--ink-500);font-family:var(--font-en)">Category</span>
+              <span class="chip chip--static chip--pill" title="차트 카테고리" style="margin-left:auto"><i class="ph ph-chart-bar" style="color:var(--dv-1)"></i>차트</span>
+              <span class="chip chip--static chip--pill" title="다중 데이터 바인딩"><i class="ph ph-share-network"></i>다중 바인딩</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-size:var(--fs-caption);color:var(--ink-500);font-family:var(--font-en)">Connection</span>
+              <span class="chip chip--static chip--pill" title="시계열 데이터" style="margin-left:auto"><i class="ph ph-chart-line-up"></i>시계열</span>
+              <span class="chip chip--static chip--pill" title="실시간 스트림 연결"><i class="ph ph-broadcast"></i>실시간</span>
+            </div>
+            <div style="margin-top:auto;border-top:1px solid var(--ink-100);padding-top:12px;display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end">
+              <span class="rfn-badge" title="Line 변형"><i class="ph ph-chart-line"></i>Line</span>
+              <span class="rfn-badge" title="Area 변형"><i class="ph ph-chart-line-up"></i>Area</span>
+              <span class="rfn-badge" title="Bar 변형"><i class="ph ph-chart-bar"></i>Bar</span>
+              <span class="rfn-badge" title="Step 변형"><i class="ph ph-steps"></i>Step</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Tile · 시계열 테이블 -->
+        <article class="rfn-widget rfn-widget--link" style="grid-column:span 4" data-tile-category="table">
+          <div class="rfn-widget-body" style="gap:12px;padding:14px 16px">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+              <span aria-hidden="true" style="width:28px;height:28px;border-radius:8px;background:var(--dv-3-50);display:inline-flex;align-items:center;justify-content:center;color:var(--dv-3);flex:none"><i class="ph ph-rows rfn-ic--md"></i></span>
+              <div style="display:flex;gap:4px;align-items:center">
+                <span class="tag warn" title="우선순위 P0">P0</span>
+                <span class="tag neutral" title="타일 코드 TTS">TTS</span>
+              </div>
+            </div>
+            <header style="display:flex;flex-direction:column;gap:2px;padding-bottom:12px;border-bottom:1px solid var(--ink-100)">
+              <h3 style="margin:0;font-family:var(--font-kr);font-weight:700;font-size:var(--fs-section);color:var(--ink-900);letter-spacing:-.01em">시계열 테이블</h3>
+              <span class="mono" style="font-size:var(--fs-mono);color:var(--ink-500)">table.timeseries</span>
+            </header>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-size:var(--fs-caption);color:var(--ink-500);font-family:var(--font-en)">Category</span>
+              <span class="chip chip--static chip--pill" title="테이블 카테고리" style="margin-left:auto"><i class="ph ph-table" style="color:var(--dv-3)"></i>테이블</span>
+              <span class="chip chip--static chip--pill" title="다중 데이터 바인딩"><i class="ph ph-share-network"></i>다중 바인딩</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-size:var(--fs-caption);color:var(--ink-500);font-family:var(--font-en)">Connection</span>
+              <span class="chip chip--static chip--pill" title="시계열 데이터" style="margin-left:auto"><i class="ph ph-chart-line-up"></i>시계열</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Tile · 알람 목록 -->
+        <article class="rfn-widget rfn-widget--link" style="grid-column:span 4" data-tile-category="alarm">
+          <div class="rfn-widget-body" style="gap:12px;padding:14px 16px">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+              <span aria-hidden="true" style="width:28px;height:28px;border-radius:8px;background:var(--bad-50);display:inline-flex;align-items:center;justify-content:center;color:var(--bad);flex:none"><i class="ph ph-bell rfn-ic--md"></i></span>
+              <div style="display:flex;gap:4px;align-items:center">
+                <span class="tag warn" title="우선순위 P0">P0</span>
+                <span class="tag neutral" title="타일 코드 ALM">ALM</span>
+              </div>
+            </div>
+            <header style="display:flex;flex-direction:column;gap:2px;padding-bottom:12px;border-bottom:1px solid var(--ink-100)">
+              <h3 style="margin:0;font-family:var(--font-kr);font-weight:700;font-size:var(--fs-section);color:var(--ink-900);letter-spacing:-.01em">알람 목록</h3>
+              <span class="mono" style="font-size:var(--fs-mono);color:var(--ink-500)">alarm.list</span>
+            </header>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-size:var(--fs-caption);color:var(--ink-500);font-family:var(--font-en)">Category</span>
+              <span class="chip chip--static chip--pill" title="알람 카테고리" style="margin-left:auto"><i class="ph ph-bell" style="color:var(--bad)"></i>알람</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-size:var(--fs-caption);color:var(--ink-500);font-family:var(--font-en)">Connection</span>
+              <span class="chip chip--static chip--pill" title="실시간 스트림 연결" style="margin-left:auto"><i class="ph ph-broadcast"></i>실시간</span>
+              <span class="chip chip--static chip--pill" title="최신값 스냅샷 연결"><i class="ph ph-clock-counter-clockwise"></i>최신값</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Tile · 엔티티 테이블 -->
+        <article class="rfn-widget rfn-widget--link" style="grid-column:span 4" data-tile-category="table">
+          <div class="rfn-widget-body" style="gap:12px;padding:14px 16px">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+              <span aria-hidden="true" style="width:28px;height:28px;border-radius:8px;background:var(--dv-3-50);display:inline-flex;align-items:center;justify-content:center;color:var(--dv-3);flex:none"><i class="ph ph-list-bullets rfn-ic--md"></i></span>
+              <div style="display:flex;gap:4px;align-items:center">
+                <span class="tag warn" title="우선순위 P0">P0</span>
+                <span class="tag neutral" title="타일 코드 TBL">TBL</span>
+              </div>
+            </div>
+            <header style="display:flex;flex-direction:column;gap:2px;padding-bottom:12px;border-bottom:1px solid var(--ink-100)">
+              <h3 style="margin:0;font-family:var(--font-kr);font-weight:700;font-size:var(--fs-section);color:var(--ink-900);letter-spacing:-.01em">엔티티 테이블</h3>
+              <span class="mono" style="font-size:var(--fs-mono);color:var(--ink-500)">table.entity</span>
+            </header>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-size:var(--fs-caption);color:var(--ink-500);font-family:var(--font-en)">Category</span>
+              <span class="chip chip--static chip--pill" title="테이블 카테고리" style="margin-left:auto"><i class="ph ph-table" style="color:var(--dv-3)"></i>테이블</span>
+              <span class="chip chip--static chip--pill" title="다중 데이터 바인딩"><i class="ph ph-share-network"></i>다중 바인딩</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-size:var(--fs-caption);color:var(--ink-500);font-family:var(--font-en)">Connection</span>
+              <span class="chip chip--static chip--pill" title="최신값 스냅샷 연결" style="margin-left:auto"><i class="ph ph-clock-counter-clockwise"></i>최신값</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Tile · 카테고리 차트 -->
+        <article class="rfn-widget rfn-widget--link" style="grid-column:span 4" data-tile-category="chart">
+          <div class="rfn-widget-body" style="gap:12px;padding:14px 16px">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+              <span aria-hidden="true" style="width:28px;height:28px;border-radius:8px;background:var(--dv-1-50);display:inline-flex;align-items:center;justify-content:center;color:var(--dv-1);flex:none"><i class="ph ph-chart-bar rfn-ic--md"></i></span>
+              <div style="display:flex;gap:4px;align-items:center">
+                <span class="tag warn" title="우선순위 P0">P0</span>
+                <span class="tag neutral" title="타일 코드 CAT">CAT</span>
+              </div>
+            </div>
+            <header style="display:flex;flex-direction:column;gap:2px;padding-bottom:12px;border-bottom:1px solid var(--ink-100)">
+              <h3 style="margin:0;font-family:var(--font-kr);font-weight:700;font-size:var(--fs-section);color:var(--ink-900);letter-spacing:-.01em">카테고리 차트</h3>
+              <span class="mono" style="font-size:var(--fs-mono);color:var(--ink-500)">chart.category</span>
+            </header>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-size:var(--fs-caption);color:var(--ink-500);font-family:var(--font-en)">Category</span>
+              <span class="chip chip--static chip--pill" title="차트 카테고리" style="margin-left:auto"><i class="ph ph-chart-bar" style="color:var(--dv-1)"></i>차트</span>
+              <span class="chip chip--static chip--pill" title="다중 데이터 바인딩"><i class="ph ph-share-network"></i>다중 바인딩</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-size:var(--fs-caption);color:var(--ink-500);font-family:var(--font-en)">Connection</span>
+              <span class="chip chip--static chip--pill" title="최신값 스냅샷 연결" style="margin-left:auto"><i class="ph ph-clock-counter-clockwise"></i>최신값</span>
+            </div>
+            <div style="margin-top:auto;border-top:1px solid var(--ink-100);padding-top:12px;display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end">
+              <span class="rfn-badge" title="Vertical bars"><i class="ph ph-chart-bar"></i>Vertical</span>
+              <span class="rfn-badge" title="Horizontal bars"><i class="ph ph-chart-bar-horizontal"></i>Horizontal</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Tile · 필터 패널 -->
+        <article class="rfn-widget rfn-widget--link" style="grid-column:span 4" data-tile-category="ontology">
+          <div class="rfn-widget-body" style="gap:12px;padding:14px 16px">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+              <span aria-hidden="true" style="width:28px;height:28px;border-radius:8px;background:var(--dv-9-50);display:inline-flex;align-items:center;justify-content:center;color:var(--dv-9);flex:none"><i class="ph ph-funnel rfn-ic--md"></i></span>
+              <div style="display:flex;gap:4px;align-items:center">
+                <span class="tag warn" title="우선순위 P0">P0</span>
+                <span class="tag neutral" title="타일 코드 FLT">FLT</span>
+              </div>
+            </div>
+            <header style="display:flex;flex-direction:column;gap:2px;padding-bottom:12px;border-bottom:1px solid var(--ink-100)">
+              <h3 style="margin:0;font-family:var(--font-kr);font-weight:700;font-size:var(--fs-section);color:var(--ink-900);letter-spacing:-.01em">필터 패널</h3>
+              <span class="mono" style="font-size:var(--fs-mono);color:var(--ink-500)">ontology.filter</span>
+            </header>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-size:var(--fs-caption);color:var(--ink-500);font-family:var(--font-en)">Category</span>
+              <span class="chip chip--static chip--pill" title="온톨로지 카테고리" style="margin-left:auto"><i class="ph ph-tree-structure" style="color:var(--dv-9)"></i>온톨로지</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-size:var(--fs-caption);color:var(--ink-500);font-family:var(--font-en)">Connection</span>
+              <span class="chip chip--static chip--pill" title="정적 — 고정된 데이터 / 콘텐츠" style="margin-left:auto"><i class="ph ph-database"></i>정적</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Tile · KPI 카드 -->
+        <article class="rfn-widget rfn-widget--link" style="grid-column:span 4" data-tile-category="value">
+          <div class="rfn-widget-body" style="gap:12px;padding:14px 16px">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+              <span aria-hidden="true" style="width:28px;height:28px;border-radius:8px;background:var(--good-50);display:inline-flex;align-items:center;justify-content:center;color:var(--good);flex:none"><i class="ph ph-target rfn-ic--md"></i></span>
+              <div style="display:flex;gap:4px;align-items:center">
+                <span class="tag warn" title="우선순위 P0">P0</span>
+                <span class="tag neutral" title="타일 코드 KPI">KPI</span>
+              </div>
+            </div>
+            <header style="display:flex;flex-direction:column;gap:2px;padding-bottom:12px;border-bottom:1px solid var(--ink-100)">
+              <h3 style="margin:0;font-family:var(--font-kr);font-weight:700;font-size:var(--fs-section);color:var(--ink-900);letter-spacing:-.01em">KPI 카드</h3>
+              <span class="mono" style="font-size:var(--fs-mono);color:var(--ink-500)">value.kpi</span>
+            </header>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-size:var(--fs-caption);color:var(--ink-500);font-family:var(--font-en)">Category</span>
+              <span class="chip chip--static chip--pill" title="값 카테고리" style="margin-left:auto"><i class="ph ph-hash" style="color:var(--good)"></i>값</span>
+              <span class="chip chip--static chip--pill" title="단일 데이터 바인딩"><i class="ph ph-link"></i>단일 바인딩</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-size:var(--fs-caption);color:var(--ink-500);font-family:var(--font-en)">Connection</span>
+              <span class="chip chip--static chip--pill" title="실시간 스트림 연결" style="margin-left:auto"><i class="ph ph-broadcast"></i>실시간</span>
+              <span class="chip chip--static chip--pill" title="최신값 스냅샷 연결"><i class="ph ph-clock-counter-clockwise"></i>최신값</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Tile · 레이더 차트 -->
+        <article class="rfn-widget rfn-widget--link" style="grid-column:span 4" data-tile-category="chart">
+          <div class="rfn-widget-body" style="gap:12px;padding:14px 16px">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+              <span aria-hidden="true" style="width:28px;height:28px;border-radius:8px;background:var(--dv-1-50);display:inline-flex;align-items:center;justify-content:center;color:var(--dv-1);flex:none"><i class="ph ph-hexagon rfn-ic--md"></i></span>
+              <div style="display:flex;gap:4px;align-items:center">
+                <span class="tag warn" title="우선순위 P1">P1</span>
+                <span class="tag neutral" title="타일 코드 RDR">RDR</span>
+              </div>
+            </div>
+            <header style="display:flex;flex-direction:column;gap:2px;padding-bottom:12px;border-bottom:1px solid var(--ink-100)">
+              <h3 style="margin:0;font-family:var(--font-kr);font-weight:700;font-size:var(--fs-section);color:var(--ink-900);letter-spacing:-.01em">레이더 차트</h3>
+              <span class="mono" style="font-size:var(--fs-mono);color:var(--ink-500)">chart.radar</span>
+            </header>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-size:var(--fs-caption);color:var(--ink-500);font-family:var(--font-en)">Category</span>
+              <span class="chip chip--static chip--pill" title="차트 카테고리" style="margin-left:auto"><i class="ph ph-chart-bar" style="color:var(--dv-1)"></i>차트</span>
+              <span class="chip chip--static chip--pill" title="다중 데이터 바인딩"><i class="ph ph-share-network"></i>다중 바인딩</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-size:var(--fs-caption);color:var(--ink-500);font-family:var(--font-en)">Connection</span>
+              <span class="chip chip--static chip--pill" title="최신값 스냅샷 연결" style="margin-left:auto"><i class="ph ph-clock-counter-clockwise"></i>최신값</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Tile · 볼린저 밴드 -->
+        <article class="rfn-widget rfn-widget--link" style="grid-column:span 4" data-tile-category="chart">
+          <div class="rfn-widget-body" style="gap:12px;padding:14px 16px">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+              <span aria-hidden="true" style="width:28px;height:28px;border-radius:8px;background:var(--dv-1-50);display:inline-flex;align-items:center;justify-content:center;color:var(--dv-1);flex:none"><i class="ph ph-chart-line-up rfn-ic--md"></i></span>
+              <div style="display:flex;gap:4px;align-items:center">
+                <span class="tag warn" title="우선순위 P1">P1</span>
+                <span class="tag neutral" title="타일 코드 BOL">BOL</span>
+              </div>
+            </div>
+            <header style="display:flex;flex-direction:column;gap:2px;padding-bottom:12px;border-bottom:1px solid var(--ink-100)">
+              <h3 style="margin:0;font-family:var(--font-kr);font-weight:700;font-size:var(--fs-section);color:var(--ink-900);letter-spacing:-.01em">볼린저 밴드</h3>
+              <span class="mono" style="font-size:var(--fs-mono);color:var(--ink-500)">chart.bollinger</span>
+            </header>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-size:var(--fs-caption);color:var(--ink-500);font-family:var(--font-en)">Category</span>
+              <span class="chip chip--static chip--pill" title="차트 카테고리" style="margin-left:auto"><i class="ph ph-chart-bar" style="color:var(--dv-1)"></i>차트</span>
+              <span class="chip chip--static chip--pill" title="단일 데이터 바인딩"><i class="ph ph-link"></i>단일 바인딩</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-size:var(--fs-caption);color:var(--ink-500);font-family:var(--font-en)">Connection</span>
+              <span class="chip chip--static chip--pill" title="시계열 데이터" style="margin-left:auto"><i class="ph ph-chart-line-up"></i>시계열</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Tile · 설비 맵 -->
+        <article class="rfn-widget rfn-widget--link" style="grid-column:span 4" data-tile-category="ontology">
+          <div class="rfn-widget-body" style="gap:12px;padding:14px 16px">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+              <span aria-hidden="true" style="width:28px;height:28px;border-radius:8px;background:var(--dv-9-50);display:inline-flex;align-items:center;justify-content:center;color:var(--dv-9);flex:none"><i class="ph ph-map-pin rfn-ic--md"></i></span>
+              <div style="display:flex;gap:4px;align-items:center">
+                <span class="tag warn" title="우선순위 P1">P1</span>
+                <span class="tag neutral" title="타일 코드 MAP">MAP</span>
+              </div>
+            </div>
+            <header style="display:flex;flex-direction:column;gap:2px;padding-bottom:12px;border-bottom:1px solid var(--ink-100)">
+              <h3 style="margin:0;font-family:var(--font-kr);font-weight:700;font-size:var(--fs-section);color:var(--ink-900);letter-spacing:-.01em">설비 맵</h3>
+              <span class="mono" style="font-size:var(--fs-mono);color:var(--ink-500)">ontology.map</span>
+            </header>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-size:var(--fs-caption);color:var(--ink-500);font-family:var(--font-en)">Category</span>
+              <span class="chip chip--static chip--pill" title="온톨로지 카테고리" style="margin-left:auto"><i class="ph ph-tree-structure" style="color:var(--dv-9)"></i>온톨로지</span>
+              <span class="chip chip--static chip--pill" title="다중 데이터 바인딩"><i class="ph ph-share-network"></i>다중 바인딩</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-size:var(--fs-caption);color:var(--ink-500);font-family:var(--font-en)">Connection</span>
+              <span class="chip chip--static chip--pill" title="실시간 스트림 연결" style="margin-left:auto"><i class="ph ph-broadcast"></i>실시간</span>
+              <span class="chip chip--static chip--pill" title="최신값 스냅샷 연결"><i class="ph ph-clock-counter-clockwise"></i>최신값</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Tile · 히트맵 -->
+        <article class="rfn-widget rfn-widget--link" style="grid-column:span 4" data-tile-category="chart">
+          <div class="rfn-widget-body" style="gap:12px;padding:14px 16px">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+              <span aria-hidden="true" style="width:28px;height:28px;border-radius:8px;background:var(--dv-1-50);display:inline-flex;align-items:center;justify-content:center;color:var(--dv-1);flex:none"><i class="ph ph-grid-nine rfn-ic--md"></i></span>
+              <div style="display:flex;gap:4px;align-items:center">
+                <span class="tag warn" title="우선순위 P1">P1</span>
+                <span class="tag neutral" title="타일 코드 HMP">HMP</span>
+              </div>
+            </div>
+            <header style="display:flex;flex-direction:column;gap:2px;padding-bottom:12px;border-bottom:1px solid var(--ink-100)">
+              <h3 style="margin:0;font-family:var(--font-kr);font-weight:700;font-size:var(--fs-section);color:var(--ink-900);letter-spacing:-.01em">히트맵</h3>
+              <span class="mono" style="font-size:var(--fs-mono);color:var(--ink-500)">chart.heatmap</span>
+            </header>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-size:var(--fs-caption);color:var(--ink-500);font-family:var(--font-en)">Category</span>
+              <span class="chip chip--static chip--pill" title="차트 카테고리" style="margin-left:auto"><i class="ph ph-chart-bar" style="color:var(--dv-1)"></i>차트</span>
+              <span class="chip chip--static chip--pill" title="다중 데이터 바인딩"><i class="ph ph-share-network"></i>다중 바인딩</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-size:var(--fs-caption);color:var(--ink-500);font-family:var(--font-en)">Connection</span>
+              <span class="chip chip--static chip--pill" title="시계열 데이터" style="margin-left:auto"><i class="ph ph-chart-line-up"></i>시계열</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Tile · KPI 카드 그리드 -->
+        <article class="rfn-widget rfn-widget--link" style="grid-column:span 4" data-tile-category="value">
+          <div class="rfn-widget-body" style="gap:12px;padding:14px 16px">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+              <span aria-hidden="true" style="width:28px;height:28px;border-radius:8px;background:var(--good-50);display:inline-flex;align-items:center;justify-content:center;color:var(--good);flex:none"><i class="ph ph-grid-four rfn-ic--md"></i></span>
+              <div style="display:flex;gap:4px;align-items:center">
+                <span class="tag warn" title="우선순위 P1">P1</span>
+                <span class="tag neutral" title="타일 코드 CRD">CRD</span>
+              </div>
+            </div>
+            <header style="display:flex;flex-direction:column;gap:2px;padding-bottom:12px;border-bottom:1px solid var(--ink-100)">
+              <h3 style="margin:0;font-family:var(--font-kr);font-weight:700;font-size:var(--fs-section);color:var(--ink-900);letter-spacing:-.01em">KPI 카드 그리드</h3>
+              <span class="mono" style="font-size:var(--fs-mono);color:var(--ink-500)">value.cards</span>
+            </header>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-size:var(--fs-caption);color:var(--ink-500);font-family:var(--font-en)">Category</span>
+              <span class="chip chip--static chip--pill" title="값 카테고리" style="margin-left:auto"><i class="ph ph-hash" style="color:var(--good)"></i>값</span>
+              <span class="chip chip--static chip--pill" title="다중 데이터 바인딩"><i class="ph ph-share-network"></i>다중 바인딩</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-size:var(--fs-caption);color:var(--ink-500);font-family:var(--font-en)">Connection</span>
+              <span class="chip chip--static chip--pill" title="최신값 스냅샷 연결" style="margin-left:auto"><i class="ph ph-clock-counter-clockwise"></i>최신값</span>
+              <span class="chip chip--static chip--pill" title="실시간 스트림 연결"><i class="ph ph-broadcast"></i>실시간</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Tile · Sankey 흐름도 -->
+        <article class="rfn-widget rfn-widget--link" style="grid-column:span 4" data-tile-category="chart">
+          <div class="rfn-widget-body" style="gap:12px;padding:14px 16px">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+              <span aria-hidden="true" style="width:28px;height:28px;border-radius:8px;background:var(--dv-1-50);display:inline-flex;align-items:center;justify-content:center;color:var(--dv-1);flex:none"><i class="ph ph-flow-arrow rfn-ic--md"></i></span>
+              <div style="display:flex;gap:4px;align-items:center">
+                <span class="tag warn" title="우선순위 P1">P1</span>
+                <span class="tag neutral" title="타일 코드 SNK">SNK</span>
+              </div>
+            </div>
+            <header style="display:flex;flex-direction:column;gap:2px;padding-bottom:12px;border-bottom:1px solid var(--ink-100)">
+              <h3 style="margin:0;font-family:var(--font-kr);font-weight:700;font-size:var(--fs-section);color:var(--ink-900);letter-spacing:-.01em">Sankey 흐름도</h3>
+              <span class="mono" style="font-size:var(--fs-mono);color:var(--ink-500)">chart.sankey</span>
+            </header>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-size:var(--fs-caption);color:var(--ink-500);font-family:var(--font-en)">Category</span>
+              <span class="chip chip--static chip--pill" title="차트 카테고리" style="margin-left:auto"><i class="ph ph-chart-bar" style="color:var(--dv-1)"></i>차트</span>
+              <span class="chip chip--static chip--pill" title="다중 데이터 바인딩"><i class="ph ph-share-network"></i>다중 바인딩</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span style="font-size:var(--fs-caption);color:var(--ink-500);font-family:var(--font-en)">Connection</span>
+              <span class="chip chip--static chip--pill" title="최신값 스냅샷 연결" style="margin-left:auto"><i class="ph ph-clock-counter-clockwise"></i>최신값</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+    </div>
+    </div>
+
+  </section>
+
+</div>
+
+<script>
+  // ======== Nav Collapse ========
+  (function(){
+    const app  = document.querySelector('.app');
+    const rail = document.querySelector('.rail');
+    const side = document.querySelector('.side');
+
+    document.getElementById('railCollapse').addEventListener('click', function(){
+      rail.classList.add('collapsed');
+      app.classList.add('rail-col');
+    });
+    document.getElementById('railExpand').addEventListener('click', function(){
+      rail.classList.remove('collapsed');
+      app.classList.remove('rail-col');
+    });
+
+    // Theme toggle — 계정 팝오버 안 Light/Dark 세그먼트
+    (function(){
+      const lightBtn = document.getElementById('themeLight');
+      const darkBtn = document.getElementById('themeDark');
+
+      function applyTheme(isDark){
+        document.body.classList.toggle('dark', isDark);
+        if(lightBtn) lightBtn.classList.toggle('on', !isDark);
+        if(darkBtn) darkBtn.classList.toggle('on', isDark);
+        if(window.saveRefineryState) window.saveRefineryState();
+      }
+      window.applyTheme = applyTheme;
+
+      if(lightBtn) lightBtn.addEventListener('click', function(){ applyTheme(false); });
+      if(darkBtn)  darkBtn.addEventListener('click', function(){ applyTheme(true); });
+    })();
+
+    // Rail / Side 하단 페이드 — overflow 없거나 scroll 바닥일 때 fade 숨김(.at-bottom 토글)
+    (function(){
+      function bind(scrollEl, footerEl){
+        if(!scrollEl || !footerEl) return;
+        function check(){
+          var max = scrollEl.scrollHeight - scrollEl.clientHeight;
+          var atBottom = max <= 2 || scrollEl.scrollTop >= max - 2;
+          footerEl.classList.toggle('at-bottom', atBottom);
+        }
+        scrollEl.addEventListener('scroll', check, {passive:true});
+        window.addEventListener('resize', check);
+        check();
+        requestAnimationFrame(check);
+      }
+      bind(document.querySelector('.rail-scroll'), document.querySelector('.rail .bot'));
+      bind(document.querySelector('.side .nav'), document.querySelector('.side-close-bar'));
+    })();
+
+    document.getElementById('sideCollapse').addEventListener('click', function(){
+      app.classList.add('side-col');
+      side.classList.add('collapsed');
+    });
+    document.getElementById('sideToggle').addEventListener('click', function(){
+      app.classList.remove('side-col');
+      side.classList.remove('collapsed');
+    });
+
+    var sideExpandBtn = document.getElementById('sideToggle');
+    var hideTimer;
+    function showExpandBtn(){
+      clearTimeout(hideTimer);
+      if(side.classList.contains('collapsed')) sideExpandBtn.classList.add('visible');
+    }
+    function hideExpandBtn(){
+      hideTimer = setTimeout(function(){ sideExpandBtn.classList.remove('visible'); }, 200);
+    }
+    rail.addEventListener('mouseenter', showExpandBtn);
+    rail.addEventListener('mouseleave', hideExpandBtn);
+    sideExpandBtn.addEventListener('mouseenter', function(){ clearTimeout(hideTimer); });
+    sideExpandBtn.addEventListener('mouseleave', hideExpandBtn);
+  })();
+
+  // ======== Density Toggle ========
+  (function(){
+    const btn = document.getElementById('densityBtn');
+    const pop = document.getElementById('densityPopover');
+    const opts = pop.querySelectorAll('.density-opt');
+
+    const saved = (function(){ try{ return localStorage.getItem('refinery-density'); }catch(e){ return null; } })();
+    if(saved && ['compact','default','comfortable'].includes(saved)) applyDensity(saved);
+
+    function applyDensity(mode){
+      document.body.setAttribute('data-density', mode);
+      opts.forEach(o=>{
+        const isOn = o.dataset.density === mode;
+        o.classList.toggle('on', isOn);
+        o.setAttribute('aria-checked', isOn ? 'true':'false');
+      });
+      try{ localStorage.setItem('refinery-density', mode); }catch(e){}
+    }
+    function openPop(){ pop.classList.add('open'); pop.setAttribute('aria-hidden','false'); btn.setAttribute('aria-expanded','true'); }
+    function closePop(){ pop.classList.remove('open'); pop.setAttribute('aria-hidden','true'); btn.setAttribute('aria-expanded','false'); }
+
+    btn.addEventListener('click', function(e){ e.stopPropagation(); pop.classList.contains('open') ? closePop() : openPop(); });
+    opts.forEach(o=>{
+      o.addEventListener('click', function(e){
+        e.stopPropagation();
+        applyDensity(this.dataset.density);
+        closePop();
+      });
+    });
+    document.addEventListener('click', function(e){
+      if(!pop.contains(e.target) && e.target !== btn && !btn.contains(e.target)) closePop();
+    });
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && pop.classList.contains('open')) closePop();
+    });
+  })();
+
+  // ======== Fullscreen Toggle ========
+  (function(){
+    const btn = document.getElementById('fullscreenBtn');
+    const docEl = document.documentElement;
+
+    function isFs(){ return !!(document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement); }
+    function enterFs(){
+      const fn = docEl.requestFullscreen || docEl.webkitRequestFullscreen || docEl.msRequestFullscreen;
+      if(fn) fn.call(docEl);
+    }
+    function exitFs(){
+      const fn = document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen;
+      if(fn) fn.call(document);
+    }
+    function syncState(){
+      document.body.classList.toggle('is-fullscreen', isFs());
+      btn.setAttribute('title', isFs() ? '전체화면 해제' : '전체화면');
+    }
+    btn.addEventListener('click', function(){ isFs() ? exitFs() : enterFs(); });
+    document.addEventListener('fullscreenchange', syncState);
+    document.addEventListener('webkitfullscreenchange', syncState);
+    document.addEventListener('msfullscreenchange', syncState);
+  })();
+
+  // ======== Application 즐겨찾기 + Favorites 영역 ========
+  (function(){
+    const items = document.querySelectorAll('#appGroupItems .ic');
+    const favContainer = document.getElementById('favGroupItems');
+    const favSection = document.getElementById('favSection');
+    const favToggle = document.getElementById('favGroupToggle');
+    if(!items.length || !favContainer) return;
+
+    const STORAGE_KEY = 'refinery-app-favorites';
+    const FAV_COLLAPSE_KEY = 'refinery-fav-group';
+
+    let favOrder = [];
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(raw) favOrder = JSON.parse(raw) || [];
+    }catch(e){ favOrder = []; }
+    const inFav = (key)=> favOrder.indexOf(key) !== -1;
+
+    function applyState(ic){
+      const key = ic.dataset.key;
+      const btn = ic.querySelector('.fav-btn');
+      const icon = btn && btn.querySelector('i');
+      const isOn = inFav(key);
+      if(!btn || !icon) return;
+      btn.classList.toggle('on', isOn);
+      btn.setAttribute('aria-pressed', isOn ? 'true' : 'false');
+      btn.setAttribute('aria-label', isOn ? '즐겨찾기 해제' : '즐겨찾기 추가');
+      icon.className = isOn ? 'ph-fill ph-star' : 'ph ph-star';
+    }
+
+    function persist(){
+      try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(favOrder)); }catch(e){}
+    }
+
+    function renderFavorites(){
+      favContainer.innerHTML = '';
+      const isEmpty = favOrder.length === 0;
+      if(favSection) favSection.classList.toggle('empty', isEmpty);
+      if(isEmpty) return;
+
+      favOrder.forEach(key=>{
+        const src = document.querySelector('#appGroupItems .ic[data-key="'+key+'"]');
+        if(!src) return;
+        const phIcon = src.querySelector(':scope > .ph');
+        const lbl = src.querySelector(':scope > .lbl');
+        const badge = src.querySelector(':scope > .rail-badge');
+
+        const node = document.createElement('div');
+        node.className = 'ic';
+        node.setAttribute('title', src.getAttribute('title') || '');
+        node.dataset.key = key;
+        node.dataset.favRef = '1';
+        if(src.dataset.view) node.dataset.view = src.dataset.view;
+        if(src.dataset.nav)  node.dataset.nav  = src.dataset.nav;
+        node.innerHTML = ''
+          + '<i class="'+(phIcon ? phIcon.className : 'ph ph-circle')+'"></i>'
+          + '<span class="lbl">'+(lbl ? lbl.textContent : key)+'</span>'
+          + (badge ? badge.outerHTML : '')
+          + '<button class="fav-btn on" type="button" aria-label="즐겨찾기 해제" aria-pressed="true"><i class="ph-fill ph-star"></i></button>';
+
+        node.querySelector('.fav-btn').addEventListener('click', function(e){
+          e.stopPropagation();
+          toggleKey(key);
+        });
+
+        node.addEventListener('click', function(e){
+          if(e.target.closest('.fav-btn')) return;
+          var nav = this.dataset.nav;
+          var cur = (location.pathname.split('/').pop() || '').split('?')[0];
+          if(nav && nav !== cur){
+            try{ localStorage.setItem('refinery-nav-active', JSON.stringify({ file: nav, key: this.dataset.key || nav, src: 'fav' })); }catch(_e){}
+            try{ sessionStorage.setItem('refinery-fresh-nav', '1'); }catch(_e){}
+            window.location.href = nav;
+            return;
+          }
+          if(this.dataset.view && window.setView) window.setView(this.dataset.view, this);
+        });
+
+        favContainer.appendChild(node);
+      });
+    }
+
+    function toggleKey(key){
+      const idx = favOrder.indexOf(key);
+      if(idx >= 0) favOrder.splice(idx, 1);
+      else favOrder.push(key);
+      const src = document.querySelector('#appGroupItems .ic[data-key="'+key+'"]');
+      if(src) applyState(src);
+      persist();
+      renderFavorites();
+    }
+
+    items.forEach(ic=>{
+      applyState(ic);
+      const btn = ic.querySelector('.fav-btn');
+      if(!btn) return;
+      btn.addEventListener('click', function(e){
+        e.stopPropagation();
+        toggleKey(ic.dataset.key);
+      });
+    });
+
+    if(favToggle){
+      const savedFavCollapsed = (function(){ try{ return localStorage.getItem(FAV_COLLAPSE_KEY); }catch(e){ return null; } })();
+      if(savedFavCollapsed === 'collapsed'){
+        favContainer.classList.add('collapsed');
+        favToggle.setAttribute('aria-expanded','false');
+      }
+      favToggle.addEventListener('click', function(){
+        const isCollapsed = favContainer.classList.toggle('collapsed');
+        favToggle.setAttribute('aria-expanded', isCollapsed ? 'false' : 'true');
+        try{ localStorage.setItem(FAV_COLLAPSE_KEY, isCollapsed ? 'collapsed' : 'expanded'); }catch(e){}
+      });
+    }
+
+    renderFavorites();
+  })();
+
+  // ======== Application 그룹 접기/펼치기 ========
+  (function(){
+    const toggle = document.getElementById('appGroupToggle');
+    const items = document.getElementById('appGroupItems');
+    if(!toggle || !items) return;
+
+    const saved = (function(){ try{ return localStorage.getItem('refinery-app-group'); }catch(e){ return null; } })();
+    if(saved === 'collapsed'){
+      items.classList.add('collapsed');
+      toggle.setAttribute('aria-expanded','false');
+    }
+    toggle.addEventListener('click', function(){
+      const isCollapsed = items.classList.toggle('collapsed');
+      toggle.setAttribute('aria-expanded', isCollapsed ? 'false' : 'true');
+      try{ localStorage.setItem('refinery-app-group', isCollapsed ? 'collapsed' : 'expanded'); }catch(e){}
+    });
+  })();
+
+  // ======== User Popover ========
+  (function(){
+    const btn = document.getElementById('userBtn');
+    const pop = document.getElementById('userPopover');
+    if(!btn || !pop) return;
+
+    const railAvatarImg = document.querySelector('.rail .bot-user .avatar img');
+    const popAvatarImg = pop.querySelector('.user-pop-head .avatar img');
+    if(railAvatarImg && popAvatarImg){
+      popAvatarImg.src = railAvatarImg.src;
+      popAvatarImg.style.display = '';
+    }
+
+    function openPop(){ pop.classList.add('open'); pop.setAttribute('aria-hidden','false'); btn.setAttribute('aria-expanded','true'); }
+    function closePop(){ pop.classList.remove('open'); pop.setAttribute('aria-hidden','true'); btn.setAttribute('aria-expanded','false'); }
+
+    btn.addEventListener('click', function(e){ e.stopPropagation(); pop.classList.contains('open') ? closePop() : openPop(); });
+    btn.addEventListener('keydown', function(e){
+      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); pop.classList.contains('open') ? closePop() : openPop(); }
+    });
+
+    pop.querySelectorAll('.user-pop-item').forEach(item=>{
+      item.addEventListener('click', function(e){
+        e.stopPropagation();
+        const action = this.dataset.action;
+        console.log('[user menu]', action);
+        if(action === 'logout'){
+          window.location.href = 'UI_Refinery_Login.html';
+          return;
+        }
+        closePop();
+      });
+    });
+
+    document.addEventListener('click', function(e){
+      if(!pop.contains(e.target) && e.target !== btn && !btn.contains(e.target)) closePop();
+    });
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && pop.classList.contains('open')) closePop();
+    });
+  })();
+
+  // ======== Topbar Search Toggle ========
+  (function(){
+    const btn = document.getElementById('searchBtn');
+    const pop = document.getElementById('searchPopover');
+    const input = document.getElementById('topbarSearchInput');
+
+    function openPop(){ pop.classList.add('open'); pop.setAttribute('aria-hidden','false'); btn.setAttribute('aria-expanded','true'); setTimeout(()=>input.focus(), 50); }
+    function closePop(){ pop.classList.remove('open'); pop.setAttribute('aria-hidden','true'); btn.setAttribute('aria-expanded','false'); input.blur(); }
+
+    btn.addEventListener('click', function(e){ e.stopPropagation(); pop.classList.contains('open') ? closePop() : openPop(); });
+    document.addEventListener('click', function(e){
+      if(!pop.contains(e.target) && e.target !== btn && !btn.contains(e.target)){
+        if(pop.classList.contains('open')) closePop();
+      }
+    });
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && pop.classList.contains('open')) closePop();
+    });
+  })();
+</script>
+
+<script>
+/* ============================================================
+   Tile 페이지 — Sub Nav 활성 상태 + Page State Persistence
+   · localStorage 키: refinery-tile-state-v1 (가이드 §3)
+   · Sub Nav 항목 클릭 시 active 토글 + 페이지 헤더 제목 동기화
+   ============================================================ */
+(function(){
+  var body = document.body;
+  var STATE_KEY = 'refinery-tile-state-v1';
+  var items = document.querySelectorAll('[data-side-view="tile"] [data-tile-page]');
+  if(!items.length) return;
+
+  function persist(){
+    try{ localStorage.setItem(STATE_KEY, JSON.stringify({ tilePage: body.getAttribute('data-tile-page') })); }catch(e){}
+  }
+  function updateCount(key){
+    var n = (key === 'overview')
+      ? document.querySelectorAll('.grid > [data-tile-category]').length
+      : document.querySelectorAll('.grid > [data-tile-category="' + key + '"]').length;
+    var badge = document.querySelector('[data-page-view="tile"] .page-head [data-tile-count]');
+    if(badge) badge.textContent = n;
+  }
+  function setPage(key, clickedEl){
+    body.setAttribute('data-tile-page', key);
+    items.forEach(function(el){ el.classList.toggle('active', el === clickedEl); });
+    // crumb 끝 라벨 동기화
+    var here = document.querySelector('[data-crumbs-view="tile"] .here');
+    if(here && clickedEl) here.textContent = clickedEl.textContent.trim();
+    // 페이지 H1 동기화 (간단한 1:1 매핑 — 이름이 그대로 제목)
+    var h1 = document.querySelector('[data-page-view="tile"] .page-head h1');
+    if(h1 && clickedEl) h1.textContent = clickedEl.textContent.trim();
+    updateCount(key);
+    persist();
+  }
+
+  // 초기 로드 시점 카운트 (저장 복원 전 default 값과 맞춤)
+  updateCount(body.getAttribute('data-tile-page') || 'overview');
+
+  items.forEach(function(el){
+    el.addEventListener('click', function(){ setPage(el.dataset.tilePage, el); });
+  });
+
+  /* 진입 규칙 — fresh nav 가 아니라면 저장된 sub-page 복원 */
+  var fresh = false;
+  try{ fresh = sessionStorage.getItem('refinery-fresh-nav') === '1'; }catch(e){}
+  if(!fresh){
+    var saved = null;
+    try{ saved = JSON.parse(localStorage.getItem(STATE_KEY) || 'null'); }catch(e){}
+    if(saved && saved.tilePage){
+      var target = document.querySelector('[data-side-view="tile"] [data-tile-page="' + saved.tilePage + '"]');
+      if(target) setPage(saved.tilePage, target);
+    }
+  }
+})();
+</script>
+
+<script>
+/* ============================================================
+   Refinery Shell — 통합 크로스파일 내비게이션 · 테마 · 진입 규칙 · Active 소유
+   Dashboard / DesignSystem / Ontology / Pipeline / Tile 동일 적용
+   ============================================================ */
+(function(){
+  var THEME_KEY  = 'refinery-theme';
+  var FRESH_KEY  = 'refinery-fresh-nav';
+  var ACTIVE_KEY = 'refinery-nav-active';
+  var body = document.body;
+  var rail = document.querySelector('.rail');
+  var curFile = (location.pathname.split('/').pop() || '').split('?')[0];
+
+  /* 1) 공유 테마 */
+  function persistTheme(){ if(window.self!==window.top) return; try{ localStorage.setItem(THEME_KEY, body.classList.contains('dark') ? 'dark' : 'light'); }catch(e){} }
+  var __t = null; try{ __t = (window.self===window.top) ? localStorage.getItem(THEME_KEY) : 'light'; }catch(e){}
+  var __isDark = (window.self!==window.top) ? false : ((__t === 'dark') ? true : (__t === 'light' ? false : body.classList.contains('dark')));
+  if(typeof window.applyTheme === 'function') window.applyTheme(__isDark);
+  else body.classList.toggle('dark', __isDark);
+  ['themeLight','themeDark'].forEach(function(id){
+    var b = document.getElementById(id);
+    if(b) b.addEventListener('click', function(){ setTimeout(persistTheme, 0); });
+  });
+  persistTheme();
+
+  /* Active 소유 모델 */
+  function sectionOf(el){
+    if(el.hasAttribute('data-fav-ref')) return 'fav';
+    if(el.closest('#appGroupItems'))    return 'app';
+    return 'standalone';
+  }
+  function standaloneSelf(){
+    return [].slice.call(document.querySelectorAll('.rail .ic[data-nav="' + curFile + '"]'))
+      .filter(function(n){ return !n.closest('#appGroupItems') && !n.hasAttribute('data-fav-ref'); })[0] || null;
+  }
+  function resolveActiveEl(){
+    var raw = null;
+    try{ raw = JSON.parse(localStorage.getItem(ACTIVE_KEY) || 'null'); }catch(e){ raw = null; }
+    var src, key;
+    if(raw && raw.file === curFile){ src = raw.src; key = raw.key; }
+    else {
+      var appSelf = document.querySelector('#appGroupItems .ic[data-nav="' + curFile + '"]');
+      if(appSelf){ src = 'app'; key = appSelf.dataset.key; }
+      else { src = 'standalone'; var st = standaloneSelf(); key = st ? (st.dataset.key || st.dataset.nav) : curFile; }
+    }
+    var el = null;
+    if(src === 'fav'){ el = document.querySelector('#favGroupItems .ic[data-key="' + key + '"]'); if(!el) src = 'app'; }
+    if(src === 'app'){ el = document.querySelector('#appGroupItems .ic[data-key="' + key + '"]'); if(!el) src = 'standalone'; }
+    if(src === 'standalone'){ el = standaloneSelf() || document.querySelector('#appGroupItems .ic[data-nav="' + curFile + '"]'); }
+    return el;
+  }
+  function applyActive(){
+    var el = resolveActiveEl();
+    document.querySelectorAll('.rail .ic.active').forEach(function(i){ i.classList.remove('active'); });
+    if(el) el.classList.add('active');
+  }
+
+  /* 2) 크로스파일 내비 */
+  function go(target){
+    try{ sessionStorage.setItem(FRESH_KEY, '1'); }catch(e){}
+    window.location.href = target;
+  }
+  (rail || document).addEventListener('click', function(e){
+    if(e.target.closest('.fav-btn')) return;
+    var el = e.target.closest('.ic[data-nav]');
+    if(!el) return;
+    var target = el.getAttribute('data-nav');
+    var src = sectionOf(el);
+    var key = el.dataset.key || el.dataset.nav;
+    try{ localStorage.setItem(ACTIVE_KEY, JSON.stringify({ file: el.dataset.nav, key: key, src: src })); }catch(e){}
+    if(target && target !== curFile){ e.preventDefault(); go(target); }
+    else { setTimeout(applyActive, 0); }
+  }, true);
+
+  /* 3) 진입 규칙 */
+  var fresh = false;
+  try{ fresh = sessionStorage.getItem(FRESH_KEY) === '1'; if(fresh) sessionStorage.removeItem(FRESH_KEY); }catch(e){}
+  if(fresh){
+    var view = body.getAttribute('data-view');
+    var firstItem = document.querySelector(
+      '[data-side-view="' + view + '"] [data-onto-page], [data-side-view="' + view + '"] [data-ds-page], [data-side-view="' + view + '"] [data-tile-page]'
+    );
+    if(firstItem) firstItem.click();
+    var pageEl = document.querySelector('.page');
+    if(pageEl) pageEl.scrollTo({ top:0, left:0, behavior:'auto' });
+  }
+
+  /* 4) Active 최종 적용 */
+  applyActive();
+  var favBox = document.getElementById('favGroupItems');
+  if(favBox && window.MutationObserver){
+    new MutationObserver(function(){ applyActive(); }).observe(favBox, { childList:true });
+  }
+})();
+</script>
+
+<script>
+/* Account avatar — 계정명 첫 영문자를 이니셜로 표시 */
+(function(){
+  function pickInitial(){
+    var nameEl = document.querySelector('.rail .bot-name')
+              || document.querySelector('.user-pop-head .info .name');
+    var s = (nameEl && nameEl.textContent) || '';
+    if(!/[A-Za-z]/.test(s)){
+      var em = document.querySelector('.rail .bot-email') || document.querySelector('.user-pop-head .info .email');
+      s = (em && em.textContent) || '';
+    }
+    var m = s.match(/[A-Za-z]/);
+    return m ? m[0].toUpperCase() : 'U';
+  }
+  var ch = pickInitial();
+  document.querySelectorAll('.avatar').forEach(function(a){
+    var ini = a.querySelector('.avatar-initial');
+    if(ini) ini.textContent = ch;
+    var img = a.querySelector('img');
+    a.classList.toggle('has-img', !!(img && img.getAttribute('src')));
+  });
+})();
+</script>
+<script>
+(function() {
+  if (location.search.indexOf('embed=1') === -1) return;
+  function collapseNow() {
+    var app = document.querySelector('.app');
+    var rail = document.querySelector('.rail');
+    var side = document.querySelector('.side');
+    if (app) { app.style.transition = 'none'; app.classList.add('rail-col'); app.classList.add('side-col'); }
+    if (rail) { rail.style.transition = 'none'; rail.classList.add('collapsed'); }
+    if (side) { side.style.transition = 'none'; side.classList.add('collapsed'); }
+    void document.documentElement.offsetWidth;
+    document.documentElement.style.visibility = '';
+  }
+  collapseNow();
+  document.addEventListener('DOMContentLoaded', collapseNow);
+  window.addEventListener('load', collapseNow);
+  setTimeout(collapseNow, 50);
+  setTimeout(collapseNow, 300);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script>
+if (location.search.indexOf('embed=1') !== -1) {
+  document.documentElement.style.visibility = 'hidden';
+}
+</script>
+
+<meta charset="UTF-8">
+<title>Refinery — 캘린더</title>
+<!-- ============================================================
+     Refinery — 캘린더 (Calendar)
+     Global Nav: 캘린더 · data-view="calendar"
+     Styles: refinery.css (single source of truth · linked)
+     Components used: app-shell, rfn-widget, rfn-cal-*, rfn-seg, rfn-btn, rfn-badge, chip
+     Built following skill: refinery-html-page (Refinery_DesignSystem_Guide.md)
+     Generated: 2026-06-16
+     ============================================================ -->
+<link rel="icon" type="image/svg+xml" href="fav_refienry-symbol.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<link rel="stylesheet" href="refinery.css">
+</head>
+<body data-view="calendar">
+<script>try{if(window.self===window.top && localStorage.getItem("refinery-theme")==="dark")document.body.classList.add("dark");}catch(e){}</script>
+
+<div class="app">
+
+  <!-- ============ Global Nav ============ -->
+  <aside class="rail">
+    <button class="rail-expand-btn" id="railExpand" title="내비게이션 펼치기"><i class="ph ph-caret-right"></i></button>
+    <div class="logo-dot">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 32 32">
+        <g transform="translate(-8 -14)">
+          <g transform="translate(10.289 16.289)">
+            <g transform="translate(1.318 1.318)">
+              <path fill="#16202C" d="M55.606,40H42.754A2.754,2.754,0,0,0,40,42.754V55.606a2.754,2.754,0,0,0,2.754,2.754h2.3a1.377,1.377,0,0,1-1.377-1.377V45.049a1.377,1.377,0,0,1,1.377-1.377H56.983a1.377,1.377,0,0,1,1.377,1.377v-2.3A2.754,2.754,0,0,0,55.606,40Z" transform="translate(-40 -40)"/>
+              <path fill="#16202C" d="M195.606,180h-2.3a1.377,1.377,0,0,1,1.377,1.377v11.934a1.377,1.377,0,0,1-1.377,1.377H181.377A1.377,1.377,0,0,1,180,193.311v2.3a2.754,2.754,0,0,0,2.754,2.754h12.852a2.754,2.754,0,0,0,2.754-2.754V182.754A2.754,2.754,0,0,0,195.606,180Z" transform="translate(-173.574 -173.574)"/>
+            </g>
+          </g>
+        </g>
+      </svg>
+      <span class="logo-name">Refinery</span>
+      <button class="rail-collapse-btn" id="railCollapse" title="내비게이션 접기">
+        <i class="ph ph-sidebar-simple"></i>
+      </button>
+    </div>
+
+    <div class="rail-scroll">
+      <!-- ============ 영역 1 : 개인/콘텐츠 ============ -->
+      <div class="ic" title="홈">
+        <i class="ph ph-house"></i>
+        <span class="lbl">홈</span>
+      </div>
+      <div class="ic" title="검색">
+        <i class="ph ph-magnifying-glass"></i>
+        <span class="lbl">검색</span>
+      </div>
+      <div class="ic" title="알림">
+        <i class="ph ph-bell"></i>
+        <span class="lbl">알림</span>
+        <span class="rail-badge rail-badge-count">13</span>
+      </div>
+      <div class="ic" title="최근">
+        <i class="ph ph-clock-counter-clockwise"></i>
+        <span class="lbl">최근</span>
+      </div>
+      <div class="ic" title="즐겨찾기">
+        <i class="ph ph-star"></i>
+        <span class="lbl">즐겨찾기</span>
+      </div>
+      <div class="ic" title="파일">
+        <i class="ph ph-file"></i>
+        <span class="lbl">파일</span>
+      </div>
+      <div class="ic" title="데이터셋">
+        <i class="ph ph-database"></i>
+        <span class="lbl">데이터셋</span>
+      </div>
+
+      <div class="sep"></div>
+
+      <!-- ============ FAVORITES ============ -->
+      <div class="fav-section" id="favSection">
+        <button class="rail-group-title" id="favGroupToggle" type="button" aria-expanded="true" aria-controls="favGroupItems">
+          <span class="lbl">Favorites</span>
+          <i class="ph ph-caret-down caret"></i>
+        </button>
+        <div class="rail-group-items" id="favGroupItems"></div>
+        <div class="sep"></div>
+      </div>
+
+      <!-- ============ 영역 2 : Application ============ -->
+      <button class="rail-group-title" id="appGroupToggle" type="button" aria-expanded="true" aria-controls="appGroupItems">
+        <span class="lbl">Application</span>
+        <i class="ph ph-caret-down caret"></i>
+      </button>
+      <div class="rail-group-items" id="appGroupItems">
+        <div class="ic" title="대시보드" data-key="dashboard" data-nav="UI_Refinery_Dashboard.html">
+          <i class="ph ph-squares-four"></i>
+          <span class="lbl">대시보드</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="AI 어시스턴트" data-key="llm">
+          <i class="ph ph-sparkle"></i>
+          <span class="lbl">AI 어시스턴트</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="공장/도면" data-key="factory">
+          <i class="ph ph-factory"></i>
+          <span class="lbl">공장/도면</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="플레이트" data-key="plate" data-view="plate" data-nav="UI_Refinery_Plate.html">
+          <i class="ph ph-presentation"></i>
+          <span class="lbl">플레이트</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="타일" data-key="tile" data-view="tile" data-nav="UI_Refinery_Tile.html">
+          <i class="ph ph-grid-four"></i>
+          <span class="lbl">타일</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="분석" data-key="analytics">
+          <i class="ph ph-chart-bar"></i>
+          <span class="lbl">분석</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="에너지" data-key="energy">
+          <i class="ph ph-lightning"></i>
+          <span class="lbl">에너지</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="노트북" data-key="notebook">
+          <i class="ph ph-notebook"></i>
+          <span class="lbl">노트북</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="시트" data-key="sheet">
+          <i class="ph ph-table"></i>
+          <span class="lbl">시트</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="파이프라인" data-key="pipeline" data-view="pipeline" data-nav="UI_Refinery_Pipeline.html">
+          <i class="ph ph-flow-arrow"></i>
+          <span class="lbl">파이프라인</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="온톨로지" data-key="ontology" data-view="ontology" data-nav="UI_Refinery_Ontology.html">
+          <i class="ph ph-tree-structure"></i>
+          <span class="lbl">온톨로지</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic active" title="캘린더" data-key="calendar" data-view="calendar" data-nav="UI_Refinery_Calendar.html">
+          <i class="ph ph-calendar-blank"></i>
+          <span class="lbl">캘린더</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="코드 리포지토리" data-key="code-repo">
+          <i class="ph ph-brackets-angle"></i>
+          <span class="lbl">코드 리포지토리</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="오브젝트 탐색기" data-key="object-explorer">
+          <i class="ph ph-stack"></i>
+          <span class="lbl">오브젝트</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="데이터 흐름" data-key="data-flow">
+          <i class="ph ph-pulse"></i>
+          <span class="lbl">데이터흐름</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="데이터 품질" data-key="data-quality">
+          <i class="ph ph-check-square"></i>
+          <span class="lbl">데이터품질</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="탐색기" data-key="explorer">
+          <i class="ph ph-compass"></i>
+          <span class="lbl">탐색기</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="에너지 고지서" data-key="energy-bill">
+          <i class="ph ph-receipt"></i>
+          <span class="lbl">에너지 고지서</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+      </div>
+
+      <div class="sep"></div>
+
+      <!-- ============ 영역 3 : 시스템 ============ -->
+      <div class="ic" title="설정">
+        <i class="ph ph-gear"></i>
+        <span class="lbl">설정</span>
+      </div>
+      <div class="ic" title="조직관리">
+        <i class="ph ph-users-three"></i>
+        <span class="lbl">조직관리</span>
+      </div>
+      <div class="ic" title="도움말">
+        <i class="ph ph-question"></i>
+        <span class="lbl">도움말</span>
+      </div>
+      <div class="ic" title="Design System" data-nav="UI_Refinery_DesignSystem.html">
+        <i class="ph ph-palette"></i>
+        <span class="lbl">Design System</span>
+      </div>
+    </div>
+
+    <div class="bot">
+      <div class="bot-user-wrap">
+      <div class="bot-user" id="userBtn" role="button" tabindex="0" aria-haspopup="menu" aria-expanded="false" aria-controls="userPopover">
+        <div class="avatar"><span class="avatar-initial"></span></div>
+        <div class="bot-info">
+          <div class="bot-name">Hyeyoung Han</div>
+          <div class="bot-email">hyhan@vetec.co.kr</div>
+        </div>
+        <i class="ph ph-caret-up caret"></i>
+      </div>
+
+      <div class="user-popover" id="userPopover" role="menu" aria-hidden="true">
+        <div class="user-pop-head">
+          <div class="avatar"><span class="avatar-initial"></span></div>
+          <div class="info">
+            <div class="name">Hyeyoung Han</div>
+            <div class="email">hyhan@vetec.co.kr</div>
+          </div>
+        </div>
+
+        <div class="user-pop-list">
+          <button class="user-pop-item" role="menuitem" data-action="user-settings">
+            <i class="ph ph-user-gear"></i>
+            <span class="lbl">사용자 설정</span>
+          </button>
+          <button class="user-pop-item" role="menuitem" data-action="notif-settings">
+            <i class="ph ph-bell-ringing"></i>
+            <span class="lbl">알림 설정</span>
+          </button>
+          <button class="user-pop-item" role="menuitem" data-action="notif-list">
+            <i class="ph ph-bell"></i>
+            <span class="lbl">알림 목록</span>
+            <span class="badge">3</span>
+          </button>
+        </div>
+
+        <div class="user-pop-sep"></div>
+
+        <div class="user-pop-theme" role="group" aria-label="화면 모드">
+          <div class="user-pop-theme-label">
+            <i class="ph ph-circle-half"></i>
+            <span class="lbl">화면 모드</span>
+          </div>
+          <div class="seg theme-seg">
+            <button class="on" id="themeLight" type="button" title="Light 모드로 전환">
+              <i class="ph ph-sun"></i>Light
+            </button>
+            <button id="themeDark" type="button" title="Dark 모드로 전환">
+              <i class="ph ph-moon"></i>Dark
+            </button>
+          </div>
+        </div>
+
+        <div class="user-pop-sep"></div>
+
+        <div class="user-pop-list">
+          <button class="user-pop-item" role="menuitem" data-action="logout">
+            <i class="ph ph-sign-out"></i>
+            <span class="lbl">로그아웃</span>
+          </button>
+        </div>
+      </div>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ============ Sub Nav (Calendar control panel) ============ -->
+  <aside class="side">
+    <button class="side-expand-btn" id="sideToggle" title="메뉴 펼치기"><i class="ph ph-caret-right"></i></button>
+
+    <div class="nav">
+      <!-- ======== Sub Nav: Calendar View ======== -->
+      <div data-side-view="calendar" id="calSide">
+
+        <!-- 미니 캘린더 (메인 뷰와 동기화) -->
+        <div class="rfn-cal-sidemini" id="sideMini"></div>
+
+        <!-- 스케줄 검색 -->
+        <div class="rfn-cal-side-sec">
+          <div class="rfn-field rfn-field--search rfn-field--sm">
+            <span class="rfn-field-affix"><i class="ph ph-magnifying-glass"></i></span>
+            <input placeholder="스케줄 검색" style="font-family:var(--font-kr)">
+          </div>
+        </div>
+
+        <!-- 스케줄 카테고리 -->
+        <div class="rfn-cal-side-h" style="margin-top:8px">
+          <span>스케줄 카테고리</span>
+          <button class="rfn-cal-side-add" type="button" title="스케줄 추가"><i class="ph ph-plus"></i></button>
+        </div>
+
+        <div class="rfn-cal-side-sep"></div>
+
+        <!-- 카테고리 그룹 (JS 렌더) -->
+        <div id="calSrcGroups"></div>
+
+      </div>
+    </div>
+
+    <div class="side-close-bar">
+      <button id="sideCollapse" class="side-collapse-inner">
+        <i class="ph ph-caret-left"></i>
+        <span>메뉴 접기</span>
+      </button>
+    </div>
+  </aside>
+
+
+  <!-- ============ main ============ -->
+  <section class="main">
+
+    <header class="topbar">
+      <button class="side-collapse-btn" id="sideToggleTopbar" title="서브 메뉴 접기 / 펼치기">
+        <i class="ph ph-caret-left"></i>
+      </button>
+      <div class="crumbs" data-crumbs-view="calendar">
+        <i class="ph ph-calendar-blank"></i>
+        <span>캘린더</span>
+        <i class="ph ph-caret-right"></i>
+        <span class="here">스케줄 제어</span>
+      </div>
+      <div class="actions">
+        <div class="density-wrap">
+          <div class="icon-btn" id="densityBtn" title="화면 밀도">
+            <i class="ph ph-text-aa"></i>
+          </div>
+          <div class="density-popover" id="densityPopover" role="menu" aria-hidden="true">
+            <div class="density-pop-head">
+              <div class="density-pop-title">화면 밀도</div>
+              <div class="density-pop-sub">정보 밀도와 가독성을 조정합니다</div>
+            </div>
+            <div class="density-pop-list">
+              <button class="density-opt" data-density="compact" role="menuitemradio">
+                <span class="density-opt-icn"><i class="ph ph-text-aa"></i></span>
+                <span class="density-opt-text">
+                  <span class="density-opt-label">Compact</span>
+                  <span class="density-opt-desc">데이터 밀집 표시</span>
+                </span>
+                <span class="density-opt-check"><i class="ph ph-check"></i></span>
+              </button>
+              <button class="density-opt on" data-density="default" role="menuitemradio" aria-checked="true">
+                <span class="density-opt-icn"><i class="ph ph-text-aa"></i></span>
+                <span class="density-opt-text">
+                  <span class="density-opt-label">Default</span>
+                  <span class="density-opt-desc">기본 보기</span>
+                </span>
+                <span class="density-opt-check"><i class="ph ph-check"></i></span>
+              </button>
+              <button class="density-opt" data-density="comfortable" role="menuitemradio">
+                <span class="density-opt-icn"><i class="ph ph-text-aa"></i></span>
+                <span class="density-opt-text">
+                  <span class="density-opt-label">Comfortable</span>
+                  <span class="density-opt-desc">가독성 우선</span>
+                </span>
+                <span class="density-opt-check"><i class="ph ph-check"></i></span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="icon-btn" id="fullscreenBtn" title="전체화면">
+          <i class="ph ph-corners-out ic-expand"></i>
+          <i class="ph ph-corners-in ic-compress"></i>
+        </div>
+        <div class="search-wrap">
+          <div class="icon-btn" id="searchBtn" title="검색"><i class="ph ph-magnifying-glass"></i></div>
+          <div class="search-popover" id="searchPopover" aria-hidden="true">
+            <div class="search">
+              <i class="ph ph-magnifying-glass"></i>
+              <input id="topbarSearchInput" placeholder="통합 검색..." style="font-family:var(--font-kr)">
+              <kbd>ESC</kbd>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="page">
+    <div data-page-view="calendar">
+
+      <!-- ===== Page Header ===== -->
+      <div class="page-head">
+        <h1>스케줄 관리</h1>
+        <div class="page-head-meta">
+          <div class="env"><span class="dot"></span><span>제어 활성</span></div>
+        </div>
+        <div class="spacer"></div>
+        <div class="rfn-seg rfn-seg--on-surface" id="calViewSeg" role="group" aria-label="보기 전환">
+          <button type="button" data-view-btn="month" class="on" aria-pressed="true">월</button>
+          <button type="button" data-view-btn="week">주</button>
+          <button type="button" data-view-btn="day">일</button>
+        </div>
+        <button class="rfn-btn rfn-btn--primary" id="calAdd">
+          <i class="ph ph-plus"></i>스케줄 추가
+        </button>
+      </div>
+
+      <!-- ===== Calendar (full-bleed · 페이지 콘텐츠 전체 사용) ===== -->
+      <div class="rfn-cal">
+
+        <!-- 날짜 내비 + 범례 툴바 -->
+        <div class="rfn-cal-bar">
+          <div class="rfn-cal-badge">
+            <span class="rfn-cal-badge-m" id="calBadgeM">6월</span>
+            <span class="rfn-cal-badge-d" id="calBadgeD">16</span>
+          </div>
+          <div class="rfn-cal-headings">
+            <div class="rfn-cal-title" id="calTitle">제목</div>
+            <div class="rfn-cal-sub" id="calSub">부제</div>
+          </div>
+          <div class="spacer" style="flex:1"></div>
+          <div class="rfn-cal-nav">
+            <button class="rfn-btn rfn-btn--secondary rfn-btn--sm rfn-btn--icon" id="calPrev" title="이전"><i class="ph ph-caret-left"></i></button>
+            <button class="rfn-btn rfn-btn--secondary rfn-btn--sm" id="calToday">오늘</button>
+            <button class="rfn-btn rfn-btn--secondary rfn-btn--sm rfn-btn--icon" id="calNext" title="다음"><i class="ph ph-caret-right"></i></button>
+          </div>
+        </div>
+
+        <!-- 뷰 렌더 영역 -->
+        <div class="rfn-cal-view" id="calBody"></div>
+
+      </div>
+
+    </div>
+    </div>
+
+  </section>
+</div>
+
+<!-- 이벤트 팝오버 (월/주 뷰 클릭) -->
+<div class="rfn-cal-veil" id="calVeil"></div>
+<div class="rfn-cal-pop" id="calPop" role="dialog" aria-label="일정 상세"></div>
+
+<script>
+  // ======== Nav Collapse ========
+  (function(){
+    const app  = document.querySelector('.app');
+    const rail = document.querySelector('.rail');
+    const side = document.querySelector('.side');
+
+    document.getElementById('railCollapse').addEventListener('click', function(){
+      rail.classList.add('collapsed');
+      app.classList.add('rail-col');
+    });
+    document.getElementById('railExpand').addEventListener('click', function(){
+      rail.classList.remove('collapsed');
+      app.classList.remove('rail-col');
+    });
+
+    // Theme toggle — 계정 팝오버 안 Light/Dark 세그먼트
+    (function(){
+      const lightBtn = document.getElementById('themeLight');
+      const darkBtn = document.getElementById('themeDark');
+
+      function applyTheme(isDark){
+        document.body.classList.toggle('dark', isDark);
+        if(lightBtn) lightBtn.classList.toggle('on', !isDark);
+        if(darkBtn) darkBtn.classList.toggle('on', isDark);
+        if(window.saveRefineryState) window.saveRefineryState();
+      }
+      window.applyTheme = applyTheme;
+
+      if(lightBtn) lightBtn.addEventListener('click', function(){ applyTheme(false); });
+      if(darkBtn)  darkBtn.addEventListener('click', function(){ applyTheme(true); });
+    })();
+
+    // Rail / Side 하단 페이드
+    (function(){
+      function bind(scrollEl, footerEl){
+        if(!scrollEl || !footerEl) return;
+        function check(){
+          var max = scrollEl.scrollHeight - scrollEl.clientHeight;
+          var atBottom = max <= 2 || scrollEl.scrollTop >= max - 2;
+          footerEl.classList.toggle('at-bottom', atBottom);
+        }
+        scrollEl.addEventListener('scroll', check, {passive:true});
+        window.addEventListener('resize', check);
+        check();
+        requestAnimationFrame(check);
+      }
+      bind(document.querySelector('.rail-scroll'), document.querySelector('.rail .bot'));
+      bind(document.querySelector('.side .nav'), document.querySelector('.side-close-bar'));
+    })();
+
+    document.getElementById('sideCollapse').addEventListener('click', function(){
+      app.classList.add('side-col');
+      side.classList.add('collapsed');
+    });
+    document.getElementById('sideToggle').addEventListener('click', function(){
+      app.classList.remove('side-col');
+      side.classList.remove('collapsed');
+    });
+    var sideToggleTopbar = document.getElementById('sideToggleTopbar');
+    if(sideToggleTopbar) sideToggleTopbar.addEventListener('click', function(){
+      var collapsed = side.classList.toggle('collapsed');
+      app.classList.toggle('side-col', collapsed);
+    });
+
+    var sideExpandBtn = document.getElementById('sideToggle');
+    var hideTimer;
+    function showExpandBtn(){
+      clearTimeout(hideTimer);
+      if(side.classList.contains('collapsed')) sideExpandBtn.classList.add('visible');
+    }
+    function hideExpandBtn(){
+      hideTimer = setTimeout(function(){ sideExpandBtn.classList.remove('visible'); }, 200);
+    }
+    rail.addEventListener('mouseenter', showExpandBtn);
+    rail.addEventListener('mouseleave', hideExpandBtn);
+    sideExpandBtn.addEventListener('mouseenter', function(){ clearTimeout(hideTimer); });
+    sideExpandBtn.addEventListener('mouseleave', hideExpandBtn);
+  })();
+
+  // ======== Density Toggle ========
+  (function(){
+    const btn = document.getElementById('densityBtn');
+    const pop = document.getElementById('densityPopover');
+    const opts = pop.querySelectorAll('.density-opt');
+
+    const saved = (function(){ try{ return localStorage.getItem('refinery-density'); }catch(e){ return null; } })();
+    if(saved && ['compact','default','comfortable'].includes(saved)) applyDensity(saved);
+
+    function applyDensity(mode){
+      document.body.setAttribute('data-density', mode);
+      opts.forEach(o=>{
+        const isOn = o.dataset.density === mode;
+        o.classList.toggle('on', isOn);
+        o.setAttribute('aria-checked', isOn ? 'true':'false');
+      });
+      try{ localStorage.setItem('refinery-density', mode); }catch(e){}
+    }
+    function openPop(){ pop.classList.add('open'); pop.setAttribute('aria-hidden','false'); btn.setAttribute('aria-expanded','true'); }
+    function closePop(){ pop.classList.remove('open'); pop.setAttribute('aria-hidden','true'); btn.setAttribute('aria-expanded','false'); }
+
+    btn.addEventListener('click', function(e){ e.stopPropagation(); pop.classList.contains('open') ? closePop() : openPop(); });
+    opts.forEach(o=>{
+      o.addEventListener('click', function(e){
+        e.stopPropagation();
+        applyDensity(this.dataset.density);
+        closePop();
+      });
+    });
+    document.addEventListener('click', function(e){
+      if(!pop.contains(e.target) && e.target !== btn && !btn.contains(e.target)) closePop();
+    });
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && pop.classList.contains('open')) closePop();
+    });
+  })();
+
+  // ======== Fullscreen Toggle ========
+  (function(){
+    const btn = document.getElementById('fullscreenBtn');
+    const docEl = document.documentElement;
+
+    function isFs(){ return !!(document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement); }
+    function enterFs(){
+      const fn = docEl.requestFullscreen || docEl.webkitRequestFullscreen || docEl.msRequestFullscreen;
+      if(fn) fn.call(docEl);
+    }
+    function exitFs(){
+      const fn = document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen;
+      if(fn) fn.call(document);
+    }
+    function syncState(){
+      document.body.classList.toggle('is-fullscreen', isFs());
+      btn.setAttribute('title', isFs() ? '전체화면 해제' : '전체화면');
+    }
+    btn.addEventListener('click', function(){ isFs() ? exitFs() : enterFs(); });
+    document.addEventListener('fullscreenchange', syncState);
+    document.addEventListener('webkitfullscreenchange', syncState);
+    document.addEventListener('msfullscreenchange', syncState);
+  })();
+
+  // ======== Application 즐겨찾기 + Favorites 영역 ========
+  (function(){
+    const items = document.querySelectorAll('#appGroupItems .ic');
+    const favContainer = document.getElementById('favGroupItems');
+    const favSection = document.getElementById('favSection');
+    const favToggle = document.getElementById('favGroupToggle');
+    if(!items.length || !favContainer) return;
+
+    const STORAGE_KEY = 'refinery-app-favorites';
+    const FAV_COLLAPSE_KEY = 'refinery-fav-group';
+
+    let favOrder = [];
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(raw) favOrder = JSON.parse(raw) || [];
+    }catch(e){ favOrder = []; }
+    const inFav = (key)=> favOrder.indexOf(key) !== -1;
+
+    function applyState(ic){
+      const key = ic.dataset.key;
+      const btn = ic.querySelector('.fav-btn');
+      const icon = btn && btn.querySelector('i');
+      const isOn = inFav(key);
+      if(!btn || !icon) return;
+      btn.classList.toggle('on', isOn);
+      btn.setAttribute('aria-pressed', isOn ? 'true' : 'false');
+      btn.setAttribute('aria-label', isOn ? '즐겨찾기 해제' : '즐겨찾기 추가');
+      icon.className = isOn ? 'ph-fill ph-star' : 'ph ph-star';
+    }
+
+    function persist(){
+      try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(favOrder)); }catch(e){}
+    }
+
+    function renderFavorites(){
+      favContainer.innerHTML = '';
+      const isEmpty = favOrder.length === 0;
+      if(favSection) favSection.classList.toggle('empty', isEmpty);
+      if(isEmpty) return;
+
+      favOrder.forEach(key=>{
+        const src = document.querySelector('#appGroupItems .ic[data-key="'+key+'"]');
+        if(!src) return;
+        const phIcon = src.querySelector(':scope > .ph');
+        const lbl = src.querySelector(':scope > .lbl');
+        const badge = src.querySelector(':scope > .rail-badge');
+
+        const node = document.createElement('div');
+        node.className = 'ic';
+        node.setAttribute('title', src.getAttribute('title') || '');
+        node.dataset.key = key;
+        node.dataset.favRef = '1';
+        if(src.dataset.view) node.dataset.view = src.dataset.view;
+        if(src.dataset.nav)  node.dataset.nav  = src.dataset.nav;
+        node.innerHTML = ''
+          + '<i class="'+(phIcon ? phIcon.className : 'ph ph-circle')+'"></i>'
+          + '<span class="lbl">'+(lbl ? lbl.textContent : key)+'</span>'
+          + (badge ? badge.outerHTML : '')
+          + '<button class="fav-btn on" type="button" aria-label="즐겨찾기 해제" aria-pressed="true"><i class="ph-fill ph-star"></i></button>';
+
+        node.querySelector('.fav-btn').addEventListener('click', function(e){
+          e.stopPropagation();
+          toggleKey(key);
+        });
+
+        node.addEventListener('click', function(e){
+          if(e.target.closest('.fav-btn')) return;
+          var nav = this.dataset.nav;
+          var cur = (location.pathname.split('/').pop() || '').split('?')[0];
+          if(nav && nav !== cur){
+            try{ localStorage.setItem('refinery-nav-active', JSON.stringify({ file: nav, key: this.dataset.key || nav, src: 'fav' })); }catch(_e){}
+            try{ sessionStorage.setItem('refinery-fresh-nav', '1'); }catch(_e){}
+            window.location.href = nav;
+            return;
+          }
+          if(this.dataset.view && window.setView) window.setView(this.dataset.view, this);
+        });
+
+        favContainer.appendChild(node);
+      });
+    }
+
+    function toggleKey(key){
+      const idx = favOrder.indexOf(key);
+      if(idx >= 0) favOrder.splice(idx, 1);
+      else favOrder.push(key);
+      const src = document.querySelector('#appGroupItems .ic[data-key="'+key+'"]');
+      if(src) applyState(src);
+      persist();
+      renderFavorites();
+    }
+
+    items.forEach(ic=>{
+      applyState(ic);
+      const btn = ic.querySelector('.fav-btn');
+      if(!btn) return;
+      btn.addEventListener('click', function(e){
+        e.stopPropagation();
+        toggleKey(ic.dataset.key);
+      });
+    });
+
+    if(favToggle){
+      const savedFavCollapsed = (function(){ try{ return localStorage.getItem(FAV_COLLAPSE_KEY); }catch(e){ return null; } })();
+      if(savedFavCollapsed === 'collapsed'){
+        favContainer.classList.add('collapsed');
+        favToggle.setAttribute('aria-expanded','false');
+      }
+      favToggle.addEventListener('click', function(){
+        const isCollapsed = favContainer.classList.toggle('collapsed');
+        favToggle.setAttribute('aria-expanded', isCollapsed ? 'false' : 'true');
+        try{ localStorage.setItem(FAV_COLLAPSE_KEY, isCollapsed ? 'collapsed' : 'expanded'); }catch(e){}
+      });
+    }
+
+    renderFavorites();
+  })();
+
+  // ======== Application 그룹 접기/펼치기 ========
+  (function(){
+    const toggle = document.getElementById('appGroupToggle');
+    const items = document.getElementById('appGroupItems');
+    if(!toggle || !items) return;
+
+    const saved = (function(){ try{ return localStorage.getItem('refinery-app-group'); }catch(e){ return null; } })();
+    if(saved === 'collapsed'){
+      items.classList.add('collapsed');
+      toggle.setAttribute('aria-expanded','false');
+    }
+    toggle.addEventListener('click', function(){
+      const isCollapsed = items.classList.toggle('collapsed');
+      toggle.setAttribute('aria-expanded', isCollapsed ? 'false' : 'true');
+      try{ localStorage.setItem('refinery-app-group', isCollapsed ? 'collapsed' : 'expanded'); }catch(e){}
+    });
+  })();
+
+  // ======== User Popover ========
+  (function(){
+    const btn = document.getElementById('userBtn');
+    const pop = document.getElementById('userPopover');
+    if(!btn || !pop) return;
+
+    const railAvatarImg = document.querySelector('.rail .bot-user .avatar img');
+    const popAvatarImg = pop.querySelector('.user-pop-head .avatar img');
+    if(railAvatarImg && popAvatarImg){
+      popAvatarImg.src = railAvatarImg.src;
+      popAvatarImg.style.display = '';
+    }
+
+    function openPop(){ pop.classList.add('open'); pop.setAttribute('aria-hidden','false'); btn.setAttribute('aria-expanded','true'); }
+    function closePop(){ pop.classList.remove('open'); pop.setAttribute('aria-hidden','true'); btn.setAttribute('aria-expanded','false'); }
+
+    btn.addEventListener('click', function(e){ e.stopPropagation(); pop.classList.contains('open') ? closePop() : openPop(); });
+    btn.addEventListener('keydown', function(e){
+      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); pop.classList.contains('open') ? closePop() : openPop(); }
+    });
+
+    pop.querySelectorAll('.user-pop-item').forEach(item=>{
+      item.addEventListener('click', function(e){
+        e.stopPropagation();
+        const action = this.dataset.action;
+        if(action === 'logout'){
+          window.location.href = 'UI_Refinery_Login.html';
+          return;
+        }
+        closePop();
+      });
+    });
+
+    document.addEventListener('click', function(e){
+      if(!pop.contains(e.target) && e.target !== btn && !btn.contains(e.target)) closePop();
+    });
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && pop.classList.contains('open')) closePop();
+    });
+  })();
+
+  // ======== Topbar Search Toggle ========
+  (function(){
+    const btn = document.getElementById('searchBtn');
+    const pop = document.getElementById('searchPopover');
+    const input = document.getElementById('topbarSearchInput');
+
+    function openPop(){ pop.classList.add('open'); pop.setAttribute('aria-hidden','false'); btn.setAttribute('aria-expanded','true'); setTimeout(()=>input.focus(), 50); }
+    function closePop(){ pop.classList.remove('open'); pop.setAttribute('aria-hidden','true'); btn.setAttribute('aria-expanded','false'); input.blur(); }
+
+    btn.addEventListener('click', function(e){ e.stopPropagation(); pop.classList.contains('open') ? closePop() : openPop(); });
+    document.addEventListener('click', function(e){
+      if(!pop.contains(e.target) && e.target !== btn && !btn.contains(e.target)){
+        if(pop.classList.contains('open')) closePop();
+      }
+    });
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && pop.classList.contains('open')) closePop();
+    });
+  })();
+</script>
+
+<script>
+/* ============================================================
+   Calendar 페이지 — 월/주/일 뷰 렌더 · 내비 · 이벤트 팝오버/상세
+   · localStorage 키: refinery-calendar-state-v1 (가이드 §3)
+   · 색은 인라인 --ev=var(--dv-*) 로 주입, 모든 토큰만 사용
+   ============================================================ */
+(function(){
+  var body = document.body;
+  var STATE_KEY = 'refinery-calendar-state-v3';
+
+  // ---------- 날짜 헬퍼 (로컬 타임) ----------
+  function pad(n){ return String(n).padStart(2,'0'); }
+  function parse(s){ var p=s.split('-').map(Number); return new Date(p[0],p[1]-1,p[2]); }
+  function iso(d){ return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()); }
+  function addDays(s,n){ var d=parse(s); d.setDate(d.getDate()+n); return iso(d); }
+  function addMonths(s,n){ var d=parse(s); d.setDate(1); d.setMonth(d.getMonth()+n); return iso(d); }
+  function mondayOf(s){ var d=parse(s); var wd=(d.getDay()+6)%7; d.setDate(d.getDate()-wd); return iso(d); }
+  function firstOfMonth(s){ var d=parse(s); return iso(new Date(d.getFullYear(), d.getMonth(), 1)); }
+
+  function fmtH(h){ var hr=Math.floor(h); var mn=Math.round((h-hr)*60); return pad(hr)+':'+pad(mn); }
+  function fmtRange(s,e){ return fmtH(s)+'–'+fmtH(e); }
+
+  var WD_KR  = ['일','월','화','수','목','금','토'];          // getDay() 0=일
+  var WD_KR_FULL = ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'];
+  var WD_MON = ['월','화','수','목','금','토','일'];           // 월 시작 헤더
+
+  var TODAY = iso(new Date());
+  var WK = mondayOf(TODAY);
+  function D(off){ return addDays(WK, off); }
+
+  // ---------- 스케줄(제어) 카테고리 정의 ----------
+  // 디바이스 온/오프·반복 제어 스케줄. 각 스케줄이 고유 색(--dv 토큰)을 가짐.
+  // group: Sub Nav 카테고리, color: 막대/체크박스 색, on: 기본 표시, ord: 셀 내 정렬,
+  // rule: 반복 규칙(상세), power: 제어 동작.
+  var GROUPS = [
+    { key:'control', name:'온오프 제어' },
+    { key:'repeat',  name:'반복 스케줄' },
+    { key:'test',    name:'테스트' }
+  ];
+  var CALENDARS = [
+    { key:'weekday-onoff', name:'평일 온오프 제어',      color:'var(--dv-2)',  group:'control', on:true, ord:5, rule:'평일(월–금) 매일', power:'08:00 ON · 20:00 OFF' },
+    { key:'lunch-onoff',   name:'점심 시간 온 오프 제어', color:'var(--dv-6)',  group:'control', on:true, ord:6, rule:'평일 점심 시간',   power:'12:00 OFF · 13:00 ON' },
+    { key:'every-2d',      name:'2일 마다 반복',          color:'var(--dv-1)',  group:'repeat',  on:true, ord:2, rule:'2일 간격 반복',    power:'00:00 상태 토글' },
+    { key:'every-3d',      name:'3일 마다 반복',          color:'var(--dv-8)',  group:'repeat',  on:true, ord:3, rule:'3일 간격 반복',    power:'00:00 상태 토글' },
+    { key:'biweekly-mwt',  name:'2주 간격 월,수,목',      color:'var(--dv-7)',  group:'repeat',  on:true, ord:1, rule:'격주 월·수·목',    power:'09:00 ON · 18:00 OFF' },
+    { key:'test-a',        name:'테스트',                 color:'var(--dv-5)',  group:'test',    on:true, ord:0, rule:'단일 실행',        power:'수동 트리거' },
+    { key:'test-b',        name:'test',                   color:'var(--dv-10)', group:'test',    on:true, ord:7, rule:'단일 실행',        power:'수동 트리거' }
+  ];
+  var CAL_BY = {}; CALENDARS.forEach(function(c){ CAL_BY[c.key]=c; });
+  function calColor(key){ return (CAL_BY[key] && CAL_BY[key].color) || 'var(--ink-400)'; }
+  function groupName(key){ for(var i=0;i<GROUPS.length;i++){ if(GROUPS[i].key===key) return GROUPS[i].name; } return ''; }
+
+  // ---------- 표시 ON 인 스케줄 집합 ----------
+  var enabled = new Set();
+  CALENDARS.forEach(function(c){ if(c.on) enabled.add(c.key); });
+
+  // ---------- 이벤트 생성 — 반복 규칙을 종일(all-day) 막대로 전개 ----------
+  // 오늘 기준 [-42, +56]일 범위에 규칙대로 일정을 생성한다(월 이동 대비).
+  function buildEvents(){
+    var out = [];
+    function add(cal, ds){ out.push({ id:cal+'@'+ds, title:CAL_BY[cal].name, date:ds, allday:true, cal:cal }); }
+    for(var n=-42; n<=56; n++){
+      var ds = addDays(TODAY, n), dt = parse(ds), dow = dt.getDay();
+      var isWk = dow>=1 && dow<=5;
+      var weekIdx = Math.floor(Math.round((parse(ds)-parse(WK))/86400000)/7);
+      if(isWk) add('weekday-onoff', ds);
+      if(isWk) add('lunch-onoff', ds);
+      if((((n%2)+2)%2)===0) add('every-2d', ds);
+      if((((n%3)+3)%3)===0) add('every-3d', ds);
+      if((((weekIdx%2)+2)%2)===0 && (dow===1||dow===3||dow===4)) add('biweekly-mwt', ds);
+    }
+    [ -1, 9 ].forEach(function(o){ add('test-a', addDays(TODAY,o)); });
+    [ 0, 8, 14 ].forEach(function(o){ add('test-b', addDays(TODAY,o)); });
+    return out;
+  }
+  var EVENTS = buildEvents();
+
+  function eventsOn(s){ return EVENTS.filter(function(e){ return e.date===s && enabled.has(e.cal); }).sort(function(a,b){ return (CAL_BY[a.cal].ord||0)-(CAL_BY[b.cal].ord||0); }); }
+  function hasEventsOn(s){ return EVENTS.some(function(e){ return e.date===s && enabled.has(e.cal); }); }
+  function getEvent(id){ for(var i=0;i<EVENTS.length;i++){ if(EVENTS[i].id===id) return EVENTS[i]; } return null; }
+  function evColor(e){ return calColor(e.cal); }
+
+  // ---------- 상태 ----------
+  function pickDefaultSel(){ var t=eventsOn(TODAY); return (t[0]||EVENTS[0]||{}).id || null; }
+  var state = { view:'month', cursor:TODAY, selectedId: pickDefaultSel() };
+
+  var elBody   = document.getElementById('calBody');
+  var elTitle  = document.getElementById('calTitle');
+  var elSub    = document.getElementById('calSub');
+  var elBadgeM = document.getElementById('calBadgeM');
+  var elBadgeD = document.getElementById('calBadgeD');
+  var elSeg    = document.getElementById('calViewSeg');
+  var elPop    = document.getElementById('calPop');
+  var elVeil   = document.getElementById('calVeil');
+  var elSide   = document.getElementById('calSide');
+  var elSideMini = document.getElementById('sideMini');
+  var elSrcGroups = document.getElementById('calSrcGroups');
+
+  // ---------- 칩 마크업 (월/주/일 공통) ----------
+  function chipHTML(e){
+    var sel = e.id===state.selectedId ? ' sel' : '';
+    if(e.allday){
+      // 중립 표면 + 좌측 컬러 액센트(채우지 않음) — 깔끔한 칩 스타일
+      return '<button class="rfn-cal-ev'+sel+'" data-ev="'+e.id+'" style="--ev:'+evColor(e)+'">'
+           +   '<span class="rfn-cal-ev-name">'+e.title+'</span>'
+           + '</button>';
+    }
+    return '<button class="rfn-cal-ev'+sel+'" data-ev="'+e.id+'" style="--ev:'+evColor(e)+'">'
+         +   '<span class="rfn-cal-ev-time">'+fmtH(e.s)+'</span>'
+         +   '<span class="rfn-cal-ev-name">'+e.title+'</span>'
+         + '</button>';
+  }
+
+  // ---------- 렌더: 월 ----------
+  function renderMonth(){
+    var d = parse(state.cursor), mo=d.getMonth();
+    var start = parse(mondayOf(firstOfMonth(state.cursor)));
+    var html = '<div class="rfn-cal-wkhead">';
+    for(var i=0;i<7;i++){ html += '<div'+(i>=5?' class="we"':'')+'>'+WD_MON[i]+'</div>'; }
+    html += '</div><div class="rfn-cal-month">';
+    for(var c=0;c<42;c++){
+      var dt = new Date(start); dt.setDate(start.getDate()+c);
+      var ds = iso(dt), wd = dt.getDay(), isWe = (wd===0||wd===6);
+      var inMonth = dt.getMonth()===mo, isToday = ds===TODAY;
+      var cls = 'rfn-cal-cell' + (!inMonth ? ' out' : (isWe ? ' we' : ''));
+      var numCls = 'rfn-cal-num' + (isToday ? ' today' : (!inMonth ? ' out' : ''));
+      html += '<div class="'+cls+'"><div class="rfn-cal-cell-top"><span class="'+numCls+'">'+dt.getDate()+'</span></div>';
+      html += '<div class="rfn-cal-cell-evs">';
+      var evs = inMonth ? eventsOn(ds) : [];
+      var max = 3;
+      for(var k=0;k<evs.length && k<max;k++){ html += chipHTML(evs[k]); }
+      if(evs.length>max){ html += '<span class="rfn-cal-more" data-goday="'+ds+'">+'+(evs.length-max)+' 더보기</span>'; }
+      html += '</div></div>';
+    }
+    html += '</div>';
+    elBody.innerHTML = html;
+  }
+
+  // 하루치 막대 목록 (주/일 공통)
+  function barsHTML(ds){
+    var evs = eventsOn(ds), h='';
+    for(var i=0;i<evs.length;i++){ h += chipHTML(evs[i]); }
+    return h;
+  }
+
+  // ---------- 렌더: 주 (7열 종일 막대) ----------
+  function renderWeek(){
+    var mon = mondayOf(state.cursor);
+    var head = '<div class="rfn-cal-dayhead">';
+    var cols = '<div class="rfn-cal-weekcols">';
+    for(var i=0;i<7;i++){
+      var ds = addDays(mon, i), dt = parse(ds), isWe=(i>=5), isToday=ds===TODAY;
+      head += '<div class="rfn-cal-dayhead-cell'+(isWe?' we':'')+'">'
+            +   '<div class="rfn-cal-dayhead-wd'+(isWe?' we':'')+'">'+WD_MON[i]+'</div>'
+            +   '<div class="rfn-cal-dayhead-n'+(isToday?' today':'')+'">'+dt.getDate()+'</div>'
+            + '</div>';
+      cols += '<div class="rfn-cal-weekcol'+(isWe?' we':'')+'">'+barsHTML(ds)+'</div>';
+    }
+    head += '</div>'; cols += '</div>';
+    elBody.innerHTML = head + cols;
+  }
+
+  // ---------- 렌더: 일 (타임라인 + 미니 캘린더 + 상세) ----------
+  function miniHTML(){
+    var d = parse(state.cursor), y=d.getFullYear(), mo=d.getMonth();
+    var start = parse(mondayOf(firstOfMonth(state.cursor)));
+    var h = '<div class="rfn-cal-mini">'
+          + '<div class="rfn-cal-mini-head"><span class="rfn-cal-mini-title">'+y+'년 '+(mo+1)+'월</span>'
+          + '<div class="rfn-cal-mini-nav">'
+          + '<button class="rfn-btn rfn-btn--secondary rfn-btn--sm rfn-btn--icon" data-mini="-1" title="이전 달"><i class="ph ph-caret-left"></i></button>'
+          + '<button class="rfn-btn rfn-btn--secondary rfn-btn--sm rfn-btn--icon" data-mini="1" title="다음 달"><i class="ph ph-caret-right"></i></button>'
+          + '</div></div>'
+          + '<div class="rfn-cal-mini-grid">';
+    for(var i=0;i<7;i++){ h += '<div class="rfn-cal-mini-wd">'+WD_MON[i]+'</div>'; }
+    for(var c=0;c<42;c++){
+      var dt = new Date(start); dt.setDate(start.getDate()+c);
+      var ds = iso(dt), inMonth=dt.getMonth()===mo, isSel=ds===state.cursor, isToday=ds===TODAY;
+      var dot = inMonth && hasEventsOn(ds) && !isSel;
+      var cls = 'rfn-cal-mini-d' + (isSel?' sel':(isToday?' today':(!inMonth?' out':'')));
+      h += '<div class="'+cls+'" data-minid="'+ds+'">'+dt.getDate()+(dot?'<span class="rfn-cal-mini-dot"></span>':'')+'</div>';
+    }
+    return h + '</div></div>';
+  }
+
+  // ---------- 스케줄 상세 (제어 스케줄용) ----------
+  function detailHTML(){
+    var e = getEvent(state.selectedId) || eventsOn(state.cursor)[0] || EVENTS[0];
+    if(!e){ return '<div class="rfn-cal-detail"><div class="rfn-cal-detail-desc">선택된 스케줄이 없습니다.</div></div>'; }
+    var c = CAL_BY[e.cal] || {};
+    var dt = parse(e.date);
+    return '<div class="rfn-cal-detail" style="--ev:'+evColor(e)+'">'
+      + '<div class="rfn-cal-detail-head"><span class="rfn-cal-detail-bar"></span>'
+      +   '<div class="rfn-cal-detail-title">'+e.title+'</div>'
+      +   '<div class="rfn-cal-nav">'
+      +     '<button class="rfn-btn rfn-btn--secondary rfn-btn--sm rfn-btn--icon" title="편집"><i class="ph ph-pencil-simple"></i></button>'
+      +     '<button class="rfn-btn rfn-btn--secondary rfn-btn--sm rfn-btn--icon" title="삭제"><i class="ph ph-trash"></i></button>'
+      +   '</div>'
+      + '</div>'
+      + '<div class="rfn-cal-detail-meta">'
+      +   '<div class="rfn-cal-detail-row"><i class="ph ph-folder-simple"></i>카테고리 · '+groupName(c.group)+'</div>'
+      +   '<div class="rfn-cal-detail-row"><i class="ph ph-repeat"></i>반복 · '+(c.rule||'-')+'</div>'
+      +   '<div class="rfn-cal-detail-row"><i class="ph ph-power"></i>동작 · '+(c.power||'-')+'</div>'
+      +   '<div class="rfn-cal-detail-row"><i class="ph ph-calendar-blank"></i>적용일 · '+(dt.getMonth()+1)+'월 '+dt.getDate()+'일 ('+WD_KR[dt.getDay()]+')</div>'
+      + '</div>'
+      + '<div class="rfn-cal-detail-status"><span class="rfn-cal-detail-statuslabel">상태</span><span class="chip chip--static chip--sm"><span class="rfn-cal-legend-dot" style="--ev:var(--good)"></span>활성</span></div>'
+      + '<button class="rfn-btn rfn-btn--primary" style="width:100%"><i class="ph ph-sliders-horizontal"></i>스케줄 편집</button>'
+      + '</div>';
+  }
+
+  // ---------- 렌더: 일 (해당 일자 스케줄 목록 + 상세) ----------
+  function renderDay(){
+    var ds = state.cursor, dt = parse(ds);
+    var evs = eventsOn(ds), n = evs.length;
+    var list = n ? barsHTML(ds) : '<div class="rfn-cal-empty">이 날짜에 적용되는 스케줄이 없습니다.</div>';
+    var main = '<div class="rfn-cal-day-main">'
+      + '<div class="rfn-cal-daystrip"><span class="rfn-cal-daystrip-l">'+(dt.getMonth()+1)+'월 '+dt.getDate()+'일 · '+WD_KR_FULL[dt.getDay()]+'</span><span class="rfn-cal-daystrip-c">'+n+'개 스케줄</span></div>'
+      + '<div class="rfn-cal-daylist">' + list + '</div>'
+      + '</div>';
+    var side = '<div class="rfn-cal-day-side">' + detailHTML() + '</div>';
+    elBody.innerHTML = '<div class="rfn-cal-day">' + main + side + '</div>';
+  }
+
+  // ---------- 헤더(타이틀/부제/배지) ----------
+  function syncHeader(){
+    var d = parse(state.cursor), y=d.getFullYear(), mo=d.getMonth();
+    elBadgeM.textContent = (mo+1)+'월';
+    elBadgeD.textContent = d.getDate();
+    if(state.view==='month'){
+      elTitle.textContent = y+'년 '+(mo+1)+'월';
+      elSub.textContent = '월간 보기';
+    } else if(state.view==='week'){
+      var mon = parse(mondayOf(state.cursor)), sun = new Date(mon); sun.setDate(mon.getDate()+6);
+      var t = (mon.getMonth()+1)+'월 '+mon.getDate()+'일 – '+(sun.getMonth()+1)+'월 '+sun.getDate()+'일';
+      elTitle.textContent = t;
+      elSub.textContent = mon.getFullYear()+'년 · 주간 보기';
+    } else {
+      elTitle.textContent = y+'년 '+(mo+1)+'월 '+d.getDate()+'일';
+      elSub.textContent = WD_KR_FULL[d.getDay()];
+    }
+    Array.prototype.forEach.call(elSeg.querySelectorAll('[data-view-btn]'), function(b){
+      var on = b.getAttribute('data-view-btn')===state.view;
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-pressed', on?'true':'false');
+    });
+  }
+
+  // ---------- Sub Nav: 미니 캘린더 (메인과 동기화) ----------
+  function renderSideMini(){
+    if(elSideMini) elSideMini.innerHTML = miniHTML();
+  }
+
+  // ---------- Sub Nav: 캘린더 소스 목록 (색상 체크박스) ----------
+  function srcRowHTML(c){
+    var on = enabled.has(c.key);
+    return '<div class="rfn-cal-srcrow'+(on?'':' off')+'" data-cal="'+c.key+'">'
+      +   '<button class="rfn-cal-check" type="button" role="checkbox" aria-checked="'+(on?'true':'false')+'" aria-label="'+c.name+'" style="--ev:'+c.color+'"></button>'
+      +   '<span class="lbl">'+c.name+'</span>'
+      + '</div>';
+  }
+  function renderSidebar(){
+    if(!elSrcGroups) return;
+    var html = '';
+    GROUPS.forEach(function(g){
+      var rows = CALENDARS.filter(function(c){ return c.group===g.key; }).map(srcRowHTML).join('');
+      html += '<div class="rfn-cal-srcgroup">'
+            +   '<div class="rfn-cal-srcgroup-h" data-srctoggle aria-expanded="true"><span class="lbl">'+g.name+'</span><i class="ph ph-caret-up caret"></i></div>'
+            +   '<div class="rfn-cal-srcgroup-body">'+rows+'</div>'
+            + '</div>';
+    });
+    elSrcGroups.innerHTML = html;
+  }
+
+  // ---------- 메인 렌더 ----------
+  function render(){
+    closePopover();
+    syncHeader();
+    if(state.view==='month') renderMonth();
+    else if(state.view==='week') renderWeek();
+    else renderDay();
+    renderSideMini();
+    persist();
+  }
+
+  // ---------- 이벤트 팝오버 ----------
+  function openPopover(id, anchor){
+    var e = getEvent(id); if(!e) return;
+    var c = CAL_BY[e.cal] || {};
+    var dt = parse(e.date);
+    elPop.style.setProperty('--ev', evColor(e));
+    elPop.innerHTML =
+        '<div class="rfn-cal-pop-head"><span class="rfn-cal-pop-bar"></span>'
+      +   '<div style="min-width:0"><div class="rfn-cal-pop-title">'+e.title+'</div><div class="rfn-cal-pop-desc">'+groupName(c.group)+' · '+(c.rule||'')+'</div></div>'
+      + '</div>'
+      + '<div class="rfn-cal-pop-rows">'
+      +   '<div class="rfn-cal-pop-row"><span class="rfn-cal-pop-k"><i class="ph ph-calendar-blank" style="margin-right:6px"></i>적용일</span><span class="rfn-cal-pop-v">'+(dt.getMonth()+1)+'월 '+dt.getDate()+'일 ('+WD_KR[dt.getDay()]+')</span></div>'
+      +   '<div class="rfn-cal-pop-row"><span class="rfn-cal-pop-k">동작</span><span class="rfn-cal-pop-v">'+(c.power||'-')+'</span></div>'
+      +   '<div class="rfn-cal-pop-row"><span class="rfn-cal-pop-k">상태</span><span class="rfn-cal-pop-v"><span class="rfn-cal-legend-dot" style="--ev:var(--good);margin-right:6px"></span>활성</span></div>'
+      + '</div>'
+      + '<div class="rfn-cal-pop-foot">'
+      +   '<button class="rfn-btn rfn-btn--secondary rfn-btn--sm" style="flex:1" data-pop-detail="'+e.id+'"><i class="ph ph-arrow-square-out"></i>상세 보기</button>'
+      +   '<button class="rfn-btn rfn-btn--secondary rfn-btn--sm" style="flex:1"><i class="ph ph-pencil-simple"></i>편집</button>'
+      + '</div>';
+    // 위치 계산 (앵커 기준, 뷰포트 클램프)
+    elPop.classList.add('open');
+    elVeil.classList.add('open');
+    var r = anchor.getBoundingClientRect();
+    var pw = elPop.offsetWidth, ph = elPop.offsetHeight, vw = window.innerWidth, vh = window.innerHeight;
+    var left = r.left + r.width/2 - pw/2;
+    left = Math.max(12, Math.min(left, vw - pw - 12));
+    var top = (r.bottom + ph + 10 > vh) ? (r.top - ph - 8) : (r.bottom + 8);
+    top = Math.max(12, Math.min(top, vh - ph - 12));
+    elPop.style.left = left+'px';
+    elPop.style.top = top+'px';
+    state.selectedId = id;
+    markSelected();
+  }
+  function closePopover(){ elPop.classList.remove('open'); elVeil.classList.remove('open'); }
+  function markSelected(){
+    Array.prototype.forEach.call(elBody.querySelectorAll('[data-ev]'), function(b){
+      b.classList.toggle('sel', b.getAttribute('data-ev')===state.selectedId);
+    });
+  }
+
+  // ---------- 인터랙션 (메인 뷰) ----------
+  elBody.addEventListener('click', function(e){
+    var more = e.target.closest('[data-goday]');
+    if(more){ state.cursor = more.getAttribute('data-goday'); state.view='day'; render(); return; }
+    var ev = e.target.closest('[data-ev]');
+    if(ev){
+      var id = ev.getAttribute('data-ev');
+      if(state.view==='day'){ state.selectedId=id; renderDay(); }
+      else { openPopover(id, ev); }
+    }
+  });
+
+  // ---------- 인터랙션 (Sub Nav 패널) ----------
+  if(elSide) elSide.addEventListener('click', function(e){
+    // 미니 캘린더 월 이동
+    var miniNav = e.target.closest('[data-mini]');
+    if(miniNav){ state.cursor = addMonths(state.cursor, parseInt(miniNav.getAttribute('data-mini'),10)); render(); return; }
+    // 미니 캘린더 날짜 선택 — cursor 만 이동(현재 뷰 유지)
+    var mini = e.target.closest('[data-minid]');
+    if(mini){ state.cursor = mini.getAttribute('data-minid'); render(); return; }
+    // 캘린더 표시 토글
+    var row = e.target.closest('[data-cal]');
+    if(row){
+      var key = row.getAttribute('data-cal');
+      if(enabled.has(key)) enabled.delete(key); else enabled.add(key);
+      var cb = row.querySelector('.rfn-cal-check');
+      var on = enabled.has(key);
+      cb.setAttribute('aria-checked', on?'true':'false');
+      row.classList.toggle('off', !on);
+      render();
+      return;
+    }
+    // 그룹 접기/펼치기
+    var gh = e.target.closest('[data-srctoggle]');
+    if(gh && !e.target.closest('[data-notoggle]')){
+      var body = gh.parentNode.querySelector('.rfn-cal-srcgroup-body');
+      var collapsed = body.classList.toggle('collapsed');
+      gh.setAttribute('aria-expanded', collapsed?'false':'true');
+      return;
+    }
+  });
+
+  elPop.addEventListener('click', function(e){
+    var d = e.target.closest('[data-pop-detail]');
+    if(d){ state.selectedId = d.getAttribute('data-pop-detail'); state.view='day'; render(); }
+  });
+  elVeil.addEventListener('click', closePopover);
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closePopover(); });
+  window.addEventListener('resize', closePopover);
+
+  // 보기 전환 세그먼트
+  elSeg.addEventListener('click', function(e){
+    var b = e.target.closest('[data-view-btn]'); if(!b) return;
+    state.view = b.getAttribute('data-view-btn'); render();
+  });
+  // 날짜 내비
+  document.getElementById('calPrev').addEventListener('click', function(){
+    var step = state.view==='month' ? function(){ state.cursor=addMonths(state.cursor,-1); }
+             : state.view==='week'  ? function(){ state.cursor=addDays(state.cursor,-7); }
+             : function(){ state.cursor=addDays(state.cursor,-1); };
+    step(); render();
+  });
+  document.getElementById('calNext').addEventListener('click', function(){
+    var step = state.view==='month' ? function(){ state.cursor=addMonths(state.cursor,1); }
+             : state.view==='week'  ? function(){ state.cursor=addDays(state.cursor,7); }
+             : function(){ state.cursor=addDays(state.cursor,1); };
+    step(); render();
+  });
+  document.getElementById('calToday').addEventListener('click', function(){ state.cursor=TODAY; render(); });
+  document.getElementById('calAdd').addEventListener('click', function(){ /* 데모: 일정 추가 모달 자리 */ });
+
+  // ---------- 영속화 ----------
+  function persist(){
+    try{ localStorage.setItem(STATE_KEY, JSON.stringify({
+      view:state.view, cursor:state.cursor, selectedId:state.selectedId,
+      enabled: CALENDARS.filter(function(c){return enabled.has(c.key);}).map(function(c){return c.key;})
+    })); }catch(e){}
+  }
+  (function restore(){
+    var fresh = false;
+    try{ fresh = sessionStorage.getItem('refinery-fresh-nav') === '1'; }catch(e){}
+    if(!fresh){
+      var saved = null;
+      try{ saved = JSON.parse(localStorage.getItem(STATE_KEY) || 'null'); }catch(e){}
+      if(saved){
+        if(['month','week','day'].indexOf(saved.view)>=0) state.view = saved.view;
+        if(saved.cursor && /^\d{4}-\d{2}-\d{2}$/.test(saved.cursor)) state.cursor = saved.cursor;
+        if(saved.selectedId && getEvent(saved.selectedId)) state.selectedId = saved.selectedId;
+        if(Array.isArray(saved.enabled)){
+          enabled = new Set(saved.enabled.filter(function(k){ return !!CAL_BY[k]; }));
+        }
+      }
+    }
+  })();
+
+  renderSidebar();
+  render();
+})();
+</script>
+
+<script>
+/* ============================================================
+   Refinery Shell — 통합 크로스파일 내비게이션 · 테마 · 진입 규칙 · Active 소유
+   Dashboard / DesignSystem / Ontology / Pipeline / Tile / Calendar 동일 적용
+   ============================================================ */
+(function(){
+  var THEME_KEY  = 'refinery-theme';
+  var FRESH_KEY  = 'refinery-fresh-nav';
+  var ACTIVE_KEY = 'refinery-nav-active';
+  var body = document.body;
+  var rail = document.querySelector('.rail');
+  var curFile = (location.pathname.split('/').pop() || '').split('?')[0];
+
+  /* 1) 공유 테마 */
+  function persistTheme(){ if(window.self!==window.top) return; try{ localStorage.setItem(THEME_KEY, body.classList.contains('dark') ? 'dark' : 'light'); }catch(e){} }
+  var __t = null; try{ __t = (window.self===window.top) ? localStorage.getItem(THEME_KEY) : 'light'; }catch(e){}
+  var __isDark = (window.self!==window.top) ? false : ((__t === 'dark') ? true : (__t === 'light' ? false : body.classList.contains('dark')));
+  if(typeof window.applyTheme === 'function') window.applyTheme(__isDark);
+  else body.classList.toggle('dark', __isDark);
+  ['themeLight','themeDark'].forEach(function(id){
+    var b = document.getElementById(id);
+    if(b) b.addEventListener('click', function(){ setTimeout(persistTheme, 0); });
+  });
+  persistTheme();
+
+  /* Active 소유 모델 */
+  function sectionOf(el){
+    if(el.hasAttribute('data-fav-ref')) return 'fav';
+    if(el.closest('#appGroupItems'))    return 'app';
+    return 'standalone';
+  }
+  function standaloneSelf(){
+    return [].slice.call(document.querySelectorAll('.rail .ic[data-nav="' + curFile + '"]'))
+      .filter(function(n){ return !n.closest('#appGroupItems') && !n.hasAttribute('data-fav-ref'); })[0] || null;
+  }
+  function resolveActiveEl(){
+    var raw = null;
+    try{ raw = JSON.parse(localStorage.getItem(ACTIVE_KEY) || 'null'); }catch(e){ raw = null; }
+    var src, key;
+    if(raw && raw.file === curFile){ src = raw.src; key = raw.key; }
+    else {
+      var appSelf = document.querySelector('#appGroupItems .ic[data-nav="' + curFile + '"]');
+      if(appSelf){ src = 'app'; key = appSelf.dataset.key; }
+      else { src = 'standalone'; var st = standaloneSelf(); key = st ? (st.dataset.key || st.dataset.nav) : curFile; }
+    }
+    var el = null;
+    if(src === 'fav'){ el = document.querySelector('#favGroupItems .ic[data-key="' + key + '"]'); if(!el) src = 'app'; }
+    if(src === 'app'){ el = document.querySelector('#appGroupItems .ic[data-key="' + key + '"]'); if(!el) src = 'standalone'; }
+    if(src === 'standalone'){ el = standaloneSelf() || document.querySelector('#appGroupItems .ic[data-nav="' + curFile + '"]'); }
+    return el;
+  }
+  function applyActive(){
+    var el = resolveActiveEl();
+    document.querySelectorAll('.rail .ic.active').forEach(function(i){ i.classList.remove('active'); });
+    if(el) el.classList.add('active');
+  }
+
+  /* 2) 크로스파일 내비 */
+  function go(target){
+    try{ sessionStorage.setItem(FRESH_KEY, '1'); }catch(e){}
+    window.location.href = target;
+  }
+  (rail || document).addEventListener('click', function(e){
+    if(e.target.closest('.fav-btn')) return;
+    var el = e.target.closest('.ic[data-nav]');
+    if(!el) return;
+    var target = el.getAttribute('data-nav');
+    var src = sectionOf(el);
+    var key = el.dataset.key || el.dataset.nav;
+    try{ localStorage.setItem(ACTIVE_KEY, JSON.stringify({ file: el.dataset.nav, key: key, src: src })); }catch(e){}
+    if(target && target !== curFile){ e.preventDefault(); go(target); }
+    else { setTimeout(applyActive, 0); }
+  }, true);
+
+  /* 3) 진입 규칙 */
+  var fresh = false;
+  try{ fresh = sessionStorage.getItem(FRESH_KEY) === '1'; if(fresh) sessionStorage.removeItem(FRESH_KEY); }catch(e){}
+  if(fresh){
+    var view = body.getAttribute('data-view');
+    var firstItem = document.querySelector(
+      '[data-side-view="' + view + '"] [data-onto-page], [data-side-view="' + view + '"] [data-ds-page], [data-side-view="' + view + '"] [data-tile-page]'
+    );
+    if(firstItem) firstItem.click();
+    var pageEl = document.querySelector('.page');
+    if(pageEl) pageEl.scrollTo({ top:0, left:0, behavior:'auto' });
+  }
+
+  /* 4) Active 최종 적용 */
+  applyActive();
+  var favBox = document.getElementById('favGroupItems');
+  if(favBox && window.MutationObserver){
+    new MutationObserver(function(){ applyActive(); }).observe(favBox, { childList:true });
+  }
+})();
+</script>
+
+<script>
+/* Account avatar — 계정명 첫 영문자를 이니셜로 표시 */
+(function(){
+  function pickInitial(){
+    var nameEl = document.querySelector('.rail .bot-name')
+              || document.querySelector('.user-pop-head .info .name');
+    var s = (nameEl && nameEl.textContent) || '';
+    if(!/[A-Za-z]/.test(s)){
+      var em = document.querySelector('.rail .bot-email') || document.querySelector('.user-pop-head .info .email');
+      s = (em && em.textContent) || '';
+    }
+    var m = s.match(/[A-Za-z]/);
+    return m ? m[0].toUpperCase() : 'U';
+  }
+  var ch = pickInitial();
+  document.querySelectorAll('.avatar').forEach(function(a){
+    var ini = a.querySelector('.avatar-initial');
+    if(ini) ini.textContent = ch;
+    var img = a.querySelector('img');
+    a.classList.toggle('has-img', !!(img && img.getAttribute('src')));
+  });
+})();
+</script>
+<script>
+(function() {
+  if (location.search.indexOf('embed=1') === -1) return;
+  function collapseNow() {
+    var app = document.querySelector('.app');
+    var rail = document.querySelector('.rail');
+    var side = document.querySelector('.side');
+    if (app) { app.style.transition = 'none'; app.classList.add('rail-col'); app.classList.add('side-col'); }
+    if (rail) { rail.style.transition = 'none'; rail.classList.add('collapsed'); }
+    if (side) { side.style.transition = 'none'; side.classList.add('collapsed'); }
+    void document.documentElement.offsetWidth;
+    document.documentElement.style.visibility = '';
+  }
+  collapseNow();
+  document.addEventListener('DOMContentLoaded', collapseNow);
+  window.addEventListener('load', collapseNow);
+  setTimeout(collapseNow, 50);
+  setTimeout(collapseNow, 300);
+})();
+</script>
+</body>
+</html>

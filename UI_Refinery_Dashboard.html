@@ -1,0 +1,3175 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script>
+if (location.search.indexOf('embed=1') !== -1) {
+  document.documentElement.style.visibility = 'hidden';
+}
+</script>
+
+<meta charset="UTF-8">
+<title>Refinery — Power Monitoring</title>
+<!-- ============================================================
+     Favicon · 단일 정적 심볼 (라이트/다크/시크릿 모드 무관 · 동일 적용)
+     ============================================================ -->
+<link rel="icon" type="image/svg+xml" href="fav_refienry-symbol.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<!-- ============================================================
+     ICON SYSTEM — Phosphor Icons (Regular weight)
+     모든 아이콘은 Phosphor Regular 가중치로 통일합니다.
+     사용법: <i class="ph ph-icon-name"></i>
+     아이콘 검색: https://phosphoricons.com
+     크기 조정: font-size로 (기본 컨텍스트별 규칙은 하단 CSS 참조)
+     색상 조정: color 속성 (자동으로 currentColor 상속)
+     향후 추가되는 모든 아이콘도 반드시 이 방식을 따를 것.
+     ============================================================ -->
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<!-- 즐겨찾기 노란 채움별 등 fill 가중치 글리프용 (예외적 사용) -->
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<link rel="stylesheet" href="refinery.css">
+</head>
+<body data-view="dashboard" data-dash-page="power" data-ds-page="symbol">
+<script>try{if(window.self===window.top && localStorage.getItem("refinery-theme")==="dark")document.body.classList.add("dark");}catch(e){}</script>
+
+<div class="app">
+
+  <!-- ============ Global Nav ============ -->
+  <aside class="rail">
+    <button class="rail-expand-btn" id="railExpand" title="내비게이션 펼치기"><i class="ph ph-caret-right"></i></button>
+    <div class="logo-dot">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 32 32">
+        <g transform="translate(-8 -14)">
+          <g transform="translate(10.289 16.289)">
+            <g transform="translate(1.318 1.318)">
+              <path fill="#16202C" d="M55.606,40H42.754A2.754,2.754,0,0,0,40,42.754V55.606a2.754,2.754,0,0,0,2.754,2.754h2.3a1.377,1.377,0,0,1-1.377-1.377V45.049a1.377,1.377,0,0,1,1.377-1.377H56.983a1.377,1.377,0,0,1,1.377,1.377v-2.3A2.754,2.754,0,0,0,55.606,40Z" transform="translate(-40 -40)"/>
+              <path fill="#16202C" d="M195.606,180h-2.3a1.377,1.377,0,0,1,1.377,1.377v11.934a1.377,1.377,0,0,1-1.377,1.377H181.377A1.377,1.377,0,0,1,180,193.311v2.3a2.754,2.754,0,0,0,2.754,2.754h12.852a2.754,2.754,0,0,0,2.754-2.754V182.754A2.754,2.754,0,0,0,195.606,180Z" transform="translate(-173.574 -173.574)"/>
+            </g>
+          </g>
+        </g>
+      </svg>
+      <span class="logo-name">Refinery</span>
+      <button class="rail-collapse-btn" id="railCollapse" title="내비게이션 접기">
+        <i class="ph ph-sidebar-simple"></i>
+      </button>
+    </div>
+
+    <div class="rail-scroll">
+      <!-- ============ 영역 1 : 개인/콘텐츠 ============ -->
+      <div class="ic" title="홈">
+        <i class="ph ph-house"></i>
+        <span class="lbl">홈</span>
+      </div>
+      <div class="ic" title="검색">
+        <i class="ph ph-magnifying-glass"></i>
+        <span class="lbl">검색</span>
+      </div>
+      <div class="ic" title="알림">
+        <i class="ph ph-bell"></i>
+        <span class="lbl">알림</span>
+        <span class="rail-badge rail-badge-count">13</span>
+      </div>
+      <div class="ic" title="최근">
+        <i class="ph ph-clock-counter-clockwise"></i>
+        <span class="lbl">최근</span>
+      </div>
+      <div class="ic" title="즐겨찾기">
+        <i class="ph ph-star"></i>
+        <span class="lbl">즐겨찾기</span>
+      </div>
+      <div class="ic" title="파일">
+        <i class="ph ph-file"></i>
+        <span class="lbl">파일</span>
+      </div>
+      <div class="ic" title="데이터셋">
+        <i class="ph ph-database"></i>
+        <span class="lbl">데이터셋</span>
+      </div>
+
+      <div class="sep"></div>
+
+      <!-- ============ FAVORITES (즐겨찾기) — 즐겨찾기가 있을 때만 노출 ============ -->
+      <div class="fav-section" id="favSection">
+        <button class="rail-group-title" id="favGroupToggle" type="button" aria-expanded="true" aria-controls="favGroupItems">
+          <span class="lbl">Favorites</span>
+          <i class="ph ph-caret-down caret"></i>
+        </button>
+        <div class="rail-group-items" id="favGroupItems"></div>
+        <div class="sep"></div>
+      </div>
+
+      <!-- ============ 영역 2 : Application ============ -->
+      <button class="rail-group-title" id="appGroupToggle" type="button" aria-expanded="true" aria-controls="appGroupItems">
+        <span class="lbl">Application</span>
+        <i class="ph ph-caret-down caret"></i>
+      </button>
+      <div class="rail-group-items" id="appGroupItems">
+        <div class="ic active" title="대시보드" data-key="dashboard" data-view="dashboard" data-nav="UI_Refinery_Dashboard.html">
+          <i class="ph ph-squares-four"></i>
+          <span class="lbl">대시보드</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="AI 어시스턴트" data-key="llm">
+          <i class="ph ph-sparkle"></i>
+          <span class="lbl">AI 어시스턴트</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="공장/도면" data-key="factory">
+          <i class="ph ph-factory"></i>
+          <span class="lbl">공장/도면</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="플레이트" data-key="plate" data-view="plate" data-nav="UI_Refinery_Plate.html">
+          <i class="ph ph-presentation"></i>
+          <span class="lbl">플레이트</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="타일" data-key="tile" data-view="tile" data-nav="UI_Refinery_Tile.html">
+          <i class="ph ph-grid-four"></i>
+          <span class="lbl">타일</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="분석" data-key="analytics">
+          <i class="ph ph-chart-bar"></i>
+          <span class="lbl">분석</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="에너지" data-key="energy">
+          <i class="ph ph-lightning"></i>
+          <span class="lbl">에너지</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="노트북" data-key="notebook">
+          <i class="ph ph-notebook"></i>
+          <span class="lbl">노트북</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="시트" data-key="sheet">
+          <i class="ph ph-table"></i>
+          <span class="lbl">시트</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="파이프라인" data-key="pipeline" data-view="pipeline" data-nav="UI_Refinery_Pipeline.html">
+          <i class="ph ph-flow-arrow"></i>
+          <span class="lbl">파이프라인</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="온톨로지" data-key="ontology" data-nav="UI_Refinery_Ontology.html">
+          <i class="ph ph-tree-structure"></i>
+          <span class="lbl">온톨로지</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="캘린더" data-key="calendar" data-view="calendar" data-nav="UI_Refinery_Calendar.html">
+          <i class="ph ph-calendar-blank"></i>
+          <span class="lbl">캘린더</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="코드 리포지토리" data-key="code-repo">
+          <i class="ph ph-brackets-angle"></i>
+          <span class="lbl">코드 리포지토리</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="오브젝트 탐색기" data-key="object-explorer">
+          <i class="ph ph-stack"></i>
+          <span class="lbl">오브젝트</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="데이터 흐름" data-key="data-flow">
+          <i class="ph ph-pulse"></i>
+          <span class="lbl">데이터흐름</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="데이터 품질" data-key="data-quality">
+          <i class="ph ph-check-square"></i>
+          <span class="lbl">데이터품질</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="탐색기" data-key="explorer">
+          <i class="ph ph-compass"></i>
+          <span class="lbl">탐색기</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="에너지 고지서" data-key="energy-bill">
+          <i class="ph ph-receipt"></i>
+          <span class="lbl">에너지 고지서</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+      </div>
+
+      <div class="sep"></div>
+
+      <!-- ============ 영역 3 : 시스템 ============ -->
+      <div class="ic" title="설정">
+        <i class="ph ph-gear"></i>
+        <span class="lbl">설정</span>
+      </div>
+      <div class="ic" title="조직관리">
+        <i class="ph ph-users-three"></i>
+        <span class="lbl">조직관리</span>
+      </div>
+      <div class="ic" title="도움말">
+        <i class="ph ph-question"></i>
+        <span class="lbl">도움말</span>
+      </div>
+      <div class="ic" title="Design System" data-nav="UI_Refinery_DesignSystem.html">
+        <i class="ph ph-palette"></i>
+        <span class="lbl">Design System</span>
+      </div>
+    </div>
+
+    <div class="bot">
+      <div class="bot-user-wrap">
+      <div class="bot-user" id="userBtn" role="button" tabindex="0" aria-haspopup="menu" aria-expanded="false" aria-controls="userPopover">
+        <div class="avatar"><span class="avatar-initial"></span></div>
+        <div class="bot-info">
+          <div class="bot-name">Hyeyoung Han</div>
+          <div class="bot-email">hyhan@vetec.co.kr</div>
+        </div>
+        <i class="ph ph-caret-up caret"></i>
+      </div>
+
+      <div class="user-popover" id="userPopover" role="menu" aria-hidden="true">
+        <div class="user-pop-head">
+          <div class="avatar"><span class="avatar-initial"></span></div>
+          <div class="info">
+            <div class="name">Hyeyoung Han</div>
+            <div class="email">hyhan@vetec.co.kr</div>
+          </div>
+        </div>
+
+        <div class="user-pop-list">
+          <button class="user-pop-item" role="menuitem" data-action="user-settings">
+            <i class="ph ph-user-gear"></i>
+            <span class="lbl">사용자 설정</span>
+          </button>
+          <button class="user-pop-item" role="menuitem" data-action="notif-settings">
+            <i class="ph ph-bell-ringing"></i>
+            <span class="lbl">알림 설정</span>
+          </button>
+          <button class="user-pop-item" role="menuitem" data-action="notif-list">
+            <i class="ph ph-bell"></i>
+            <span class="lbl">알림 목록</span>
+            <span class="badge">3</span>
+          </button>
+        </div>
+
+        <div class="user-pop-sep"></div>
+
+        <div class="user-pop-theme" role="group" aria-label="화면 모드">
+          <div class="user-pop-theme-label">
+            <i class="ph ph-circle-half"></i>
+            <span class="lbl">화면 모드</span>
+          </div>
+          <div class="seg theme-seg">
+            <button class="on" id="themeLight" type="button" title="Light 모드로 전환">
+              <i class="ph ph-sun"></i>Light
+            </button>
+            <button id="themeDark" type="button" title="Dark 모드로 전환">
+              <i class="ph ph-moon"></i>Dark
+            </button>
+          </div>
+        </div>
+
+        <div class="user-pop-sep"></div>
+
+        <div class="user-pop-list">
+          <button class="user-pop-item" role="menuitem" data-action="logout">
+            <i class="ph ph-sign-out"></i>
+            <span class="lbl">로그아웃</span>
+          </button>
+        </div>
+      </div>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ============ Sub Nav ============ -->
+  <aside class="side">
+    <button class="side-expand-btn" id="sideToggle" title="메뉴 펼치기"><i class="ph ph-caret-right"></i></button>
+    <div class="search">
+      <i class="ph ph-magnifying-glass"></i>
+      <input id="sideSearchInput" placeholder="대시보드 검색..." style="font-family:var(--font-kr)">
+      <kbd>/</kbd>
+    </div>
+
+    <div class="nav">
+      <!-- ======== Sub Nav: Dashboard View ======== -->
+      <div data-side-view="dashboard">
+        <div class="group" style="margin-top:4px">
+          <div class="title" style="font-size:var(--fs-label)">Utility · Energy</div>
+          <div class="item child active" data-dash-page="power">전력 모니터링</div>
+          <div class="item child" data-dash-page="cloud-platform">빌딩 에너지 모니터링</div>
+        </div>
+
+        <div class="group">
+          <div class="title" style="font-size:var(--fs-label)">ESG · Management</div>
+          <div class="item child" data-dash-page="utility-overview">유틸리티 종합</div>
+        </div>
+      </div>
+
+      <!-- ======== Sub Nav: Design System View ======== -->
+      <div data-side-view="design-system">
+        <div class="group" style="margin-top:4px">
+          <div class="title" style="font-size:var(--fs-label)">FOUNDATION</div>
+          <div class="item child active" data-ds-page="symbol">Symbol</div>
+          <div class="item child" data-ds-page="layout">Layout</div>
+          <div class="item child" data-ds-page="colors">Colors</div>
+          <div class="item child" data-ds-page="typography">Typography</div>
+          <div class="item child" data-ds-page="icons">Icons</div>
+          <div class="item child" data-ds-page="grid">Grid</div>
+        </div>
+        <div class="group">
+          <div class="title" style="font-size:var(--fs-label)">COMPONENT</div>
+          <div class="item child" data-ds-page="button">Button</div>
+          <div class="item child" data-ds-page="widget">Widget</div>
+          <div class="item child" data-ds-page="table">Table</div>
+          <div class="item child" data-ds-page="popover">Popover</div>
+          <div class="item child" data-ds-page="modal">Modal</div>
+          <div class="item child" data-ds-page="search">Search / Input</div>
+          <div class="item child" data-ds-page="tab">Tab</div>
+          <div class="item child" data-ds-page="toast">Toast</div>
+          <div class="item child" data-ds-page="tooltip">Tooltip</div>
+          <div class="item child" data-ds-page="carousel">Carousel</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-close-bar">
+      <button id="sideCollapse" class="side-collapse-inner">
+        <i class="ph ph-caret-left"></i>
+        <span>메뉴 접기</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ============ main ============ -->
+  <section class="main">
+
+    <header class="topbar">
+      <button class="side-collapse-btn" id="sideToggleTopbar" title="서브 메뉴 접기 / 펼치기">
+        <i class="ph ph-caret-left"></i>
+      </button>
+      <div class="crumbs" data-crumbs-view="dashboard">
+        <i class="ph ph-squares-four"></i>
+        <span>대시보드</span>
+        <i class="ph ph-caret-right"></i>
+        <span class="here" data-dash-crumb="power">전력 모니터링</span>
+        <span class="here" data-dash-crumb="cloud-platform">빌딩 에너지 모니터링</span>
+        <span class="here" data-dash-crumb="utility-overview">유틸리티 종합</span>
+      </div>
+      <div class="crumbs" data-crumbs-view="design-system">
+        <i class="ph ph-palette"></i>
+        <span>Design System</span>
+        <i class="ph ph-caret-right"></i>
+        <span class="here" data-ds-crumb="symbol">Symbol</span>
+        <span class="here" data-ds-crumb="layout">Layout</span>
+        <span class="here" data-ds-crumb="colors">Colors</span>
+        <span class="here" data-ds-crumb="typography">Typography</span>
+        <span class="here" data-ds-crumb="icons">Icons</span>
+        <span class="here" data-ds-crumb="grid">Grid</span>
+        <span class="here" data-ds-crumb="button">Button</span>
+        <span class="here" data-ds-crumb="widget">Widget</span>
+        <span class="here" data-ds-crumb="table">Table</span>
+        <span class="here" data-ds-crumb="popover">Popover</span>
+        <span class="here" data-ds-crumb="modal">Modal</span>
+        <span class="here" data-ds-crumb="search">Search / Input</span>
+        <span class="here" data-ds-crumb="tab">Tab</span>
+        <span class="here" data-ds-crumb="toast">Toast</span>
+        <span class="here" data-ds-crumb="tooltip">Tooltip</span>
+        <span class="here" data-ds-crumb="carousel">Carousel</span>
+      </div>
+      <div class="actions">
+        <div class="density-wrap">
+          <div class="icon-btn" id="densityBtn" title="화면 밀도">
+            <i class="ph ph-text-aa"></i>
+          </div>
+          <div class="density-popover" id="densityPopover" role="menu" aria-hidden="true">
+            <div class="density-pop-head">
+              <div class="density-pop-title">화면 밀도</div>
+              <div class="density-pop-sub">정보 밀도와 가독성을 조정합니다</div>
+            </div>
+            <div class="density-pop-list">
+              <button class="density-opt" data-density="compact" role="menuitemradio">
+                <span class="density-opt-icn"><i class="ph ph-text-aa"></i></span>
+                <span class="density-opt-text">
+                  <span class="density-opt-label">Compact</span>
+                  <span class="density-opt-desc">데이터 밀집 표시</span>
+                </span>
+                <span class="density-opt-check"><i class="ph ph-check"></i></span>
+              </button>
+              <button class="density-opt on" data-density="default" role="menuitemradio" aria-checked="true">
+                <span class="density-opt-icn"><i class="ph ph-text-aa"></i></span>
+                <span class="density-opt-text">
+                  <span class="density-opt-label">Default</span>
+                  <span class="density-opt-desc">기본 보기</span>
+                </span>
+                <span class="density-opt-check"><i class="ph ph-check"></i></span>
+              </button>
+              <button class="density-opt" data-density="comfortable" role="menuitemradio">
+                <span class="density-opt-icn"><i class="ph ph-text-aa"></i></span>
+                <span class="density-opt-text">
+                  <span class="density-opt-label">Comfortable</span>
+                  <span class="density-opt-desc">가독성 우선</span>
+                </span>
+                <span class="density-opt-check"><i class="ph ph-check"></i></span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="icon-btn" id="fullscreenBtn" title="전체화면">
+          <i class="ph ph-corners-out ic-expand"></i>
+          <i class="ph ph-corners-in ic-compress"></i>
+        </div>
+        <div class="search-wrap">
+          <div class="icon-btn" id="searchBtn" title="검색"><i class="ph ph-magnifying-glass"></i></div>
+          <div class="search-popover" id="searchPopover" aria-hidden="true">
+            <div class="search">
+              <i class="ph ph-magnifying-glass"></i>
+              <input id="topbarSearchInput" placeholder="통합 검색..." style="font-family:var(--font-kr)">
+              <kbd>ESC</kbd>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="page">
+
+    <!-- ============================================================
+         PAGE VIEW : Dashboard (default)
+         ============================================================ -->
+    <div data-page-view="dashboard">
+    <!-- ===== Dashboard Sub-page : 전력 모니터링 ===== -->
+    <div data-dash-content="power">
+
+      <!-- page head -->
+      <div class="page-head">
+        <h1>전력 모니터링</h1>
+        <div class="page-head-meta">
+          <div class="env"><span class="dot"></span><span>LIVE · 1s</span></div>
+          <div class="last-sync"><span>Last sync</span><span class="mono num">2026-05-12 14:38:02 KST</span></div>
+          <div class="icon-btn" title="새로고침"><i class="ph ph-arrow-clockwise"></i></div>
+        </div>
+        <div class="spacer"></div>
+        <button class="rfn-btn rfn-btn--primary">
+          <i class="ph ph-plus"></i>Add Widget
+        </button>
+
+      </div>
+
+      <!-- toolbar -->
+      <div class="toolbar">
+        <div class="seg">
+          <button>1H</button>
+          <button>24H</button>
+          <button class="on">7D</button>
+          <button>30D</button>
+          <button>YTD</button>
+          <button>Custom</button>
+        </div>
+        <div class="chip">
+          <i class="ph ph-calendar"></i>
+          <span>2026-05-06</span><i class="ph ph-caret-right" style="font-size:12px"></i><span>2026-05-12</span>
+        </div>
+        <div class="chip">
+          <i class="ph ph-funnel-simple"></i>
+          <span>All Plants</span>
+          <i class="ph ph-caret-down"></i>
+        </div>
+        <div class="chip">
+          <i class="ph ph-lightning"></i>
+          <span>Electricity</span>
+        </div>
+
+      </div>
+
+      <!-- KPI row -->
+      <div class="grid" style="margin-bottom:14px">
+        <!-- KPI 1 -->
+        <div class="kpi" style="grid-column:span 4">
+          <div class="row1">
+            <span class="label">Total Power Demand</span>
+            <span class="badge">REALTIME</span>
+          </div>
+          <div class="v">
+            <span class="big num">4,827</span>
+            <span class="unit">kW</span>
+          </div>
+          <div class="foot">
+            <span class="delta down"><i class="ph ph-caret-down"></i>3.2%</span>
+            <span class="vs">vs last week</span>
+          </div>
+          <svg class="spark" viewBox="0 0 120 36" preserveAspectRatio="none">
+            <defs><linearGradient id="sp1" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#76A6D7" stop-opacity=".35"/><stop offset="1" stop-color="#76A6D7" stop-opacity="0"/></linearGradient></defs>
+            <path d="M0 24 L10 20 L20 22 L30 14 L40 18 L50 10 L60 14 L70 8 L80 16 L90 12 L100 18 L110 14 L120 20 L120 36 L0 36 Z" fill="url(#sp1)"/>
+            <path d="M0 24 L10 20 L20 22 L30 14 L40 18 L50 10 L60 14 L70 8 L80 16 L90 12 L100 18 L110 14 L120 20" fill="none" stroke="#76A6D7" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <!-- KPI 2 -->
+        <div class="kpi" style="grid-column:span 4">
+          <div class="row1">
+            <span class="label">Today's Consumption</span>
+            <span class="badge">vs YDA</span>
+          </div>
+          <div class="v">
+            <span class="big num">83.42</span>
+            <span class="unit">MWh</span>
+          </div>
+          <div class="foot">
+            <span class="delta up"><i class="ph ph-caret-up"></i>5.1%</span>
+            <span class="vs">vs yesterday 79.4</span>
+          </div>
+          <svg class="spark" viewBox="0 0 120 36" preserveAspectRatio="none">
+            <g fill="#3FB255" opacity=".9">
+              <rect x="2" y="20" width="6" height="16" rx="1"/>
+              <rect x="12" y="14" width="6" height="22" rx="1"/>
+              <rect x="22" y="22" width="6" height="14" rx="1"/>
+              <rect x="32" y="10" width="6" height="26" rx="1"/>
+              <rect x="42" y="18" width="6" height="18" rx="1"/>
+              <rect x="52" y="6" width="6" height="30" rx="1"/>
+              <rect x="62" y="12" width="6" height="24" rx="1"/>
+              <rect x="72" y="20" width="6" height="16" rx="1"/>
+              <rect x="82" y="8" width="6" height="28" rx="1"/>
+              <rect x="92" y="14" width="6" height="22" rx="1"/>
+              <rect x="102" y="4" width="6" height="32" rx="1" fill="#76A6D7"/>
+              <rect x="112" y="10" width="6" height="26" rx="1"/>
+            </g>
+          </svg>
+        </div>
+        <!-- KPI 3 -->
+        <div class="kpi" style="grid-column:span 4">
+          <div class="row1">
+            <span class="label">Peak Demand Today</span>
+            <span class="badge">14:00</span>
+          </div>
+          <div class="v">
+            <span class="big num">5,213</span>
+            <span class="unit">kW</span>
+          </div>
+          <div class="foot">
+            <span class="delta flat">0.4%</span>
+            <span class="vs">contract 6,000 · 86.9%</span>
+          </div>
+          <svg class="spark" viewBox="0 0 120 36" preserveAspectRatio="none">
+            <path d="M0 26 C20 26 30 18 50 16 S 80 4 90 6 S 110 26 120 24" fill="none" stroke="#F0A93A" stroke-width="1.8" stroke-linecap="round"/>
+            <circle cx="90" cy="6" r="3" fill="#F0A93A"/>
+            <circle cx="90" cy="6" r="6" fill="#F0A93A" opacity=".2"/>
+          </svg>
+        </div>
+        <!-- KPI 4 -->
+        <div class="kpi" style="grid-column:span 4">
+          <div class="row1">
+            <span class="label">Power Factor</span>
+            <span class="badge">avg 1h</span>
+          </div>
+          <div class="v">
+            <span class="big num">0.962</span>
+            <span class="unit">cosφ</span>
+          </div>
+          <div class="foot">
+            <span class="delta up"><i class="ph ph-caret-up"></i>0.8%</span>
+            <span class="vs">target ≥ 0.95</span>
+          </div>
+          <svg class="spark" viewBox="0 0 120 36" preserveAspectRatio="none">
+            <defs><linearGradient id="sp4" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#3F76AE" stop-opacity=".30"/><stop offset="1" stop-color="#3F76AE" stop-opacity="0"/></linearGradient></defs>
+            <path d="M0 28 L15 22 L30 26 L45 14 L60 18 L75 8 L90 12 L105 6 L120 10 L120 36 L0 36 Z" fill="url(#sp4)"/>
+            <path d="M0 28 L15 22 L30 26 L45 14 L60 18 L75 8 L90 12 L105 6 L120 10" fill="none" stroke="#3F76AE" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Row 2: Bar chart + Heatmap -->
+      <div class="grid" style="margin-bottom:14px">
+        <!-- Bar chart card -->
+        <div class="card" style="grid-column:span 11">
+          <div class="card-head">
+            <h3>Hourly Consumption Breakdown <span class="tag brand">kWh</span></h3>
+            <div class="sub">Stacked by load category · last 24 hours</div>
+            <div class="right">
+              <div class="legend">
+                <span class="it"><span class="sw" style="background:var(--brand-700)"></span>Process</span>
+                <span class="it"><span class="sw" style="background:var(--brand)"></span>HVAC</span>
+                <span class="it"><span class="sw" style="background:var(--dv-blue-200)"></span>Utility</span>
+                <span class="it"><span class="sw" style="background:#E3E7EC"></span>Lighting</span>
+              </div>
+              <i class="ph ph-dots-three" title="더보기"></i>
+            </div>
+          </div>
+          <div class="card-body" style="padding:14px 16px 12px">
+            <div style="display:flex;gap:8px;flex:1;min-height:150px">
+              <div style="display:flex;flex-direction:column;justify-content:space-between;text-align:right;font-family:var(--font-mono);font-size:var(--fs-label);color:var(--ink-500);width:40px;flex:none;padding:1px 0">
+                <span>6,000</span><span>4,500</span><span>3,000</span><span>1,500</span><span>0</span>
+              </div>
+              <div class="cf-plot" data-cf="pwr-hourly" style="flex:1;min-width:0;position:relative;cursor:crosshair">
+                <div class="cf-tip"></div>
+              </div>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:var(--fs-label);color:var(--ink-500);margin-top:6px;padding-left:48px">
+              <span>00</span><span>04</span><span>08</span><span>12</span><span>16</span><span>20</span><span>24</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Heatmap card -->
+        <div class="card" style="grid-column:span 5">
+          <div class="card-head">
+            <h3>Energy Heat Map <span class="tag neutral">7D × 24H</span></h3>
+            <div class="right">
+              <i class="ph ph-dots-three" title="더보기"></i>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="legend" style="margin-bottom:10px">
+              <span class="it"><span class="sw" style="background:#EEF4FB"></span>Low</span>
+              <span class="it"><span class="sw" style="background:var(--dv-blue-200)"></span></span>
+              <span class="it"><span class="sw" style="background:var(--brand)"></span></span>
+              <span class="it"><span class="sw" style="background:var(--brand-700)"></span></span>
+              <span class="it"><span class="sw" style="background:var(--dv-blue-800)"></span>High</span>
+              <span style="margin-left:auto;font-family:var(--font-mono);font-size:var(--fs-label);color:var(--ink-500)">kW</span>
+            </div>
+            <div id="heatmap" class="heat" style="flex:1"></div>
+            <div class="stat-row">
+              <div class="stat-box">
+                <div class="lab">Peak Usage Day</div>
+                <div class="val">Wed <span class="u">May 08</span></div>
+              </div>
+              <div class="stat-box">
+                <div class="lab">Peak Usage Time</div>
+                <div class="val">14:00 <span class="u">– 16:00</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 3: Line, Sankey, Pie -->
+      <div class="grid" style="margin-bottom:14px">
+
+        <!-- Line chart card -->
+        <div class="card" style="grid-column:span 7">
+          <div class="card-head">
+            <h3>Real-time Voltage &amp; Current <span class="tag brand">3-phase</span></h3>
+            <div class="right">
+              <div class="legend">
+                <span class="it"><span class="sw" style="background:var(--brand-700)"></span>R</span>
+                <span class="it"><span class="sw" style="background:var(--brand)"></span>S</span>
+                <span class="it"><span class="sw" style="background:var(--dv-blue-200)"></span>T</span>
+              </div>
+              <i class="ph ph-dots-three" title="더보기"></i>
+            </div>
+          </div>
+          <div class="card-body">
+            <div style="display:flex;gap:8px;flex:1;min-height:150px">
+              <div style="display:flex;flex-direction:column;justify-content:space-between;text-align:right;font-family:var(--font-mono);font-size:var(--fs-label);color:var(--ink-500);width:30px;flex:none;padding:1px 0">
+                <span>400</span><span>395</span><span>390</span><span>385</span><span>380</span><span>375</span><span>370</span>
+              </div>
+              <div class="cf-plot" data-cf="pwr-voltage" style="flex:1;min-width:0;position:relative;cursor:crosshair">
+                <div class="cf-tip"></div>
+              </div>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:var(--fs-label);color:var(--ink-500);margin-top:6px;padding-left:38px">
+              <span>14:30</span><span>14:32</span><span>14:34</span><span>14:36</span><span>14:38</span><span>14:40</span>
+            </div>
+
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px">
+              <div class="stat-box"><div class="lab">V<sub>RST</sub></div><div class="val"><span class="num" data-pwr-stat="vrst">388.5</span> <span class="u">V</span></div></div>
+              <div class="stat-box"><div class="lab">I<sub>avg</sub></div><div class="val"><span class="num" data-pwr-stat="iavg">405.0</span> <span class="u">A</span></div></div>
+              <div class="stat-box"><div class="lab">THD</div><div class="val"><span class="num" data-pwr-stat="thd">2.34</span> <span class="u">%</span></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sankey card -->
+        <div class="card" style="grid-column:span 5">
+          <div class="card-head">
+            <h3>Energy Flow <span class="tag brand">Sankey</span></h3>
+            <div class="sub">Source → Load · today</div>
+            <div class="right">
+              <i class="ph ph-dots-three" title="더보기"></i>
+            </div>
+          </div>
+          <div class="card-body" style="justify-content:center">
+            <div id="pwrSankey" style="position:relative;width:100%;padding-bottom:53.8%">
+              <svg id="pwrSankeySvg" viewBox="0 0 520 280" preserveAspectRatio="xMidYMid meet" style="position:absolute;top:0;left:0;width:100%;height:100%"></svg>
+              <div class="cf-tip"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pie card -->
+        <div class="card" style="grid-column:span 4">
+          <div class="card-head">
+            <h3>Load Composition</h3>
+            <div class="right">
+              <i class="ph ph-dots-three" title="더보기"></i>
+            </div>
+          </div>
+          <div class="card-body" style="align-items:center">
+            <div class="ring" style="width:200px;height:200px;flex:1;display:flex;align-items:center;justify-content:center">
+              <svg viewBox="0 0 160 160" style="width:100%;height:100%">
+                <circle cx="80" cy="80" r="60" fill="none" stroke="#EFF2F5" stroke-width="14"/>
+                <!-- segments: 42, 24, 18, 10, 6 -->
+                <circle cx="80" cy="80" r="60" fill="none" stroke="#3F76AE" stroke-width="14" stroke-dasharray="158.34 377" transform="rotate(-90 80 80)"/>
+                <circle cx="80" cy="80" r="60" fill="none" stroke="#76A6D7" stroke-width="14" stroke-dasharray="90.48 377" stroke-dashoffset="-158.34" transform="rotate(-90 80 80)"/>
+                <circle cx="80" cy="80" r="60" fill="none" stroke="#AAD0F3" stroke-width="14" stroke-dasharray="67.86 377" stroke-dashoffset="-248.82" transform="rotate(-90 80 80)"/>
+                <circle cx="80" cy="80" r="60" fill="none" stroke="#F0A93A" stroke-width="14" stroke-dasharray="37.7 377" stroke-dashoffset="-316.68" transform="rotate(-90 80 80)"/>
+                <circle cx="80" cy="80" r="60" fill="none" stroke="#E3E7EC" stroke-width="14" stroke-dasharray="22.62 377" stroke-dashoffset="-354.38" transform="rotate(-90 80 80)"/>
+              </svg>
+              <div class="lbl">
+                <div class="big num">83.42</div>
+                <div class="unit">MWh / today</div>
+              </div>
+            </div>
+            <div style="width:100%;margin-top:auto;padding-top:14px;display:flex;flex-direction:column;gap:6px">
+              <div style="display:flex;align-items:center;font-size:var(--fs-caption);gap:8px">
+                <span class="dot" style="background:var(--brand-700)"></span><span style="color:var(--ink-700);flex:1">Process</span><span class="mono">42%</span><span style="color:var(--ink-500);width:48px;text-align:right" class="mono">35.04</span>
+              </div>
+              <div style="display:flex;align-items:center;font-size:var(--fs-caption);gap:8px">
+                <span class="dot" style="background:var(--brand)"></span><span style="color:var(--ink-700);flex:1">HVAC</span><span class="mono">24%</span><span style="color:var(--ink-500);width:48px;text-align:right" class="mono">20.02</span>
+              </div>
+              <div style="display:flex;align-items:center;font-size:var(--fs-caption);gap:8px">
+                <span class="dot" style="background:var(--dv-blue-200)"></span><span style="color:var(--ink-700);flex:1">Utility</span><span class="mono">18%</span><span style="color:var(--ink-500);width:48px;text-align:right" class="mono">15.02</span>
+              </div>
+              <div style="display:flex;align-items:center;font-size:var(--fs-caption);gap:8px">
+                <span class="dot" style="background:var(--warn)"></span><span style="color:var(--ink-700);flex:1">Compressor</span><span class="mono">10%</span><span style="color:var(--ink-500);width:48px;text-align:right" class="mono">8.34</span>
+              </div>
+              <div style="display:flex;align-items:center;font-size:var(--fs-caption);gap:8px">
+                <span class="dot" style="background:#E3E7EC"></span><span style="color:var(--ink-700);flex:1">Lighting / Etc.</span><span class="mono">6%</span><span style="color:var(--ink-500);width:48px;text-align:right" class="mono">5.00</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 4: Grid table -->
+      <div class="grid">
+        <div class="card" style="grid-column:span 16">
+          <div class="card-head">
+            <h3>Feeder Status <span class="tag neutral">24 feeders</span></h3>
+            <div class="sub">click row to drill down</div>
+            <div class="right">
+              <i class="ph ph-dots-three" title="더보기"></i>
+            </div>
+          </div>
+          <div class="card-body" style="padding:0">
+            <table class="dt">
+              <thead>
+                <tr>
+                  <th style="width:36px"></th>
+                  <th>Feeder</th>
+                  <th>Tag</th>
+                  <th>Status</th>
+                  <th>Power (kW)</th>
+                  <th>Load Factor</th>
+                  <th>Voltage (V)</th>
+                  <th>Current (A)</th>
+                  <th>PF</th>
+                  <th>THD (%)</th>
+                  <th>Last 1h</th>
+                  <th>Alarm</th>
+                  <th style="width:36px"></th>
+                </tr>
+              </thead>
+              <tbody id="ftbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- /data-dash-content="power" -->
+
+
+    <!-- ===== Dashboard Sub-page : Cloud Platform Dashboard ===== -->
+    <div data-dash-content="cloud-platform" style="position:relative">
+
+      <!-- page head -->
+      <div class="page-head">
+        <h1>빌딩 에너지 모니터링</h1>
+        <div class="page-head-meta">
+          <div class="env"><span class="dot"></span><span>LIVE · 1.3s</span></div>
+          <div class="last-sync"><span>Range</span><span class="mono num" id="cpdRangeLabel">Last 24 Hours</span></div>
+          <div class="icon-btn" title="새로고침"><i class="ph ph-arrow-clockwise"></i></div>
+        </div>
+        <div class="spacer"></div>
+        <button class="rfn-btn rfn-btn--secondary"><i class="ph ph-funnel"></i>Filter</button>
+        <button class="rfn-btn rfn-btn--primary"><i class="ph ph-plus"></i>Add Widget</button>
+      </div>
+
+      <!-- toolbar : range -->
+      <div class="toolbar">
+        <div class="seg" id="cpdRange">
+          <button class="on" data-r="24h">24H</button>
+          <button data-r="30d">30D</button>
+          <button data-r="90d">90D</button>
+        </div>
+        <div class="chip"><i class="ph ph-stack"></i><span>22 Systems</span></div>
+        <div class="chip"><i class="ph ph-funnel-simple"></i><span>All Zones</span><i class="ph ph-caret-down"></i></div>
+      </div>
+
+      <!-- Row : Top Apps treemap (span 10) + [MyApp Overview + Daily Visitor Trend] (span 6) -->
+      <div class="grid cpd-fill" style="margin-bottom:14px">
+        <!-- Top Apps treemap -->
+        <div class="card" style="grid-column:span 10">
+          <div class="card-head">
+            <h3>에너지 사용량 상위 설비 <span class="tag brand">Treemap</span></h3>
+            <div class="sub" id="cpdTopSub">22 systems · sorted by energy use · Last 24 Hours</div>
+            <div class="right">
+              <i class="ph ph-arrows-out-simple" id="cpdTopExpand" role="button" tabindex="0" title="확대" aria-label="에너지 사용량 상위 설비 상세 보기"></i>
+              <i class="ph ph-dots-three" title="더보기"></i>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="legend" style="margin-bottom:12px">
+              <span class="it"><span class="sw" style="background:var(--dv-blue-200)"></span>Low</span>
+              <span class="it"><span class="sw" style="background:var(--brand)"></span></span>
+              <span class="it"><span class="sw" style="background:var(--brand-700)"></span></span>
+              <span class="it"><span class="sw" style="background:var(--dv-blue-800)"></span>High</span>
+              <span class="it" style="margin-left:6px"><span class="sw" style="background:var(--warn)"></span>Alert</span>
+              <span class="it"><span class="sw" style="background:var(--bad)"></span>Critical</span>
+              <span style="margin-left:auto;font-family:var(--font-mono);font-size:var(--fs-label);color:var(--ink-500)">kWh</span>
+            </div>
+            <div id="cpdTree" style="position:relative;flex:1;min-height:240px"></div>
+          </div>
+        </div>
+
+        <!-- Right column : MyApp Overview + Daily Visitor Trend -->
+        <div style="grid-column:span 6;display:flex;flex-direction:column;gap:14px;min-height:0">
+
+        <!-- MyApp Overview -->
+        <div class="card">
+          <div class="card-head">
+            <h3>본사 타워 개요</h3>
+            <div class="sub" id="cpdMyAppSub">During the last 24 hours, the peak power demand is 1,283 kW.</div>
+          </div>
+          <div class="card-body">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+              <div>
+                <i class="ph ph-lightning" style="font-size:20px;color:var(--brand-700)"></i>
+                <div style="font-size:var(--fs-caption);color:var(--ink-600);margin-top:8px">Power Demand</div>
+                <div style="display:flex;align-items:baseline;gap:6px;margin-top:2px"><span class="num" id="cpdUsers" style="font-family:var(--font-en);font-weight:600;font-size:var(--fs-num-kpi);color:var(--ink-900);letter-spacing:-.02em;line-height:1">1,000</span><span style="font-family:var(--font-mono);font-size:var(--fs-mono);color:var(--ink-500)">kW</span></div>
+                <div style="margin-top:6px"><span class="delta down" id="cpdUsersDelta"><i class="ph ph-caret-up"></i>15.05%</span></div>
+              </div>
+              <div>
+                <i class="ph ph-chart-bar" style="font-size:20px;color:var(--warn)"></i>
+                <div style="font-size:var(--fs-caption);color:var(--ink-600);margin-top:8px">Energy</div>
+                <div style="display:flex;align-items:baseline;gap:6px;margin-top:2px">
+                  <span class="num" id="cpdTraffic" style="font-family:var(--font-en);font-weight:600;font-size:var(--fs-num-kpi);color:var(--ink-900);letter-spacing:-.02em;line-height:1">512</span>
+                  <span style="font-family:var(--font-mono);font-size:var(--fs-mono);color:var(--ink-500)">kWh</span>
+                </div>
+                <div style="margin-top:6px"><span class="delta up" id="cpdTrafficDelta"><i class="ph ph-caret-down"></i>2.15%</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Daily Visitor Trend -->
+        <div class="card" style="flex:1;min-height:0">
+          <div class="card-head">
+            <h3>전력 부하 추이</h3>
+            <div class="sub" id="cpdVisitorSub">Power Demand · Last 24 Hours</div>
+            <div class="right"><i class="ph ph-dots-three"></i></div>
+          </div>
+          <div class="card-body">
+            <div>
+              <div style="display:flex;align-items:baseline;gap:6px"><span class="num" id="cpdVisitors" style="font-family:var(--font-en);font-weight:600;font-size:var(--fs-num-kpi);color:var(--ink-900);letter-spacing:-.02em;line-height:1">1,000</span><span style="font-family:var(--font-mono);font-size:var(--fs-mono);color:var(--ink-500)">kW</span></div>
+              <div style="margin-top:6px"><span class="delta down" id="cpdVisitorsDelta"><i class="ph ph-caret-up"></i>15.05%</span></div>
+            </div>
+            <div id="cpdSparkWrap" style="position:relative;flex:1;min-height:70px;margin-top:8px;cursor:crosshair">
+              <svg width="100%" height="100%" viewBox="0 0 300 90" preserveAspectRatio="none" style="display:block;overflow:visible;position:absolute;inset:0">
+                <defs><linearGradient id="cpdAreaGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#76A6D7" stop-opacity="0.28"/><stop offset="100%" stop-color="#76A6D7" stop-opacity="0"/></linearGradient></defs>
+                <path id="cpdArea" d="" fill="url(#cpdAreaGrad)"/>
+                <path id="cpdLine" d="" fill="none" stroke="#3F76AE" stroke-width="1.6" vector-effect="non-scaling-stroke"/>
+              </svg>
+            </div>
+            <div id="cpdSpanLabels" style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:var(--fs-label);color:var(--ink-500);margin-top:8px"></div>
+          </div>
+        </div>
+        </div>
+      </div>
+
+      <!-- Row : Operational Impact bubbles (span 16) -->
+      <div class="grid cpd-fill2">
+        <div class="card" style="grid-column:span 16">
+          <div class="card-head">
+            <h3>운영 영향 <span class="tag warn">Anomalies</span></h3>
+            <div class="sub" id="cpdImpactSub">Energy wasted by anomalies vs. baseline · Last 24 Hours</div>
+            <div class="right"><i class="ph ph-dots-three"></i></div>
+          </div>
+          <div class="card-body">
+            <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:4px">
+              <span class="num" id="cpdImpact" style="font-family:var(--font-en);font-weight:600;font-size:var(--fs-num-kpi);color:var(--ink-900);letter-spacing:-.02em;line-height:1">1,643</span>
+              <span class="unit" style="font-family:var(--font-mono);font-size:var(--fs-mono);color:var(--ink-500)">kWh lost</span>
+              <span class="unit" id="cpdImpactCost" style="font-family:var(--font-mono);font-size:var(--fs-mono);color:var(--ink-500)">≈ ₩ 246,450</span>
+            </div>
+            <div id="cpdBubbles" style="position:relative;flex:1;min-height:80px;margin-top:10px"></div>
+            <div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:var(--fs-label);color:var(--ink-500);margin-top:6px">
+              <span id="cpdImpactLeft">24 Hours Ago</span>
+              <span>Today</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- floating tooltip (inverted) -->
+      <div id="cpdTip" class="cf-tip"></div>
+
+      <!-- ===== Detail Modal : 에너지 사용량 상위 설비 (확대 액션) ===== -->
+      <div class="rfn-modal-overlay" id="cpdTopDetailOverlay" aria-hidden="true" style="position:fixed;inset:0;z-index:200;display:none;padding:32px 20px">
+        <div class="rfn-modal rfn-modal--wide" role="dialog" aria-modal="true" aria-labelledby="cpdTopDetailTitle">
+          <div class="rfn-modal-head">
+            <div class="rfn-modal-title-wrap">
+              <div style="display:flex;align-items:center;gap:8px">
+                <div class="rfn-modal-title" id="cpdTopDetailTitle">에너지 사용량 상위 설비</div>
+                <span class="tag brand">Treemap</span>
+              </div>
+            </div>
+            <button class="rfn-modal-close" type="button" aria-label="닫기" data-cpd-detail-close><i class="ph ph-x"></i></button>
+          </div>
+          <div class="rfn-modal-body">
+            <div style="display:flex;gap:18px;height:100%;align-items:stretch">
+              <!-- 좌 : 범례 + 히트맵(treemap) -->
+              <div style="flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:10px">
+                <div class="legend">
+                  <span class="it"><span class="sw" style="background:var(--dv-blue-200)"></span>Low</span>
+                  <span class="it"><span class="sw" style="background:var(--brand)"></span></span>
+                  <span class="it"><span class="sw" style="background:var(--brand-700)"></span></span>
+                  <span class="it"><span class="sw" style="background:var(--dv-blue-800)"></span>High</span>
+                  <span class="it" style="margin-left:6px"><span class="sw" style="background:var(--warn)"></span>Alert</span>
+                  <span class="it"><span class="sw" style="background:var(--bad)"></span>Critical</span>
+                  <span style="margin-left:auto;font-family:var(--font-mono);font-size:var(--fs-label);color:var(--ink-500)">kWh</span>
+                </div>
+                <div id="cpdTopDetailTree" style="position:relative;width:100%;flex:1;min-height:0"></div>
+              </div>
+              <!-- 우 : 설비별 데이터 표 (히트맵 오른쪽) -->
+              <div style="flex:0 0 460px;min-width:0;display:flex;flex-direction:column;min-height:0;overflow-y:auto">
+                <table class="rfn-table rfn-table--compact">
+                  <thead>
+                    <tr>
+                      <th>System</th>
+                      <th class="num">Energy</th>
+                      <th class="num">Over Baseline</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="cpdTopDetailRows"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="rfn-modal-foot">
+            <div class="rfn-modal-foot-left"><i class="ph ph-stack"></i><span id="cpdTopDetailSub">22 systems · sorted by energy use · Last 24 Hours · Total 9000 kWh</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- /data-dash-content="cloud-platform" -->
+
+    <!-- ===== Dashboard Sub-page : 유틸리티 종합 현황 (스팀·용수·LNG) ===== -->
+    <div data-dash-content="utility-overview">
+
+      <!-- page head -->
+      <div class="page-head">
+        <h1>유틸리티 종합</h1>
+        <div class="page-head-meta">
+          <div class="env"><span class="dot"></span><span>LIVE · 5s</span></div>
+          <div class="last-sync"><span>Last sync</span><span class="mono num">2026-06-18 18:24:11 KST</span></div>
+          <div class="icon-btn" title="새로고침"><i class="ph ph-arrow-clockwise"></i></div>
+        </div>
+        <div class="spacer"></div>
+        <button class="rfn-btn rfn-btn--secondary"><i class="ph ph-funnel"></i>Filter</button>
+        <button class="rfn-btn rfn-btn--primary"><i class="ph ph-plus"></i>Add Widget</button>
+      </div>
+
+      <!-- toolbar -->
+      <div class="toolbar">
+        <div class="seg">
+          <button>1H</button>
+          <button>24H</button>
+          <button>3D</button>
+          <button class="on">7D</button>
+          <button>30D</button>
+        </div>
+        <div class="chip">
+          <i class="ph ph-clock"></i>
+          <span>최근 7일</span>
+          <span style="color:var(--ink-500);font-family:var(--font-mono);font-size:var(--fs-label)">KST</span>
+          <i class="ph ph-caret-down"></i>
+        </div>
+        <div class="chip">
+          <i class="ph ph-buildings"></i>
+          <span>전 사업장</span>
+          <i class="ph ph-caret-down"></i>
+        </div>
+        <div class="chip">
+          <i class="ph ph-stack"></i>
+          <span>전체 매체</span>
+          <i class="ph ph-caret-down"></i>
+        </div>
+      </div>
+
+      <!-- Row 1 : 총 사용량 (4) + 매체별 사용량 (4) + 사업장별 사용량 (4) + 수요전력 분위수 (4) -->
+      <div class="grid cf-fill" style="margin-bottom:14px">
+
+        <!-- 총 사용량 (매체별 도넛) -->
+        <div class="card" style="grid-column:span 4" data-mu-card>
+          <div class="card-head">
+            <h3>총 사용량</h3>
+            <div class="right"><i class="ph ph-dots-three" title="더보기"></i></div>
+          </div>
+          <div class="card-body">
+            <div style="flex:1;min-height:0;display:flex;align-items:center;justify-content:center">
+              <div class="ring" style="flex:none;width:141px;height:141px">
+                <svg viewBox="0 0 160 160" style="width:100%;height:100%" data-mu-svg></svg>
+                <div class="lbl">
+                  <div class="big num" data-mu-total>3,635</div>
+                  <div class="unit">MWh-eq</div>
+                </div>
+              </div>
+            </div>
+            <div data-mu-legend style="flex:none;display:flex;flex-direction:column"></div>
+          </div>
+        </div>
+
+        <!-- 매체별 사용량 -->
+        <div class="card" style="grid-column:span 4">
+          <div class="card-head">
+            <h3>매체별 사용량</h3>
+            <div class="right"><i class="ph ph-dots-three" title="더보기"></i></div>
+          </div>
+          <div class="card-body">
+            <div style="display:flex;gap:8px;flex:1;min-height:90px">
+              <div style="display:flex;flex-direction:column;justify-content:space-between;text-align:right;font-family:var(--font-mono);font-size:var(--fs-label);color:var(--ink-500);width:30px;flex:none;padding:1px 0">
+                <span>8K</span><span>7K</span><span>6K</span><span>5K</span><span>4K</span><span>3K</span><span>2K</span><span>1K</span><span>0</span>
+              </div>
+              <div class="cf-plot" data-cf="media" style="flex:1;min-width:0;position:relative;cursor:crosshair">
+                <div class="cf-tip"></div>
+              </div>
+            </div>
+            <div class="cf-vals" data-cf-vals="media" style="margin-top:14px;flex:none"></div>
+          </div>
+        </div>
+
+        <!-- 사업장별 사용량 -->
+        <div class="card" style="grid-column:span 4">
+          <div class="card-head">
+            <h3>사업장별 사용량</h3>
+            <div class="right"><i class="ph ph-dots-three" title="더보기"></i></div>
+          </div>
+          <div class="card-body">
+            <div style="display:flex;gap:8px;flex:1;min-height:90px">
+              <div style="display:flex;flex-direction:column;justify-content:space-between;text-align:right;font-family:var(--font-mono);font-size:var(--fs-label);color:var(--ink-500);width:30px;flex:none;padding:1px 0">
+                <span>7K</span><span>6K</span><span>5K</span><span>4K</span><span>3K</span><span>2K</span><span>1K</span><span>0</span>
+              </div>
+              <div class="cf-plot" data-cf="zone" style="flex:1;min-width:0;position:relative;cursor:crosshair">
+                <div class="cf-tip"></div>
+              </div>
+            </div>
+            <div class="cf-vals" data-cf-vals="zone" style="margin-top:14px;flex:none"></div>
+          </div>
+        </div>
+
+        <!-- 수요전력 분위수 -->
+        <div class="card" style="grid-column:span 4">
+          <div class="card-head">
+            <h3>수요전력 분위수</h3>
+            <div class="right"><i class="ph ph-dots-three" title="더보기"></i></div>
+          </div>
+          <div class="card-body">
+            <div style="display:flex;gap:8px;flex:1;min-height:90px">
+              <div style="display:flex;flex-direction:column;justify-content:space-between;text-align:right;font-family:var(--font-mono);font-size:var(--fs-label);color:var(--ink-500);width:38px;flex:none;padding:1px 0">
+                <span>2.1K</span><span>1.8K</span><span>1.5K</span><span>1.2K</span><span>900</span><span>600</span><span>300</span><span>0</span>
+              </div>
+              <div class="cf-plot" data-cf="demand" style="flex:1;min-width:0;position:relative;cursor:crosshair">
+                <div class="cf-tip"></div>
+              </div>
+            </div>
+            <div class="cf-vals" data-cf-vals="demand" style="margin-top:14px;flex:none"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 2 : 공급 구성 (4) + Top 10 다소비 설비 (4) + Top 10 사업장 사용량 (4) + 알람 (4) -->
+      <div class="grid cf-fill">
+
+        <!-- 공급 구성 -->
+        <div class="card" style="grid-column:span 4">
+          <div class="card-head">
+            <h3>공급 구성</h3>
+            <div class="right"><i class="ph ph-dots-three" title="더보기"></i></div>
+          </div>
+          <div class="card-body">
+            <div style="display:flex;gap:8px;flex:1;min-height:120px">
+              <div style="display:flex;flex-direction:column;justify-content:space-between;text-align:right;font-family:var(--font-mono);font-size:var(--fs-label);color:var(--ink-500);width:30px;flex:none;padding:1px 0">
+                <span>15K</span><span>12K</span><span>9K</span><span>6K</span><span>3K</span><span>0</span>
+              </div>
+              <div class="cf-plot" data-cf="supply" style="flex:1;min-width:0;position:relative;cursor:crosshair">
+                <div class="cf-tip"></div>
+              </div>
+            </div>
+            <div class="cf-vals" data-cf-vals="supply" style="margin-top:14px;flex:none"></div>
+          </div>
+        </div>
+
+        <!-- Top 10 다소비 설비 -->
+        <div class="card" style="grid-column:span 4">
+          <div class="card-head">
+            <h3>Top 10 다소비 설비 <span class="tag neutral">by load</span></h3>
+            <div class="right"><i class="ph ph-dots-three" title="더보기"></i></div>
+          </div>
+          <div class="card-body" style="padding:0">
+            <table class="dt">
+              <thead>
+                <tr>
+                  <th>설비</th>
+                  <th style="width:50%">평균 부하 (kW)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>전기로 #1 (EAF)</td><td style="position:relative"><span style="position:absolute;left:0;top:4px;bottom:4px;width:100%;background:var(--brand-50);border-radius:3px"></span><span class="num" style="position:relative">4,820</span></td></tr>
+                <tr><td>압연 메인드라이브</td><td style="position:relative"><span style="position:absolute;left:0;top:4px;bottom:4px;width:87%;background:var(--brand-50);border-radius:3px"></span><span class="num" style="position:relative">4,180</span></td></tr>
+                <tr><td>냉동기 #3</td><td style="position:relative"><span style="position:absolute;left:0;top:4px;bottom:4px;width:73%;background:var(--brand-50);border-radius:3px"></span><span class="num" style="position:relative">3,540</span></td></tr>
+                <tr><td>공기압축기 #2</td><td style="position:relative"><span style="position:absolute;left:0;top:4px;bottom:4px;width:61%;background:var(--brand-50);border-radius:3px"></span><span class="num" style="position:relative">2,960</span></td></tr>
+                <tr><td>보일러 급수펌프</td><td style="position:relative"><span style="position:absolute;left:0;top:4px;bottom:4px;width:52%;background:var(--brand-50);border-radius:3px"></span><span class="num" style="position:relative">2,520</span></td></tr>
+                <tr><td>공조기 AHU-2</td><td style="position:relative"><span style="position:absolute;left:0;top:4px;bottom:4px;width:43%;background:var(--brand-50);border-radius:3px"></span><span class="num" style="position:relative">2,090</span></td></tr>
+                <tr><td>용수 가압펌프</td><td style="position:relative"><span style="position:absolute;left:0;top:4px;bottom:4px;width:36%;background:var(--brand-50);border-radius:3px"></span><span class="num" style="position:relative">1,740</span></td></tr>
+                <tr><td>폐수 블로워</td><td style="position:relative"><span style="position:absolute;left:0;top:4px;bottom:4px;width:29%;background:var(--brand-50);border-radius:3px"></span><span class="num" style="position:relative">1,420</span></td></tr>
+                <tr><td>도금 정류기</td><td style="position:relative"><span style="position:absolute;left:0;top:4px;bottom:4px;width:24%;background:var(--brand-50);border-radius:3px"></span><span class="num" style="position:relative">1,170</span></td></tr>
+                <tr><td>조명·사무동</td><td style="position:relative"><span style="position:absolute;left:0;top:4px;bottom:4px;width:19%;background:var(--brand-50);border-radius:3px"></span><span class="num" style="position:relative">910</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Top 10 사업장 사용량 -->
+        <div class="card" style="grid-column:span 4">
+          <div class="card-head">
+            <h3>Top 10 사업장 사용량 <span class="tag neutral">by usage</span></h3>
+            <div class="right"><i class="ph ph-dots-three" title="더보기"></i></div>
+          </div>
+          <div class="card-body" style="padding:0">
+            <table class="dt">
+              <thead>
+                <tr>
+                  <th>사업장</th>
+                  <th style="width:50%">월 사용량 (MWh)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>제1공장 (압연)</td><td style="position:relative"><span style="position:absolute;left:0;top:4px;bottom:4px;width:100%;background:var(--brand-50);border-radius:3px"></span><span class="num" style="position:relative">12,430</span></td></tr>
+                <tr><td>제2공장 (제강)</td><td style="position:relative"><span style="position:absolute;left:0;top:4px;bottom:4px;width:50%;background:var(--brand-50);border-radius:3px"></span><span class="num" style="position:relative">6,210</span></td></tr>
+                <tr><td>도금공장</td><td style="position:relative"><span style="position:absolute;left:0;top:4px;bottom:4px;width:39%;background:var(--brand-50);border-radius:3px"></span><span class="num" style="position:relative">4,880</span></td></tr>
+                <tr><td>열처리동</td><td style="position:relative"><span style="position:absolute;left:0;top:4px;bottom:4px;width:25%;background:var(--brand-50);border-radius:3px"></span><span class="num" style="position:relative">3,120</span></td></tr>
+                <tr><td>용수처리장</td><td style="position:relative"><span style="position:absolute;left:0;top:4px;bottom:4px;width:22%;background:var(--brand-50);border-radius:3px"></span><span class="num" style="position:relative">2,740</span></td></tr>
+                <tr><td>공압설비동</td><td style="position:relative"><span style="position:absolute;left:0;top:4px;bottom:4px;width:18%;background:var(--brand-50);border-radius:3px"></span><span class="num" style="position:relative">2,210</span></td></tr>
+                <tr><td>폐수처리장</td><td style="position:relative"><span style="position:absolute;left:0;top:4px;bottom:4px;width:16%;background:var(--brand-50);border-radius:3px"></span><span class="num" style="position:relative">1,980</span></td></tr>
+                <tr><td>물류센터</td><td style="position:relative"><span style="position:absolute;left:0;top:4px;bottom:4px;width:13%;background:var(--brand-50);border-radius:3px"></span><span class="num" style="position:relative">1,640</span></td></tr>
+                <tr><td>연구동</td><td style="position:relative"><span style="position:absolute;left:0;top:4px;bottom:4px;width:10%;background:var(--brand-50);border-radius:3px"></span><span class="num" style="position:relative">1,290</span></td></tr>
+                <tr><td>사무동</td><td style="position:relative"><span style="position:absolute;left:0;top:4px;bottom:4px;width:8%;background:var(--brand-50);border-radius:3px"></span><span class="num" style="position:relative">1,040</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 알람 -->
+        <div class="card" style="grid-column:span 4">
+          <div class="card-head">
+            <h3>알람</h3>
+            <div class="right"><i class="ph ph-dots-three" title="더보기"></i></div>
+          </div>
+          <div class="card-body" style="padding-bottom:0">
+            <div style="display:flex;gap:2px;margin-bottom:10px;flex:none">
+              <div style="flex:30;height:14px;border-radius:4px;background:var(--bad);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:var(--fs-badge);font-weight:600;color:var(--avatar-fg)">30 %</div>
+              <div style="flex:24;height:14px;border-radius:4px;background:var(--warn);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:var(--fs-badge);font-weight:600;color:var(--avatar-fg)">24 %</div>
+              <div style="flex:46;height:14px;border-radius:4px;background:var(--good);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:var(--fs-badge);font-weight:600;color:var(--avatar-fg)">46 %</div>
+            </div>
+            <div class="legend" style="justify-content:flex-start;flex:none;padding-bottom:10px;border-bottom:1px solid var(--ink-200);margin-bottom:0">
+              <span class="it"><span class="dot" style="background:var(--bad)"></span>Critical <b style="color:var(--ink-900);margin-left:2px">8</b></span>
+              <span class="it"><span class="dot" style="background:var(--warn)"></span>Normal <b style="color:var(--ink-900);margin-left:2px">6</b></span>
+              <span class="it"><span class="dot" style="background:var(--good)"></span>Acknowledged <b style="color:var(--ink-900);margin-left:2px">12</b></span>
+            </div>
+            <div style="flex:1;min-height:0;overflow:auto">
+              <table class="dt" style="height:auto">
+                <tbody>
+                  <tr><td style="max-width:none;padding:8px"><div style="display:flex;align-items:center;gap:8px"><span class="name" style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">전기로 #1</span><span class="tag bad" style="flex:none">Critical</span></div><div class="id" style="margin-top:3px;white-space:nowrap">2026-06-22 14:32</div></td></tr>
+                  <tr><td style="max-width:none;padding:8px"><div style="display:flex;align-items:center;gap:8px"><span class="name" style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">냉동기 #3</span><span class="tag good" style="flex:none">Acknowledged</span></div><div class="id" style="margin-top:3px;white-space:nowrap">2026-06-22 14:28</div></td></tr>
+                  <tr><td style="max-width:none;padding:8px"><div style="display:flex;align-items:center;gap:8px"><span class="name" style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">압축공기 #2</span><span class="tag warn" style="flex:none">Normal</span></div><div class="id" style="margin-top:3px;white-space:nowrap">2026-06-22 14:21</div></td></tr>
+                  <tr><td style="max-width:none;padding:8px"><div style="display:flex;align-items:center;gap:8px"><span class="name" style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">보일러 급수펌프</span><span class="tag good" style="flex:none">Acknowledged</span></div><div class="id" style="margin-top:3px;white-space:nowrap">2026-06-22 14:15</div></td></tr>
+                  <tr><td style="max-width:none;padding:8px"><div style="display:flex;align-items:center;gap:8px"><span class="name" style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">도금 정류기</span><span class="tag bad" style="flex:none">Critical</span></div><div class="id" style="margin-top:3px;white-space:nowrap">2026-06-22 14:02</div></td></tr>
+                  <tr><td style="max-width:none;padding:8px"><div style="display:flex;align-items:center;gap:8px"><span class="name" style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">변전실 #2</span><span class="tag bad" style="flex:none">Critical</span></div><div class="id" style="margin-top:3px;white-space:nowrap">2026-06-22 13:58</div></td></tr>
+                  <tr><td style="max-width:none;padding:8px"><div style="display:flex;align-items:center;gap:8px"><span class="name" style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">공조기 AHU-2</span><span class="tag warn" style="flex:none">Normal</span></div><div class="id" style="margin-top:3px;white-space:nowrap">2026-06-22 13:51</div></td></tr>
+                  <tr><td style="max-width:none;padding:8px"><div style="display:flex;align-items:center;gap:8px"><span class="name" style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">폐수 블로워</span><span class="tag good" style="flex:none">Acknowledged</span></div><div class="id" style="margin-top:3px;white-space:nowrap">2026-06-22 13:47</div></td></tr>
+                  <tr><td style="max-width:none;padding:8px"><div style="display:flex;align-items:center;gap:8px"><span class="name" style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">용수 가압펌프</span><span class="tag good" style="flex:none">Acknowledged</span></div><div class="id" style="margin-top:3px;white-space:nowrap">2026-06-22 13:39</div></td></tr>
+                  <tr><td style="max-width:none;padding:8px"><div style="display:flex;align-items:center;gap:8px"><span class="name" style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">계통 수전반</span><span class="tag bad" style="flex:none">Critical</span></div><div class="id" style="margin-top:3px;white-space:nowrap">2026-06-22 13:30</div></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- /data-dash-content="utility-overview" -->
+
+
+    </div>
+    <!-- /data-page-view="dashboard" -->
+
+    </div>
+  </section>
+</div>
+
+<script>
+  // ====== Heatmap ======
+  (function(){
+    const root = document.querySelector('#heatmap');
+    const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+    const hours = 24;
+    // base intensity by hour (work pattern)
+    const hourBias = [.1,.08,.07,.07,.08,.12,.22,.45,.7,.85,.92,.95,.98,1,.98,.95,.85,.7,.55,.4,.3,.22,.18,.14];
+    const dayBias = [.95,1,1.05,.96,.92,.55,.45];
+    // header row
+    let html = '<div class="h"></div>';
+    days.forEach(d=>html += `<div class="h">${d}</div>`);
+    // rows top-to-bottom: 24h → 0h, so use hour reversed
+    for(let r=0;r<hours;r++){
+      const hour = 23-r;
+      html += `<div class="y">${hour.toString().padStart(2,'0')}h</div>`;
+      for(let c=0;c<days.length;c++){
+        let v = hourBias[hour] * dayBias[c];
+        v += (Math.sin(hour*0.6 + c*1.3)*0.07);
+        v = Math.max(0, Math.min(1,v));
+        // peak: Wed 14h
+        const peak = (c===2 && hour===14);
+        const color = colorScale(v);
+        const kw = (v*5400|0);
+        html += `<div class="c ${peak?'peak':''}" style="background:${color}" data-day="${days[c]}" data-hour="${hour.toString().padStart(2,'0')}" data-kw="${kw.toLocaleString('en-US')}"></div>`;
+      }
+    }
+    root.innerHTML = html;
+
+    // ---- hover 툴팁 (cf-tip 톤 재사용 · 셀 강조는 .heat .c:hover CSS) ----
+    root.style.position = 'relative';
+    const tip = document.createElement('div');
+    tip.className = 'cf-tip';
+    root.appendChild(tip);
+    const maxKw = 5400;
+    root.addEventListener('mousemove', function(e){
+      const cell = e.target.closest('.c');
+      if(!cell || !root.contains(cell)){ tip.style.display='none'; return; }
+      const d = cell.dataset;
+      const pct = Math.round((parseInt(d.kw.replace(/,/g,''),10)/maxKw)*100);
+      tip.innerHTML =
+        '<div style="display:flex;align-items:center;gap:7px;padding:1px 0">'+
+          '<span style="width:8px;height:8px;border-radius:2px;flex:none;background:'+cell.style.background+'"></span>'+
+          '<span style="color:#fff;font-weight:600">'+d.day+' '+d.hour+':00</span></div>'+
+        '<div style="display:flex;gap:16px;padding:1px 0"><span style="color:#CFCFCF">사용량</span>'+
+          '<span class="num" style="color:#fff;font-weight:500;margin-left:auto">'+d.kw+' kW</span></div>'+
+        '<div style="display:flex;gap:16px;padding:1px 0"><span style="color:#CFCFCF">피크 대비</span>'+
+          '<span class="num" style="color:#fff;font-weight:500;margin-left:auto">'+pct+'%</span></div>';
+      const rr = root.getBoundingClientRect();
+      let x = e.clientX - rr.left + 12, y = e.clientY - rr.top + 12;
+      if(x + 150 > rr.width) x = e.clientX - rr.left - 150;
+      if(y + 70 > rr.height) y = e.clientY - rr.top - 70;
+      tip.style.left = Math.max(0,x) + 'px';
+      tip.style.top  = Math.max(0,y) + 'px';
+      tip.style.display = 'block';
+    });
+    root.addEventListener('mouseleave', function(){ tip.style.display='none'; });
+
+    function colorScale(t){
+      // light blue → dark blue scale, with low values near very light
+      const stops = [
+        [0.00,[238,244,251]], // EEF4FB
+        [0.25,[170,208,243]], // AAD0F3 (blue-200)
+        [0.55,[118,166,215]], // 76A6D7
+        [0.80,[63,118,174]],  // 3F76AE
+        [1.00,[23,59,107]],   // 173B6B (blue-800)
+      ];
+      for(let i=0;i<stops.length-1;i++){
+        const [a,ca]=stops[i],[b,cb]=stops[i+1];
+        if(t<=b){
+          const k=(t-a)/(b-a);
+          const r=ca[0]+(cb[0]-ca[0])*k|0;
+          const g=ca[1]+(cb[1]-ca[1])*k|0;
+          const bl=ca[2]+(cb[2]-ca[2])*k|0;
+          return `rgb(${r},${g},${bl})`;
+        }
+      }
+      return 'rgb(27,63,102)';
+    }
+  })();
+
+  // ====== Feeders table ======
+  (function(){
+    const data=[
+      ['F-A101','Compressor Hall · Main','process','running',892,82,388.4,420.1,0.97,2.1,0],
+      ['F-A102','CNC Line 1','process','running',744,71,390.1,402.5,0.96,1.9,0],
+      ['F-A103','CNC Line 2','process','running',718,69,389.0,398.7,0.95,2.4,1],
+      ['F-A104','Press Shop','process','running',1024,94,386.7,455.2,0.94,3.1,2],
+      ['F-B201','HVAC Roof Top A','hvac','running',402,58,391.0,210.4,0.93,1.6,0],
+      ['F-B202','HVAC Plant B','hvac','idle',128,18,392.4,68.7,0.91,1.4,0],
+      ['F-C301','Chiller #1','utility','warning',612,76,387.2,332.4,0.92,2.7,1],
+      ['F-C302','Cooling Tower','utility','running',286,44,390.5,148.8,0.95,1.8,0],
+      ['F-D401','Office Lighting','lighting','running',88,32,398.7,46.2,0.98,0.9,0],
+      ['F-E501','Workshop Welding','process','fault',0,0,0,0,0,0,1],
+    ];
+    const colorByCat={process:'#3F76AE',hvac:'#76A6D7',utility:'#F0A93A',lighting:'#AAD0F3'};
+    const statusTag={
+      running:'<span class="tag good">RUNNING</span>',
+      idle:'<span class="tag neutral">IDLE</span>',
+      warning:'<span class="tag warn">WARNING</span>',
+      fault:'<span class="tag bad">FAULT</span>',
+    };
+    let html='';
+    data.forEach(r=>{
+      const [id,name,cat,st,p,lf,v,c,pf,thd,al]=r;
+      // mini sparkline
+      let sp='<svg width="80" height="20" viewBox="0 0 80 20" preserveAspectRatio="none">';
+      let path='';
+      for(let i=0;i<=12;i++){
+        const x=i*80/12;
+        const seed=(id.charCodeAt(2)+i)%7;
+        const y=10 + Math.sin(i*0.7+seed)*4 + (Math.cos(i*1.3+seed*2))*2;
+        path += (i===0?'M':'L') + x + ' ' + y.toFixed(1);
+      }
+      sp += `<path d="${path}" fill="none" stroke="${st==='fault'?'#E5484D':'#76A6D7'}" stroke-width="1.4"/></svg>`;
+
+      html += `<tr>
+        <td><span class="dot" style="background:${colorByCat[cat]||'var(--ink-400)'}"></span></td>
+        <td><span class="id">${id}</span><div class="name">${name}</div></td>
+        <td><span class="tag neutral">${cat.toUpperCase()}</span></td>
+        <td>${statusTag[st]}</td>
+        <td><span class="num">${p.toLocaleString()}</span></td>
+        <td><span class="num">${lf}%</span><span class="bar"><i style="width:${lf}%"></i></span></td>
+        <td><span class="num">${v.toFixed(1)}</span></td>
+        <td><span class="num">${c.toFixed(1)}</span></td>
+        <td><span class="num">${pf.toFixed(2)}</span></td>
+        <td><span class="num" style="color:${thd>2.5?'#A45F00':'inherit'}">${thd.toFixed(1)}</span></td>
+        <td>${sp}</td>
+        <td>${al>0?`<span class="tag bad">${al}</span>`:'<span style="color:var(--ink-400)">—</span>'}</td>
+        <td style="color:var(--ink-400);text-align:right">
+          <i class="ph ph-caret-right"></i>
+        </td>
+      </tr>`;
+    });
+    document.querySelector('#ftbody').innerHTML=html;
+  })();
+
+  // ======== Nav Collapse ========
+  (function(){
+    const app  = document.querySelector('.app');
+    const rail = document.querySelector('.rail');
+    const side = document.querySelector('.side');
+
+    // Global Nav — 접기 (패널 아이콘 버튼)
+    document.getElementById('railCollapse').addEventListener('click', function(){
+      rail.classList.add('collapsed');
+      app.classList.add('rail-col');
+    });
+
+    // Global Nav — 펼치기 (kbd › 버튼)
+    document.getElementById('railExpand').addEventListener('click', function(){
+      rail.classList.remove('collapsed');
+      app.classList.remove('rail-col');
+    });
+
+    // Theme toggle — 계정 팝오버 안 Light/Dark 세그먼트
+    (function(){
+      const lightBtn = document.getElementById('themeLight');
+      const darkBtn = document.getElementById('themeDark');
+
+      function applyTheme(isDark){
+        document.body.classList.toggle('dark', isDark);
+        if(lightBtn) lightBtn.classList.toggle('on', !isDark);
+        if(darkBtn) darkBtn.classList.toggle('on', isDark);
+        // 새로고침 시 유지하기 위해 localStorage 에 저장
+        if(window.saveRefineryState) window.saveRefineryState();
+      }
+
+      // restoreRefineryState 에서 호출할 수 있도록 글로벌로 노출
+      window.applyTheme = applyTheme;
+
+      if(lightBtn) lightBtn.addEventListener('click', function(){ applyTheme(false); });
+      if(darkBtn)  darkBtn.addEventListener('click', function(){ applyTheme(true); });
+    })();
+
+    // Rail / Side 하단 페이드 — overflow 없거나 scroll 바닥일 때 fade 숨김(.at-bottom 토글)
+    (function(){
+      function bind(scrollEl, footerEl){
+        if(!scrollEl || !footerEl) return;
+        function check(){
+          var max = scrollEl.scrollHeight - scrollEl.clientHeight;
+          var atBottom = max <= 2 || scrollEl.scrollTop >= max - 2;
+          footerEl.classList.toggle('at-bottom', atBottom);
+        }
+        scrollEl.addEventListener('scroll', check, {passive:true});
+        window.addEventListener('resize', check);
+        check();
+        requestAnimationFrame(check);
+      }
+      bind(document.querySelector('.rail-scroll'), document.querySelector('.rail .bot'));
+      bind(document.querySelector('.side .nav'), document.querySelector('.side-close-bar'));
+    })();
+
+    // Sub Nav — 접기 (하단 버튼)
+    document.getElementById('sideCollapse').addEventListener('click', function(){
+      app.classList.add('side-col');
+      side.classList.add('collapsed');
+    });
+
+    // Sub Nav — 펼치기 (kbd › 배지, 접힌 상태 hover 시 등장)
+    document.getElementById('sideToggle').addEventListener('click', function(){
+      app.classList.remove('side-col');
+      side.classList.remove('collapsed');
+    });
+
+    // Sub Nav expand btn — Rail 전체 hover 시 표시
+    var sideExpandBtn = document.getElementById('sideToggle');
+    var hideTimer;
+    function showExpandBtn(){
+      clearTimeout(hideTimer);
+      if(side.classList.contains('collapsed')) sideExpandBtn.classList.add('visible');
+    }
+    function hideExpandBtn(){
+      hideTimer = setTimeout(function(){ sideExpandBtn.classList.remove('visible'); }, 200);
+    }
+    rail.addEventListener('mouseenter', showExpandBtn);
+    rail.addEventListener('mouseleave', hideExpandBtn);
+    sideExpandBtn.addEventListener('mouseenter', function(){ clearTimeout(hideTimer); });
+    sideExpandBtn.addEventListener('mouseleave', hideExpandBtn);
+  })();
+
+  // ======== Density Toggle ========
+  (function(){
+    const btn = document.getElementById('densityBtn');
+    const pop = document.getElementById('densityPopover');
+    const opts = pop.querySelectorAll('.density-opt');
+
+    // 저장된 밀도 복원
+    const saved = (function(){ try{ return localStorage.getItem('refinery-density'); }catch(e){ return null; } })();
+    if(saved && ['compact','default','comfortable'].includes(saved)){
+      applyDensity(saved);
+    }
+
+    function applyDensity(mode){
+      document.body.setAttribute('data-density', mode);
+      opts.forEach(o=>{
+        const isOn = o.dataset.density === mode;
+        o.classList.toggle('on', isOn);
+        o.setAttribute('aria-checked', isOn ? 'true':'false');
+      });
+      try{ localStorage.setItem('refinery-density', mode); }catch(e){}
+    }
+
+    function openPop(){
+      pop.classList.add('open');
+      pop.setAttribute('aria-hidden','false');
+      btn.setAttribute('aria-expanded','true');
+    }
+    function closePop(){
+      pop.classList.remove('open');
+      pop.setAttribute('aria-hidden','true');
+      btn.setAttribute('aria-expanded','false');
+    }
+
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      pop.classList.contains('open') ? closePop() : openPop();
+    });
+
+    opts.forEach(o=>{
+      o.addEventListener('click', function(e){
+        e.stopPropagation();
+        applyDensity(this.dataset.density);
+        closePop();
+      });
+    });
+
+    // 외부 클릭 시 닫기
+    document.addEventListener('click', function(e){
+      if(!pop.contains(e.target) && e.target !== btn && !btn.contains(e.target)){
+        closePop();
+      }
+    });
+    // ESC 키로 닫기
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && pop.classList.contains('open')) closePop();
+    });
+  })();
+
+  // ======== Fullscreen Toggle ========
+  (function(){
+    const btn = document.getElementById('fullscreenBtn');
+    const docEl = document.documentElement;
+
+    function isFs(){
+      return !!(document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement);
+    }
+    function enterFs(){
+      const fn = docEl.requestFullscreen || docEl.webkitRequestFullscreen || docEl.msRequestFullscreen;
+      if(fn) fn.call(docEl);
+    }
+    function exitFs(){
+      const fn = document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen;
+      if(fn) fn.call(document);
+    }
+    function syncState(){
+      document.body.classList.toggle('is-fullscreen', isFs());
+      btn.setAttribute('title', isFs() ? '전체화면 해제' : '전체화면');
+    }
+
+    btn.addEventListener('click', function(){
+      isFs() ? exitFs() : enterFs();
+    });
+
+    document.addEventListener('fullscreenchange', syncState);
+    document.addEventListener('webkitfullscreenchange', syncState);
+    document.addEventListener('msfullscreenchange', syncState);
+  })();
+
+  // ======== Application 즐겨찾기 + Favorites 영역 ========
+  (function(){
+    const items = document.querySelectorAll('#appGroupItems .ic');
+    const favContainer = document.getElementById('favGroupItems');
+    const favSection = document.getElementById('favSection');
+    const favToggle = document.getElementById('favGroupToggle');
+    if(!items.length || !favContainer) return;
+
+    const STORAGE_KEY = 'refinery-app-favorites';
+    const FAV_COLLAPSE_KEY = 'refinery-fav-group';
+
+    // 저장된 즐겨찾기 순서 복원 (Set 대신 배열로 유지해 순서 보존)
+    let favOrder = [];
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(raw) favOrder = JSON.parse(raw) || [];
+    }catch(e){ favOrder = []; }
+    const inFav = (key)=> favOrder.indexOf(key) !== -1;
+
+    function applyState(ic){
+      const key = ic.dataset.key;
+      const btn = ic.querySelector('.fav-btn');
+      // 채움 상태에선 .ph 클래스가 사라지므로 <i> 태그 자체를 잡는다
+      const icon = btn && btn.querySelector('i');
+      const isOn = inFav(key);
+      if(!btn || !icon) return;
+      // 별 버튼 상태만 토글 — .active는 현재 활성화된 페이지 표시이므로 건드리지 않음
+      btn.classList.toggle('on', isOn);
+      btn.setAttribute('aria-pressed', isOn ? 'true' : 'false');
+      btn.setAttribute('aria-label', isOn ? '즐겨찾기 해제' : '즐겨찾기 추가');
+      icon.className = isOn ? 'ph-fill ph-star' : 'ph ph-star';
+    }
+
+    function persist(){
+      try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(favOrder)); }catch(e){}
+    }
+
+    // Favorites 영역 다시 그리기 — 즐겨찾기가 하나도 없으면 섹션 전체를 숨김
+    function renderFavorites(){
+      favContainer.innerHTML = '';
+      const isEmpty = favOrder.length === 0;
+      if(favSection) favSection.classList.toggle('empty', isEmpty);
+      if(isEmpty) return;
+
+      favOrder.forEach(key=>{
+        // 원본 아이템에서 아이콘/라벨/title을 복제
+        const src = document.querySelector('#appGroupItems .ic[data-key="'+key+'"]');
+        if(!src) return;
+        const phIcon = src.querySelector(':scope > .ph');
+        const lbl = src.querySelector(':scope > .lbl');
+        // 뱃지가 있으면 함께 복제 (New, Hot 등)
+        const badge = src.querySelector(':scope > .rail-badge');
+
+        const node = document.createElement('div');
+        // FAVORITES 영역에선 현재 페이지(.active) 하이라이트를 제거 — 즐겨찾기 자체만 표시
+        node.className = 'ic';
+        node.setAttribute('title', src.getAttribute('title') || '');
+        node.dataset.key = key;
+        node.dataset.favRef = '1';
+        // 원본의 data-view 복사 → 클릭 시 view 전환 가능
+        if(src.dataset.view) node.dataset.view = src.dataset.view;
+        if(src.dataset.nav)  node.dataset.nav  = src.dataset.nav;
+        node.innerHTML = ''
+          + '<i class="'+(phIcon ? phIcon.className : 'ph ph-circle')+'"></i>'
+          + '<span class="lbl">'+(lbl ? lbl.textContent : key)+'</span>'
+          + (badge ? badge.outerHTML : '')
+          + '<button class="fav-btn on" type="button" aria-label="즐겨찾기 해제" aria-pressed="true"><i class="ph-fill ph-star"></i></button>';
+
+        // Favorites 영역의 별 클릭 → 해당 항목 즐겨찾기 해제
+        node.querySelector('.fav-btn').addEventListener('click', function(e){
+          e.stopPropagation();
+          toggleKey(key);
+        });
+
+        // 행 클릭 → 즐겨찾기 항목으로 이동 (별 버튼 제외)
+        // data-nav(다른 파일)=크로스파일 이동 / data-view(같은 파일)=인페이지 뷰 전환.
+        // 셸 위임 핸들러에만 의존하지 않고 자체적으로 이동을 보장 (특히 data-view 없는 대시보드 즐겨찾기).
+        node.addEventListener('click', function(e){
+          if(e.target.closest('.fav-btn')) return;
+          var nav = this.dataset.nav;
+          var cur = (location.pathname.split('/').pop() || '').split('?')[0];
+          if(nav && nav !== cur){
+            try{ localStorage.setItem('refinery-nav-active', JSON.stringify({ file: nav, key: this.dataset.key || nav, src: 'fav' })); }catch(_e){}
+            try{ sessionStorage.setItem('refinery-fresh-nav', '1'); }catch(_e){}
+            window.location.href = nav;
+            return;
+          }
+          if(this.dataset.view && window.setView) window.setView(this.dataset.view, this);
+        });
+
+        favContainer.appendChild(node);
+      });
+    }
+
+    function toggleKey(key){
+      const idx = favOrder.indexOf(key);
+      if(idx >= 0) favOrder.splice(idx, 1);
+      else favOrder.push(key);
+      // 원본 아이템 상태 동기화
+      const src = document.querySelector('#appGroupItems .ic[data-key="'+key+'"]');
+      if(src) applyState(src);
+      persist();
+      renderFavorites();
+    }
+
+    // 원본 Application 아이템들에 별 클릭 핸들러 등록 + 초기 상태 반영
+    items.forEach(ic=>{
+      applyState(ic);
+      const btn = ic.querySelector('.fav-btn');
+      if(!btn) return;
+      btn.addEventListener('click', function(e){
+        e.stopPropagation();
+        toggleKey(ic.dataset.key);
+      });
+    });
+
+    // Favorites 그룹 접기/펼치기 (APPLICATION 토글과 동일 패턴)
+    if(favToggle){
+      const savedFavCollapsed = (function(){ try{ return localStorage.getItem(FAV_COLLAPSE_KEY); }catch(e){ return null; } })();
+      if(savedFavCollapsed === 'collapsed'){
+        favContainer.classList.add('collapsed');
+        favToggle.setAttribute('aria-expanded','false');
+      }
+      favToggle.addEventListener('click', function(){
+        const isCollapsed = favContainer.classList.toggle('collapsed');
+        favToggle.setAttribute('aria-expanded', isCollapsed ? 'false' : 'true');
+        try{ localStorage.setItem(FAV_COLLAPSE_KEY, isCollapsed ? 'collapsed' : 'expanded'); }catch(e){}
+      });
+    }
+
+    // 최초 렌더
+    renderFavorites();
+  })();
+
+  // ======== Application 그룹 접기/펼치기 ========
+  (function(){
+    const toggle = document.getElementById('appGroupToggle');
+    const items = document.getElementById('appGroupItems');
+    if(!toggle || !items) return;
+
+    // 저장된 상태 복원 (기본은 펼친 상태)
+    const saved = (function(){ try{ return localStorage.getItem('refinery-app-group'); }catch(e){ return null; } })();
+    if(saved === 'collapsed'){
+      items.classList.add('collapsed');
+      toggle.setAttribute('aria-expanded','false');
+    }
+
+    toggle.addEventListener('click', function(){
+      const isCollapsed = items.classList.toggle('collapsed');
+      toggle.setAttribute('aria-expanded', isCollapsed ? 'false' : 'true');
+      try{ localStorage.setItem('refinery-app-group', isCollapsed ? 'collapsed' : 'expanded'); }catch(e){}
+    });
+  })();
+
+  // ======== User Popover (Global Nav 계정 메뉴) ========
+  (function(){
+    const btn = document.getElementById('userBtn');
+    const pop = document.getElementById('userPopover');
+    if(!btn || !pop) return;
+
+    // rail 아바타 이미지를 팝오버 헤드에도 동일하게 반영
+    const railAvatarImg = document.querySelector('.rail .bot-user .avatar img');
+    const popAvatarImg = pop.querySelector('.user-pop-head .avatar img');
+    if(railAvatarImg && popAvatarImg){
+      popAvatarImg.src = railAvatarImg.src;
+      popAvatarImg.style.display = '';
+    }
+
+    function openPop(){
+      pop.classList.add('open');
+      pop.setAttribute('aria-hidden','false');
+      btn.setAttribute('aria-expanded','true');
+    }
+    function closePop(){
+      pop.classList.remove('open');
+      pop.setAttribute('aria-hidden','true');
+      btn.setAttribute('aria-expanded','false');
+    }
+
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      pop.classList.contains('open') ? closePop() : openPop();
+    });
+    btn.addEventListener('keydown', function(e){
+      if(e.key === 'Enter' || e.key === ' '){
+        e.preventDefault();
+        pop.classList.contains('open') ? closePop() : openPop();
+      }
+    });
+
+    // 메뉴 아이템 클릭 처리 (현재는 콘솔 로그 + 팝오버 닫기)
+    pop.querySelectorAll('.user-pop-item').forEach(item=>{
+      item.addEventListener('click', function(e){
+        e.stopPropagation();
+        const action = this.dataset.action;
+        // 실제 라우팅은 추후 페이지 연결 시 구현
+        console.log('[user menu]', action);
+        if(action === 'logout'){
+          window.location.href = 'UI_Refinery_Login.html';
+          return;
+        }
+        closePop();
+      });
+    });
+
+    // 외부 클릭 시 닫기
+    document.addEventListener('click', function(e){
+      if(!pop.contains(e.target) && e.target !== btn && !btn.contains(e.target)){
+        closePop();
+      }
+    });
+    // ESC 키로 닫기
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && pop.classList.contains('open')) closePop();
+    });
+  })();
+
+  // ======== Topbar Search Toggle ========
+  (function(){
+    const btn = document.getElementById('searchBtn');
+    const pop = document.getElementById('searchPopover');
+    const input = document.getElementById('topbarSearchInput');
+
+    function openPop(){
+      pop.classList.add('open');
+      pop.setAttribute('aria-hidden','false');
+      btn.setAttribute('aria-expanded','true');
+      setTimeout(()=>input.focus(), 50);
+    }
+    function closePop(){
+      pop.classList.remove('open');
+      pop.setAttribute('aria-hidden','true');
+      btn.setAttribute('aria-expanded','false');
+      input.blur();
+    }
+
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      pop.classList.contains('open') ? closePop() : openPop();
+    });
+
+    // 외부 클릭 시 닫기
+    document.addEventListener('click', function(e){
+      if(!pop.contains(e.target) && e.target !== btn && !btn.contains(e.target)){
+        if(pop.classList.contains('open')) closePop();
+      }
+    });
+    // ESC 키로 닫기
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && pop.classList.contains('open')) closePop();
+    });
+  })();
+
+  // ======== State Persistence — 새로고침 시 현재 view + sub-page 유지 ========
+  // localStorage 에 { view, dsPage } 를 보존하고, 페이지 로드 시 복구한다.
+  (function(){
+    const KEY = 'refinery-dashboard-state-v1';
+    const body = document.body;
+    const VIEW_LABELS = {
+      'dashboard'    : '대시보드',
+      'design-system': 'Design System',
+    };
+
+    // 현재 body 상태를 localStorage 에 저장 (setView / setDsPage / applyTheme 끝에서 호출)
+    window.saveRefineryState = function(){
+      try {
+        localStorage.setItem(KEY, JSON.stringify({
+          view: body.getAttribute('data-view'),
+          dsPage: body.getAttribute('data-ds-page'),
+          dashPage: body.getAttribute('data-dash-page'),
+          dark: body.classList.contains('dark'),
+        }));
+      } catch(e) { /* private mode 등 무시 */ }
+    };
+
+    // ─────────────────────────────────────────────────────────────
+    // Tab Title — "Refinery — <현재 활성 페이지명>"
+    //   · 페이지명은 breadcrumb 의 .here 텍스트를 단일 출처로 사용
+    //   · view === 'design-system' 이면 data-ds-page 와 매칭되는
+    //     .here[data-ds-crumb="…"] 한 개를 선택
+    //   · 그 외 view 는 .here:not([data-ds-crumb]) (예: Dashboard)
+    //   · setView / setDsPage / restoreRefineryState 직후, 그리고
+    //     스크립트 말미에서 초기 1회 호출 (state 의 단일 출처는 body)
+    // ─────────────────────────────────────────────────────────────
+    window.updateRefineryTabTitle = function(){
+      const view   = body.getAttribute('data-view');
+      const dsPage = body.getAttribute('data-ds-page');
+      let pageName = '';
+      try {
+        if (view === 'design-system' && dsPage){
+          const el = document.querySelector('.crumbs[data-crumbs-view="design-system"] .here[data-ds-crumb="' + dsPage + '"]');
+          if (el) pageName = el.textContent.trim();
+        } else if (view === 'dashboard'){
+          const dp = body.getAttribute('data-dash-page') || 'cloud-platform';
+          const el = document.querySelector('.crumbs[data-crumbs-view="dashboard"] .here[data-dash-crumb="' + dp + '"]');
+          if (el) pageName = el.textContent.trim();
+        } else if (view){
+          const el = document.querySelector('.crumbs[data-crumbs-view="' + view + '"] .here:not([data-ds-crumb])');
+          if (el) pageName = el.textContent.trim();
+        }
+      } catch(_) { /* selector 실패 시 fallback */ }
+      document.title = pageName ? ('Refinery — ' + pageName) : 'Refinery';
+    };
+
+    // ─────────────────────────────────────────────────────────────
+    // Content Canvas 스크롤 초기화
+    //   · App Shell 의 스크롤 컨테이너는 .page (Content Canvas)
+    //   · 페이지 전환(setView / setDsPage) 시 이전 스크롤이 남아 있는
+    //     UX 결함을 막기 위해 무조건 최상단으로 이동
+    //   · window 자체는 스크롤되지 않으므로 .page 만 초기화하면 충분
+    //   · behavior:'auto' 로 즉시 점프 (페이지 전환은 위치 보존이 아니라
+    //     "새 페이지에 진입했다" 는 명확한 시각적 신호여야 함)
+    // ─────────────────────────────────────────────────────────────
+    window.scrollPageToTop = function(){
+      const page = document.querySelector('.page');
+      if (page) page.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      // 일부 환경에서 window 자체가 약간 밀려 있을 수 있어 함께 초기화
+      if (window.scrollY) window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    };
+
+    // 저장된 상태가 있으면 body / rail active / sub-nav active / side search placeholder 동기화
+    // 단, setView 의 "첫 sub-page 로 자동 이동" 규칙을 우회해야 dsPage 가 유지되므로 직접 DOM 조작
+    window.restoreRefineryState = function(){
+      try {
+        const raw = localStorage.getItem(KEY);
+        if(!raw) return;
+        const state = JSON.parse(raw);
+
+        // 1) view 복구 — rail active + side search placeholder
+        //    본 파일이 렌더할 수 있는 view (VIEW_LABELS 키) 만 복구한다.
+        //    과거 회귀로 cross-file view (예: 'pipeline') 가 저장돼 있었으면 무시하고 self-heal.
+        if(state.view && Object.prototype.hasOwnProperty.call(VIEW_LABELS, state.view)){
+          body.setAttribute('data-view', state.view);
+          const railItem = document.querySelector('.rail .ic[data-view="' + state.view + '"]');
+          if(railItem){
+            document.querySelectorAll('.rail .ic').forEach(function(ic){ ic.classList.remove('active'); });
+            railItem.classList.add('active');
+          }
+          const sideSearch = document.getElementById('sideSearchInput');
+          if(sideSearch){
+            sideSearch.placeholder = (VIEW_LABELS[state.view] || state.view) + ' 검색...';
+          }
+        }
+
+        // 2) sub-page 복구 — body[data-ds-page] + sub-nav active
+        if(state.dsPage){
+          body.setAttribute('data-ds-page', state.dsPage);
+          document.querySelectorAll('[data-side-view] [data-ds-page]').forEach(function(item){
+            item.classList.toggle('active', item.dataset.dsPage === state.dsPage);
+          });
+        }
+
+        // 2-1) dashboard sub-page 복구 — body[data-dash-page] + sub-nav active
+        //      저장된 값이 현재 존재하는 Sub Nav 항목일 때만 적용(삭제된 페이지면 무시 → 기본값 유지)
+        if(state.dashPage && document.querySelector('[data-side-view="dashboard"] [data-dash-page="' + state.dashPage + '"]')){
+          body.setAttribute('data-dash-page', state.dashPage);
+          document.querySelectorAll('[data-side-view="dashboard"] [data-dash-page]').forEach(function(item){
+            item.classList.toggle('active', item.dataset.dashPage === state.dashPage);
+          });
+          if(state.dashPage === 'cloud-platform' && window.__cpdRelayout) window.__cpdRelayout();
+        }
+
+        // 3) theme 복구 — Dark / Light. applyTheme 가 노출되어 있으면 그것을 호출(세그 컨트롤·아이콘 버튼까지 동기화),
+        //    아직 정의되지 않은 경우는 body.dark 만이라도 우선 적용한다.
+        if(typeof state.dark === 'boolean'){
+          if(typeof window.applyTheme === 'function'){
+            window.applyTheme(state.dark);
+          } else {
+            body.classList.toggle('dark', state.dark);
+          }
+        }
+
+        // 4) tab title 동기화 — view / dsPage 가 복구된 직후 한 번 갱신
+        if(typeof window.updateRefineryTabTitle === 'function') window.updateRefineryTabTitle();
+      } catch(e) { /* 손상된 state 무시 */ }
+    };
+  })();
+
+  // ======== View Switcher (Dashboard ↔ Design System) ========
+  (function(){
+    const body = document.body;
+    // data-view 속성을 가진 rail .ic 요소들만 view 전환을 담당
+    const viewItems = document.querySelectorAll('.rail .ic[data-view]');
+    if(!viewItems.length) return;
+
+    const VIEW_LABELS = {
+      'dashboard'    : '대시보드',
+      'design-system': 'Design System',
+    };
+
+    window.setView = function setView(view, sourceEl){
+      body.setAttribute('data-view', view);
+      // 모든 rail .ic 의 active 초기화 후 클릭된 요소에만 active 적용
+      document.querySelectorAll('.rail .ic').forEach(ic => ic.classList.remove('active'));
+      if(sourceEl) sourceEl.classList.add('active');
+
+      // ─── 규칙: Global Nav 클릭 시 해당 view 의 Sub Nav 최상단 페이지로 자동 이동 ───
+      // 해당 view 의 [data-side-view] 안에서 첫 번째 [data-ds-page] 를 찾아
+      // body[data-ds-page] 와 sub-nav 의 active 상태를 동기화한다.
+      // (Sub Nav 가 data-ds-page 항목을 갖지 않는 view 는 영향 없음)
+      const sideView = document.querySelector('[data-side-view="' + view + '"]');
+      if(sideView){
+        const firstDsItem = sideView.querySelector('[data-ds-page]');
+        if(firstDsItem){
+          const firstPage = firstDsItem.dataset.dsPage;
+          body.setAttribute('data-ds-page', firstPage);
+          sideView.querySelectorAll('[data-ds-page]').forEach(function(item){
+            item.classList.toggle('active', item.dataset.dsPage === firstPage);
+          });
+        }
+        // dashboard view — 첫 [data-dash-page] 로 동기화 (Sub Nav 최상단 = Cloud Platform)
+        const firstDashItem = sideView.querySelector('[data-dash-page]');
+        if(firstDashItem){
+          const firstDash = firstDashItem.dataset.dashPage;
+          body.setAttribute('data-dash-page', firstDash);
+          sideView.querySelectorAll('[data-dash-page]').forEach(function(item){
+            item.classList.toggle('active', item.dataset.dashPage === firstDash);
+          });
+          if(firstDash === 'cloud-platform' && window.__cpdRelayout) window.__cpdRelayout();
+        }
+      }
+
+      // sub nav 검색 플레이스홀더 업데이트
+      const sideSearch = document.getElementById('sideSearchInput');
+      if(sideSearch){
+        const label = VIEW_LABELS[view] || view;
+        sideSearch.placeholder = label + ' 검색...';
+      }
+
+      // 새로고침 시 유지하기 위해 localStorage 에 저장
+      if(window.saveRefineryState) window.saveRefineryState();
+      // 브라우저 탭 제목 동기화
+      if(window.updateRefineryTabTitle) window.updateRefineryTabTitle();
+      // Content Canvas 스크롤을 최상단으로 리셋 (이전 페이지의 스크롤 잔존 방지)
+      if(window.scrollPageToTop) window.scrollPageToTop();
+    }
+
+    viewItems.forEach(item=>{
+      item.addEventListener('click', function(e){
+        // 즐겨찾기 별 버튼 클릭은 view 전환에서 제외
+        if(e.target.closest('.fav-btn')) return;
+        // Cross-file 이동(data-nav 가 현재 파일이 아님)은 Shell delegation 이 처리한다.
+        // 여기서 setView 를 호출하면 본 파일에 없는 view 가 body·localStorage 에 남아
+        // 다음 진입 시 [data-page-view] / [data-side-view] CSS 라우팅이 모든 콘텐츠를 숨겨 화면이 빈다.
+        var nav = this.dataset.nav;
+        var cur = (location.pathname.split('/').pop() || '').split('?')[0];
+        if(nav && nav !== cur) return;
+        window.setView(this.dataset.view, this);
+      });
+    });
+  })();
+
+  // ======== Design System — Sub-page Switcher (Colors ↔ Typography) ========
+  (function(){
+    const body = document.body;
+    // data-ds-page 속성을 가진 sub nav 항목들
+    const dsItems = document.querySelectorAll('[data-side-view="design-system"] [data-ds-page]');
+    if(!dsItems.length) return;
+
+    function setDsPage(page){
+      body.setAttribute('data-ds-page', page);
+      dsItems.forEach(item=>{
+        item.classList.toggle('active', item.dataset.dsPage === page);
+      });
+      // 새로고침 시 유지하기 위해 localStorage 에 저장
+      if(window.saveRefineryState) window.saveRefineryState();
+      // 브라우저 탭 제목 동기화
+      if(window.updateRefineryTabTitle) window.updateRefineryTabTitle();
+      // Content Canvas 스크롤을 최상단으로 리셋 (이전 페이지의 스크롤 잔존 방지)
+      if(window.scrollPageToTop) window.scrollPageToTop();
+    }
+
+    dsItems.forEach(item=>{
+      item.addEventListener('click', function(){
+        setDsPage(this.dataset.dsPage);
+      });
+    });
+  })();
+
+  // ======== Dashboard — Sub-page Switcher (전력모니터링 ↔ Cloud Platform) ========
+  (function(){
+    const body = document.body;
+    const items = document.querySelectorAll('[data-side-view="dashboard"] [data-dash-page]');
+    if(!items.length) return;
+
+    window.setDashPage = function setDashPage(page){
+      body.setAttribute('data-dash-page', page);
+      items.forEach(item=>{
+        item.classList.toggle('active', item.dataset.dashPage === page);
+      });
+      // 새로고침 시 유지하기 위해 localStorage 에 저장
+      if(window.saveRefineryState) window.saveRefineryState();
+      // 브라우저 탭 제목 동기화
+      if(window.updateRefineryTabTitle) window.updateRefineryTabTitle();
+      // Content Canvas 스크롤을 최상단으로 리셋
+      if(window.scrollPageToTop) window.scrollPageToTop();
+      // Cloud Platform 진입 시 treemap 재계측 (display:none → block 전환 후 폭 확정)
+      if(page === 'cloud-platform' && window.__cpdRelayout) window.__cpdRelayout();
+    };
+
+    items.forEach(item=>{
+      item.addEventListener('click', function(){
+        window.setDashPage(this.dataset.dashPage);
+      });
+    });
+  })();
+
+  // ======== 초기 상태 복구 — 모든 click handler 바인딩 직후 한 번 실행 ========
+  // 저장된 상태가 있으면 body 의 data-view / data-ds-page 와 active 상태를 복구.
+  // 저장된 값이 없으면 body 의 기본 속성 그대로 유지됨.
+  if(window.restoreRefineryState) window.restoreRefineryState();
+  // ======== 초기 탭 제목 동기화 ========
+  // restoreRefineryState 가 호출되었다면 그 안에서 이미 갱신되었지만,
+  // localStorage 가 비어 있어 복구가 일어나지 않은 첫 방문 케이스를 위해
+  // 명시적으로 한 번 더 실행한다 (idempotent).
+  if(window.updateRefineryTabTitle) window.updateRefineryTabTitle();
+</script>
+<script>
+/* ============================================================
+   Cloud Platform Dashboard — 인터랙티브 모듈
+   · squarified treemap(Top Apps) · area sparkline(Daily Visitor) · impact bubbles
+   · 24h/30d/90d 범위 토글 · 1.3s live tick · hover 툴팁(inverted)
+   · ResizeObserver 로 display:none→block 전환 시 treemap 재계측
+   색은 §2.2 팔레트 / 토큰 hex 리터럴만 사용 (data-viz 인가된 예외)
+   ============================================================ */
+(function(){
+  var tree = document.getElementById('cpdTree');
+  if(!tree) return; // cloud-platform 콘텐츠 없으면 무동작
+
+  var content = document.querySelector('[data-dash-content="cloud-platform"]');
+  var tip = document.getElementById('cpdTip');
+
+  var ranges = {
+    '24h':{label:'Last 24 Hours',users:1000,traffic:512,visitors:1000,impact:1643,peak:1283,usersD:15.05,trafficD:-2.15,visitorsD:15.05,left:'24 Hours Ago',spanLabels:['FRI','06:00','12:00','18:00','SAT']},
+    '30d':{label:'Last 30 Days',users:5403,traffic:438,visitors:5403,impact:12840,peak:6120,usersD:8.64,trafficD:3.41,visitorsD:8.64,left:'30 Days Ago',spanLabels:['4w','3w','2w','1w','Now']},
+    '90d':{label:'Last 90 Days',users:14820,traffic:401,visitors:14820,impact:38110,peak:16204,usersD:-4.22,trafficD:-1.12,visitorsD:-4.22,left:'90 Days Ago',spanLabels:['90d','60d','30d','15d','Today']}
+  };
+
+  var apps = [
+    {name:'Chiller Plant',users:1000},{name:'HVAC · North',users:1000},{name:'HVAC · South',users:1000},
+    {name:'AHU Tower',users:500},{name:'Cooling Tower',users:500},{name:'Hot Water',users:500},
+    {name:'Data Center',users:500,alert:0.95},{name:'Office Lighting',users:500},
+    {name:'Elevators',users:250},{name:'Ventilation',users:250},
+    {name:'Pumps · Water',users:250},{name:'Heat Pump',users:250},{name:'EV Chargers',users:250},
+    {name:'Escalators',users:250},{name:'Kitchen',users:250,alert:0.68},
+    {name:'Lobby HVAC',users:250,alert:0.28},{name:'Garage Lighting',users:250},{name:'Signage',users:250},
+    {name:'Plug Loads · 3F',users:250},{name:'Plug Loads · 5F',users:250},{name:'Fire & Security',users:250},{name:'Misc Loads',users:250}
+  ];
+
+  var range = '24h';
+  var series = [];
+  var bubbles = [];
+  var display = { users:1000, traffic:512, visitors:1000, impact:1643 };
+  var target  = { users:1000, traffic:512, visitors:1000, impact:1643 };
+  var raf = null, iv = null;
+
+  function fmt(n){ n = Math.round(n); return n < 10000 ? String(n) : n.toLocaleString('en-US'); }
+  function hx(h){ h=h.replace('#',''); return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)]; }
+  function mix(a,b,t){ var A=hx(a),B=hx(b); var c=A.map(function(v,i){return Math.round(v+(B[i]-v)*t);}); return 'rgb('+c[0]+','+c[1]+','+c[2]+')'; }
+  function tileColor(app){
+    if(app.alert!=null) return mix('#F0A93A','#E5484D',app.alert);  /* warn → bad (심각도) */
+    var t = Math.max(0,Math.min(1,(app.users-250)/750));
+    return mix('#AAD0F3','#173B6B',t);                              /* Blue 농도 램프 (blue-200→800) */
+  }
+  function tileText(app){
+    if(app.alert!=null) return '#FFFFFF';
+    var t = Math.max(0,Math.min(1,(app.users-250)/750));
+    return t>0.42 ? '#EDF4FC' : '#16202C';
+  }
+
+  /* ---- squarified treemap ---- */
+  function squarify(items, W, H){
+    if(W<=0||H<=0) return [];
+    var data = items.slice().sort(function(a,b){return b.users-a.users;});
+    var total = data.reduce(function(s,i){return s+i.users;},0)||1;
+    var scale = (W*H)/total;
+    var nodes = data.map(function(i){ var o={}; for(var k in i) o[k]=i[k]; o.area=i.users*scale; return o; });
+    var out=[], rx=0, ry=0, rw=W, rh=H, i=0;
+    function worst(row,len){ var sum=row.reduce(function(a,b){return a+b.area;},0); var mx=Math.max.apply(null,row.map(function(r){return r.area;})); var mn=Math.min.apply(null,row.map(function(r){return r.area;})); return Math.max((len*len*mx)/(sum*sum),(sum*sum)/(len*len*mn)); }
+    while(i<nodes.length){
+      var horizontal = rw>=rh; var len=Math.min(rw,rh);
+      var row=[nodes[i]], j=i+1;
+      while(j<nodes.length){ var trial=row.concat(nodes[j]); if(worst(trial,len)<=worst(row,len)){ row=trial; j++; } else break; }
+      var sum=row.reduce(function(a,b){return a+b.area;},0);
+      if(horizontal){ var sw=sum/rh, oy=ry; row.forEach(function(it){ var ih=it.area/sw; it.x=rx; it.y=oy; it.w=sw; it.h=ih; out.push(it); oy+=ih; }); rx+=sw; rw-=sw; }
+      else { var sh=sum/rw, ox=rx; row.forEach(function(it){ var iw=it.area/sh; it.x=ox; it.y=ry; it.w=iw; it.h=sh; out.push(it); ox+=iw; }); ry+=sh; rh-=sh; }
+      i=j;
+    }
+    return out;
+  }
+
+  function renderTree(){
+    var W = tree.clientWidth, H = tree.clientHeight;
+    if(W<=0||H<=0) return; /* 숨김 상태 — 보일 때 ResizeObserver 가 재호출 */
+    var factor = ranges[range].users/1000;
+    var laid = squarify(apps, W, H);
+    var html='';
+    laid.forEach(function(t){
+      var du = t.users*factor;
+      var err = (t.alert!=null ? (t.alert*9).toFixed(1) : (1.4 + t.users/520).toFixed(1)) + '%';
+      var status = t.alert!=null ? (t.alert>=0.8?'Critical':'Alert') : 'Normal';
+      var bg = tileColor(t), tc = tileText(t);
+      html += '<div class="cpd-tile" data-name="'+t.name+'" data-users="'+fmt(du)+'" data-err="'+err+'" data-status="'+status+'"'
+        + ' style="position:absolute;left:'+(t.x+1.5)+'px;top:'+(t.y+1.5)+'px;width:'+Math.max(0,t.w-3)+'px;height:'+Math.max(0,t.h-3)+'px;background:'+bg+';border-radius:3px;overflow:hidden;cursor:default">'
+        + '<span style="position:absolute;left:8px;top:7px;right:8px;font-family:var(--font-en);font-size:var(--fs-caption);font-weight:500;line-height:1.2;color:'+tc+'">'+t.name+'</span>'
+        + '<span style="position:absolute;right:8px;bottom:6px;font-family:var(--font-mono);font-size:var(--fs-code);color:'+tc+';opacity:.85">'+fmt(du)+'</span>'
+        + '</div>';
+    });
+    tree.innerHTML = html;
+  }
+
+  /* ---- area sparkline ---- */
+  function genSeries(base){
+    var n=48, a=[], v=base*0.82;
+    for(var i=0;i<n;i++){ v += (Math.random()*2-1)*base*0.08; v=Math.max(base*0.45,Math.min(base*1.2,v)); a.push(v); }
+    a[n-9]=base*1.16; a[n-8]=base*0.98; a[n-7]=base*1.05;
+    return a;
+  }
+  function renderSpark(){
+    var n=series.length, VW=300, VH=90, pad=8;
+    if(!n) return;
+    var max=Math.max.apply(null,series), min=Math.min.apply(null,series);
+    var span=Math.max(1,max-min);
+    var sx=function(i){return (i/Math.max(1,n-1))*VW;};
+    var sy=function(v){return VH-pad-((v-min)/span)*(VH-2*pad);};
+    var line='', area='M0,'+VH+' ';
+    series.forEach(function(v,i){ var X=sx(i).toFixed(1), Y=sy(v).toFixed(1); line += (i===0?'M':'L')+X+','+Y+' '; area += 'L'+X+','+Y+' '; });
+    area += 'L'+VW+','+VH+' Z';
+    var lp=document.getElementById('cpdLine'), ap=document.getElementById('cpdArea');
+    if(lp) lp.setAttribute('d', line);
+    if(ap) ap.setAttribute('d', area);
+    var avg = series.reduce(function(a,b){return a+b;},0)/n;
+    var peakEl=document.getElementById('cpdPeak'), avgEl=document.getElementById('cpdAvg');
+    if(peakEl) peakEl.textContent = fmt(ranges[range].peak);
+    if(avgEl) avgEl.textContent = fmt(avg);
+  }
+
+  /* ---- impact bubbles ---- */
+  function genBubbles(){
+    var n=15, arr=[];
+    /* 결정적 의사난수(index 기반) — 재렌더/범위 토글에도 위치 안정 */
+    var rnd=function(s){ var x=Math.sin(s*127.1+43.7)*43758.5453; return x-Math.floor(x); };
+    /* 영향도 큰 "사건" 몇 개를 흩어 배치해 크기 대비를 키움 (timeline 위 임의 위치) */
+    var spikes={2:230, 5:150, 7:255, 11:185};
+    for(var i=0;i<n;i++){
+      /* 크기: 18~120 의 넓은 스프레드 + 사건 스파이크 → 작은 점과 큰 원이 공존 */
+      var v = spikes[i]!=null ? spikes[i] : 18 + Math.round(rnd(i)*100);
+      var r = Math.max(4, Math.sqrt(v)*1.05);
+      /* 가로: 균등 배치에 ±12 지터를 줘 기계적 정렬을 깨뜨림 */
+      var cx = 12 + (i/(n-1))*276 + (rnd(i+90)-0.5)*24;
+      /* 세로: 중심선 기준 ±28 로 위·아래 흩뿌리기 (기존 ±16 → 확대) */
+      var cy = 60 + (rnd(i+50)-0.5)*56;
+      var color = v>=200 ? 'var(--bad)' : 'var(--warn)';  /* div 배경=CSS context → 토큰 호출 */
+      var op = v>=200 ? 0.92 : (v>=110 ? 0.8 : 0.5);   /* 클수록 진하게 */
+      arr.push({cx:cx,cy:cy,r:r,value:v,color:color,op:op,date:((n-1-i)*5+1)+'d ago'});
+    }
+    return arr;
+  }
+  function renderBubbles(){
+    var box = document.getElementById('cpdBubbles');
+    if(!box) return;
+    var html = '<div style="position:absolute;left:0;right:0;top:50%;height:1px;background:var(--ink-200)"></div>';
+    bubbles.forEach(function(b){
+      html += '<div class="cpd-bubble" data-inc="'+b.value+'" data-when="'+b.date+'"'
+        + ' style="position:absolute;left:'+(b.cx/300*100)+'%;top:'+(b.cy/120*100)+'%;width:'+(b.r*2)+'px;height:'+(b.r*2)+'px;border-radius:50%;background:'+b.color+';opacity:'+b.op+';transform:translate(-50%,-50%);cursor:default"></div>';
+    });
+    box.innerHTML = html;
+  }
+
+  /* ---- tooltip (inverted) ---- */
+  function showTip(html, clientX, clientY){
+    if(!tip || !content) return;
+    var r = content.getBoundingClientRect();
+    tip.innerHTML = html;
+    tip.style.display = 'block';
+    /* 경계 충돌 시 반대로 flip + 컨테이너 안으로 clamp → 화면 밖으로 넘쳐 가로 스크롤 생기는 것 방지 */
+    var tw = tip.offsetWidth, th = tip.offsetHeight, pad = 8;
+    var x = clientX - r.left + 14;
+    if(x + tw > r.width - pad) x = clientX - r.left - tw - 14;   /* 오른쪽 넘침 → 커서 왼쪽으로 */
+    x = Math.max(pad, Math.min(x, r.width - tw - pad));
+    var y = clientY - r.top + 14;
+    if(y + th > r.height - pad) y = clientY - r.top - th - 14;   /* 아래 넘침 → 커서 위로 */
+    y = Math.max(pad, Math.min(y, r.height - th - pad));
+    tip.style.left = x + 'px';
+    tip.style.top  = y + 'px';
+  }
+  function hideTip(){ if(tip) tip.style.display='none'; }
+  function tipRows(rows){ return rows.map(function(rw){ return '<div style="display:flex;justify-content:space-between;gap:16px;color:#CFCFCF"><span>'+rw[0]+'</span><span style="color:#fff;font-weight:500">'+rw[1]+'</span></div>'; }).join(''); }
+  function tipBlock(title, rows){ return '<div style="font-weight:600;margin-bottom:3px">'+title+'</div>'+tipRows(rows); }
+
+  tree.addEventListener('mousemove', function(e){
+    var t = e.target.closest('.cpd-tile');
+    if(!t){ hideTip(); return; }
+    showTip(tipBlock(t.dataset.name, [['Energy',t.dataset.users+' kWh'],['Over baseline',t.dataset.err],['Status',t.dataset.status]]), e.clientX, e.clientY);
+  });
+  tree.addEventListener('mouseleave', hideTip);
+
+  var bubbleBox = document.getElementById('cpdBubbles');
+  if(bubbleBox){
+    bubbleBox.addEventListener('mousemove', function(e){
+      var b = e.target.closest('.cpd-bubble');
+      if(!b){ hideTip(); return; }
+      showTip(tipBlock('Anomaly cluster', [['Impact',b.dataset.inc+' kWh'],['When',b.dataset.when]]), e.clientX, e.clientY);
+    });
+    bubbleBox.addEventListener('mouseleave', hideTip);
+  }
+
+  var sparkWrap = document.getElementById('cpdSparkWrap');
+  if(sparkWrap){
+    sparkWrap.addEventListener('mousemove', function(e){
+      var n=series.length; if(!n) return;
+      var rect = sparkWrap.getBoundingClientRect();
+      var frac = Math.max(0,Math.min(1,(e.clientX-rect.left)/rect.width));
+      var idx = Math.round(frac*(n-1));
+      showTip(tipBlock('Power Load', [['Demand',fmt(series[idx])+' kW']]), e.clientX, e.clientY);
+    });
+    sparkWrap.addEventListener('mouseleave', hideTip);
+  }
+
+  /* ---- deltas / static text ---- */
+  function setDelta(el, v, invert){
+    if(!el) return;
+    var up = v>=0;                       /* 실제 변화 방향 = 화살표 */
+    var good = invert ? !up : up;        /* 색 의미: 기본 up=good. invert(낮을수록 좋음)면 증가가 bad */
+    el.className = 'delta ' + (good?'up':'down');
+    el.innerHTML = '<i class="ph ph-caret-'+(up?'up':'down')+'"></i>'+Math.abs(v).toFixed(2)+'%';
+    if(!el.closest('.kpi')){
+      /* .kpi .delta 레이아웃은 .kpi 스코프 — 카드 안 델타는 인라인으로 동일 보정 (색/배경은 전역 .delta.up/.down) */
+      el.style.display='inline-flex'; el.style.alignItems='center'; el.style.gap='4px';
+      el.style.padding='2px 7px'; el.style.borderRadius='5px';
+      el.style.fontFamily='var(--font-mono)'; el.style.fontWeight='600'; el.style.fontSize='var(--fs-code)';
+    }
+  }
+  /* 라이브 숫자 폭 고정 — 자릿수 변동(예: 999↔1000)으로 옆 델타/유닛이 흔들리지 않게
+     범위별 최대값(base*1.2) 길이만큼 min-width 를 예약. .num(tabular-nums)과 함께 좌우 떨림 제거. */
+  function reserveW(id, sample){
+    var el=document.getElementById(id); if(!el) return;
+    el.style.display='inline-block';
+    el.style.textAlign='left';
+    el.style.minWidth=String(sample).length+'ch';
+  }
+  function syncStatic(){
+    var r = ranges[range];
+    var set = function(id,val){ var el=document.getElementById(id); if(el) el.textContent = val; };
+    reserveW('cpdUsers',   fmt(r.users*1.2));
+    reserveW('cpdTraffic', fmt(r.traffic*1.2));
+    reserveW('cpdVisitors',fmt(r.visitors*1.2));
+    reserveW('cpdImpact',  fmt(r.impact*1.2));
+    reserveW('cpdPeakKpi', fmt(r.peak));
+    set('cpdRangeLabel', r.label);
+    set('cpdMyAppSub', 'During the '+r.label.toLowerCase()+', the peak power demand is '+fmt(r.peak)+' kW.');
+    set('cpdTopSub', apps.length+' systems · sorted by energy use · '+r.label);
+    set('cpdVisitorSub', 'Power Demand · '+r.label);
+    set('cpdImpactSub', 'Energy wasted by anomalies vs. baseline · '+r.label);
+    set('cpdImpactLeft', r.left);
+    set('cpdPeakKpi', fmt(r.peak));
+    var pb=document.getElementById('cpdPeakBadge'); if(pb) pb.textContent = range.toUpperCase();
+    setDelta(document.getElementById('cpdUsersDelta'), r.usersD, true);    /* 전력수요·에너지·부하: 낮을수록 좋음 → 증가=red, 감소=green */
+    setDelta(document.getElementById('cpdTrafficDelta'), r.trafficD, true);
+    setDelta(document.getElementById('cpdVisitorsDelta'), r.visitorsD, true);
+    var sl=document.getElementById('cpdSpanLabels');
+    if(sl) sl.innerHTML = r.spanLabels.map(function(l){return '<span>'+l+'</span>';}).join('');
+  }
+  function writeNumbers(){
+    var set=function(id,val){ var el=document.getElementById(id); if(el) el.textContent = fmt(val); };
+    set('cpdUsers', display.users);
+    set('cpdTraffic', display.traffic);
+    set('cpdVisitors', display.visitors);
+    set('cpdImpact', display.impact);
+    var costEl=document.getElementById('cpdImpactCost');   /* 손실 kWh × 단가(₩150/kWh) — 수치와 함께 라이브 갱신 */
+    if(costEl) costEl.textContent = '≈ ₩ '+Math.round(display.impact*150).toLocaleString('en-US');
+  }
+
+  /* ---- live tick + ease loop ---- */
+  function isVisible(){ return document.body.getAttribute('data-dash-page')==='cloud-platform'; }
+  function tickLive(){
+    if(!isVisible()) return;
+    var r = ranges[range];
+    var jit=function(b,p){ return b*(1+(Math.random()*2-1)*p); };
+    target = { users:jit(r.users,0.03), traffic:jit(r.traffic,0.02), visitors:jit(r.visitors,0.03), impact:jit(r.impact,0.004) };
+    if(series.length){ var nv=series[series.length-1]+(Math.random()*2-1)*(r.visitors*0.06); nv=Math.max(r.visitors*0.45,Math.min(r.visitors*1.2,nv)); series.push(nv); series.shift(); renderSpark(); }
+  }
+  function loop(){
+    var changed=false, nd={};
+    for(var k in target){ var diff=target[k]-display[k]; if(Math.abs(diff)>0.5){ nd[k]=display[k]+diff*0.14; changed=true; } else nd[k]=target[k]; }
+    if(changed){ display=nd; writeNumbers(); }
+    raf = requestAnimationFrame(loop);
+  }
+
+  /* ---- range toggle ---- */
+  function setRange(rk){
+    if(!ranges[rk]) return;
+    range = rk;
+    var r = ranges[rk];
+    target = { users:r.users, traffic:r.traffic, visitors:r.visitors, impact:r.impact };
+    series = genSeries(r.visitors);
+    bubbles = genBubbles();
+    syncStatic();
+    renderTree();
+    renderSpark();
+    renderBubbles();
+    var seg=document.getElementById('cpdRange');
+    if(seg) seg.querySelectorAll('button').forEach(function(b){ b.classList.toggle('on', b.dataset.r===rk); });
+  }
+  var seg = document.getElementById('cpdRange');
+  if(seg){ seg.addEventListener('click', function(e){ var b=e.target.closest('button'); if(b&&b.dataset.r) setRange(b.dataset.r); }); }
+
+  /* ---- relayout (display:none → block 전환 시 호출) ---- */
+  window.__cpdRelayout = function(){ renderTree(); renderSpark(); renderBubbles(); };
+  if(window.ResizeObserver){ new ResizeObserver(function(){ renderTree(); }).observe(tree); }
+  window.addEventListener('resize', function(){ renderTree(); });
+
+  /* ---- init ---- */
+  series = genSeries(ranges[range].visitors);
+  bubbles = genBubbles();
+  syncStatic();
+  writeNumbers();
+  renderTree();
+  renderSpark();
+  renderBubbles();
+  raf = requestAnimationFrame(loop);
+  iv = setInterval(tickLive, 1300);
+
+  /* ---- 확대 → 상세 모달 (에너지 사용량 상위 설비) ----
+     위젯 헤더 확대 아이콘 클릭 시 동일한 treemap 을 크게(xl 모달) 펼쳐, 위젯에서 답답하던
+     작은 설비 타일까지 읽히게 하고 타일마다 이름·상태·비중·사용량을 함께 노출.
+     위젯과 동일한 apps 데이터·squarify·tileColor 를 그대로 재사용해 값/색이 항상 일치. */
+  (function(){
+    var overlay = document.getElementById('cpdTopDetailOverlay');
+    if(!overlay) return;
+    var trigger  = document.getElementById('cpdTopExpand');
+    var treeEl   = document.getElementById('cpdTopDetailTree');
+    var rowsEl   = document.getElementById('cpdTopDetailRows');
+    var subEl    = document.getElementById('cpdTopDetailSub');     /* 푸터 meta (합계 포함) */
+    var closeEls = overlay.querySelectorAll('[data-cpd-detail-close]');
+
+    /* 호버 툴팁(showTip)과 동일한 파생 값 — 한 곳에서 계산해 treemap·표가 같은 수치를 공유 */
+    function metrics(a, factor){
+      var crit = a.alert!=null && a.alert>=0.8;
+      return {
+        energy: a.users*factor,                                                       /* Energy (kWh) */
+        baseline: (a.alert!=null ? (a.alert*9) : (1.4 + a.users/520)).toFixed(1)+'%',  /* Over baseline */
+        status:   a.alert!=null ? (crit?'위험':'경고') : '정상',                      /* 타일 라벨(국문) */
+        statusEn: a.alert!=null ? (crit?'Critical':'Alert') : 'Normal',               /* 표 뱃지(영문) */
+        tag:      a.alert!=null ? (crit?'bad':'warn') : 'good'                         /* .tag semantic 변형 */
+      };
+    }
+    /* 트리맵 타일 ↔ 표 행 호버 연동 — 설비명(data-sys)으로 매칭해 양쪽을 동시에 하이라이트.
+       설비명에 따옴표/역슬래시가 없어 속성 선택자에 그대로 사용 가능. */
+    function setHi(name, on){
+      if(!name) return;
+      var sel = '[data-sys="'+name+'"]';
+      var tile = treeEl && treeEl.querySelector('.cpd-tile'+sel);
+      var row  = rowsEl && rowsEl.querySelector('tr'+sel);
+      if(tile) tile.classList.toggle('is-hi', on);
+      if(row)  row.classList.toggle('is-hover', on);
+    }
+    function bindHoverLink(el){
+      el.addEventListener('mouseenter', function(){ setHi(el.dataset.sys, true); });
+      el.addEventListener('mouseleave', function(){ setHi(el.dataset.sys, false); });
+    }
+    /* 설비별 에너지 시계열 — 이름 기반 시드로 결정적 생성(펼칠 때마다 동일). 평균 ≈ 현재 range 의 Energy. */
+    function genSysSeries(a, n, avg){
+      var seed = 0, i;
+      for(i=0;i<a.name.length;i++){ seed += a.name.charCodeAt(i)*(i+1); }
+      function rnd(){ seed=(seed*9301+49297)%233280; return seed/233280; }
+      var amp = a.alert!=null ? 0.26 : 0.15;            /* 경보 설비는 변동 폭 큼 */
+      var arr=[], v=avg, k;
+      for(k=0;k<n;k++){ v += (rnd()*2-1)*avg*amp; v=Math.max(avg*0.55, Math.min(avg*1.5, v)); arr.push(v); }
+      return arr;
+    }
+    /* 아코디언 패널 HTML — Energy 추이 area+line + 기준선(baseline) + Avg/Peak/Over baseline 요약.
+       선 색 = Status(정상 brand / 경고 warn / 위험 bad). SVG presentation attr 라 팔레트 hex 리터럴 사용(인가된 예외). */
+    function panelHTML(a){
+      var factor = ranges[range].users/1000;
+      var m = metrics(a, factor);
+      var energy = a.users*factor;
+      var over = parseFloat(m.baseline) || 0;
+      var baseline = energy/(1+over/100);
+      var n = (range==='24h')?24:30;
+      var pts = genSysSeries(a, n, energy);
+      var peak = Math.max.apply(null, pts);
+      var lo = Math.min.apply(null, pts.concat([baseline]));
+      var hi = Math.max.apply(null, pts.concat([baseline]));
+      var span = Math.max(1, hi-lo);
+      var VW=300, VH=72, pad=8, i;
+      function X(i){ return (i/(n-1))*VW; }
+      function Y(v){ return (VH-pad)-((v-lo)/span)*(VH-2*pad); }
+      var line='', area='M0 '+VH+' ';
+      for(i=0;i<n;i++){ var x=X(i).toFixed(1), y=Y(pts[i]).toFixed(1); line+=(i?'L':'M')+x+' '+y+' '; area+='L'+x+' '+y+' '; }
+      area += 'L'+VW+' '+VH+' Z';
+      var byl = Y(baseline).toFixed(1);
+      var col = a.alert!=null ? (a.alert>=0.8?'#E5484D':'#F0A93A') : '#3F76AE';
+      var rlabel = ranges[range].label;
+      return '<div style="padding:10px 12px 12px;background:var(--ink-50)">'
+        + '<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">'
+          + '<span style="font-family:var(--font-en);font-size:var(--fs-label);font-weight:600;color:var(--ink-500);text-transform:uppercase;letter-spacing:.06em">Energy Trend · '+rlabel+'</span>'
+          + '<span style="font-family:var(--font-mono);font-size:var(--fs-label);color:var(--ink-500)">baseline '+fmt(baseline)+' kWh</span>'
+        + '</div>'
+        + '<svg viewBox="0 0 300 72" preserveAspectRatio="none" width="100%" height="72" style="display:block;overflow:visible">'
+          + '<path d="'+area+'" fill="'+col+'" fill-opacity="0.13"/>'
+          + '<line x1="0" y1="'+byl+'" x2="300" y2="'+byl+'" stroke="#A4ADB8" stroke-width="1" stroke-dasharray="3 3" vector-effect="non-scaling-stroke"/>'
+          + '<path d="'+line+'" fill="none" stroke="'+col+'" stroke-width="1.6" vector-effect="non-scaling-stroke"/>'
+        + '</svg>'
+        + '<div style="display:flex;justify-content:flex-end;gap:18px;margin-top:8px;font-family:var(--font-en);font-size:var(--fs-caption);color:var(--ink-600)">'
+          + '<span>Avg <b style="color:var(--ink-900)">'+fmt(energy)+'</b> kWh</span>'
+          + '<span>Peak <b style="color:var(--ink-900)">'+fmt(peak)+'</b> kWh</span>'
+          + '<span>Over baseline <b style="color:var(--ink-900)">'+m.baseline+'</b></span>'
+        + '</div>'
+      + '</div>';
+    }
+    /* 행 클릭 → 바로 아래에 패널 행 토글 (각 행 독립 펼침) */
+    function toggleRow(tr){
+      var next = tr.nextElementSibling;
+      if(next && next.classList.contains('cpd-acc-panel')){ next.parentNode.removeChild(next); tr.classList.remove('cpd-acc-open'); return; }
+      var name = tr.getAttribute('data-sys'), a = null, i;
+      for(i=0;i<apps.length;i++){ if(apps[i].name===name){ a=apps[i]; break; } }
+      if(!a) return;
+      var det = document.createElement('tr');
+      det.className = 'cpd-acc-panel';
+      det.innerHTML = '<td colspan="4">'+panelHTML(a)+'</td>';
+      if(tr.nextSibling) tr.parentNode.insertBefore(det, tr.nextSibling); else tr.parentNode.appendChild(det);
+      tr.classList.add('cpd-acc-open');
+    }
+    function render(){
+      var r = ranges[range];
+      var factor = r.users/1000;                              /* 위젯 renderTree 와 동일한 range 스케일 */
+      var total  = apps.reduce(function(s,a){ return s+a.users; }, 0) || 1;
+
+      /* 데이터(표·푸터)는 treemap 측정 성공 여부와 무관하게 항상 현재 range 반영 */
+      if(rowsEl){
+        var ranked = apps.slice().sort(function(a,b){ return b.users-a.users; });
+        rowsEl.innerHTML = ranked.map(function(a){
+          var m = metrics(a, factor);
+          return '<tr class="cpd-acc-row" data-sys="'+a.name+'">'
+            + '<td style="font-weight:600;color:var(--ink-900)"><i class="ph ph-caret-right cpd-acc-caret"></i>'+a.name+'</td>'
+            + '<td class="num" style="font-weight:600;color:var(--ink-900)">'+fmt(m.energy)+' <span style="font-family:var(--font-mono);font-size:var(--fs-label);font-weight:400;color:var(--ink-500)">kWh</span></td>'
+            + '<td class="num" style="font-weight:600;color:var(--ink-900)">'+m.baseline+'</td>'
+            + '<td><span class="tag '+m.tag+'">'+m.statusEn+'</span></td>'
+            + '</tr>';
+        }).join('');
+      }
+      if(subEl) subEl.textContent = apps.length+' systems · sorted by energy use · '+r.label+' · Total '+fmt(total*factor)+' kWh';  /* 푸터 meta + Total, 모두 회색 기본체 */
+
+      /* treemap — 컨테이너 측정이 필요. 아직 0 이면(레이아웃 미확정) 다음 프레임에 재시도. */
+      if(!treeEl) return;
+      var W = treeEl.clientWidth, H = treeEl.clientHeight;
+      if(W<=0||H<=0){ if(isOpen()) requestAnimationFrame(render); return; }   /* 열린 동안에만 재시도 — 닫히면 루프 종료 */
+      var laid = squarify(apps, W, H);
+      var html = '';
+      laid.forEach(function(t){
+        var m      = metrics(t, factor);
+        var share  = (t.users/total*100).toFixed(1)+'%';
+        var bg = tileColor(t), tc = tileText(t);
+        var mid = (t.w>96 && t.h>62);                          /* 중간 이상 타일에만 상태·비중 노출 */
+        html += '<div class="cpd-tile" data-sys="'+t.name+'" style="position:absolute;left:'+(t.x+1.5)+'px;top:'+(t.y+1.5)+'px;width:'+Math.max(0,t.w-3)+'px;height:'+Math.max(0,t.h-3)+'px;background:'+bg+';border-radius:4px;overflow:hidden;cursor:default">'
+          + '<span style="position:absolute;left:9px;top:8px;right:9px;font-family:var(--font-en);font-size:var(--fs-body-sm);font-weight:600;line-height:1.2;color:'+tc+'">'+t.name+'</span>'
+          + (mid ? '<span style="position:absolute;left:9px;top:30px;font-family:var(--font-en);font-size:var(--fs-label);font-weight:500;color:'+tc+';opacity:.82">'+m.status+' · '+share+'</span>' : '')
+          + '<span style="position:absolute;right:9px;bottom:7px;font-family:var(--font-mono);font-size:var(--fs-code);color:'+tc+';opacity:.9">'+fmt(m.energy)+'</span>'
+          + '</div>';
+      });
+      treeEl.innerHTML = html;
+
+      /* 타일·행 호버 연동 바인딩 (매 렌더마다 새 요소에 부착) */
+      treeEl.querySelectorAll('.cpd-tile').forEach(bindHoverLink);
+      if(rowsEl) rowsEl.querySelectorAll('tr').forEach(bindHoverLink);
+    }
+    function openModal(){
+      overlay.style.display = 'flex';
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      render();                                                /* display:flex 확정 후 측정 → squarify */
+      var c = overlay.querySelector('.rfn-modal-close'); if(c) c.focus();
+    }
+    function closeModal(){
+      overlay.style.display = 'none';
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      if(trigger) trigger.focus();
+    }
+    function isOpen(){ return overlay.style.display==='flex'; }
+    if(trigger){
+      trigger.addEventListener('click', openModal);
+      trigger.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openModal(); } });
+    }
+    closeEls.forEach(function(el){ el.addEventListener('click', closeModal); });
+    if(rowsEl) rowsEl.addEventListener('click', function(e){   /* 위임: 행 클릭 시 아코디언 토글 (tbody 는 유지되므로 1회 바인딩) */
+      var tr = e.target.closest('tr.cpd-acc-row'); if(tr) toggleRow(tr);
+    });
+    overlay.addEventListener('click', function(e){ if(e.target===overlay) closeModal(); });
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape' && isOpen()) closeModal(); });
+    window.addEventListener('resize', function(){ if(isOpen()) render(); });
+  })();
+})();
+</script>
+<script>
+/* ============================================================
+   Refinery Shell — 통합 크로스파일 내비게이션 · 테마 · 진입 규칙 · Active 소유
+   Dashboard / DesignSystem / Ontology 3개 파일 동일 적용
+   ============================================================ */
+(function(){
+  var THEME_KEY  = 'refinery-theme';
+  var FRESH_KEY  = 'refinery-fresh-nav';
+  var ACTIVE_KEY = 'refinery-nav-active';
+  var body = document.body;
+  var rail = document.querySelector('.rail');
+  var curFile = (location.pathname.split('/').pop() || '').split('?')[0];
+
+  /* 1) 공유 테마 — 항상 refinery-theme 기준으로 3파일 통일 */
+  function persistTheme(){ try{ localStorage.setItem(THEME_KEY, body.classList.contains('dark') ? 'dark' : 'light'); }catch(e){} }
+  var __t = null; try{ __t = localStorage.getItem(THEME_KEY); }catch(e){}
+  var __isDark = (__t === 'dark') ? true : (__t === 'light' ? false : body.classList.contains('dark'));
+  /* body + 세그먼트 토글 + 아이콘까지 일괄 동기화 — restore 없는 파일(Ontology)의 토글 desync 교정 */
+  if(typeof window.applyTheme === 'function') window.applyTheme(__isDark);
+  else body.classList.toggle('dark', __isDark);
+  ['themeLight','themeDark'].forEach(function(id){
+    var b = document.getElementById(id);
+    if(b) b.addEventListener('click', function(){ setTimeout(persistTheme, 0); });
+  });
+  persistTheme();
+
+  /* ── Active 소유 모델 ──────────────────────────────────────
+     원칙 1) FAVORITE 와 APPLICATION 에 active 가 동시에 존재할 수 없음 (rail 전체 단 1개).
+     원칙 2) active 는 "클릭한 섹션" 이 소유 — FAVORITE 에서 클릭 시 FAVORITE 항목이 active,
+             APPLICATION 에서 클릭 시 APPLICATION 항목이 active. 반대편 쌍둥이는 normal.
+     {file,key,src} 를 localStorage 에 영속화 → 크로스파일·새로고침에도 소유 섹션 유지. */
+  function sectionOf(el){
+    if(el.hasAttribute('data-fav-ref')) return 'fav';
+    if(el.closest('#appGroupItems'))    return 'app';
+    return 'standalone';
+  }
+  function standaloneSelf(){
+    return [].slice.call(document.querySelectorAll('.rail .ic[data-nav="' + curFile + '"]'))
+      .filter(function(n){ return !n.closest('#appGroupItems') && !n.hasAttribute('data-fav-ref'); })[0] || null;
+  }
+  function resolveActiveEl(){
+    var raw = null;
+    try{ raw = JSON.parse(localStorage.getItem(ACTIVE_KEY) || 'null'); }catch(e){ raw = null; }
+    var src, key;
+    if(raw && raw.file === curFile){ src = raw.src; key = raw.key; }
+    else {
+      var appSelf = document.querySelector('#appGroupItems .ic[data-nav="' + curFile + '"]');
+      if(appSelf){ src = 'app'; key = appSelf.dataset.key; }
+      else { src = 'standalone'; var st = standaloneSelf(); key = st ? (st.dataset.key || st.dataset.nav) : curFile; }
+    }
+    var el = null;
+    if(src === 'fav'){ el = document.querySelector('#favGroupItems .ic[data-key="' + key + '"]'); if(!el) src = 'app'; }
+    if(src === 'app'){ el = document.querySelector('#appGroupItems .ic[data-key="' + key + '"]'); if(!el) src = 'standalone'; }
+    if(src === 'standalone'){ el = standaloneSelf() || document.querySelector('#appGroupItems .ic[data-nav="' + curFile + '"]'); }
+    return el;
+  }
+  function applyActive(){
+    var el = resolveActiveEl();
+    document.querySelectorAll('.rail .ic.active').forEach(function(i){ i.classList.remove('active'); });
+    if(el) el.classList.add('active');
+  }
+
+  /* 2) 크로스파일 내비 — Global Nav + FAVORITES(동적 클론) 위임 처리 + Active 소유 기록 */
+  function go(target){
+    try{ sessionStorage.setItem(FRESH_KEY, '1'); }catch(e){}
+    window.location.href = target;
+  }
+  (rail || document).addEventListener('click', function(e){
+    if(e.target.closest('.fav-btn')) return;
+    var el = e.target.closest('.ic[data-nav]');
+    if(!el) return;
+    var target = el.getAttribute('data-nav');
+    var src = sectionOf(el);
+    var key = el.dataset.key || el.dataset.nav;
+    try{ localStorage.setItem(ACTIVE_KEY, JSON.stringify({ file: el.dataset.nav, key: key, src: src })); }catch(e){}
+    if(target && target !== curFile){ e.preventDefault(); go(target); }
+    else { setTimeout(applyActive, 0); }   // 같은 파일: 다른 click 핸들러 이후 Active 최종 확정
+  }, true);
+
+  /* 3) 진입 규칙 — Global Nav 진입(fresh)=섹션 첫 Sub Nav 로, 새로고침=직전 sub-page 유지(가이드 §3) */
+  var fresh = false;
+  try{ fresh = sessionStorage.getItem(FRESH_KEY) === '1'; if(fresh) sessionStorage.removeItem(FRESH_KEY); }catch(e){}
+  if(fresh){
+    var view = body.getAttribute('data-view');
+    var firstItem = document.querySelector(
+      '[data-side-view="' + view + '"] [data-onto-page], [data-side-view="' + view + '"] [data-ds-page], [data-side-view="' + view + '"] [data-dash-page]'
+    );
+    if(firstItem) firstItem.click();
+    var pageEl = document.querySelector('.page');
+    if(pageEl) pageEl.scrollTo({ top:0, left:0, behavior:'auto' });
+  }
+
+  /* 4) Active 최종 적용 — 파일별 restore/뷰스위처가 건드린 것을 Shell 이 권위적으로 통일.
+        FAVORITES 동적 재렌더(별 토글) 시에도 소유 섹션 유지하도록 관찰. */
+  applyActive();
+  var favBox = document.getElementById('favGroupItems');
+  if(favBox && window.MutationObserver){
+    new MutationObserver(function(){ applyActive(); }).observe(favBox, { childList:true });
+  }
+})();
+</script>
+<script>
+/* Account avatar — 계정명 첫 영문자를 이니셜로 표시 (이미지 업로드 전 기본 상태) */
+(function(){
+  function pickInitial(){
+    var nameEl = document.querySelector('.rail .bot-name')
+              || document.querySelector('.user-pop-head .info .name');
+    var s = (nameEl && nameEl.textContent) || '';
+    if(!/[A-Za-z]/.test(s)){
+      var em = document.querySelector('.rail .bot-email') || document.querySelector('.user-pop-head .info .email');
+      s = (em && em.textContent) || '';
+    }
+    var m = s.match(/[A-Za-z]/);
+    return m ? m[0].toUpperCase() : 'U';
+  }
+  var ch = pickInitial();
+  document.querySelectorAll('.avatar').forEach(function(a){
+    var ini = a.querySelector('.avatar-initial');
+    if(ini) ini.textContent = ch;
+    var img = a.querySelector('img');
+    // 사용자가 이미지를 업로드(=img에 유효 src)하면 이미지로 대체, 그 전까지는 이니셜
+    a.classList.toggle('has-img', !!(img && img.getAttribute('src')));
+  });
+})();
+</script>
+
+<script>
+/* ============================================================
+   유틸리티 종합 현황 — 라이브 멀티시리즈 차트 모듈
+   · media/zone/demand = 멀티라인, supply = 스택 바 · 1.6s live tick · hover 툴팁
+   · 색 = §2.2 Data Viz 팔레트(--dv-*) hex 리터럴 (SVG fill/stroke 인가된 예외)
+   · 다른 dash 서브페이지일 때 tick 정지 (smart-energy 패턴과 동일)
+   ============================================================ */
+(function(){
+  var plots = document.querySelectorAll('.cf-plot');
+  if(!plots.length) return;
+  // §2.2 Data Viz base(500) 시퀀스와 1:1 동일한 hex (SVG presentation attr 용 · 인가된 예외)
+  var DV={1:'#3B7FD4',2:'#7884D8',3:'#9579C2',4:'#CB6DA0',5:'#E5484D',6:'#E29050',7:'#F0A93A',8:'#3FB255',9:'#4DB2A1',10:'#50A6C3'};
+  // hex → CSS 토큰 역매핑. 값 테이블 색 점은 CSS(style) 컨텍스트이므로 var(--dv-*) 토큰을 사용 (SVG attr 만 hex 허용)
+  var DVVAR={}; Object.keys(DV).forEach(function(k){ DVVAR[DV[k]]='var(--dv-'+k+')'; });
+  var kInt=function(v){return Math.round(v).toLocaleString('en-US');};
+  var ms=function(v){return v>=1000?(v/1000).toFixed(2)+'s':Math.round(v)+'ms';};
+  var N=64, VW=1000, VH=300;
+  function walk(n,base,vol,min,max,spike){var a=[],v=base;for(var i=0;i<n;i++){v+=(Math.random()-0.5)*vol;if(spike&&Math.random()<0.14)v+=Math.random()*spike;v=Math.max(min,Math.min(max,v));a.push(v);}return a;}
+  var CFG={
+    media:{yMax:8000,ticks:9,fmt:kInt,unit:'kW-eq',type:'area',series:[
+      {name:'전력',c:DV[8],base:4500,vol:1500,min:1500,max:7700,spike:1600},
+      {name:'스팀',c:DV[10],base:1900,vol:750,min:400,max:3200},
+      {name:'용수',c:DV[1],base:750,vol:320,min:120,max:1500},
+      {name:'LNG',c:DV[6],base:520,vol:260,min:90,max:1150},
+      {name:'압축공기',c:DV[5],base:320,vol:190,min:50,max:950}]},
+    zone:{yMax:7000,ticks:8,fmt:kInt,unit:'kW',type:'smooth',series:[
+      {name:'제1공장',c:DV[8],base:3600,vol:1600,min:800,max:6600,spike:1300},
+      {name:'제2공장',c:DV[1],base:1850,vol:750,min:400,max:3300},
+      {name:'도금공장',c:DV[10],base:720,vol:330,min:150,max:1600},
+      {name:'열처리동',c:DV[7],base:520,vol:260,min:110,max:1250},
+      {name:'용수처리',c:DV[6],base:640,vol:300,min:130,max:1350},
+      {name:'사무·관리',c:DV[5],base:420,vol:220,min:60,max:1050}]},
+    demand:{yMax:2100,ticks:8,fmt:kInt,unit:'kW',type:'bands',series:[
+      {name:'P50',c:DV[1],base:280,vol:130,min:120,max:600},
+      {name:'P90',c:DV[9],base:600,vol:320,min:240,max:1450},
+      {name:'P95',c:DV[7],base:950,vol:520,min:300,max:1950,spike:750},
+      {name:'P99',c:DV[5],base:1150,vol:620,min:360,max:2050,spike:800}]},
+    supply:{yMax:15000,ticks:6,fmt:kInt,bars:true,unit:'kW',series:[
+      {name:'자가발전(CHP)',c:DV[8],base:5200,vol:1600,min:2500,max:7800},
+      {name:'계통 수전',c:DV[1],base:5600,vol:1600,min:3000,max:8600}]}
+  };
+  Object.keys(CFG).forEach(function(k){CFG[k].series.forEach(function(s){s.d=walk(N,s.base,s.vol,s.min,s.max,s.spike||0);});});
+
+  function ptsOf(p,s){ return s.d.map(function(v,i){return [i/(N-1)*VW, VH-v/p.yMax*VH];}); }
+  function polyStr(pts){ return pts.map(function(pt){return pt[0].toFixed(1)+','+pt[1].toFixed(1);}).join(' '); }
+  function areaD(pts){ return 'M0,'+VH+' '+pts.map(function(pt){return 'L'+pt[0].toFixed(1)+','+pt[1].toFixed(1);}).join(' ')+' L'+VW+','+VH+' Z'; }
+  // Catmull-Rom → cubic Bézier 변환으로 부드러운 곡선 path 생성
+  function smoothD(pts){
+    if(pts.length<2) return '';
+    var d='M'+pts[0][0].toFixed(1)+','+pts[0][1].toFixed(1);
+    for(var i=0;i<pts.length-1;i++){
+      var p0=pts[i-1]||pts[i], p1=pts[i], p2=pts[i+1], p3=pts[i+2]||pts[i+1];
+      var c1x=p1[0]+(p2[0]-p0[0])/6, c1y=p1[1]+(p2[1]-p0[1])/6;
+      var c2x=p2[0]-(p3[0]-p1[0])/6, c2y=p2[1]-(p3[1]-p1[1])/6;
+      d+=' C'+c1x.toFixed(1)+','+c1y.toFixed(1)+' '+c2x.toFixed(1)+','+c2y.toFixed(1)+' '+p2[0].toFixed(1)+','+p2[1].toFixed(1);
+    }
+    return d;
+  }
+  function buildSeries(p){
+    var g='';
+    for(var i=0;i<p.ticks;i++){var y=(i/(p.ticks-1)*VH).toFixed(1);g+='<line x1="0" y1="'+y+'" x2="'+VW+'" y2="'+y+'" vector-effect="non-scaling-stroke"/>';}
+    var out='<g class="grid-y">'+g+'</g>';
+    if(p.bars){
+      var step=VW/N, bw=step*0.62, ser='';
+      for(var i=0;i<N;i++){
+        var bot=p.series[1].d[i], top=p.series[0].d[i];
+        var hb=bot/p.yMax*VH, ht=top/p.yMax*VH, x=(i*step+step*0.19).toFixed(1);
+        ser+='<rect x="'+x+'" y="'+(VH-hb).toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+hb.toFixed(1)+'" fill="'+p.series[1].c+'" opacity="0.92"/>';
+        ser+='<rect x="'+x+'" y="'+(VH-hb-ht).toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+ht.toFixed(1)+'" fill="'+p.series[0].c+'" opacity="0.92"/>';
+      }
+      return out+'<g>'+ser+'</g>';
+    }
+    var type=p.type||'line', lines='';
+    if(type==='area'){
+      // 매체별 — 반투명 영역 + 라인 (구성 비교). 큰 시리즈가 뒤로 가도록 base 내림차순 렌더
+      var order=p.series.map(function(s,i){return i;}).sort(function(a,b){return p.series[b].base-p.series[a].base;});
+      order.forEach(function(i){var s=p.series[i];lines+='<path d="'+areaD(ptsOf(p,s))+'" fill="'+s.c+'" fill-opacity="0.13" stroke="none"/>';});
+      order.forEach(function(i){var s=p.series[i];lines+='<polyline points="'+polyStr(ptsOf(p,s))+'" fill="none" stroke="'+s.c+'" stroke-width="1.6" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/>';});
+    } else if(type==='smooth'){
+      // 사업장별 — 부드러운 곡선 멀티라인
+      p.series.forEach(function(s){lines+='<path d="'+smoothD(ptsOf(p,s))+'" fill="none" stroke="'+s.c+'" stroke-width="1.8" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/>';});
+    } else if(type==='bands'){
+      // 수요전력 분위수 — P99→P50 중첩 밴드. 큰 분위수가 뒤, 작은 분위수가 앞(점점 진하게)
+      var ord=p.series.map(function(s,i){return i;}).sort(function(a,b){return p.series[b].base-p.series[a].base;});
+      ord.forEach(function(i,k){var s=p.series[i];var d=smoothD(ptsOf(p,s));var fd='M0,'+VH+' '+d.slice(1)+' L'+VW+','+VH+' Z';lines+='<path d="'+fd+'" fill="'+s.c+'" fill-opacity="'+(0.12+0.07*k)+'" stroke="none"/>';});
+      p.series.forEach(function(s){lines+='<path d="'+smoothD(ptsOf(p,s))+'" fill="none" stroke="'+s.c+'" stroke-width="1.6" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/>';});
+    } else {
+      p.series.forEach(function(s){lines+='<polyline points="'+polyStr(ptsOf(p,s))+'" fill="none" stroke="'+s.c+'" stroke-width="1.6" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/>';});
+    }
+    return out+'<g>'+lines+'</g>';
+  }
+  function buildHover(p,hi){
+    if(hi==null) return '';
+    var hx=(hi/(N-1)*VW).toFixed(1);
+    var s='<line x1="'+hx+'" y1="0" x2="'+hx+'" y2="'+VH+'" vector-effect="non-scaling-stroke" style="stroke:var(--ink-400)"/>';
+    if(!p.bars){p.series.forEach(function(se){var y=(VH-se.d[hi]/p.yMax*VH).toFixed(1);s+='<circle cx="'+hx+'" cy="'+y+'" r="3.6" fill="'+se.c+'" vector-effect="non-scaling-stroke" style="stroke:var(--surface-card);stroke-width:1.5"/>';});}
+    return s;
+  }
+  function redraw(P){ P.svg.innerHTML = buildSeries(P.cfg) + buildHover(P.cfg, P.hi); }
+  // 위젯 내 실시간 값 테이블 (Top10 표 형식 · 헤더/바 없음). 색 점 + 라벨 + 최신값.
+  function renderVals(P){
+    if(!P.valsEl) return;
+    P.valsEl.innerHTML = P.cfg.series.map(function(s,i){
+      var last = i===P.cfg.series.length-1;
+      return '<div style="display:flex;align-items:center;gap:8px;padding:5px 2px;line-height:1.4;font-size:var(--fs-body-sm)'+(last?'':';border-bottom:1px solid var(--ink-100)')+'">'+
+        '<span style="width:8px;height:8px;border-radius:2px;flex:none;background:'+(DVVAR[s.c]||s.c)+'"></span>'+
+        '<span style="flex:1;min-width:0;color:var(--ink-700);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+s.name+'</span>'+
+        '<span style="display:flex;align-items:baseline;gap:3px;flex:none">'+
+          '<span class="num" data-vi="'+i+'" style="color:var(--ink-900);font-weight:600">'+P.cfg.fmt(s.d[s.d.length-1])+'</span>'+
+          '<span style="font-family:var(--font-mono);font-size:var(--fs-code);color:var(--ink-500)">'+P.cfg.unit+'</span>'+
+        '</span></div>';
+    }).join('');
+    P.valSpans = Array.prototype.slice.call(P.valsEl.querySelectorAll('[data-vi]'));
+  }
+  function updateVals(P){
+    if(!P.valSpans) return;
+    P.valSpans.forEach(function(sp,i){ var s=P.cfg.series[i]; sp.textContent=P.cfg.fmt(s.d[s.d.length-1]); });
+  }
+  function showTip(P){
+    var p=P.cfg, hi=P.hi;
+    if(hi==null){ P.tip.style.display='none'; return; }
+    var left=hi/(N-1)*100;
+    P.tip.innerHTML = p.series.map(function(s){
+      return '<div style="display:flex;align-items:center;gap:7px;padding:1.5px 0">'+
+        '<span style="width:8px;height:8px;border-radius:2px;background:'+s.c+';flex:none"></span>'+
+        '<span style="color:#CFCFCF">'+s.name+'</span>'+
+        '<span class="num" style="color:#fff;font-weight:500;margin-left:auto;padding-left:16px">'+p.fmt(s.d[hi])+' '+p.unit+'</span></div>';
+    }).join('');
+    P.tip.style.display='block';
+    P.tip.style.left=left+'%';
+    P.tip.style.transform = left>58 ? 'translateX(-104%)' : 'translateX(4%)';
+  }
+
+  var PLOTS=[];
+  Array.prototype.forEach.call(plots, function(plot){
+    var key=plot.getAttribute('data-cf'), cfg=CFG[key];
+    if(!cfg) return;
+    var svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+    svg.setAttribute('viewBox','0 0 '+VW+' '+VH);
+    svg.setAttribute('preserveAspectRatio','none');
+    svg.setAttribute('style','position:absolute;inset:0;width:100%;height:100%;display:block');
+    plot.insertBefore(svg, plot.firstChild);
+    var P={cfg:cfg, svg:svg, tip:plot.querySelector('.cf-tip'), hi:null};
+    var card=plot.closest('.card');
+    P.valsEl = card ? card.querySelector('.cf-vals') : null;
+    redraw(P);
+    renderVals(P);
+    plot.addEventListener('mousemove', function(e){
+      var r=plot.getBoundingClientRect();
+      var idx=Math.round((e.clientX-r.left)/r.width*(N-1));
+      P.hi=Math.max(0,Math.min(N-1,idx));
+      redraw(P); showTip(P);
+    });
+    plot.addEventListener('mouseleave', function(){ P.hi=null; redraw(P); showTip(P); });
+    PLOTS.push(P);
+  });
+
+  setInterval(function(){
+    if(document.body.getAttribute('data-dash-page')!=='utility-overview') return; // 다른 서브페이지일 때 정지
+    Object.keys(CFG).forEach(function(k){CFG[k].series.forEach(function(s){
+      var v=s.d[s.d.length-1]+(Math.random()-0.5)*s.vol;
+      if(s.spike&&Math.random()<0.14)v+=Math.random()*s.spike;
+      v=Math.max(s.min,Math.min(s.max,v));
+      s.d=s.d.slice(1).concat(v);
+    });});
+    PLOTS.forEach(function(P){ redraw(P); updateVals(P); if(P.hi!=null) showTip(P); });
+  }, 1600);
+})();
+</script>
+<script>
+/* ============================================================
+   유틸리티 종합 현황 — 총 사용량 위젯 (매체별 도넛)
+   · 도넛 = 매체별(전력/스팀/용수/LNG/압축공기) 누적 · 중앙 = 주간 총합(MWh-eq)
+   · 중앙/범례 모두 MWh-eq (도넛 안에 들어가도록 단위 상향) · 1.6s gentle live
+   · 도넛 stroke = dv 팔레트 hex(SVG attr 인가된 예외) / 범례 점 = var(--dv-*) 토큰
+   · 다른 dash 서브페이지일 때 정지 (cf 모듈과 동일 패턴)
+   ============================================================ */
+(function(){
+  var card=document.querySelector('[data-mu-card]');
+  if(!card) return;
+  var C=2*Math.PI*60; // 도넛 둘레 ≈ 376.99
+  var ORDER=['전력','스팀','용수','LNG','압축공기'];
+  var HEX={전력:'#3FB255', 스팀:'#50A6C3', 용수:'#3B7FD4', LNG:'#E29050', 압축공기:'#E5484D'}; // SVG attr
+  var TOK={전력:'var(--dv-8)', 스팀:'var(--dv-10)', 용수:'var(--dv-1)', LNG:'var(--dv-6)', 압축공기:'var(--dv-5)'}; // CSS
+  var BASE={전력:2604800, 스팀:498360, 용수:315040, LNG:132500, 압축공기:84300}; // 주간 kWh-eq
+  var fmt=function(v){return Math.round(v).toLocaleString('en-US');};
+  var svg=card.querySelector('[data-mu-svg]');
+  var totalEl=card.querySelector('[data-mu-total]');
+  var legendEl=card.querySelector('[data-mu-legend]');
+  function render(){
+    var vals={}, total=0;
+    ORDER.forEach(function(k){ vals[k]=BASE[k]*(1+(Math.random()-0.5)*0.008); total+=vals[k]; }); // gentle live
+    var s='<circle cx="80" cy="80" r="60" fill="none" stroke="var(--ink-100)" stroke-width="15"/>';
+    var cum=0;
+    ORDER.forEach(function(k){
+      var len=vals[k]/total*C;
+      s+='<circle cx="80" cy="80" r="60" fill="none" stroke="'+HEX[k]+'" stroke-width="15" stroke-linecap="butt" stroke-dasharray="'+len.toFixed(2)+' '+C.toFixed(2)+'" stroke-dashoffset="'+(-cum).toFixed(2)+'" transform="rotate(-90 80 80)"/>';
+      cum+=len;
+    });
+    svg.innerHTML=s;
+    totalEl.textContent=fmt(total/1000); // MWh-eq (도넛 안에 들어가는 자릿수)
+    legendEl.innerHTML=ORDER.map(function(k,i){
+      var last=i===ORDER.length-1;
+      return '<div style="display:flex;align-items:center;gap:8px;padding:5px 2px;line-height:1.4;font-size:var(--fs-body-sm)'+(last?'':';border-bottom:1px solid var(--ink-100)')+'">'+
+        '<span style="width:8px;height:8px;border-radius:2px;flex:none;background:'+TOK[k]+'"></span>'+
+        '<span style="flex:1;min-width:0;color:var(--ink-700);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+k+'</span>'+
+        '<span class="num" style="color:var(--ink-900);font-weight:600">'+fmt(vals[k]/1000)+'</span>'+
+        '<span style="font-family:var(--font-mono);font-size:var(--fs-code);color:var(--ink-500)">MWh-eq</span>'+
+      '</div>';
+    }).join('');
+  }
+  render();
+  setInterval(function(){ if(document.body.getAttribute('data-dash-page')==='utility-overview') render(); }, 1600);
+})();
+</script>
+<script>
+/* ============================================================
+   전력 모니터링 — 라이브 차트 모듈
+   · pwr-hourly = 시간대별 부하 적층 막대(Process/HVAC/Utility/Lighting) + 계약전력 ref line
+   · pwr-voltage = 3상 전압(R/S/T) 부드러운 멀티라인 + 영역
+   · 1.5s live tick(롤링 윈도우) · hover 크로스헤어/툴팁 · KPI 숫자·전압 통계 gentle live
+   · data-dash-page==='power' 일 때만 tick (다른 서브페이지 정지 · cf 모듈과 동일 패턴)
+   · 색 = 기존 전력 페이지 brand 스케일 hex (SVG presentation attr · §2.2 인가된 예외)
+   ============================================================ */
+(function(){
+  var scope = document.querySelector('[data-dash-content="power"]');
+  if(!scope) return;
+  var VW=1000, VH=300;
+  function walk(n,base,vol,min,max,spike){var a=[],v=base;for(var i=0;i<n;i++){v+=(Math.random()-0.5)*vol;if(spike&&Math.random()<0.14)v+=Math.random()*spike;v=Math.max(min,Math.min(max,v));a.push(v);}return a;}
+  var CFG={
+    'pwr-hourly':{ n:24, yMin:0, yMax:6000, ticks:5, unit:'kW', stack:true, frozen:true, refLine:{v:6000,label:'Contract 6,000 kW'}, series:[
+      {name:'Process', c:'#3F76AE', base:3400, vol:900, min:900, max:4300},
+      {name:'HVAC',    c:'#76A6D7', base:1050, vol:300, min:340, max:1320},
+      {name:'Utility', c:'#AAD0F3', base:430,  vol:130, min:260, max:560},
+      {name:'Lighting',c:'#E3E7EC', base:115,  vol:42,  min:74,  max:158}]},
+    'pwr-voltage':{ n:60, yMin:370, yMax:400, ticks:7, unit:'V', type:'smooth', series:[
+      {name:'R', c:'#3F76AE', base:392, vol:2.4, min:384, max:399},
+      {name:'S', c:'#76A6D7', base:388, vol:2.6, min:381, max:396},
+      {name:'T', c:'#AAD0F3', base:385, vol:2.5, min:378, max:393}]}
+  };
+  Object.keys(CFG).forEach(function(k){var p=CFG[k];p.series.forEach(function(s){s.d=walk(p.n,s.base,s.vol,s.min,s.max,s.spike||0);});});
+
+  function yOf(p,v){ return VH-(v-p.yMin)/(p.yMax-p.yMin)*VH; }
+  function ptsOf(p,s){ return s.d.map(function(v,i){return [i/(p.n-1)*VW, yOf(p,v)];}); }
+  function smoothD(pts){
+    if(pts.length<2) return '';
+    var d='M'+pts[0][0].toFixed(1)+','+pts[0][1].toFixed(1);
+    for(var i=0;i<pts.length-1;i++){
+      var p0=pts[i-1]||pts[i],p1=pts[i],p2=pts[i+1],p3=pts[i+2]||pts[i+1];
+      var c1x=p1[0]+(p2[0]-p0[0])/6,c1y=p1[1]+(p2[1]-p0[1])/6;
+      var c2x=p2[0]-(p3[0]-p1[0])/6,c2y=p2[1]-(p3[1]-p1[1])/6;
+      d+=' C'+c1x.toFixed(1)+','+c1y.toFixed(1)+' '+c2x.toFixed(1)+','+c2y.toFixed(1)+' '+p2[0].toFixed(1)+','+p2[1].toFixed(1);
+    }
+    return d;
+  }
+  function gridG(p){var g='';for(var i=0;i<p.ticks;i++){var y=(i/(p.ticks-1)*VH).toFixed(1);g+='<line x1="0" y1="'+y+'" x2="'+VW+'" y2="'+y+'" vector-effect="non-scaling-stroke"/>';}return '<g class="grid-y">'+g+'</g>';}
+  function refG(p){ if(!p.refLine) return ''; var y=yOf(p,p.refLine.v); var labelY = y-5; if (labelY < 10) labelY = y+15; return '<line x1="0" y1="'+y.toFixed(1)+'" x2="'+VW+'" y2="'+y.toFixed(1)+'" vector-effect="non-scaling-stroke" stroke="#E5484D" stroke-dasharray="4 4"/><text x="'+VW+'" y="'+labelY.toFixed(1)+'" text-anchor="end" font-family="JetBrains Mono" font-size="11" fill="#E5484D">'+p.refLine.label+'</text>'; }
+  function buildSeries(p){
+    var out=gridG(p);
+    if(p.stack){
+      var step=VW/p.n, bw=step*0.62, ser='';
+      for(var i=0;i<p.n;i++){
+        var x=(i*step+(step-bw)/2), acc=0;
+        for(var k=0;k<p.series.length;k++){
+          var s=p.series[k], h=s.d[i]/(p.yMax-p.yMin)*VH, y=VH-acc-h;
+          ser+='<rect x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+Math.max(h,0.5).toFixed(1)+'" fill="'+s.c+'"'+(k===0?' rx="2"':'')+'/>';
+          acc+=h;
+        }
+      }
+      return out+'<g>'+ser+'</g>'+refG(p);
+    }
+    var sd0=smoothD(ptsOf(p,p.series[0])), lines='';
+    lines+='<path d="M0,'+VH+' L'+sd0.slice(1)+' L'+VW+','+VH+' Z" fill="'+p.series[0].c+'" fill-opacity="0.10" stroke="none"/>';
+    p.series.forEach(function(s){lines+='<path d="'+smoothD(ptsOf(p,s))+'" fill="none" stroke="'+s.c+'" stroke-width="1.8" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/>';});
+    return out+'<g>'+lines+'</g>'+refG(p);
+  }
+  function buildHover(p,hi){
+    if(hi==null) return '';
+    var hx = p.stack ? ((hi+0.5)*(VW/p.n)) : (hi/(p.n-1)*VW);
+    var s='<line x1="'+hx.toFixed(1)+'" y1="0" x2="'+hx.toFixed(1)+'" y2="'+VH+'" vector-effect="non-scaling-stroke" style="stroke:var(--ink-400)"/>';
+    if(!p.stack){ p.series.forEach(function(se){var y=yOf(p,se.d[hi]).toFixed(1);s+='<circle cx="'+hx.toFixed(1)+'" cy="'+y+'" r="3.6" fill="'+se.c+'" vector-effect="non-scaling-stroke" style="stroke:var(--surface-card);stroke-width:1.5"/>';}); }
+    return s;
+  }
+  function redraw(P){ P.svg.innerHTML = buildSeries(P.cfg)+buildHover(P.cfg,P.hi); }
+  function fmt(p,v){ return p.unit==='V' ? v.toFixed(1) : Math.round(v).toLocaleString('en-US'); }
+  function showTip(P){
+    var p=P.cfg, hi=P.hi;
+    if(hi==null){ P.tip.style.display='none'; return; }
+    var left = p.stack ? (hi+0.5)/p.n*100 : hi/(p.n-1)*100;
+    var rows = p.series.map(function(s){
+      return '<div style="display:flex;align-items:center;gap:7px;padding:1.5px 0">'+
+        '<span style="width:8px;height:8px;border-radius:2px;background:'+s.c+';flex:none"></span>'+
+        '<span style="color:#CFCFCF">'+s.name+'</span>'+
+        '<span class="num" style="color:#fff;font-weight:500;margin-left:auto;padding-left:16px">'+fmt(p,s.d[hi])+' '+p.unit+'</span></div>';
+    });
+    if(p.stack){
+      var tot=p.series.reduce(function(a,s){return a+s.d[hi];},0);
+      rows.push('<div style="display:flex;align-items:center;gap:7px;padding:3px 0 1px;margin-top:3px;border-top:1px solid rgba(255,255,255,.16)"><span style="color:#CFCFCF">합계</span><span class="num" style="color:#fff;font-weight:600;margin-left:auto;padding-left:16px">'+fmt(p,tot)+' '+p.unit+'</span></div>');
+    }
+    P.tip.innerHTML=rows.join('');
+    P.tip.style.display='block';
+    P.tip.style.left=left+'%';
+    P.tip.style.transform = left>58 ? 'translateX(-104%)' : 'translateX(4%)';
+  }
+
+  var PLOTS=[];
+  Array.prototype.forEach.call(scope.querySelectorAll('.cf-plot'), function(plot){
+    var key=plot.getAttribute('data-cf'), cfg=CFG[key];
+    if(!cfg) return;
+    var svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+    svg.setAttribute('viewBox','0 0 '+VW+' '+VH);
+    svg.setAttribute('preserveAspectRatio','none');
+    svg.setAttribute('style','position:absolute;inset:0;width:100%;height:100%;display:block');
+    plot.insertBefore(svg, plot.firstChild);
+    var P={cfg:cfg, svg:svg, tip:plot.querySelector('.cf-tip'), hi:null};
+    redraw(P);
+    plot.addEventListener('mousemove', function(e){
+      var r=plot.getBoundingClientRect();
+      var idx = cfg.stack ? Math.floor((e.clientX-r.left)/r.width*cfg.n) : Math.round((e.clientX-r.left)/r.width*(cfg.n-1));
+      P.hi=Math.max(0,Math.min(cfg.n-1,idx));
+      redraw(P); showTip(P);
+    });
+    plot.addEventListener('mouseleave', function(){ P.hi=null; redraw(P); showTip(P); });
+    PLOTS.push(P);
+  });
+
+  // 전압 통계 박스(V_RST / I_avg / THD) 라이브
+  function setStat(k,val){ var el=scope.querySelector('[data-pwr-stat="'+k+'"]'); if(el) el.textContent=val; }
+  function updateVStats(){
+    var v=CFG['pwr-voltage']; if(!v) return;
+    var last=function(s){return s.d[s.d.length-1];};
+    setStat('vrst', ((last(v.series[0])+last(v.series[1])+last(v.series[2]))/3).toFixed(1));
+    setStat('iavg', (405+(Math.random()-0.5)*22).toFixed(1));
+    setStat('thd',  (2.0+Math.random()*0.9).toFixed(2));
+  }
+
+  // KPI 숫자 gentle live tick
+  var kpiBase=[{base:4827,dec:0},{base:83.42,dec:2},{base:5213,dec:0},{base:0.962,dec:3}];
+  var kpiEls=Array.prototype.slice.call(scope.querySelectorAll('.kpi .v .big.num'));
+  function tickKPI(){
+    kpiEls.forEach(function(el,i){
+      var b=kpiBase[i]; if(!b) return;
+      var amp=b.base*(b.dec===3?0.0025:0.012);
+      var v=b.base+(Math.random()-0.5)*amp*2;
+      el.textContent = b.dec? v.toFixed(b.dec) : Math.round(v).toLocaleString('en-US');
+    });
+  }
+
+  function redrawAll(){ PLOTS.forEach(function(P){ redraw(P); if(P.hi!=null) showTip(P); }); }
+  redrawAll(); updateVStats();
+
+  setInterval(function(){
+    if(document.body.getAttribute('data-dash-page')!=='power') return;
+    Object.keys(CFG).forEach(function(k){var p=CFG[k]; if(p.frozen) return; p.series.forEach(function(s){
+      var v=s.d[s.d.length-1]+(Math.random()-0.5)*s.vol;
+      if(s.spike&&Math.random()<0.14)v+=Math.random()*s.spike;
+      v=Math.max(s.min,Math.min(s.max,v));
+      s.d=s.d.slice(1).concat(v);
+    });});
+    // frozen(정적) plot 은 데이터·재렌더 모두 생략 — hover 만 동작
+    PLOTS.forEach(function(P){ if(P.cfg.frozen) return; redraw(P); if(P.hi!=null) showTip(P); });
+    updateVStats(); tickKPI();
+  }, 1500);
+})();
+</script>
+<script>
+/* ============================================================
+   전력 모니터링 — Energy Flow 동적 Sankey
+   · 공급원(Grid/Solar PV/CHP) → MainBus A/B/C → 부하(Compressor/CNC/HVAC/Lighting/Office)
+   · 노드 높이·링크 두께 = 흐름량(MWh) 비례, 레이아웃 자동 계산(흐름 보존 in=out)
+   · hover: 노드 → 연결 흐름 강조 / 링크 → 단일 흐름 강조 + 툴팁 · 색 = 토큰(style fill, 모드 적응)
+   ============================================================ */
+(function(){
+  var scope = document.querySelector('[data-dash-content="power"]');
+  if(!scope) return;
+  var host = scope.querySelector('#pwrSankey'); if(!host) return;
+  var svg = host.querySelector('svg'); var tip = host.querySelector('.cf-tip');
+  if(!svg) return;
+  var VW=520, VH=280, PADY=20, NW=12, GAP=11;
+  var COLX=[96,254,412];
+  // 노드 정의 (color = CSS 토큰 → 모드 적응)
+  var NODES={
+    grid:{label:'Grid',layer:0,color:'var(--brand-700)'},
+    solar:{label:'Solar PV',layer:0,color:'var(--brand)'},
+    chp:{label:'CHP',layer:0,color:'var(--warn)'},
+    busA:{label:'MainBus-A',layer:1,color:'var(--ink-600)'},
+    busB:{label:'MainBus-B',layer:1,color:'var(--ink-600)'},
+    busC:{label:'MainBus-C',layer:1,color:'var(--ink-600)'},
+    comp:{label:'Compressor',layer:2,color:'var(--brand-700)'},
+    cnc:{label:'CNC Line',layer:2,color:'var(--brand)'},
+    hvac:{label:'HVAC',layer:2,color:'var(--dv-blue-200)'},
+    light:{label:'Lighting',layer:2,color:'var(--warn)'},
+    office:{label:'Office',layer:2,color:'var(--ink-300)'}
+  };
+  var LINKS=[
+    ['grid','busA',34],['grid','busB',18],['grid','busC',10.4],
+    ['solar','busA',6],['solar','busB',5],['solar','busC',3.1],
+    ['chp','busA',3],['chp','busB',2.6],['chp','busC',2.0],
+    ['busA','comp',26],['busA','cnc',17],
+    ['busB','cnc',5],['busB','hvac',18],['busB','light',2.6],
+    ['busC','light',8.9],['busC','office',6.6]
+  ].map(function(l,i){ return {id:i, s:l[0], t:l[1], v:l[2], c:(NODES[l[0]].layer===0?NODES[l[0]].color:NODES[l[1]].color)}; });
+
+  // 노드 throughput = max(유입, 유출)
+  Object.keys(NODES).forEach(function(k){ NODES[k].in=0; NODES[k].out=0; });
+  LINKS.forEach(function(l){ NODES[l.s].out+=l.v; NODES[l.t].in+=l.v; });
+  Object.keys(NODES).forEach(function(k){ var n=NODES[k]; n.val=Math.max(n.in,n.out); });
+
+  // 레이어별 그룹 + 스케일(가장 노드 많은 열 기준 → 전 열 동일 unit)
+  var cols=[[],[],[]];
+  Object.keys(NODES).forEach(function(k){ NODES[k].id=k; cols[NODES[k].layer].push(NODES[k]); });
+  var avail=VH-2*PADY;
+  var unit=Math.min.apply(null, cols.map(function(c){
+    var sum=c.reduce(function(a,n){return a+n.val;},0);
+    return (avail-(c.length-1)*GAP)/sum;
+  }));
+  cols.forEach(function(c,li){
+    var stackH=c.reduce(function(a,n){return a+n.val*unit;},0)+(c.length-1)*GAP;
+    var y=PADY+(avail-stackH)/2;
+    c.forEach(function(n){ n.x=COLX[li]; n.h=Math.max(n.val*unit,3); n.y=y; n.so=n.y; n.to=n.y; y+=n.h+GAP; });
+  });
+  // 교차 최소화: 출발 노드의 링크는 도착 노드 y 순, 도착 노드의 링크는 출발 노드 y 순으로 부착
+  LINKS.forEach(function(l){ l.sn=NODES[l.s]; l.tn=NODES[l.t]; });
+  cols.forEach(function(c){ c.forEach(function(n){
+    LINKS.filter(function(l){return l.s===n.id;}).sort(function(a,b){return a.tn.y-b.tn.y;}).forEach(function(l){ var t=l.v*unit; l.sy0=n.so; n.so+=t; });
+    LINKS.filter(function(l){return l.t===n.id;}).sort(function(a,b){return a.sn.y-b.sn.y;}).forEach(function(l){ var t=l.v*unit; l.ty0=n.to; n.to+=t; });
+  });});
+
+  function ribbon(l){
+    var sx=l.sn.x+NW, tx=l.tn.x, t=l.v*unit;
+    var s0=l.sy0, s1=l.sy0+t, t0=l.ty0, t1=l.ty0+t, xm=(sx+tx)/2;
+    return 'M'+sx.toFixed(1)+','+s0.toFixed(1)+
+      ' C'+xm.toFixed(1)+','+s0.toFixed(1)+' '+xm.toFixed(1)+','+t0.toFixed(1)+' '+tx.toFixed(1)+','+t0.toFixed(1)+
+      ' L'+tx.toFixed(1)+','+t1.toFixed(1)+
+      ' C'+xm.toFixed(1)+','+t1.toFixed(1)+' '+xm.toFixed(1)+','+s1.toFixed(1)+' '+sx.toFixed(1)+','+s1.toFixed(1)+' Z';
+  }
+  var esc=function(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');};
+  function render(){
+    var s='';
+    // 링크
+    LINKS.forEach(function(l){
+      s+='<path class="pwr-sk-link" data-lid="'+l.id+'" d="'+ribbon(l)+'" style="fill:'+l.c+'" fill-opacity="0.4" stroke="none"/>';
+    });
+    // 노드
+    Object.keys(NODES).forEach(function(k){var n=NODES[k];
+      s+='<rect class="pwr-sk-node" data-nid="'+k+'" x="'+n.x+'" y="'+n.y.toFixed(1)+'" width="'+NW+'" height="'+n.h.toFixed(1)+'" rx="2" style="fill:'+n.color+'"/>';
+    });
+    // 라벨 — 공급원(좌), 버스(상단), 부하(우)
+    function lbl(n){
+      var cy=n.y+n.h/2;
+      if(n.layer===0){
+        return '<text x="'+(n.x-7)+'" y="'+(cy-1).toFixed(1)+'" text-anchor="end" style="fill:var(--ink-800);font-family:var(--font-en);font-size:11px;font-weight:500">'+esc(n.label)+'</text>'+
+               '<text x="'+(n.x-7)+'" y="'+(cy+11).toFixed(1)+'" text-anchor="end" style="fill:var(--ink-500);font-family:var(--font-mono);font-size:9.5px">'+n.val.toFixed(1)+' MWh</text>';
+      }
+      if(n.layer===2){
+        return '<text x="'+(n.x+NW+7)+'" y="'+(cy+3.5).toFixed(1)+'" style="fill:var(--ink-800);font-family:var(--font-en);font-size:11px">'+esc(n.label)+'</text>';
+      }
+      return '<text x="'+(n.x+NW/2)+'" y="'+(n.y-5).toFixed(1)+'" text-anchor="middle" style="fill:var(--ink-600);font-family:var(--font-mono);font-size:9.5px">'+esc(n.label)+'</text>';
+    }
+    Object.keys(NODES).forEach(function(k){ s+=lbl(NODES[k]); });
+    svg.innerHTML=s;
+  }
+  render();
+
+  // ---- hover 상호작용 ----
+  var paths=function(){ return svg.querySelectorAll('.pwr-sk-link'); };
+  function setOpacities(fn){ Array.prototype.forEach.call(paths(), function(p){ p.setAttribute('fill-opacity', fn(+p.getAttribute('data-lid'))); }); }
+  function resetOpacities(){ setOpacities(function(){ return 0.4; }); }
+  function showTip(htmlStr, e){
+    tip.innerHTML=htmlStr; tip.style.display='block';
+    var rr=host.getBoundingClientRect();
+    var x=e.clientX-rr.left+12, y=e.clientY-rr.top+12;
+    if(x+170>rr.width) x=e.clientX-rr.left-170;
+    if(y+58>rr.height) y=e.clientY-rr.top-58;
+    tip.style.left=Math.max(0,x)+'px'; tip.style.top=Math.max(0,y)+'px';
+  }
+  function dot(c){ return '<span style="width:8px;height:8px;border-radius:2px;flex:none;background:'+c+'"></span>'; }
+  svg.addEventListener('mousemove', function(e){
+    var lk=e.target.closest('.pwr-sk-link'), nd=e.target.closest('.pwr-sk-node');
+    if(lk){
+      var l=LINKS[+lk.getAttribute('data-lid')];
+      setOpacities(function(id){ return id===l.id ? 0.85 : 0.08; });
+      showTip('<div style="display:flex;align-items:center;gap:7px;padding:1px 0">'+dot(l.c)+
+        '<span style="color:#fff;font-weight:600">'+esc(l.sn.label)+' → '+esc(l.tn.label)+'</span></div>'+
+        '<div style="display:flex;gap:16px;padding:1px 0"><span style="color:#CFCFCF">전력량</span>'+
+        '<span class="num" style="color:#fff;font-weight:500;margin-left:auto">'+l.v.toFixed(1)+' MWh</span></div>', e);
+    } else if(nd){
+      var nid=nd.getAttribute('data-nid'), n=NODES[nid];
+      setOpacities(function(id){ var l=LINKS[id]; return (l.s===nid||l.t===nid) ? 0.8 : 0.08; });
+      showTip('<div style="display:flex;align-items:center;gap:7px;padding:1px 0">'+dot(n.color)+
+        '<span style="color:#fff;font-weight:600">'+esc(n.label)+'</span></div>'+
+        '<div style="display:flex;gap:16px;padding:1px 0"><span style="color:#CFCFCF">'+(n.layer===0?'공급':n.layer===2?'소비':'경유')+'</span>'+
+        '<span class="num" style="color:#fff;font-weight:500;margin-left:auto">'+n.val.toFixed(1)+' MWh</span></div>', e);
+    } else { resetOpacities(); tip.style.display='none'; }
+  });
+  svg.addEventListener('mouseleave', function(){ resetOpacities(); tip.style.display='none'; });
+})();
+</script>
+<script>
+(function() {
+  if (location.search.indexOf('embed=1') === -1) return;
+  function collapseNow() {
+    var app = document.querySelector('.app');
+    var rail = document.querySelector('.rail');
+    var side = document.querySelector('.side');
+    if (app) { app.style.transition = 'none'; app.classList.add('rail-col'); app.classList.add('side-col'); }
+    if (rail) { rail.style.transition = 'none'; rail.classList.add('collapsed'); }
+    if (side) { side.style.transition = 'none'; side.classList.add('collapsed'); }
+    void document.documentElement.offsetWidth;
+    document.documentElement.style.visibility = '';
+  }
+  collapseNow();
+  document.addEventListener('DOMContentLoaded', collapseNow);
+  window.addEventListener('load', collapseNow);
+  setTimeout(collapseNow, 50);
+  setTimeout(collapseNow, 300);
+})();
+</script>
+</body>
+</html>

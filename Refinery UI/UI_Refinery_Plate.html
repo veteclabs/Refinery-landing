@@ -1,0 +1,3611 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script>
+if (location.search.indexOf('embed=1') !== -1) {
+  document.documentElement.style.visibility = 'hidden';
+}
+</script>
+
+<meta charset="UTF-8">
+<title>Refinery — 플레이트</title>
+<!-- ============================================================
+     Refinery — 플레이트 (Overview 카탈로그 + Tile Composer 편집기 — 단일 파일 통합)
+     Global Nav: 플레이트 · data-view="plate"
+     · Sub Nav = 데이터 라이브러리 / 타일 카탈로그(UI_Refinery_Tile.html 의 19개 타일 기준)
+     · Page    = 편집 툴바 + full-bleed 캔버스 + 우측 인스펙터 도크
+     Styles: refinery.css (single source of truth · linked)
+     Components used: app-shell, rfn-erd(canvas), kpi/rfn-widget(tile instances),
+                      rfn-tree, rfn-tabs(2depth), rfn-field, rfn-seg,
+                      rfn-icon-btn, rfn-btn, rfn-table, rfn-checkbox, rfn-box, chip
+     Built following skill: refinery-html-page (Refinery_DesignSystem_Guide.md)
+     Generated: 2026-05-28
+     ============================================================ -->
+<!-- ============================================================
+     Favicon · 단일 정적 심볼 (라이트/다크/시크릿 모드 무관 · 동일 적용)
+     ============================================================ -->
+<link rel="icon" type="image/svg+xml" href="fav_refienry-symbol.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<!-- ============================================================
+     ICON SYSTEM — Phosphor Icons (Regular weight)
+     모든 아이콘은 Phosphor Regular 가중치로 통일합니다.
+     사용법: <i class="ph ph-icon-name"></i>
+     아이콘 검색: https://phosphoricons.com
+     크기 조정: font-size로 (기본 컨텍스트별 규칙은 하단 CSS 참조)
+     색상 조정: color 속성 (자동으로 currentColor 상속)
+     향후 추가되는 모든 아이콘도 반드시 이 방식을 따를 것.
+     ============================================================ -->
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<!-- 즐겨찾기 노란 채움별 등 fill 가중치 글리프용 (예외적 사용) -->
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<link rel="stylesheet" href="refinery.css">
+</head>
+<body data-view="plate-overview" data-plate-tab="data" data-plate-overview="grid" data-plate-mode="view">
+<script>try{
+  if(window.self===window.top && localStorage.getItem("refinery-theme")==="dark")document.body.classList.add("dark");
+  /* 통합 뷰 부트스트랩(페인트 전): 새로고침이면 직전 화면 복원, Rail 진입(fresh)이면 Overview 유지 */
+  var __fresh=false; try{__fresh=sessionStorage.getItem("refinery-fresh-nav")==="1";}catch(e){}
+  var __pv=null; try{__pv=localStorage.getItem("refinery-plate-active-view-v1");}catch(e){}
+  if(!__fresh && __pv==="composer"){ document.body.setAttribute("data-view","plate"); }
+}catch(e){}</script>
+
+<div class="app">
+
+  <!-- ============ Global Nav ============ -->
+<aside class="rail">
+    <button class="rail-expand-btn" id="railExpand" title="내비게이션 펼치기"><i class="ph ph-caret-right"></i></button>
+    <div class="logo-dot">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 32 32">
+        <g transform="translate(-8 -14)">
+          <g transform="translate(10.289 16.289)">
+            <g transform="translate(1.318 1.318)">
+              <path fill="#16202C" d="M55.606,40H42.754A2.754,2.754,0,0,0,40,42.754V55.606a2.754,2.754,0,0,0,2.754,2.754h2.3a1.377,1.377,0,0,1-1.377-1.377V45.049a1.377,1.377,0,0,1,1.377-1.377H56.983a1.377,1.377,0,0,1,1.377,1.377v-2.3A2.754,2.754,0,0,0,55.606,40Z" transform="translate(-40 -40)"/>
+              <path fill="#16202C" d="M195.606,180h-2.3a1.377,1.377,0,0,1,1.377,1.377v11.934a1.377,1.377,0,0,1-1.377,1.377H181.377A1.377,1.377,0,0,1,180,193.311v2.3a2.754,2.754,0,0,0,2.754,2.754h12.852a2.754,2.754,0,0,0,2.754-2.754V182.754A2.754,2.754,0,0,0,195.606,180Z" transform="translate(-173.574 -173.574)"/>
+            </g>
+          </g>
+        </g>
+      </svg>
+      <span class="logo-name">Refinery</span>
+      <button class="rail-collapse-btn" id="railCollapse" title="내비게이션 접기">
+        <i class="ph ph-sidebar-simple"></i>
+      </button>
+    </div>
+
+    <div class="rail-scroll">
+      <!-- ============ 영역 1 : 개인/콘텐츠 ============ -->
+      <div class="ic" title="홈">
+        <i class="ph ph-house"></i>
+        <span class="lbl">홈</span>
+      </div>
+      <div class="ic" title="검색">
+        <i class="ph ph-magnifying-glass"></i>
+        <span class="lbl">검색</span>
+      </div>
+      <div class="ic" title="알림">
+        <i class="ph ph-bell"></i>
+        <span class="lbl">알림</span>
+        <span class="rail-badge rail-badge-count">13</span>
+      </div>
+      <div class="ic" title="최근">
+        <i class="ph ph-clock-counter-clockwise"></i>
+        <span class="lbl">최근</span>
+      </div>
+      <div class="ic" title="즐겨찾기">
+        <i class="ph ph-star"></i>
+        <span class="lbl">즐겨찾기</span>
+      </div>
+      <div class="ic" title="파일">
+        <i class="ph ph-file"></i>
+        <span class="lbl">파일</span>
+      </div>
+      <div class="ic" title="데이터셋">
+        <i class="ph ph-database"></i>
+        <span class="lbl">데이터셋</span>
+      </div>
+
+      <div class="sep"></div>
+
+      <!-- ============ FAVORITES (즐겨찾기) — 즐겨찾기가 있을 때만 노출 ============ -->
+      <div class="fav-section" id="favSection">
+        <button class="rail-group-title" id="favGroupToggle" type="button" aria-expanded="true" aria-controls="favGroupItems">
+          <span class="lbl">Favorites</span>
+          <i class="ph ph-caret-down caret"></i>
+        </button>
+        <div class="rail-group-items" id="favGroupItems"></div>
+        <div class="sep"></div>
+      </div>
+
+      <!-- ============ 영역 2 : Application ============ -->
+      <button class="rail-group-title" id="appGroupToggle" type="button" aria-expanded="true" aria-controls="appGroupItems">
+        <span class="lbl">Application</span>
+        <i class="ph ph-caret-down caret"></i>
+      </button>
+      <div class="rail-group-items" id="appGroupItems">
+        <div class="ic" title="대시보드" data-key="dashboard" data-nav="UI_Refinery_Dashboard.html">
+          <i class="ph ph-squares-four"></i>
+          <span class="lbl">대시보드</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="AI 어시스턴트" data-key="llm">
+          <i class="ph ph-sparkle"></i>
+          <span class="lbl">AI 어시스턴트</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="공장/도면" data-key="factory">
+          <i class="ph ph-factory"></i>
+          <span class="lbl">공장/도면</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic active" title="플레이트" data-key="plate" data-view="plate" data-nav="UI_Refinery_Plate.html">
+          <i class="ph ph-presentation"></i>
+          <span class="lbl">플레이트</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="타일" data-key="tile" data-view="tile" data-nav="UI_Refinery_Tile.html">
+          <i class="ph ph-grid-four"></i>
+          <span class="lbl">타일</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="분석" data-key="analytics">
+          <i class="ph ph-chart-bar"></i>
+          <span class="lbl">분석</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="에너지" data-key="energy">
+          <i class="ph ph-lightning"></i>
+          <span class="lbl">에너지</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="노트북" data-key="notebook">
+          <i class="ph ph-notebook"></i>
+          <span class="lbl">노트북</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="시트" data-key="sheet">
+          <i class="ph ph-table"></i>
+          <span class="lbl">시트</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="파이프라인" data-key="pipeline" data-view="pipeline" data-nav="UI_Refinery_Pipeline.html">
+          <i class="ph ph-flow-arrow"></i>
+          <span class="lbl">파이프라인</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="온톨로지" data-key="ontology" data-view="ontology" data-nav="UI_Refinery_Ontology.html">
+          <i class="ph ph-tree-structure"></i>
+          <span class="lbl">온톨로지</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="캘린더" data-key="calendar" data-view="calendar" data-nav="UI_Refinery_Calendar.html">
+          <i class="ph ph-calendar-blank"></i>
+          <span class="lbl">캘린더</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="코드 리포지토리" data-key="code-repo">
+          <i class="ph ph-brackets-angle"></i>
+          <span class="lbl">코드 리포지토리</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="오브젝트 탐색기" data-key="object-explorer">
+          <i class="ph ph-stack"></i>
+          <span class="lbl">오브젝트</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="데이터 흐름" data-key="data-flow">
+          <i class="ph ph-pulse"></i>
+          <span class="lbl">데이터흐름</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="데이터 품질" data-key="data-quality">
+          <i class="ph ph-check-square"></i>
+          <span class="lbl">데이터품질</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="탐색기" data-key="explorer">
+          <i class="ph ph-compass"></i>
+          <span class="lbl">탐색기</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="에너지 고지서" data-key="energy-bill">
+          <i class="ph ph-receipt"></i>
+          <span class="lbl">에너지 고지서</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+      </div>
+
+      <div class="sep"></div>
+
+      <!-- ============ 영역 3 : 시스템 ============ -->
+      <div class="ic" title="설정">
+        <i class="ph ph-gear"></i>
+        <span class="lbl">설정</span>
+      </div>
+      <div class="ic" title="조직관리">
+        <i class="ph ph-users-three"></i>
+        <span class="lbl">조직관리</span>
+      </div>
+      <div class="ic" title="도움말">
+        <i class="ph ph-question"></i>
+        <span class="lbl">도움말</span>
+      </div>
+      <div class="ic" title="Design System" data-nav="UI_Refinery_DesignSystem.html">
+        <i class="ph ph-palette"></i>
+        <span class="lbl">Design System</span>
+      </div>
+    </div>
+
+    <div class="bot">
+      <div class="bot-user-wrap">
+      <div class="bot-user" id="userBtn" role="button" tabindex="0" aria-haspopup="menu" aria-expanded="false" aria-controls="userPopover">
+        <div class="avatar"><span class="avatar-initial"></span></div>
+        <div class="bot-info">
+          <div class="bot-name">Hyeyoung Han</div>
+          <div class="bot-email">hyhan@vetec.co.kr</div>
+        </div>
+        <i class="ph ph-caret-up caret"></i>
+      </div>
+
+      <div class="user-popover" id="userPopover" role="menu" aria-hidden="true">
+        <div class="user-pop-head">
+          <div class="avatar"><span class="avatar-initial"></span></div>
+          <div class="info">
+            <div class="name">Hyeyoung Han</div>
+            <div class="email">hyhan@vetec.co.kr</div>
+          </div>
+        </div>
+
+        <div class="user-pop-list">
+          <button class="user-pop-item" role="menuitem" data-action="user-settings">
+            <i class="ph ph-user-gear"></i>
+            <span class="lbl">사용자 설정</span>
+          </button>
+          <button class="user-pop-item" role="menuitem" data-action="notif-settings">
+            <i class="ph ph-bell-ringing"></i>
+            <span class="lbl">알림 설정</span>
+          </button>
+          <button class="user-pop-item" role="menuitem" data-action="notif-list">
+            <i class="ph ph-bell"></i>
+            <span class="lbl">알림 목록</span>
+            <span class="badge">3</span>
+          </button>
+        </div>
+
+        <div class="user-pop-sep"></div>
+
+        <div class="user-pop-theme" role="group" aria-label="화면 모드">
+          <div class="user-pop-theme-label">
+            <i class="ph ph-circle-half"></i>
+            <span class="lbl">화면 모드</span>
+          </div>
+          <div class="seg theme-seg">
+            <button class="on" id="themeLight" type="button" title="Light 모드로 전환">
+              <i class="ph ph-sun"></i>Light
+            </button>
+            <button id="themeDark" type="button" title="Dark 모드로 전환">
+              <i class="ph ph-moon"></i>Dark
+            </button>
+          </div>
+        </div>
+
+        <div class="user-pop-sep"></div>
+
+        <div class="user-pop-list">
+          <button class="user-pop-item" role="menuitem" data-action="logout">
+            <i class="ph ph-sign-out"></i>
+            <span class="lbl">로그아웃</span>
+          </button>
+        </div>
+      </div>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ============ Sub Nav (Schema Tree) ============ -->
+  <aside class="side">
+    <button class="side-expand-btn" id="sideToggle" title="메뉴 펼치기"><i class="ph ph-caret-right"></i></button>
+    <div class="search">
+      <i class="ph ph-magnifying-glass"></i>
+      <input id="sideSearchInput" placeholder="대시보드 검색..." style="font-family:var(--font-kr)">
+      <kbd>/</kbd>
+    </div>
+
+    <div class="nav">
+      <!-- ======== Sub Nav: Plate — 통합 (Overview · 대시보드 공용) · 메뉴/타일 탭 ======== -->
+      <div data-side-view="plate">
+
+        <!-- 메뉴 / 타일 탭 (2depth) -->
+        <div class="rfn-tabs rfn-tabs--depth-2 rfn-tabs--fill plate-cat-tabs" role="tablist" aria-label="라이브러리">
+          <button class="rfn-tab active" type="button" role="tab" aria-selected="true" data-plate-tab-btn="data">메뉴<span class="rfn-tab-count">22</span></button>
+          <button class="rfn-tab" type="button" role="tab" aria-selected="false" data-plate-tab-btn="tiles">타일<span class="rfn-tab-count">19</span></button>
+        </div>
+
+        <!-- ===== 메뉴 탭 — 플레이트(대시보드) 목록 · Plate Overview Sub Nav ===== -->
+        <div data-plate-cat="data" class="plate-cat-menu">
+          <div class="group" data-plate-menu style="margin-top:4px">
+            <div class="item child" data-plate-menu-key="overview">Overview</div>
+            <div class="item child" data-plate-menu-key="power">전력모니터링 (Accura)</div>
+            <div class="item child" data-plate-menu-key="water">용수 모니터링</div>
+            <div class="item child" data-plate-menu-key="steam">스팀 유량 모니터링</div>
+            <div class="item child" data-plate-menu-key="lng">LNG 가스 모니터링</div>
+            <div class="item child" data-plate-menu-key="energy-flow">에너지 흐름 분석</div>
+            <div class="item child" data-plate-menu-key="tank">탱크 수위 관리</div>
+            <div class="item child" data-plate-menu-key="air">공기압축기 모니터링</div>
+            <div class="item child" data-plate-menu-key="energy-summary">에너지 종합 현황</div>
+            <div class="item child" data-plate-menu-key="air-rt">공압기 실시간 모니터링</div>
+            <div class="item child" data-plate-menu-key="power-usage">전력 사용량 분석</div>
+            <div class="item child" data-plate-menu-key="utility-summary">유틸리티 종합 (스팀·용수·LNG)</div>
+            <div class="item child" data-plate-menu-key="scada">변전실 SCADA 모니터링</div>
+            <div class="item child" data-plate-menu-key="esg-report">ESG 종합 리포트</div>
+            <div class="item child" data-plate-menu-key="esg-efficiency">ESG 에너지 효율 분석</div>
+            <div class="item child" data-plate-menu-key="esg-carbon">ESG 탄소배출 관리</div>
+            <div class="item child" data-plate-menu-key="energy-cost">에너지 비용 분석</div>
+            <div class="item child" data-plate-menu-key="process-energy">공정별 에너지 분석</div>
+            <div class="item child" data-plate-menu-key="exec">경영진 대시보드</div>
+            <div class="item child" data-plate-menu-key="env">환경/기상 모니터링</div>
+            <div class="item child" data-plate-menu-key="integrated">종합 모니터링</div>
+            <div class="item child" data-plate-menu-key="vibration">진동 분석 대시보드</div>
+          </div>
+        </div>
+
+        <!-- ===== Tiles 탭 — 타일 카탈로그 (UI_Refinery_Tile.html 기준) ===== -->
+        <div data-plate-cat="tiles">
+          <div class="plate-wcat">
+            <div class="plate-wcat-group">차트</div>
+            <button class="plate-wcat-item" type="button" data-add-tile="chart.timeseries" title="시계열 차트 타일 추가"><span class="plate-wcat-icn"><i class="ph ph-chart-line"></i></span><span class="plate-wcat-txt"><span class="plate-wcat-name">시계열 차트</span><span class="plate-wcat-id">chart.timeseries</span></span><span class="plate-wcat-add"><i class="ph ph-plus"></i></span></button>
+            <button class="plate-wcat-item" type="button" data-add-tile="chart.category" title="카테고리 차트 타일 추가"><span class="plate-wcat-icn"><i class="ph ph-chart-bar"></i></span><span class="plate-wcat-txt"><span class="plate-wcat-name">카테고리 차트</span><span class="plate-wcat-id">chart.category</span></span><span class="plate-wcat-add"><i class="ph ph-plus"></i></span></button>
+            <button class="plate-wcat-item" type="button" data-add-tile="chart.distribution" title="분포 차트 타일 추가"><span class="plate-wcat-icn"><i class="ph ph-chart-donut"></i></span><span class="plate-wcat-txt"><span class="plate-wcat-name">분포 차트</span><span class="plate-wcat-id">chart.distribution</span></span><span class="plate-wcat-add"><i class="ph ph-plus"></i></span></button>
+            <button class="plate-wcat-item" type="button" data-add-tile="chart.radar" title="레이더 차트 타일 추가"><span class="plate-wcat-icn"><i class="ph ph-hexagon"></i></span><span class="plate-wcat-txt"><span class="plate-wcat-name">레이더 차트</span><span class="plate-wcat-id">chart.radar</span></span><span class="plate-wcat-add"><i class="ph ph-plus"></i></span></button>
+            <button class="plate-wcat-item" type="button" data-add-tile="chart.bollinger" title="볼린저 밴드 타일 추가"><span class="plate-wcat-icn"><i class="ph ph-chart-line-up"></i></span><span class="plate-wcat-txt"><span class="plate-wcat-name">볼린저 밴드</span><span class="plate-wcat-id">chart.bollinger</span></span><span class="plate-wcat-add"><i class="ph ph-plus"></i></span></button>
+            <button class="plate-wcat-item" type="button" data-add-tile="chart.heatmap" title="히트맵 타일 추가"><span class="plate-wcat-icn"><i class="ph ph-grid-nine"></i></span><span class="plate-wcat-txt"><span class="plate-wcat-name">히트맵</span><span class="plate-wcat-id">chart.heatmap</span></span><span class="plate-wcat-add"><i class="ph ph-plus"></i></span></button>
+            <button class="plate-wcat-item" type="button" data-add-tile="chart.sankey" title="Sankey 흐름도 타일 추가"><span class="plate-wcat-icn"><i class="ph ph-flow-arrow"></i></span><span class="plate-wcat-txt"><span class="plate-wcat-name">Sankey 흐름도</span><span class="plate-wcat-id">chart.sankey</span></span><span class="plate-wcat-add"><i class="ph ph-plus"></i></span></button>
+            <div class="plate-wcat-group">값</div>
+            <button class="plate-wcat-item" type="button" data-add-tile="value.kpi" title="KPI 카드 타일 추가"><span class="plate-wcat-icn"><i class="ph ph-target"></i></span><span class="plate-wcat-txt"><span class="plate-wcat-name">KPI 카드</span><span class="plate-wcat-id">value.kpi</span></span><span class="plate-wcat-add"><i class="ph ph-plus"></i></span></button>
+            <button class="plate-wcat-item" type="button" data-add-tile="value.gauge" title="게이지 타일 추가"><span class="plate-wcat-icn"><i class="ph ph-gauge"></i></span><span class="plate-wcat-txt"><span class="plate-wcat-name">게이지</span><span class="plate-wcat-id">value.gauge</span></span><span class="plate-wcat-add"><i class="ph ph-plus"></i></span></button>
+            <button class="plate-wcat-item" type="button" data-add-tile="value.number" title="숫자 표시 타일 추가"><span class="plate-wcat-icn"><i class="ph ph-numpad"></i></span><span class="plate-wcat-txt"><span class="plate-wcat-name">숫자 표시</span><span class="plate-wcat-id">value.number</span></span><span class="plate-wcat-add"><i class="ph ph-plus"></i></span></button>
+            <button class="plate-wcat-item" type="button" data-add-tile="value.cards" title="KPI 카드 그리드 타일 추가"><span class="plate-wcat-icn"><i class="ph ph-grid-four"></i></span><span class="plate-wcat-txt"><span class="plate-wcat-name">KPI 카드 그리드</span><span class="plate-wcat-id">value.cards</span></span><span class="plate-wcat-add"><i class="ph ph-plus"></i></span></button>
+            <div class="plate-wcat-group">테이블</div>
+            <button class="plate-wcat-item" type="button" data-add-tile="table.entity" title="엔티티 테이블 타일 추가"><span class="plate-wcat-icn"><i class="ph ph-list-bullets"></i></span><span class="plate-wcat-txt"><span class="plate-wcat-name">엔티티 테이블</span><span class="plate-wcat-id">table.entity</span></span><span class="plate-wcat-add"><i class="ph ph-plus"></i></span></button>
+            <button class="plate-wcat-item" type="button" data-add-tile="table.timeseries" title="시계열 테이블 타일 추가"><span class="plate-wcat-icn"><i class="ph ph-rows"></i></span><span class="plate-wcat-txt"><span class="plate-wcat-name">시계열 테이블</span><span class="plate-wcat-id">table.timeseries</span></span><span class="plate-wcat-add"><i class="ph ph-plus"></i></span></button>
+            <div class="plate-wcat-group">온톨로지</div>
+            <button class="plate-wcat-item" type="button" data-add-tile="ontology.tree" title="계층 트리 타일 추가"><span class="plate-wcat-icn"><i class="ph ph-tree-structure"></i></span><span class="plate-wcat-txt"><span class="plate-wcat-name">계층 트리</span><span class="plate-wcat-id">ontology.tree</span></span><span class="plate-wcat-add"><i class="ph ph-plus"></i></span></button>
+            <button class="plate-wcat-item" type="button" data-add-tile="ontology.filter" title="필터 패널 타일 추가"><span class="plate-wcat-icn"><i class="ph ph-funnel"></i></span><span class="plate-wcat-txt"><span class="plate-wcat-name">필터 패널</span><span class="plate-wcat-id">ontology.filter</span></span><span class="plate-wcat-add"><i class="ph ph-plus"></i></span></button>
+            <button class="plate-wcat-item" type="button" data-add-tile="ontology.map" title="설비 맵 타일 추가"><span class="plate-wcat-icn"><i class="ph ph-map-pin"></i></span><span class="plate-wcat-txt"><span class="plate-wcat-name">설비 맵</span><span class="plate-wcat-id">ontology.map</span></span><span class="plate-wcat-add"><i class="ph ph-plus"></i></span></button>
+            <div class="plate-wcat-group">알람</div>
+            <button class="plate-wcat-item" type="button" data-add-tile="alarm.list" title="알람 목록 타일 추가"><span class="plate-wcat-icn"><i class="ph ph-bell"></i></span><span class="plate-wcat-txt"><span class="plate-wcat-name">알람 목록</span><span class="plate-wcat-id">alarm.list</span></span><span class="plate-wcat-add"><i class="ph ph-plus"></i></span></button>
+            <div class="plate-wcat-group">레이아웃</div>
+            <button class="plate-wcat-item" type="button" data-add-tile="layout.text" title="마크다운 텍스트 타일 추가"><span class="plate-wcat-icn"><i class="ph ph-text-aa"></i></span><span class="plate-wcat-txt"><span class="plate-wcat-name">마크다운 텍스트</span><span class="plate-wcat-id">layout.text</span></span><span class="plate-wcat-add"><i class="ph ph-plus"></i></span></button>
+            <button class="plate-wcat-item" type="button" data-add-tile="layout.divider" title="구분선 타일 추가"><span class="plate-wcat-icn"><i class="ph ph-minus"></i></span><span class="plate-wcat-txt"><span class="plate-wcat-name">구분선</span><span class="plate-wcat-id">layout.divider</span></span><span class="plate-wcat-add"><i class="ph ph-plus"></i></span></button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="side-close-bar">
+      <button id="sideCollapse" class="side-collapse-inner">
+        <i class="ph ph-caret-left"></i>
+        <span>메뉴 접기</span>
+      </button>
+    </div>
+  </aside>
+
+
+  <!-- ============ main ============ -->
+  <section class="main">
+
+    <header class="topbar">
+      <button class="side-collapse-btn" id="sideToggleTopbar" title="서브 메뉴 접기 / 펼치기">
+        <i class="ph ph-caret-left"></i>
+      </button>
+      <div class="crumbs" data-crumbs-view="plate-overview">
+        <i class="ph ph-presentation"></i>
+        <span>플레이트</span>
+        <i class="ph ph-caret-right"></i>
+        <span class="here">Overview</span>
+      </div>
+      <div class="crumbs" data-crumbs-view="plate">
+        <i class="ph ph-presentation"></i>
+        <span>플레이트</span>
+        <i class="ph ph-caret-right"></i>
+        <span class="here">Tile Composer</span>
+      </div>
+      <div class="actions">
+        <div class="density-wrap">
+          <div class="icon-btn" id="densityBtn" title="화면 밀도">
+            <i class="ph ph-text-aa"></i>
+          </div>
+          <div class="density-popover" id="densityPopover" role="menu" aria-hidden="true">
+            <div class="density-pop-head">
+              <div class="density-pop-title">화면 밀도</div>
+              <div class="density-pop-sub">정보 밀도와 가독성을 조정합니다</div>
+            </div>
+            <div class="density-pop-list">
+              <button class="density-opt" data-density="compact" role="menuitemradio">
+                <span class="density-opt-icn"><i class="ph ph-text-aa"></i></span>
+                <span class="density-opt-text">
+                  <span class="density-opt-label">Compact</span>
+                  <span class="density-opt-desc">데이터 밀집 표시</span>
+                </span>
+                <span class="density-opt-check"><i class="ph ph-check"></i></span>
+              </button>
+              <button class="density-opt on" data-density="default" role="menuitemradio" aria-checked="true">
+                <span class="density-opt-icn"><i class="ph ph-text-aa"></i></span>
+                <span class="density-opt-text">
+                  <span class="density-opt-label">Default</span>
+                  <span class="density-opt-desc">기본 보기</span>
+                </span>
+                <span class="density-opt-check"><i class="ph ph-check"></i></span>
+              </button>
+              <button class="density-opt" data-density="comfortable" role="menuitemradio">
+                <span class="density-opt-icn"><i class="ph ph-text-aa"></i></span>
+                <span class="density-opt-text">
+                  <span class="density-opt-label">Comfortable</span>
+                  <span class="density-opt-desc">가독성 우선</span>
+                </span>
+                <span class="density-opt-check"><i class="ph ph-check"></i></span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="icon-btn" id="fullscreenBtn" title="전체화면">
+          <i class="ph ph-corners-out ic-expand"></i>
+          <i class="ph ph-corners-in ic-compress"></i>
+        </div>
+        <div class="search-wrap">
+          <div class="icon-btn" id="searchBtn" title="검색"><i class="ph ph-magnifying-glass"></i></div>
+          <div class="search-popover" id="searchPopover" aria-hidden="true">
+            <div class="search">
+              <i class="ph ph-magnifying-glass"></i>
+              <input id="topbarSearchInput" placeholder="통합 검색..." style="font-family:var(--font-kr)">
+              <kbd>ESC</kbd>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="page">
+    <div data-page-view="plate-overview">
+
+      <!-- ===== Page Header ===== -->
+      <div class="page-head">
+        <h1>Overview</h1>
+        <div class="spacer"></div>
+        <!-- 기본 액션 -->
+        <div id="actionsDefault" style="display:flex;align-items:center;gap:8px">
+          <button id="btnEnterSelect" class="rfn-btn rfn-btn--secondary" type="button"><i class="ph ph-trash"></i>Delete</button>
+          <button class="rfn-btn rfn-btn--primary" type="button"><i class="ph ph-plus"></i>New Dashboard</button>
+        </div>
+        <!-- 선택 모드 액션 -->
+        <div id="actionsSelect" style="display:none;align-items:center;gap:10px">
+          <span id="selCount" style="font-size:var(--fs-caption);color:var(--ink-600)">0개 선택됨</span>
+          <button id="btnCancelSelect" class="rfn-btn rfn-btn--secondary" type="button">취소</button>
+          <button id="btnDeleteSelect" class="rfn-btn rfn-btn--danger" type="button" disabled><i class="ph ph-trash"></i><span class="lbl">삭제</span></button>
+        </div>
+      </div>
+
+      <!-- ===== Toolbar : 검색 · 정렬 · 뷰 전환 ===== -->
+      <div class="toolbar">
+        <!-- 상태 필터 -->
+        <div class="rfn-popover-anchor">
+          <button class="chip" type="button" id="statusChip" aria-haspopup="menu" aria-expanded="false" title="표시 범위 필터">
+            <i class="ph ph-eye"></i><span id="statusChipLabel">전체</span><i class="ph ph-caret-down"></i>
+          </button>
+          <div class="rfn-popover" id="statusPop" role="menu" aria-label="표시 범위" aria-hidden="true">
+            <div class="rfn-popover-list">
+              <button type="button" class="rfn-popover-item" role="menuitemradio" aria-checked="true" data-status-filter="all"><i class="ph ph-stack"></i><span class="lbl">전체</span></button>
+              <button type="button" class="rfn-popover-item" role="menuitemradio" aria-checked="false" data-status-filter="public"><i class="ph ph-globe"></i><span class="lbl">공개</span></button>
+              <button type="button" class="rfn-popover-item" role="menuitemradio" aria-checked="false" data-status-filter="team"><i class="ph ph-users-three"></i><span class="lbl">팀</span></button>
+              <button type="button" class="rfn-popover-item" role="menuitemradio" aria-checked="false" data-status-filter="private"><i class="ph ph-lock-simple"></i><span class="lbl">비공개</span></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 정렬 -->
+        <div class="rfn-popover-anchor">
+          <button class="chip" type="button" id="sortChip" aria-haspopup="menu" aria-expanded="false" title="정렬">
+            <i class="ph ph-arrows-down-up"></i><span id="sortChipLabel">최근 수정순</span><i class="ph ph-caret-down"></i>
+          </button>
+          <div class="rfn-popover" id="sortPop" role="menu" aria-label="정렬 기준" aria-hidden="true">
+            <div class="rfn-popover-list">
+              <button type="button" class="rfn-popover-item" role="menuitemradio" aria-checked="true" data-sort="recent"><i class="ph ph-clock-counter-clockwise"></i><span class="lbl">최근 수정순</span></button>
+              <button type="button" class="rfn-popover-item" role="menuitemradio" aria-checked="false" data-sort="name"><i class="ph ph-text-aa"></i><span class="lbl">이름순</span></button>
+              <button type="button" class="rfn-popover-item" role="menuitemradio" aria-checked="false" data-sort="views"><i class="ph ph-chart-bar"></i><span class="lbl">조회수순</span></button>
+            </div>
+          </div>
+        </div>
+
+        <div style="flex:1"></div>
+
+        <!-- 그리드 / 리스트 뷰 전환 -->
+        <div class="seg" id="viewSeg" title="보기 방식">
+          <button type="button" class="on" data-view-mode="grid" title="그리드 보기" aria-label="그리드 보기"><i class="ph ph-squares-four"></i></button>
+          <button type="button" data-view-mode="list" title="리스트 보기" aria-label="리스트 보기"><i class="ph ph-rows"></i></button>
+        </div>
+      </div>
+
+      <!-- ===== Grid View : 플레이트 카드 (span 4 × 4 = 16) ===== -->
+      <div class="grid" id="plateGrid"></div>
+
+      <!-- ===== List View : 카테고리 그룹 + 행 카드 ===== -->
+      <div id="plateList" style="display:none"></div>
+
+      <!-- ===== Empty state (검색/필터 결과 없음) ===== -->
+      <div class="grid" id="plateEmpty" style="display:none">
+        <div class="rfn-widget" style="grid-column:span 16">
+          <div class="rfn-widget-body" style="text-align:center;padding:48px 16px;color:var(--ink-500)">
+            <i class="ph ph-magnifying-glass" style="font-size:32px;color:var(--ink-400)"></i>
+            <div style="margin-top:10px;font-size:var(--fs-body)">조건에 맞는 플레이트가 없습니다.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================
+           New Dashboard 모달 — [New Dashboard] 클릭 시 노출.
+           Body 작성 → [만들기] 클릭 시 composer + edit 모드 진입.
+           ESC · overlay 클릭 · [×] · [취소] 로 닫힘.
+           ============================================================ -->
+      <div class="rfn-modal-overlay" id="newDashboardOverlay" role="dialog" aria-modal="true" aria-labelledby="newDashboardTitle" style="display:none">
+        <div class="rfn-modal rfn-modal--md">
+          <div class="rfn-modal-head">
+            <div class="rfn-modal-head-icon rfn-modal-head-icon--brand"><i class="ph ph-plus"></i></div>
+            <div class="rfn-modal-title-wrap">
+              <div class="rfn-modal-title" id="newDashboardTitle">새 대시보드 만들기</div>
+              <div class="rfn-modal-sub">제목과 기본 설정을 입력하세요</div>
+            </div>
+            <button class="rfn-modal-close" type="button" aria-label="닫기" data-new-dashboard-close><i class="ph ph-x"></i></button>
+          </div>
+          <div class="rfn-modal-body">
+            <div class="rfn-formfield rfn-formfield--full">
+              <label class="rfn-formfield-label" for="newDashboardName">제목<span class="req">*</span></label>
+              <span class="rfn-field"><input id="newDashboardName" type="text" placeholder="예: 전력모니터링 (Accura)" autocomplete="off"></span>
+            </div>
+            <div class="rfn-formfield rfn-formfield--full">
+              <label class="rfn-formfield-label" for="newDashboardDesc">설명<span class="opt">(선택)</span></label>
+              <span class="rfn-field rfn-field--textarea"><textarea id="newDashboardDesc" rows="2" placeholder="대시보드 용도를 한 줄로 설명하세요"></textarea></span>
+            </div>
+            <div class="rfn-formfield rfn-formfield--full">
+              <label class="rfn-formfield-label">레이아웃</label>
+              <div class="rfn-seg rfn-seg--fill" role="radiogroup" aria-label="레이아웃">
+                <button type="button" role="radio" aria-checked="true" class="on" data-new-dashboard-layout="grid"><i class="ph ph-grid-four"></i>16열 그리드</button>
+                <button type="button" role="radio" aria-checked="false" data-new-dashboard-layout="free"><i class="ph ph-frame-corners"></i>자유 배치</button>
+              </div>
+            </div>
+            <div class="rfn-formfield rfn-formfield--full">
+              <label class="rfn-formfield-label">접근 권한</label>
+              <div class="rfn-seg rfn-seg--fill" role="radiogroup" aria-label="접근 권한">
+                <button type="button" role="radio" aria-checked="true" class="on" data-new-dashboard-access="public"><i class="ph ph-globe"></i>공개</button>
+                <button type="button" role="radio" aria-checked="false" data-new-dashboard-access="team"><i class="ph ph-users-three"></i>팀</button>
+                <button type="button" role="radio" aria-checked="false" data-new-dashboard-access="private"><i class="ph ph-lock-simple"></i>비공개</button>
+              </div>
+            </div>
+          </div>
+          <div class="rfn-modal-foot">
+            <button class="rfn-btn rfn-btn--tertiary" type="button" data-new-dashboard-close>취소</button>
+            <button class="rfn-btn rfn-btn--primary" type="button" id="newDashboardCreate" style="margin-left:auto" disabled><i class="ph ph-plus"></i>만들기</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div data-page-view="plate">
+      <div class="plate-shell">
+
+        <!-- ===== View Header (보기 모드 전용 · 편집 모드에선 CSS로 숨김) ===== -->
+        <div class="plate-view-head">
+          <h1 data-plate-title>대시보드</h1>
+          <button type="button" class="rfn-icon-btn" data-plate-lock title="편집 잠금" aria-label="편집 잠금" aria-pressed="false"><i class="ph ph-lock-simple-open"></i></button>
+          <span class="plate-vh-spacer"></span>
+          <div class="plate-tb-group" role="group" aria-label="대시보드 액션">
+            <button class="rfn-icon-btn" type="button" title="공유" aria-label="공유"><i class="ph ph-share-network"></i></button>
+          </div>
+          <div class="rfn-popover-anchor" id="timeChipAnchor">
+            <button class="chip" type="button" id="timeChip" aria-haspopup="dialog" aria-expanded="false" title="기간 · 집계 설정">
+              <i class="ph ph-clock"></i><span id="timeChipLabel">시간 설정</span><i class="ph ph-caret-down"></i>
+            </button>
+            <div class="rfn-popover rfn-popover--time" id="timePop" role="dialog" aria-label="시간 설정" aria-hidden="true">
+              <div class="rfn-popover-head">
+                <div class="rfn-popover-title-wrap">
+                  <div class="rfn-popover-title">시간 설정</div>
+                </div>
+              </div>
+              <div class="rfn-popover-form">
+
+                <!-- 데이터 수신 방식 (2개 옵션 → rfn-seg) -->
+                <div class="rfn-formfield rfn-formfield--full">
+                  <label class="rfn-formfield-label">데이터 수신 방식</label>
+                  <div class="rfn-seg rfn-seg--fill" id="timeMode" role="radiogroup" aria-label="데이터 수신 방식">
+                    <button type="button" role="radio" aria-checked="false" data-time-mode="realtime"><i class="ph ph-broadcast"></i>실시간</button>
+                    <button type="button" role="radio" aria-checked="true" class="on" data-time-mode="history"><i class="ph ph-clock-counter-clockwise"></i>이력조회</button>
+                  </div>
+                </div>
+
+                <!-- ===== 실시간 모드 섹션 (mode=realtime 일 때만) ===== -->
+                <div class="rfn-formfield rfn-formfield--full" data-time-section="realtime" hidden>
+                  <label class="rfn-formfield-label">화면 표시 구간</label>
+                  <div class="rfn-seg rfn-seg--fill" id="timeWindow" role="radiogroup" aria-label="화면 표시 구간">
+                    <button type="button" role="radio" aria-checked="false" data-time-window="1m">1분</button>
+                    <button type="button" role="radio" aria-checked="true" class="on" data-time-window="5m">5분</button>
+                    <button type="button" role="radio" aria-checked="false" data-time-window="30m">30분</button>
+                    <button type="button" role="radio" aria-checked="false" data-time-window="1h">1시간</button>
+                  </div>
+                  <div class="rfn-formfield-help" style="line-height:1.5">WebSocket으로 센서 데이터를 실시간 수신합니다. 화면에는 최근 5분 데이터를 rolling 표시하며, 새 포인트 도착 시 가장 오래된 포인트가 제거됩니다.</div>
+                </div>
+
+                <!-- ===== 이력조회 모드 섹션 (mode=history 일 때만) ===== -->
+                <!-- 조회 기간 (9개 옵션 → Select) -->
+                <div class="rfn-formfield rfn-formfield--full" data-time-section="history">
+                  <label class="rfn-formfield-label" for="timeRange">조회 기간</label>
+                  <div class="rfn-field rfn-field--select">
+                    <select id="timeRange" aria-label="조회 기간">
+                      <option value="" selected disabled hidden>조회 기간 선택</option>
+                      <option value="15m">최근 15분</option>
+                      <option value="1h">최근 1시간</option>
+                      <option value="6h">최근 6시간</option>
+                      <option value="24h">최근 24시간</option>
+                      <option value="7d">최근 7일</option>
+                      <option value="30d">최근 30일</option>
+                      <option value="week">이번 주</option>
+                      <option value="month">이번 달</option>
+                      <option value="custom">직접 지정</option>
+                    </select>
+                    <span class="rfn-field-affix"><i class="ph ph-caret-down"></i></span>
+                  </div>
+
+                  <!-- 직접 지정 — datetime 입력 -->
+                  <div class="rfn-popover-custom" id="timeCustom">
+                    <div class="rfn-formfield rfn-formfield--full">
+                      <label class="rfn-formfield-label" for="timeStart">시작일시</label>
+                      <div class="rfn-field rfn-field--datetime">
+                        <input id="timeStart" type="datetime-local" value="2026-05-12T14:38">
+                        <span class="rfn-field-affix"><i class="ph ph-calendar-blank"></i></span>
+                      </div>
+                    </div>
+                    <div class="rfn-formfield rfn-formfield--full">
+                      <label class="rfn-formfield-label" for="timeEnd">종료일시</label>
+                      <div class="rfn-field rfn-field--datetime">
+                        <input id="timeEnd" type="datetime-local" value="2026-05-12T15:38">
+                        <span class="rfn-field-affix"><i class="ph ph-calendar-blank"></i></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 집계 간격 (10개 옵션 → Select) -->
+                <div class="rfn-formfield rfn-formfield--full" data-time-section="history">
+                  <label class="rfn-formfield-label" for="timeBucket">집계 간격</label>
+                  <div class="rfn-field rfn-field--select">
+                    <select id="timeBucket" aria-label="집계 간격">
+                      <option value="" selected disabled hidden>집계 간격 선택</option>
+                      <option value="auto">자동 (기간에 따라 결정)</option>
+                      <option value="10s">10초</option>
+                      <option value="30s">30초</option>
+                      <option value="1m">1분</option>
+                      <option value="5m">5분</option>
+                      <option value="10m">10분</option>
+                      <option value="30m">30분</option>
+                      <option value="1h">1시간</option>
+                      <option value="6h">6시간</option>
+                      <option value="1d">1일</option>
+                    </select>
+                    <span class="rfn-field-affix"><i class="ph ph-caret-down"></i></span>
+                  </div>
+                </div>
+
+                <!-- 집계 함수 (7개 옵션 → 라디오 칩 그룹 · 코드 식별자 컨텍스트에서 Mono 허용) -->
+                <div class="rfn-formfield rfn-formfield--full" data-time-section="history">
+                  <label class="rfn-formfield-label">집계 함수</label>
+                  <div class="rfn-chipgroup rfn-chipgroup--pill" id="timeAgg" role="radiogroup" aria-label="집계 함수">
+                    <button type="button" class="rfn-chip" role="radio" aria-checked="false" data-time-agg="avg"><i class="ph ph-divide"></i>avg</button>
+                    <button type="button" class="rfn-chip on" role="radio" aria-checked="true" data-time-agg="sum"><i class="ph ph-plus"></i>sum</button>
+                    <button type="button" class="rfn-chip" role="radio" aria-checked="false" data-time-agg="max"><i class="ph ph-arrow-line-up"></i>max</button>
+                    <button type="button" class="rfn-chip" role="radio" aria-checked="false" data-time-agg="min"><i class="ph ph-arrow-line-down"></i>min</button>
+                    <button type="button" class="rfn-chip" role="radio" aria-checked="false" data-time-agg="last"><i class="ph ph-flag"></i>last</button>
+                    <button type="button" class="rfn-chip" role="radio" aria-checked="false" data-time-agg="count"><i class="ph ph-hash"></i>count</button>
+                    <button type="button" class="rfn-chip" role="radio" aria-checked="false" data-time-agg="none"><i class="ph ph-prohibit"></i>none</button>
+                  </div>
+                </div>
+
+              </div>
+              <div class="rfn-popover-foot rfn-popover-foot--note">
+                <i class="ph ph-info"></i>
+                <span>변경 사항은 즉시 대시보드에 반영됩니다.</span>
+              </div>
+            </div>
+          </div>
+          <div class="rfn-popover-anchor" id="objectChipAnchor">
+            <button class="chip" type="button" id="objectChip" aria-haspopup="dialog" aria-expanded="false" title="Plate 공유 객체">
+              <i class="ph ph-link-simple"></i><span id="objectChipLabel">객체</span><i class="ph ph-caret-down"></i>
+            </button>
+            <div class="rfn-popover rfn-popover--object rfn-popover--anchor-end" id="objectPop" role="dialog" aria-label="Plate 공유 객체" aria-hidden="true">
+              <div class="rfn-popover-head">
+                <div class="rfn-popover-title-wrap">
+                  <div class="rfn-popover-title">Plate 공유 객체</div>
+                </div>
+                <button type="button" class="rfn-icon-btn rfn-icon-btn--sm" id="objectReset" title="설정 초기화" aria-label="설정 초기화">
+                  <i class="ph ph-arrow-clockwise"></i>
+                </button>
+              </div>
+              <div class="rfn-popover-form">
+                <div class="rfn-formfield rfn-formfield--full">
+                  <label class="rfn-formfield-label" for="objectTypeTrigger">객체 타입</label>
+                  <!-- Picker 트리거 (네이티브 select 가 풍부한 옵션 렌더링 불가 → 인라인 expand 패턴) -->
+                  <button type="button" id="objectTypeTrigger" class="rfn-field rfn-field--select rfn-field--picker"
+                          aria-haspopup="listbox" aria-expanded="false" aria-controls="objectTypeList">
+                    <span class="rfn-picker-option-icn" data-type-icn hidden><i class="ph ph-stack"></i></span>
+                    <span class="rfn-field-text" id="objectTypeTriggerLabel">객체 타입 선택</span>
+                    <span class="rfn-field-affix"><i class="ph ph-caret-down"></i></span>
+                  </button>
+                  <!-- Picker 옵션 리스트 — 인라인 expand (popover-in-popover 회피). 컨테이너 안에서 펼침. -->
+                  <div class="rfn-picker-list" id="objectTypeList" data-object-list hidden role="listbox" aria-label="객체 타입">
+                    <button type="button" class="rfn-picker-option" role="option" aria-selected="false" data-object="categories">
+                      <span class="rfn-picker-option-icn"><i class="ph ph-stack"></i></span>
+                      <span class="rfn-picker-option-name">categories</span>
+                      <span class="rfn-picker-option-id">categories</span>
+                    </button>
+                    <button type="button" class="rfn-picker-option" role="option" aria-selected="false" data-object="clients">
+                      <span class="rfn-picker-option-icn"><i class="ph ph-stack"></i></span>
+                      <span class="rfn-picker-option-name">clients</span>
+                      <span class="rfn-picker-option-id">clients</span>
+                    </button>
+                    <button type="button" class="rfn-picker-option" role="option" aria-selected="false" data-object="deviceInstance">
+                      <span class="rfn-picker-option-icn"><i class="ph ph-stack"></i></span>
+                      <span class="rfn-picker-option-name">deviceInstance</span>
+                      <span class="rfn-picker-option-id">deviceInstance</span>
+                    </button>
+                    <button type="button" class="rfn-picker-option" role="option" aria-selected="false" data-object="events">
+                      <span class="rfn-picker-option-icn"><i class="ph ph-stack"></i></span>
+                      <span class="rfn-picker-option-name">events</span>
+                      <span class="rfn-picker-option-id">events</span>
+                    </button>
+                    <button type="button" class="rfn-picker-option" role="option" aria-selected="false" data-object="groupNode">
+                      <span class="rfn-picker-option-icn"><i class="ph ph-stack"></i></span>
+                      <span class="rfn-picker-option-name">groupNode</span>
+                      <span class="rfn-picker-option-id">groupNode</span>
+                    </button>
+                    <button type="button" class="rfn-picker-option" role="option" aria-selected="false" data-object="items">
+                      <span class="rfn-picker-option-icn"><i class="ph ph-stack"></i></span>
+                      <span class="rfn-picker-option-name">items</span>
+                      <span class="rfn-picker-option-id">items</span>
+                    </button>
+                    <button type="button" class="rfn-picker-option" role="option" aria-selected="false" data-object="orders">
+                      <span class="rfn-picker-option-icn"><i class="ph ph-stack"></i></span>
+                      <span class="rfn-picker-option-name">orders</span>
+                      <span class="rfn-picker-option-id">orders</span>
+                    </button>
+                    <button type="button" class="rfn-picker-option" role="option" aria-selected="false" data-object="processTreeHierarchyLink">
+                      <span class="rfn-picker-option-icn"><i class="ph ph-stack"></i></span>
+                      <span class="rfn-picker-option-name">processTreeHierarchyLink</span>
+                      <span class="rfn-picker-option-id">processTreeHierarchyLink</span>
+                    </button>
+                    <button type="button" class="rfn-picker-option" role="option" aria-selected="false" data-object="sensors">
+                      <span class="rfn-picker-option-icn"><i class="ph ph-stack"></i></span>
+                      <span class="rfn-picker-option-name">sensors</span>
+                      <span class="rfn-picker-option-id">sensors</span>
+                    </button>
+                    <button type="button" class="rfn-picker-option" role="option" aria-selected="false" data-object="users">
+                      <span class="rfn-picker-option-icn"><i class="ph ph-stack"></i></span>
+                      <span class="rfn-picker-option-name">users</span>
+                      <span class="rfn-picker-option-id">users</span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- 객체 인스턴스 picker — 타입 선택 후 노출 -->
+                <div class="rfn-formfield rfn-formfield--full" id="objectInstanceSection" hidden>
+                  <label class="rfn-formfield-label">객체</label>
+                  <div class="rfn-field">
+                    <span class="rfn-field-affix"><i class="ph ph-magnifying-glass"></i></span>
+                    <input id="objectInstanceSearch" type="text" placeholder="객체 검색">
+                  </div>
+                  <div class="rfn-picker-list rfn-picker-list--instance" id="objectInstanceList" role="listbox" aria-label="객체 인스턴스"></div>
+                </div>
+              </div>
+              <div class="rfn-popover-foot rfn-popover-foot--note">
+                <i class="ph ph-info"></i>
+                <span>'Plate 선택 따름'으로 설정한 모든 단일-객체 타일이 위 선택을 공유합니다.</span>
+              </div>
+            </div>
+          </div>
+          <span class="plate-tb-sep"></span>
+          <button class="rfn-btn rfn-btn--primary" type="button" data-plate-edit><i class="ph ph-pencil-simple"></i>편집</button>
+        </div>
+
+        <!-- ===== Editing Toolbar — 단일 행 (H1 · 편집 도구 · 대시보드 이름 · 우측 끝 나가기/저장) ===== -->
+        <div class="plate-toolbar">
+          <h1 data-plate-title>대시보드</h1>
+          <span class="plate-tb-sep"></span>
+          <div class="plate-tb-group" role="group" aria-label="편집">
+            <button class="rfn-icon-btn" type="button" title="실행 취소" aria-label="실행 취소" data-plate-undo disabled><i class="ph ph-arrow-counter-clockwise"></i></button>
+            <button class="rfn-icon-btn" type="button" title="다시 실행" aria-label="다시 실행" data-plate-redo disabled><i class="ph ph-arrow-clockwise"></i></button>
+            <button class="rfn-icon-btn" type="button" title="복제" aria-label="복제" data-plate-dup disabled><i class="ph ph-copy"></i></button>
+            <button class="rfn-icon-btn" type="button" title="삭제" aria-label="삭제" data-plate-del disabled><i class="ph ph-trash"></i></button>
+          </div>
+          <span class="plate-tb-spacer"></span>
+          <button id="plateExitBtn" class="rfn-btn rfn-btn--secondary" type="button"><i class="ph ph-sign-out"></i>나가기</button>
+          <button class="rfn-btn rfn-btn--primary" type="button" data-plate-save disabled><i class="ph ph-floppy-disk"></i>저장</button>
+        </div>
+
+        <!-- 기존 toolbar 내 zoom controls 제거 — 줌 indicator 는 캔버스 좌하단 .rfn-erd-zoom 이 이미 표시 -->
+
+        <!-- ===== Body : 캔버스 + 인스펙터 ===== -->
+        <div class="plate-body">
+
+          <!-- 캔버스 -->
+          <div class="plate-canvas-col">
+            <div class="rfn-erd" data-plate-canvas>
+              <div class="rfn-erd-scroll">
+                <div class="rfn-erd-world" data-plate-world>
+                  <div class="grid" style="display:grid;grid-template-columns:repeat(16,1fr);gap:14px;grid-auto-rows:minmax(184px,auto)">
+                  <div class="plate-w" data-w="t-num1" data-name="숫자" data-x="0" data-y="0" data-wd="4" data-ht="1" style="grid-column:span 4">
+                    <div class="rfn-widget">
+                      <div class="rfn-widget-head">
+                        <div class="rfn-widget-title">숫자</div>
+                        <div class="rfn-widget-actions"><span class="tag neutral">SINGLE</span></div>
+                      </div>
+                      <div class="rfn-widget-body">
+                        <div class="plate-tile-empty">
+                          <span class="ic"><i class="ph ph-numpad"></i></span>
+                          <div class="code">value.number — single</div>
+                          <div class="hint">[데이터] 탭에서 예시 케이스 선택</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="plate-w" data-w="t-num2" data-name="숫자" data-x="0" data-y="0" data-wd="4" data-ht="1" style="grid-column:span 4">
+                    <div class="rfn-widget">
+                      <div class="rfn-widget-head">
+                        <div class="rfn-widget-title">숫자</div>
+                        <div class="rfn-widget-actions"><span class="tag neutral">DELTA</span></div>
+                      </div>
+                      <div class="rfn-widget-body">
+                        <div class="plate-tile-empty">
+                          <span class="ic"><i class="ph ph-numpad"></i></span>
+                          <div class="code">value.number — delta</div>
+                          <div class="hint">[데이터] 탭에서 예시 케이스 선택</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="plate-w" data-w="t-gauge" data-name="게이지" data-x="0" data-y="0" data-wd="4" data-ht="1" style="grid-column:span 4">
+                    <div class="rfn-widget">
+                      <div class="rfn-widget-head">
+                        <div class="rfn-widget-title">게이지</div>
+                        <div class="rfn-widget-actions"><span class="tag neutral">RADIAL</span></div>
+                      </div>
+                      <div class="rfn-widget-body">
+                        <div class="plate-tile-empty">
+                          <span class="ic"><i class="ph ph-gauge"></i></span>
+                          <div class="code">value.gauge — radial</div>
+                          <div class="hint">[데이터] 탭에서 예시 케이스 선택</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="plate-w" data-w="t-dist" data-name="분포 차트" data-x="0" data-y="0" data-wd="4" data-ht="1" style="grid-column:span 4">
+                    <div class="rfn-widget">
+                      <div class="rfn-widget-head">
+                        <div class="rfn-widget-title">분포 차트</div>
+                        <div class="rfn-widget-actions"><span class="tag neutral">DONUT</span></div>
+                      </div>
+                      <div class="rfn-widget-body">
+                        <div class="plate-tile-empty">
+                          <span class="ic"><i class="ph ph-chart-donut"></i></span>
+                          <div class="code">chart.distribution — donut</div>
+                          <div class="hint">[데이터] 탭에서 예시 케이스 선택</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="plate-w" data-w="t-tschart" data-name="시계열 차트" data-x="0" data-y="0" data-wd="11" data-ht="1" style="grid-column:span 11">
+                    <div class="rfn-widget">
+                      <div class="rfn-widget-head">
+                        <div class="rfn-widget-title">시계열 차트</div>
+                        <div class="rfn-widget-actions"><span class="tag neutral">LINE</span></div>
+                      </div>
+                      <div class="rfn-widget-body">
+                        <div class="plate-tile-empty">
+                          <span class="ic"><i class="ph ph-chart-line"></i></span>
+                          <div class="code">chart.timeseries — line</div>
+                          <div class="hint">[데이터] 탭에서 예시 케이스 선택</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="plate-w" data-w="t-radar" data-name="레이더" data-x="0" data-y="0" data-wd="5" data-ht="1" style="grid-column:span 5">
+                    <div class="rfn-widget">
+                      <div class="rfn-widget-head">
+                        <div class="rfn-widget-title">레이더</div>
+                        <div class="rfn-widget-actions"><span class="tag neutral">POLAR</span></div>
+                      </div>
+                      <div class="rfn-widget-body">
+                        <div class="plate-tile-empty">
+                          <span class="ic"><i class="ph ph-hexagon"></i></span>
+                          <div class="code">chart.radar — polar</div>
+                          <div class="hint">[데이터] 탭에서 예시 케이스 선택</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="plate-w" data-w="t-cat" data-name="카테고리 차트" data-x="0" data-y="0" data-wd="8" data-ht="1" style="grid-column:span 8">
+                    <div class="rfn-widget">
+                      <div class="rfn-widget-head">
+                        <div class="rfn-widget-title">카테고리 차트</div>
+                        <div class="rfn-widget-actions"><span class="tag neutral">BAR</span></div>
+                      </div>
+                      <div class="rfn-widget-body">
+                        <div class="plate-tile-empty">
+                          <span class="ic"><i class="ph ph-chart-bar"></i></span>
+                          <div class="code">chart.category — bar</div>
+                          <div class="hint">[데이터] 탭에서 예시 케이스 선택</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="plate-w" data-w="t-boll" data-name="볼린저 밴드" data-x="0" data-y="0" data-wd="8" data-ht="1" style="grid-column:span 8">
+                    <div class="rfn-widget">
+                      <div class="rfn-widget-head">
+                        <div class="rfn-widget-title">볼린저 밴드</div>
+                        <div class="rfn-widget-actions"><span class="tag neutral">BAND</span></div>
+                      </div>
+                      <div class="rfn-widget-body">
+                        <div class="plate-tile-empty">
+                          <span class="ic"><i class="ph ph-chart-line-up"></i></span>
+                          <div class="code">chart.bollinger — band</div>
+                          <div class="hint">[데이터] 탭에서 예시 케이스 선택</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="plate-w" data-w="t-heat" data-name="히트맵" data-x="0" data-y="0" data-wd="8" data-ht="1" style="grid-column:span 8">
+                    <div class="rfn-widget">
+                      <div class="rfn-widget-head">
+                        <div class="rfn-widget-title">히트맵</div>
+                        <div class="rfn-widget-actions"><span class="tag neutral">MATRIX</span></div>
+                      </div>
+                      <div class="rfn-widget-body">
+                        <div class="plate-tile-empty">
+                          <span class="ic"><i class="ph ph-grid-nine"></i></span>
+                          <div class="code">chart.heatmap — matrix</div>
+                          <div class="hint">[데이터] 탭에서 예시 케이스 선택</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="plate-w" data-w="t-sankey" data-name="에너지 흐름" data-x="0" data-y="0" data-wd="8" data-ht="1" style="grid-column:span 8">
+                    <div class="rfn-widget">
+                      <div class="rfn-widget-head">
+                        <div class="rfn-widget-title">에너지 흐름</div>
+                        <div class="rfn-widget-actions"><span class="tag neutral">SANKEY</span></div>
+                      </div>
+                      <div class="rfn-widget-body">
+                        <div class="plate-tile-empty">
+                          <span class="ic"><i class="ph ph-flow-arrow"></i></span>
+                          <div class="code">chart.sankey — sankey</div>
+                          <div class="hint">[데이터] 탭에서 예시 케이스 선택</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="plate-w" data-w="t-entity" data-name="엔티티 테이블" data-x="0" data-y="0" data-wd="8" data-ht="1" style="grid-column:span 8">
+                    <div class="rfn-widget">
+                      <div class="rfn-widget-head">
+                        <div class="rfn-widget-title">엔티티 테이블</div>
+                        <div class="rfn-widget-actions"><span class="tag neutral">GRID</span></div>
+                      </div>
+                      <div class="rfn-widget-body">
+                        <div class="plate-tile-empty">
+                          <span class="ic"><i class="ph ph-list-bullets"></i></span>
+                          <div class="code">table.entity — grid</div>
+                          <div class="hint">[데이터] 탭에서 예시 케이스 선택</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="plate-w" data-w="t-tstable" data-name="시계열 테이블" data-x="0" data-y="0" data-wd="8" data-ht="1" style="grid-column:span 8">
+                    <div class="rfn-widget">
+                      <div class="rfn-widget-head">
+                        <div class="rfn-widget-title">시계열 테이블</div>
+                        <div class="rfn-widget-actions"><span class="tag neutral">ROWS</span></div>
+                      </div>
+                      <div class="rfn-widget-body">
+                        <div class="plate-tile-empty">
+                          <span class="ic"><i class="ph ph-rows"></i></span>
+                          <div class="code">table.timeseries — rows</div>
+                          <div class="hint">[데이터] 탭에서 예시 케이스 선택</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 인스펙터 도크 -->
+          <aside class="rfn-inspector" aria-label="속성 인스펙터">
+            <div class="rfn-inspector-scroll">
+
+              <!-- Dashboard 메타 (위젯 미선택 시 우선 노출) — 라벨이 컨트롤 위 스택 배치 -->
+              <div class="rfn-inspector-sec rfn-inspector-sec--stack" data-insp-sec data-insp-when="none">
+                <div class="rfn-inspector-sec-head" data-insp-toggle>대시보드<span class="caret"><i class="ph ph-caret-down"></i></span></div>
+                <div class="rfn-inspector-sec-body">
+                  <div class="rfn-inspector-row"><span class="rfn-inspector-label">제목</span><div class="rfn-inspector-ctl">
+                    <span class="rfn-field rfn-field--sm"><input type="text" value="전력모니터링 (Accura)" data-dashboard-title></span>
+                  </div></div>
+                  <div class="rfn-inspector-row"><span class="rfn-inspector-label">레이아웃</span><div class="rfn-inspector-ctl">
+                    <div class="rfn-seg rfn-seg--fill" role="radiogroup" aria-label="레이아웃">
+                      <button type="button" role="radio" aria-checked="true" class="on" data-dashboard-layout="grid"><i class="ph ph-grid-four"></i>16열 그리드</button>
+                      <button type="button" role="radio" aria-checked="false" data-dashboard-layout="free"><i class="ph ph-frame-corners"></i>자유 배치</button>
+                    </div>
+                  </div></div>
+                  <div class="rfn-inspector-row"><span class="rfn-inspector-label">접근 권한</span><div class="rfn-inspector-ctl">
+                    <div class="rfn-seg rfn-seg--fill" role="radiogroup" aria-label="접근 권한">
+                      <button type="button" role="radio" aria-checked="true" class="on" data-dashboard-access="public"><i class="ph ph-globe"></i>공개</button>
+                      <button type="button" role="radio" aria-checked="false" data-dashboard-access="team"><i class="ph ph-users-three"></i>팀</button>
+                      <button type="button" role="radio" aria-checked="false" data-dashboard-access="private"><i class="ph ph-lock-simple"></i>비공개</button>
+                    </div>
+                  </div></div>
+                </div>
+              </div>
+
+              <!-- Layers -->
+              <div class="rfn-inspector-sec" data-insp-sec data-insp-when="none">
+                <div class="rfn-inspector-sec-head" data-insp-toggle>레이어<span class="caret"><i class="ph ph-caret-down"></i></span></div>
+                <div class="rfn-inspector-sec-body" style="padding-left:8px;padding-right:8px">
+                  <div class="plate-layers">
+                    <div class="plate-layer-group" data-layer-group><span class="chev"><i class="ph ph-caret-down"></i></span><span class="ic"><i class="ph ph-grid-four"></i></span><span>타일</span></div>
+                    <div class="plate-layer-items">
+                      <div class="plate-layer" data-layer="t-entity"><span class="ic"><i class="ph ph-list-bullets"></i></span><span class="lbl">엔티티 테이블</span><span class="eye" data-layer-eye role="button" tabindex="0" title="가시성 전환" aria-label="가시성 전환"><i class="ph ph-eye"></i></span></div>
+                      <div class="plate-layer" data-layer="t-tstable"><span class="ic"><i class="ph ph-rows"></i></span><span class="lbl">시계열 테이블</span><span class="eye" data-layer-eye role="button" tabindex="0" title="가시성 전환" aria-label="가시성 전환"><i class="ph ph-eye"></i></span></div>
+                      <div class="plate-layer" data-layer="t-dist"><span class="ic"><i class="ph ph-chart-donut"></i></span><span class="lbl">분포 차트</span><span class="eye" data-layer-eye role="button" tabindex="0" title="가시성 전환" aria-label="가시성 전환"><i class="ph ph-eye"></i></span></div>
+                      <div class="plate-layer" data-layer="t-tschart"><span class="ic"><i class="ph ph-chart-line"></i></span><span class="lbl">시계열 차트</span><span class="eye" data-layer-eye role="button" tabindex="0" title="가시성 전환" aria-label="가시성 전환"><i class="ph ph-eye"></i></span></div>
+                      <div class="plate-layer" data-layer="t-num1"><span class="ic"><i class="ph ph-numpad"></i></span><span class="lbl">숫자</span><span class="eye" data-layer-eye role="button" tabindex="0" title="가시성 전환" aria-label="가시성 전환"><i class="ph ph-eye"></i></span></div>
+                      <div class="plate-layer" data-layer="t-num2"><span class="ic"><i class="ph ph-numpad"></i></span><span class="lbl">숫자</span><span class="eye" data-layer-eye role="button" tabindex="0" title="가시성 전환" aria-label="가시성 전환"><i class="ph ph-eye"></i></span></div>
+                      <div class="plate-layer" data-layer="t-gauge"><span class="ic"><i class="ph ph-gauge"></i></span><span class="lbl">게이지</span><span class="eye" data-layer-eye role="button" tabindex="0" title="가시성 전환" aria-label="가시성 전환"><i class="ph ph-eye"></i></span></div>
+                      <div class="plate-layer" data-layer="t-heat"><span class="ic"><i class="ph ph-grid-nine"></i></span><span class="lbl">히트맵</span><span class="eye" data-layer-eye role="button" tabindex="0" title="가시성 전환" aria-label="가시성 전환"><i class="ph ph-eye"></i></span></div>
+                      <div class="plate-layer" data-layer="t-cat"><span class="ic"><i class="ph ph-chart-bar"></i></span><span class="lbl">카테고리 차트</span><span class="eye" data-layer-eye role="button" tabindex="0" title="가시성 전환" aria-label="가시성 전환"><i class="ph ph-eye"></i></span></div>
+                      <div class="plate-layer" data-layer="t-boll"><span class="ic"><i class="ph ph-chart-line-up"></i></span><span class="lbl">볼린저 밴드</span><span class="eye" data-layer-eye role="button" tabindex="0" title="가시성 전환" aria-label="가시성 전환"><i class="ph ph-eye"></i></span></div>
+                      <div class="plate-layer" data-layer="t-radar"><span class="ic"><i class="ph ph-hexagon"></i></span><span class="lbl">레이더</span><span class="eye" data-layer-eye role="button" tabindex="0" title="가시성 전환" aria-label="가시성 전환"><i class="ph ph-eye"></i></span></div>
+                      <div class="plate-layer" data-layer="t-sankey"><span class="ic"><i class="ph ph-flow-arrow"></i></span><span class="lbl">에너지 흐름</span><span class="eye" data-layer-eye role="button" tabindex="0" title="가시성 전환" aria-label="가시성 전환"><i class="ph ph-eye"></i></span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Settings -->
+              <div class="rfn-inspector-sec" data-insp-sec data-insp-when="none">
+                <div class="rfn-inspector-sec-head" data-insp-toggle>설정<span class="caret"><i class="ph ph-caret-down"></i></span></div>
+                <div class="rfn-inspector-sec-body">
+                  <div class="rfn-inspector-row"><span class="rfn-inspector-label">위치</span><div class="rfn-inspector-ctl">
+                    <span class="rfn-field rfn-field--sm"><span class="rfn-field-affix rfn-field-affix--text">X</span><input type="text" value="24" data-insp-x></span>
+                    <span class="rfn-field rfn-field--sm"><span class="rfn-field-affix rfn-field-affix--text">Y</span><input type="text" value="24" data-insp-y></span>
+                  </div></div>
+                  <div class="rfn-inspector-row"><span class="rfn-inspector-label">크기</span><div class="rfn-inspector-ctl">
+                    <span class="rfn-field rfn-field--sm"><span class="rfn-field-affix rfn-field-affix--text">W</span><input type="text" value="400" data-insp-w></span>
+                    <button type="button" title="비율 고정" aria-label="비율 고정" style="width:20px;height:24px;flex:none;background:transparent;border:0;padding:0;color:var(--ink-400);display:inline-flex;align-items:center;justify-content:center;cursor:pointer"><i class="ph ph-link-simple" style="font-size:13px;width:13px;height:13px;line-height:13px"></i></button>
+                    <span class="rfn-field rfn-field--sm"><span class="rfn-field-affix rfn-field-affix--text">H</span><input type="text" value="196" data-insp-h></span>
+                  </div></div>
+                </div>
+              </div>
+
+              <!-- ============================================================
+                   ANY-WIDGET 인스펙터 — 위젯이 선택되면 가장 위에 노출
+                   (위젯 미선택 시 숨김 · 대시보드/레이어/설정 자리 차지)
+                   ============================================================ -->
+              <div data-insp-when="any" hidden>
+
+                <!-- 기본 — 위젯 제목 + 타일 헤더 표시 토글 -->
+                <div class="rfn-inspector-sec" data-insp-sec>
+                  <div class="rfn-inspector-sec-head" data-insp-toggle>기본<span class="caret"><i class="ph ph-caret-down"></i></span></div>
+                  <div class="rfn-inspector-sec-body">
+                    <div class="rfn-inspector-row"><span class="rfn-inspector-label">제목</span><div class="rfn-inspector-ctl">
+                      <span class="rfn-field rfn-field--sm"><input type="text" value="히트맵" data-insp-widget-title></span>
+                    </div></div>
+                    <div class="rfn-inspector-row"><span class="rfn-inspector-label">타일 헤더</span><div class="rfn-inspector-ctl" style="justify-content:flex-end">
+                      <button type="button" class="rfn-toggle on" data-state="on" aria-pressed="true" title="타일 헤더 표시" aria-label="타일 헤더 표시" data-insp-show-header></button>
+                    </div></div>
+                  </div>
+                </div>
+
+                <!-- X축 라벨 형식 — 토큰 기반 시간 포맷 input + 토큰 힌트 -->
+                <div class="rfn-inspector-sec rfn-inspector-sec--stack" data-insp-sec>
+                  <div class="rfn-inspector-sec-head" data-insp-toggle>X축 라벨 형식<span class="caret"><i class="ph ph-caret-down"></i></span></div>
+                  <div class="rfn-inspector-sec-body">
+                    <span class="rfn-field rfn-field--sm"><input type="text" value="HH시"></span>
+                    <div style="font-family:var(--font-kr);font-size:var(--fs-caption);color:var(--ink-500);line-height:1.45">토큰: YYYY MM M DD D ddd HH H mm ss (그 외 문자는 그대로)</div>
+                  </div>
+                </div>
+
+                <!-- 축 라벨 — X/Y 축 제목 -->
+                <div class="rfn-inspector-sec rfn-inspector-sec--stack" data-insp-sec>
+                  <div class="rfn-inspector-sec-head" data-insp-toggle>축 라벨<span class="caret"><i class="ph ph-caret-down"></i></span></div>
+                  <div class="rfn-inspector-sec-body">
+                    <div class="rfn-inspector-row"><span class="rfn-inspector-label">X축 제목</span><div class="rfn-inspector-ctl">
+                      <span class="rfn-field rfn-field--sm"><input type="text" placeholder="예: 시간대"></span>
+                    </div></div>
+                    <div class="rfn-inspector-row"><span class="rfn-inspector-label">Y축 제목</span><div class="rfn-inspector-ctl">
+                      <span class="rfn-field rfn-field--sm"><input type="text" placeholder="예: 디바이스"></span>
+                    </div></div>
+                  </div>
+                </div>
+
+                <!-- 컬러 스케일 — Refinery 디자인시스템 §2.2 "Data Viz · Multi-Color Palettes" 10 패밀리
+                     각 패밀리는 50/200/500/700/900 5개 stop 시퀀셜 그라데이션으로 표현.
+                     base(500) hex = --dv-1..--dv-10 / --good(=Green) / --warn(=Amber) / --bad(=Red) 토큰과 동일.
+                     §2.2 의 "팔레트 hex 동일 값 허용" 예외 적용 — 디자인시스템 외 임의 hex 없음. -->
+                <div class="rfn-inspector-sec" data-insp-sec>
+                  <div class="rfn-inspector-sec-head" data-insp-toggle>컬러 스케일<span class="caret"><i class="ph ph-caret-down"></i></span></div>
+                  <div class="rfn-inspector-sec-body">
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px" role="radiogroup" aria-label="컬러 스케일">
+                      <button type="button" class="plate-cmap on" role="radio" aria-checked="true" data-cmap="blue" style="display:flex;flex-direction:column;gap:6px;padding:8px;background:var(--white);border:1px solid var(--brand);border-radius:8px;box-shadow:0 0 0 2px var(--brand-50);cursor:pointer;font-family:var(--font-en),var(--font-kr);text-align:left">
+                        <span style="height:20px;border-radius:4px;background:linear-gradient(90deg,#EDF4FC,#AAD0F3,#3B7FD4,#1E4E90,#0F2848)"></span>
+                        <span style="font-size:var(--fs-caption);color:var(--ink-500)">Blue</span>
+                      </button>
+                      <button type="button" class="plate-cmap" role="radio" aria-checked="false" data-cmap="indigo" style="display:flex;flex-direction:column;gap:6px;padding:8px;background:var(--white);border:1px solid var(--ink-200);border-radius:8px;cursor:pointer;font-family:var(--font-en),var(--font-kr);text-align:left">
+                        <span style="height:20px;border-radius:4px;background:linear-gradient(90deg,#F0F1FA,#B9BFE9,#7884D8,#3445B6,#212963)"></span>
+                        <span style="font-size:var(--fs-caption);color:var(--ink-500)">Indigo</span>
+                      </button>
+                      <button type="button" class="plate-cmap" role="radio" aria-checked="false" data-cmap="purple" style="display:flex;flex-direction:column;gap:6px;padding:8px;background:var(--white);border:1px solid var(--ink-200);border-radius:8px;cursor:pointer;font-family:var(--font-en),var(--font-kr);text-align:left">
+                        <span style="height:20px;border-radius:4px;background:linear-gradient(90deg,#F4F2F8,#CDC1E1,#9579C2,#614392,#33254A)"></span>
+                        <span style="font-size:var(--fs-caption);color:var(--ink-500)">Purple</span>
+                      </button>
+                      <button type="button" class="plate-cmap" role="radio" aria-checked="false" data-cmap="pink" style="display:flex;flex-direction:column;gap:6px;padding:8px;background:var(--white);border:1px solid var(--ink-200);border-radius:8px;cursor:pointer;font-family:var(--font-en),var(--font-kr);text-align:left">
+                        <span style="height:20px;border-radius:4px;background:linear-gradient(90deg,#F9F1F5,#E6BCD3,#CB6DA0,#9B376D,#4D1F38)"></span>
+                        <span style="font-size:var(--fs-caption);color:var(--ink-500)">Pink</span>
+                      </button>
+                      <button type="button" class="plate-cmap" role="radio" aria-checked="false" data-cmap="red" style="display:flex;flex-direction:column;gap:6px;padding:8px;background:var(--white);border:1px solid var(--ink-200);border-radius:8px;cursor:pointer;font-family:var(--font-en),var(--font-kr);text-align:left">
+                        <span style="height:20px;border-radius:4px;background:linear-gradient(90deg,#FBEEEF,#F2B0B2,#E5484D,#AE191E,#511012)"></span>
+                        <span style="font-size:var(--fs-caption);color:var(--ink-500)">Red</span>
+                      </button>
+                      <button type="button" class="plate-cmap" role="radio" aria-checked="false" data-cmap="orange" style="display:flex;flex-direction:column;gap:6px;padding:8px;background:var(--white);border:1px solid var(--ink-200);border-radius:8px;cursor:pointer;font-family:var(--font-en),var(--font-kr);text-align:left">
+                        <span style="height:20px;border-radius:4px;background:linear-gradient(90deg,#FBF4EF,#F0CDB2,#E29050,#AF5D1D,#542F12)"></span>
+                        <span style="font-size:var(--fs-caption);color:var(--ink-500)">Orange</span>
+                      </button>
+                      <button type="button" class="plate-cmap" role="radio" aria-checked="false" data-cmap="amber" style="display:flex;flex-direction:column;gap:6px;padding:8px;background:var(--white);border:1px solid var(--ink-200);border-radius:8px;cursor:pointer;font-family:var(--font-en),var(--font-kr);text-align:left">
+                        <span style="height:20px;border-radius:4px;background:linear-gradient(90deg,#FCF6ED,#F7D9AC,#F0A93A,#B6740E,#53370B)"></span>
+                        <span style="font-size:var(--fs-caption);color:var(--ink-500)">Amber</span>
+                      </button>
+                      <button type="button" class="plate-cmap" role="radio" aria-checked="false" data-cmap="green" style="display:flex;flex-direction:column;gap:6px;padding:8px;background:var(--white);border:1px solid var(--ink-200);border-radius:8px;cursor:pointer;font-family:var(--font-en),var(--font-kr);text-align:left">
+                        <span style="height:20px;border-radius:4px;background:linear-gradient(90deg,#F1F9F2,#BCE6C4,#3FB255,#246731,#0B1A0E)"></span>
+                        <span style="font-size:var(--fs-caption);color:var(--ink-500)">Green</span>
+                      </button>
+                      <button type="button" class="plate-cmap" role="radio" aria-checked="false" data-cmap="teal" style="display:flex;flex-direction:column;gap:6px;padding:8px;background:var(--white);border:1px solid var(--ink-200);border-radius:8px;cursor:pointer;font-family:var(--font-en),var(--font-kr);text-align:left">
+                        <span style="height:20px;border-radius:4px;background:linear-gradient(90deg,#F1F8F7,#C0E2DD,#4DB2A1,#2E6B61,#102320)"></span>
+                        <span style="font-size:var(--fs-caption);color:var(--ink-500)">Teal</span>
+                      </button>
+                      <button type="button" class="plate-cmap" role="radio" aria-checked="false" data-cmap="cyan" style="display:flex;flex-direction:column;gap:6px;padding:8px;background:var(--white);border:1px solid var(--ink-200);border-radius:8px;cursor:pointer;font-family:var(--font-en),var(--font-kr);text-align:left">
+                        <span style="height:20px;border-radius:4px;background:linear-gradient(90deg,#F1F7F9,#BCDCE6,#50A6C3,#2C6B81,#142B33)"></span>
+                        <span style="font-size:var(--fs-caption);color:var(--ink-500)">Cyan</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 값 범위 — 색 매핑 도메인 (자동/수동) -->
+                <div class="rfn-inspector-sec rfn-inspector-sec--stack" data-insp-sec>
+                  <div class="rfn-inspector-sec-head" data-insp-toggle>값 범위<span class="caret"><i class="ph ph-caret-down"></i></span></div>
+                  <div class="rfn-inspector-sec-body">
+                    <div class="rfn-inspector-row"><span class="rfn-inspector-label">색 매핑 도메인</span><div class="rfn-inspector-ctl">
+                      <div class="rfn-seg rfn-seg--fill" role="radiogroup" aria-label="색 매핑 도메인">
+                        <button type="button" role="radio" aria-checked="true" class="on" data-cmap-domain="auto">자동</button>
+                        <button type="button" role="radio" aria-checked="false" data-cmap-domain="manual">수동</button>
+                      </div>
+                    </div></div>
+                  </div>
+                </div>
+
+                <!-- 값 표시 — 셀 값 토글 / 자릿수 / 단위 -->
+                <div class="rfn-inspector-sec rfn-inspector-sec--stack" data-insp-sec>
+                  <div class="rfn-inspector-sec-head" data-insp-toggle>값 표시<span class="caret"><i class="ph ph-caret-down"></i></span></div>
+                  <div class="rfn-inspector-sec-body">
+                    <label style="display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none">
+                      <div class="rfn-checkbox" data-check data-state="" role="checkbox" tabindex="0" aria-checked="false"></div>
+                      <span style="font-family:var(--font-kr);font-size:var(--fs-body-sm);color:var(--ink-800)">셀 안에 값 표시</span>
+                    </label>
+                    <div class="rfn-inspector-row"><span class="rfn-inspector-label">소수점 자릿수</span><div class="rfn-inspector-ctl">
+                      <span class="rfn-field rfn-field--sm"><input type="number" value="0" min="0" max="6"></span>
+                    </div></div>
+                    <div class="rfn-inspector-row"><span class="rfn-inspector-label">단위 (범례 표시)</span><div class="rfn-inspector-ctl">
+                      <span class="rfn-field rfn-field--sm"><input type="text" placeholder="예: kW, °C"></span>
+                    </div></div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </aside>
+
+        </div>
+      </div>
+    </div>
+    </div>
+
+  </section>
+
+</div>
+
+<script>
+/* ============================================================
+   Plate — Tile Composer 인터랙션 (정적 시안 + 가벼운 상호작용)
+   · 카탈로그 데이터/타일 탭 전환 (+ localStorage 영속화, 가이드 §3)
+   · 데이터 트리 펼침/접힘 + 체크박스 토글 + hover 툴팁
+   · 캔버스 타일 선택 → 인스펙터/레이어 동기화
+   · 레이어 선택·가시성 토글, 인스펙터 섹션 접기, 줌·그리드 컨트롤
+   ============================================================ */
+(function(){
+  var body = document.body;
+
+  /* 보기 모드 헤더(.plate-view-head)를 캔버스 스크롤 영역 안으로 이동 →
+     보기 모드에선 헤더가 캔버스 콘텐츠와 함께 위로 스크롤됨(고정 X).
+     편집 모드 헤더는 .plate-view-head 가 display:none 이고 고정 바는 .plate-toolbar 가 담당하므로 영향 없음. */
+  (function(){
+    var vh = document.querySelector('.plate-view-head');
+    var scroll = document.querySelector('.plate-canvas-col .rfn-erd-scroll');
+    if(vh && scroll) scroll.insertBefore(vh, scroll.firstChild);
+  })();
+
+  var STATE_KEY = 'refinery-plate-state-v1';
+  function loadState(){ try{ return JSON.parse(localStorage.getItem(STATE_KEY)) || {}; }catch(e){ return {}; } }
+  function saveState(p){ try{ var s = loadState(); Object.assign(s,p); localStorage.setItem(STATE_KEY, JSON.stringify(s)); }catch(e){} }
+
+  /* ---- 1) 카탈로그 데이터/타일 탭 ---- */
+  function setCatTab(tab){
+    if(tab !== 'data' && tab !== 'tiles') return;
+    /* 타일 탭은 편집 모드 전용 — 보기 모드(복원·Overview 포함)에선 항상 메뉴(대시보드 리스트) */
+    if(tab === 'tiles' && body.getAttribute('data-plate-mode') !== 'edit') tab = 'data';
+    body.setAttribute('data-plate-tab', tab);
+    document.querySelectorAll('[data-plate-tab-btn]').forEach(function(b){
+      var on = b.getAttribute('data-plate-tab-btn') === tab;
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    saveState({ plateTab: tab });
+  }
+  window.setCatTab = setCatTab;   /* 별도 IIFE(setPlateMode·setPlateView) 에서 호출하기 위한 export */
+  document.querySelectorAll('[data-plate-tab-btn]').forEach(function(b){
+    b.addEventListener('click', function(){ setCatTab(b.getAttribute('data-plate-tab-btn')); });
+  });
+
+  /* ---- 1.5) 시간 설정 팝오버 — '사용자 지정 · sum' 칩 ---- */
+  (function(){
+    var chip   = document.getElementById('timeChip');
+    var pop    = document.getElementById('timePop');
+    if(!chip || !pop) return;
+    var label    = document.getElementById('timeChipLabel');
+    var custom   = document.getElementById('timeCustom');
+    var modeSeg  = document.getElementById('timeMode');
+    var rangeSel = document.getElementById('timeRange');
+    var bucketSel = document.getElementById('timeBucket');
+    var aggGroup = document.getElementById('timeAgg');
+    var windowSeg = document.getElementById('timeWindow');
+    var sections = pop.querySelectorAll('[data-time-section]');
+
+    /* radiogroup 단일 선택 헬퍼 (rfn-seg · rfn-chipgroup 공용) */
+    function pickInGroup(group, btn){
+      group.querySelectorAll('button').forEach(function(b){
+        var on = (b === btn);
+        b.classList.toggle('on', on);
+        b.setAttribute('aria-checked', on ? 'true' : 'false');
+      });
+    }
+    function selectedChip(group, attr){
+      var on = group.querySelector('button.on');
+      return on ? on.getAttribute(attr) : null;
+    }
+    /* '직접 지정' 선택 시 datetime 영역 노출 */
+    function syncCustomVisibility(){
+      custom.hidden = (rangeSel.value !== 'custom');
+    }
+    /* 현재 mode 반환 */
+    function currentMode(){
+      return selectedChip(modeSeg, 'data-time-mode') || 'history';
+    }
+    /* 모드별 섹션 토글 */
+    function syncSection(){
+      var mode = currentMode();
+      sections.forEach(function(el){
+        el.hidden = (el.getAttribute('data-time-section') !== mode);
+      });
+    }
+    /* 필드의 선택 상태 마커 동기화 (placeholder 일 땐 미선택) */
+    function syncFieldSelectionMarker(sel){
+      var field = sel.closest('.rfn-field');
+      if(!field) return;
+      if(sel.value) field.setAttribute('data-has-selection', '');
+      else field.removeAttribute('data-has-selection');
+    }
+    /* 칩 라벨 갱신 — 모드별 포맷.
+       · history: '조회기간 · 집계함수(mono)' (range 선택돼야 갱신; 미선택 = '시간 설정')
+       · realtime: '최근 N분 · live(mono)'
+       함수·식별자 부분은 .chip .mono 가 Roboto override 라 token 인라인 스타일로 진짜 mono. */
+    function refreshChipLabel(){
+      var mode = currentMode();
+      label.textContent = '';
+      if(mode === 'realtime'){
+        var wBtn = windowSeg.querySelector('button.on');
+        var primary = wBtn ? '최근 ' + wBtn.textContent.trim() : '최근 5분';
+        label.appendChild(document.createTextNode(primary + ' · '));
+        var liveSpan = document.createElement('span');
+        liveSpan.style.fontFamily = 'var(--font-mono)';
+        liveSpan.textContent = 'live';
+        label.appendChild(liveSpan);
+        return;
+      }
+      /* history mode — range 가 선택되지 않으면 placeholder 라벨 */
+      if(!rangeSel.value){
+        label.textContent = '시간 설정';
+        return;
+      }
+      var rOpt = rangeSel.options[rangeSel.selectedIndex];
+      var primaryH = rOpt.textContent.replace(/^최근\s+/, '');
+      var tail = selectedChip(aggGroup, 'data-time-agg') || 'sum';
+      label.appendChild(document.createTextNode(primaryH + ' · '));
+      var tailSpan = document.createElement('span');
+      tailSpan.style.fontFamily = 'var(--font-mono)';
+      tailSpan.textContent = tail;
+      label.appendChild(tailSpan);
+    }
+
+    /* 팝오버 토글 */
+    function openPop(){ pop.classList.add('open'); pop.setAttribute('aria-hidden','false'); chip.setAttribute('aria-expanded','true'); }
+    function closePop(){ pop.classList.remove('open'); pop.setAttribute('aria-hidden','true'); chip.setAttribute('aria-expanded','false'); }
+    chip.addEventListener('click', function(e){
+      e.stopPropagation();
+      if(pop.classList.contains('open')) closePop(); else openPop();
+    });
+    /* 팝오버 내부 클릭은 닫지 않음 */
+    pop.addEventListener('click', function(e){ e.stopPropagation(); });
+    /* 외부 클릭 + ESC 닫기 */
+    document.addEventListener('click', function(){ if(pop.classList.contains('open')) closePop(); });
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && pop.classList.contains('open')) closePop(); });
+
+    /* 자동 적용 모드 — 모든 컨트롤 변경 시 칩 라벨 즉시 갱신 (취소/적용 버튼 없음) */
+    /* mode seg — 실시간/이력조회 (섹션 토글 + 서브 텍스트 + 라벨 갱신) */
+    modeSeg.querySelectorAll('button').forEach(function(b){
+      b.addEventListener('click', function(){ pickInGroup(modeSeg, b); syncSection(); refreshChipLabel(); });
+    });
+    /* 화면 표시 구간 seg — 실시간 모드 rolling window */
+    windowSeg.querySelectorAll('button').forEach(function(b){
+      b.addEventListener('click', function(){ pickInGroup(windowSeg, b); refreshChipLabel(); });
+    });
+    /* 집계 함수 chipgroup — 라디오 선택 */
+    aggGroup.querySelectorAll('button').forEach(function(b){
+      b.addEventListener('click', function(){ pickInGroup(aggGroup, b); refreshChipLabel(); });
+    });
+    /* 조회 기간 select — change 시 custom 영역 sync + 라벨 갱신 + 선택 마커 */
+    rangeSel.addEventListener('change', function(){ syncCustomVisibility(); syncFieldSelectionMarker(rangeSel); refreshChipLabel(); });
+    /* 집계 간격 select — change 시 (라벨엔 표시 안 하지만 향후 확장 대비 hook) + 선택 마커 */
+    bucketSel.addEventListener('change', function(){ syncFieldSelectionMarker(bucketSel); refreshChipLabel(); });
+
+    /* 초기 동기화 — 모드별 섹션 노출 + custom 영역 sync */
+    syncSection();
+    syncCustomVisibility();
+  })();
+
+  /* ---- 1.6) Plate 공유 객체 팝오버 — '객체' 칩 ---- */
+  (function(){
+    var chip = document.getElementById('objectChip');
+    var pop  = document.getElementById('objectPop');
+    if(!chip || !pop) return;
+    var label   = document.getElementById('objectChipLabel');
+    var trigger = document.getElementById('objectTypeTrigger');
+    var tLabel  = document.getElementById('objectTypeTriggerLabel');
+    var tIcn    = trigger.querySelector('[data-type-icn]');
+    var list    = document.getElementById('objectTypeList');
+    var options = list.querySelectorAll('.rfn-picker-option');
+    var instSec = document.getElementById('objectInstanceSection');
+    var instList = document.getElementById('objectInstanceList');
+    var instSearch = document.getElementById('objectInstanceSearch');
+
+    /* 타입별 ID 접두사 매핑 (데모용 — 인스턴스 ID 생성에 사용) */
+    var PREFIX = {
+      categories:'CAT', clients:'CLT', deviceInstance:'DEV', events:'EVT',
+      groupNode:'GRP', items:'ITM', orders:'ORD',
+      processTreeHierarchyLink:'PTH', sensors:'SNS', users:'USR'
+    };
+
+    /* 결정론적 해시 생성기 (String → 8자 hex) */
+    function genHash(s){
+      var h = 0;
+      for(var i=0;i<s.length;i++) h = ((h<<5)-h) + s.charCodeAt(i);
+      var hex = Math.abs(h).toString(16);
+      while(hex.length < 8) hex = '0' + hex;
+      return hex.slice(0,8);
+    }
+    /* 타입에 대한 인스턴스 리스트 생성 (데모용 31개) */
+    function generateInstances(type){
+      var prefix = PREFIX[type] || type.slice(0,3).toUpperCase();
+      var items = [];
+      for(var i=1;i<=31;i++){
+        var idx = String(i); while(idx.length < 3) idx = '0' + idx;
+        items.push({ id: prefix + '_' + idx, hash: genHash(type + idx) });
+      }
+      return items;
+    }
+
+    function openPop(){ pop.classList.add('open'); pop.setAttribute('aria-hidden','false'); chip.setAttribute('aria-expanded','true'); }
+    function closePop(){ pop.classList.remove('open'); pop.setAttribute('aria-hidden','true'); chip.setAttribute('aria-expanded','false'); closePicker(); }
+    function openPicker(){ list.hidden = false; trigger.setAttribute('aria-expanded','true'); }
+    function closePicker(){ list.hidden = true; trigger.setAttribute('aria-expanded','false'); }
+
+    chip.addEventListener('click', function(e){
+      e.stopPropagation();
+      if(pop.classList.contains('open')) closePop(); else openPop();
+    });
+    pop.addEventListener('click', function(e){ e.stopPropagation(); });
+    document.addEventListener('click', function(){ if(pop.classList.contains('open')) closePop(); });
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape'){
+        if(!list.hidden) closePicker();
+        else if(pop.classList.contains('open')) closePop();
+      }
+    });
+
+    trigger.addEventListener('click', function(e){
+      e.stopPropagation();
+      if(list.hidden) openPicker(); else closePicker();
+    });
+
+    /* 트리거 morph — 좌(regular name) ↔ 우(mono ID) 정렬 (flex space-between). 선택 상태 마커 부여로 bold 활성. */
+    function morphTrigger(type){
+      tIcn.hidden = false;
+      trigger.setAttribute('data-has-selection', '');
+      tLabel.textContent = '';
+      var regSpan = document.createElement('span');
+      regSpan.textContent = type;
+      tLabel.appendChild(regSpan);
+      var monoSpan = document.createElement('span');
+      monoSpan.style.fontFamily = 'var(--font-mono)';
+      monoSpan.style.fontSize = 'var(--fs-code)';
+      monoSpan.style.color = 'var(--ink-500)';
+      monoSpan.textContent = type;
+      tLabel.appendChild(monoSpan);
+    }
+
+    /* 인스턴스 리스트 렌더 + 카운트 갱신 (검색 필터 적용) */
+    var currentInstances = [];
+    var selectedInstance = null;
+    function renderInstances(){
+      var q = (instSearch.value || '').toLowerCase().trim();
+      var filtered = q
+        ? currentInstances.filter(function(it){ return it.id.toLowerCase().indexOf(q) !== -1 || it.hash.indexOf(q) !== -1; })
+        : currentInstances;
+      instList.textContent = '';
+      filtered.forEach(function(it){
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'rfn-picker-option';
+        btn.setAttribute('role','option');
+        btn.setAttribute('aria-selected', selectedInstance === it.id ? 'true' : 'false');
+        btn.dataset.instance = it.id;
+
+        var dot = document.createElement('span'); dot.className = 'rfn-picker-option-dot'; btn.appendChild(dot);
+        var name = document.createElement('span'); name.className = 'rfn-picker-option-name'; name.textContent = it.id; btn.appendChild(name);
+        var hash = document.createElement('span'); hash.className = 'rfn-picker-option-id'; hash.textContent = it.hash; btn.appendChild(hash);
+
+        btn.addEventListener('click', function(e){
+          e.stopPropagation();
+          selectedInstance = it.id;
+          /* 칩 라벨 = '{type} · {instance}' (instance 부분 mono) */
+          var typeName = currentType;
+          label.textContent = '';
+          label.appendChild(document.createTextNode(typeName + ' · '));
+          var s = document.createElement('span');
+          s.style.fontFamily = 'var(--font-mono)';
+          s.textContent = it.id;
+          label.appendChild(s);
+          renderInstances();
+        });
+        instList.appendChild(btn);
+      });
+    }
+
+    var currentType = null;
+    /* 타입 옵션 클릭 → 트리거 morph + 인스턴스 섹션 노출 + help 숨김 */
+    options.forEach(function(opt){
+      opt.addEventListener('click', function(e){
+        e.stopPropagation();
+        options.forEach(function(o){ o.setAttribute('aria-selected', o === opt ? 'true' : 'false'); });
+        var type = opt.dataset.object;
+        currentType = type;
+        selectedInstance = null;
+        morphTrigger(type);
+        label.textContent = type;   /* 트리거 칩에 타입명만 (아직 인스턴스 미선택) */
+        /* 인스턴스 섹션 노출 (안내 footer 는 항상 표시) */
+        instSec.hidden = false;
+        instSearch.value = '';
+        currentInstances = generateInstances(type);
+        renderInstances();
+        closePicker();
+      });
+    });
+
+    /* 검색 input — 입력 시 리스트 필터 */
+    instSearch.addEventListener('input', renderInstances);
+    instSearch.addEventListener('click', function(e){ e.stopPropagation(); });
+
+    /* 설정 초기화 — placeholder 상태로 원복 */
+    var resetBtn = document.getElementById('objectReset');
+    if(resetBtn) resetBtn.addEventListener('click', function(e){
+      e.stopPropagation();
+      /* 트리거 morph 해제 */
+      tIcn.hidden = true;
+      trigger.removeAttribute('data-has-selection');
+      tLabel.textContent = '객체 타입 선택';
+      /* 타입 리스트 선택 해제 */
+      options.forEach(function(o){ o.setAttribute('aria-selected', 'false'); });
+      /* 인스턴스 섹션 숨김 + 상태 초기화 */
+      instSec.hidden = true;
+      currentType = null;
+      selectedInstance = null;
+      instSearch.value = '';
+      currentInstances = [];
+      instList.textContent = '';
+      /* 칩 라벨 복원 */
+      label.textContent = '객체';
+      /* picker 가 열려 있으면 닫기 */
+      closePicker();
+    });
+  })();
+
+  /* ---- 2) 데이터 트리 펼침/접힘 + 툴팁 ---- */
+  document.querySelectorAll('[data-plate-tree] [data-tree-toggle]').forEach(function(row){
+    row.addEventListener('click', function(){
+      var kids = row.nextElementSibling;
+      var open = row.classList.toggle('open');
+      if(kids && kids.classList.contains('rfn-tree-children')) kids.classList.toggle('collapsed', !open);
+    });
+  });
+  document.querySelectorAll('[data-plate-tree] .rfn-tree-lbl').forEach(function(el){
+    var t = el.textContent.trim(); if(t) el.title = t;
+  });
+  /* 체크박스 토글 (data 바인딩 표식) */
+  document.querySelectorAll('[data-plate-tree] .rfn-checkbox').forEach(function(cb){
+    cb.addEventListener('click', function(e){
+      e.stopPropagation();
+      var on = cb.getAttribute('data-state') === 'checked';
+      if(on){ cb.removeAttribute('data-state'); cb.setAttribute('aria-checked','false'); }
+      else  { cb.setAttribute('data-state','checked'); cb.setAttribute('aria-checked','true'); }
+    });
+  });
+
+  /* ---- 3) 타일 선택 → 인스펙터 / 레이어 동기화 ---- */
+  var widgets = Array.prototype.slice.call(document.querySelectorAll('.plate-w'));
+  var layersEls = Array.prototype.slice.call(document.querySelectorAll('.plate-layer[data-layer]'));
+  function setField(sel, val){ var el = document.querySelector(sel); if(el){ if('value' in el) el.value = val; else el.textContent = val; } }
+  /* 인스펙터 표시 상태 — 단일 속성 [data-insp-when] 으로 제어
+       · "none" : 위젯 미선택 시 (대시보드 / 레이어 / 설정)
+       · "any"  : 위젯 선택 시 (기본 + X축 라벨 형식 / 축 라벨 / 컬러 스케일 / 값 범위 / 값 표시)
+     향후 타일 타입별 분기가 필요하면 "default"/"heatmap" 등을 다시 도입하면 됨. */
+  function applyInspectorState(w){
+    var hasSel = !!w;
+    document.querySelectorAll('[data-insp-when]').forEach(function(el){
+      var when = el.getAttribute('data-insp-when');
+      var show = (when === 'none' && !hasSel) || (when === 'any' && hasSel);
+      el.hidden = !show;
+    });
+  }
+  function selectTile(id){
+    widgets.forEach(function(w){ w.classList.toggle('selected', w.getAttribute('data-w') === id); });
+    layersEls.forEach(function(l){ l.classList.toggle('selected', l.getAttribute('data-layer') === id); });
+    var w = document.querySelector('.plate-w[data-w="'+id+'"]');
+    if(w){
+      setField('[data-insp-x]', w.getAttribute('data-x'));
+      setField('[data-insp-y]', w.getAttribute('data-y'));
+      setField('[data-insp-w]', w.getAttribute('data-wd'));
+      setField('[data-insp-h]', w.getAttribute('data-ht'));
+      setField('[data-insp-name]', w.getAttribute('data-name'));
+      /* 기본 섹션의 위젯 제목 input · 타일 헤더 토글을 선택 위젯 상태에 동기화 */
+      var titleIn = document.querySelector('[data-insp-widget-title]');
+      if(titleIn) titleIn.value = w.getAttribute('data-name') || '';
+      var hdrBtn = document.querySelector('[data-insp-show-header]');
+      var head   = w.querySelector('.rfn-widget-head');
+      if(hdrBtn){
+        var visible = !head || head.style.display !== 'none';
+        hdrBtn.classList.toggle('on', visible);
+        if(visible){ hdrBtn.setAttribute('data-state','on'); hdrBtn.setAttribute('aria-pressed','true'); }
+        else        { hdrBtn.removeAttribute('data-state');   hdrBtn.setAttribute('aria-pressed','false'); }
+      }
+    }
+    /* 인스펙터 표시 상태 전환 */
+    applyInspectorState(w);
+    /* 복제·삭제 — 선택된 위젯이 있을 때만 활성화 */
+    var hasSel = !!w;
+    document.querySelectorAll('[data-plate-dup], [data-plate-del]').forEach(function(b){ b.disabled = !hasSel; });
+    saveState({ selected: id });
+  }
+  function deselectTile(){
+    widgets.forEach(function(w){ w.classList.remove('selected'); });
+    layersEls.forEach(function(l){ l.classList.remove('selected'); });
+    applyInspectorState(null);
+    document.querySelectorAll('[data-plate-dup], [data-plate-del]').forEach(function(b){ b.disabled = true; });
+  }
+  /* 다른 IIFE(편집 모드 진입 핸들러 등)에서 호출 가능하도록 export */
+  window.deselectPlateTile = deselectTile;
+  widgets.forEach(function(w){
+    w.addEventListener('mousedown', function(e){ if(document.body.getAttribute('data-plate-mode') !== 'edit') return; e.stopPropagation(); selectTile(w.getAttribute('data-w')); if(window.enablePlateSave) window.enablePlateSave(); });
+  });
+  layersEls.forEach(function(l){
+    l.addEventListener('click', function(e){
+      if(e.target.closest('[data-layer-eye]')) return;
+      selectTile(l.getAttribute('data-layer'));
+    });
+  });
+  /* 캔버스 빈 곳 클릭 → 선택 해제 + 인스펙터를 '미선택(대시보드)' 상태로 복원 */
+  var canvasWorld = document.querySelector('[data-plate-world]');
+  if(canvasWorld){
+    canvasWorld.addEventListener('mousedown', deselectTile);
+  }
+
+  /* ---- 4) 레이어 그룹 접기 + 가시성(eye) 토글 ---- */
+  document.querySelectorAll('[data-layer-group]').forEach(function(g){
+    g.addEventListener('click', function(e){
+      if(e.target.closest('.eye')) return;
+      g.classList.toggle('collapsed');
+    });
+  });
+  document.querySelectorAll('.plate-layer [data-layer-eye]').forEach(function(eye){
+    eye.addEventListener('click', function(e){
+      e.stopPropagation();
+      var row = eye.closest('.plate-layer');
+      var id = row.getAttribute('data-layer');
+      var hidden = row.classList.toggle('hidden-w');
+      var icn = eye.querySelector('i');
+      if(icn){ icn.className = hidden ? 'ph ph-eye-slash' : 'ph ph-eye'; }
+      var w = document.querySelector('.plate-w[data-w="'+id+'"]');
+      if(w) w.style.display = hidden ? 'none' : '';
+    });
+  });
+
+  /* ---- 5) 인스펙터 섹션 접기 ---- */
+  document.querySelectorAll('[data-insp-toggle]').forEach(function(h){
+    h.addEventListener('click', function(){ h.closest('[data-insp-sec]').classList.toggle('collapsed'); });
+  });
+
+  /* ---- 5.5) 레이어 라벨 인라인 편집 — H1 편집과 동일 패턴.
+     blur 시 해당 widget 의 data-name + .rfn-widget-title 도 동기화. */
+  document.querySelectorAll('.plate-layer .lbl').forEach(function(lbl){
+    lbl.setAttribute('contenteditable', 'plaintext-only');
+    lbl.addEventListener('keydown', function(e){
+      if(e.key === 'Enter' || e.key === 'Escape'){ e.preventDefault(); lbl.blur(); }
+      e.stopPropagation();
+    });
+    lbl.addEventListener('click', function(e){ e.stopPropagation(); });
+    lbl.addEventListener('blur', function(){
+      var newText = lbl.textContent.trim() || '레이어';
+      lbl.textContent = newText;
+      var layerRow = lbl.closest('.plate-layer');
+      var layerId = layerRow && layerRow.getAttribute('data-layer');
+      if(layerId){
+        var widget = document.querySelector('.plate-w[data-w="' + layerId + '"]');
+        if(widget){
+          widget.setAttribute('data-name', newText);
+          var titleEl = widget.querySelector('.rfn-widget-title');
+          if(titleEl) titleEl.textContent = newText;
+        }
+      }
+    });
+  });
+
+  /* ---- 5.7) 전용 인스펙터 — 위젯 제목 input · 타일 헤더 토글
+     · 제목 input 변경 → 선택 위젯 data-name + .rfn-widget-title + 레이어 라벨 + quick-action 라벨 동기화
+     · 타일 헤더 토글 → 선택 위젯 .rfn-widget-head display 토글 */
+  (function(){
+    var titleIn = document.querySelector('[data-insp-widget-title]');
+    if(titleIn){
+      titleIn.addEventListener('input', function(){
+        var sel = document.querySelector('.plate-w.selected');
+        if(!sel) return;
+        var v = titleIn.value || '';
+        sel.setAttribute('data-name', v);
+        var t = sel.querySelector('.rfn-widget-title');  if(t) t.textContent = v;
+        var lid = sel.getAttribute('data-w');
+        var lay = document.querySelector('.plate-layer[data-layer="'+lid+'"] .lbl'); if(lay) lay.textContent = v;
+        var qa  = document.querySelector('[data-insp-name]'); if(qa) qa.textContent = v;
+      });
+    }
+    var hdrBtn = document.querySelector('[data-insp-show-header]');
+    if(hdrBtn){
+      hdrBtn.addEventListener('click', function(){
+        var sel = document.querySelector('.plate-w.selected');
+        if(!sel) return;
+        var on = !hdrBtn.classList.contains('on');
+        hdrBtn.classList.toggle('on', on);
+        if(on){ hdrBtn.setAttribute('data-state','on'); hdrBtn.setAttribute('aria-pressed','true'); }
+        else  { hdrBtn.removeAttribute('data-state');   hdrBtn.setAttribute('aria-pressed','false'); }
+        var head = sel.querySelector('.rfn-widget-head');
+        if(head) head.style.display = on ? '' : 'none';
+      });
+    }
+    /* 컬러 스케일 카드 — 라디오 동작 (1개만 선택) */
+    var cmaps = Array.prototype.slice.call(document.querySelectorAll('.plate-cmap[data-cmap]'));
+    cmaps.forEach(function(c){
+      c.addEventListener('click', function(){
+        cmaps.forEach(function(x){
+          var on = (x === c);
+          x.classList.toggle('on', on);
+          x.setAttribute('aria-checked', on ? 'true' : 'false');
+          x.style.borderColor = on ? 'var(--brand)'   : 'var(--ink-200)';
+          x.style.boxShadow   = on ? '0 0 0 2px var(--brand-50)' : 'none';
+        });
+      });
+    });
+    /* '값 표시' 체크박스 행 — 체크박스 토글 + 라벨 클릭도 토글에 연결
+       (인스펙터 체크박스는 plate-tree 외 범위라 별도 핸들러 필요) */
+    document.querySelectorAll('.rfn-inspector-sec [data-check]').forEach(function(cb){
+      function toggle(){
+        var on = cb.getAttribute('data-state') === 'checked';
+        if(on){ cb.removeAttribute('data-state'); cb.setAttribute('aria-checked','false'); }
+        else  { cb.setAttribute('data-state','checked'); cb.setAttribute('aria-checked','true'); }
+      }
+      cb.addEventListener('click', function(e){ e.stopPropagation(); toggle(); });
+      cb.addEventListener('keydown', function(e){
+        if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); toggle(); }
+      });
+      var lbl = cb.closest('label');
+      if(lbl){
+        lbl.addEventListener('click', function(e){
+          if(e.target === cb || cb.contains(e.target)) return;
+          toggle();
+        });
+      }
+    });
+  })();
+
+  /* ---- 5.6) 대시보드 메타 섹션 — seg 버튼 라디오 동작 (레이아웃 / 접근 권한) ---- */
+  ['[data-dashboard-layout]', '[data-dashboard-access]'].forEach(function(sel){
+    var btns = document.querySelectorAll(sel);
+    btns.forEach(function(b){
+      b.addEventListener('click', function(){
+        btns.forEach(function(x){
+          var on = (x === b);
+          x.classList.toggle('on', on);
+          x.setAttribute('aria-checked', on ? 'true' : 'false');
+        });
+      });
+    });
+  });
+
+  /* ---- 6) 줌 + 그리드 ---- */
+  var zoom = 100;
+  var world = document.querySelector('[data-plate-world]');
+  function applyZoom(){
+    if(world) world.style.transform = 'scale(' + (zoom/100) + ')';
+    var v = document.querySelector('[data-plate-zoom-val]'); if(v) v.textContent = zoom + '%';
+    var cz = document.querySelector('[data-plate-canvas-zoom]'); if(cz) cz.textContent = zoom + '%';
+  }
+  document.querySelectorAll('[data-plate-zoom]').forEach(function(b){
+    b.addEventListener('click', function(){
+      var dir = b.getAttribute('data-plate-zoom');
+      zoom = dir === '+' ? Math.min(200, zoom + 10) : Math.max(30, zoom - 10);
+      applyZoom();
+    });
+  });
+  applyZoom();
+
+  /* ---- 7) 새로고침 시 상태 복원 (가이드 §3 — 탭/선택 영속화) ---- */
+  (function(){
+    var s = loadState();
+    if(s.plateTab) setCatTab(s.plateTab);
+    if(s.selected && document.querySelector('.plate-w[data-w="'+s.selected+'"]')) selectTile(s.selected);
+  })();
+
+  /* ---- 8) 페이지 헤더 아이콘 툴팁 (디자인시스템 .rfn-tooltip) ----
+     보기 모드 .plate-view-head + 편집 모드 .plate-toolbar 안의 title 속성을
+     data-tooltip 으로 변환해 네이티브 브라우저 툴팁 비활성화 후 hover/focus 로 디자인시스템 툴팁 표시. */
+  (function(){
+    var SHOW_DELAY = 300;
+    var current = null, showTimer = null;
+    function hide(){
+      if(showTimer){ clearTimeout(showTimer); showTimer = null; }
+      if(current){ current.remove(); current = null; }
+    }
+    function show(el){
+      hide();
+      var text = el.getAttribute('data-tooltip');
+      if(!text) return;
+      var tip = document.createElement('div');
+      tip.className = 'rfn-tooltip rfn-tooltip--bottom';
+      tip.textContent = text;
+      tip.style.position = 'fixed';
+      tip.style.zIndex = '9999';
+      tip.style.visibility = 'hidden';
+      document.body.appendChild(tip);
+      var r = el.getBoundingClientRect();
+      var tw = tip.offsetWidth;
+      tip.style.top = (r.bottom + 10) + 'px';
+      tip.style.left = Math.max(8, Math.min(window.innerWidth - tw - 8, r.left + r.width / 2 - tw / 2)) + 'px';
+      tip.style.visibility = 'visible';
+      current = tip;
+    }
+    /* 칩 등 텍스트 컴포넌트의 native title 만 제거 (디자인시스템 툴팁 안 띄움) */
+    document.querySelectorAll('.plate-view-head .chip[title], .plate-toolbar .chip[title], .plate-toolbar .plate-tb-name[title]').forEach(function(el){
+      el.removeAttribute('title');
+    });
+    /* 아이콘 버튼만 디자인시스템 툴팁 부여 (디자인시스템 §4.9 — icon-only 트리거에만 tooltip) */
+    document.querySelectorAll('.plate-view-head .rfn-icon-btn[title], .plate-toolbar .rfn-icon-btn[title]').forEach(function(el){
+      el.setAttribute('data-tooltip', el.getAttribute('title'));
+      el.removeAttribute('title');
+      el.addEventListener('mouseenter', function(){
+        hide();
+        showTimer = setTimeout(function(){ show(el); }, SHOW_DELAY);
+      });
+      el.addEventListener('mouseleave', hide);
+      el.addEventListener('focus', function(){ show(el); });
+      el.addEventListener('blur', hide);
+      /* 클릭 시에도 닫기 (모드 전환 등으로 트리거가 사라지는 경우 대비) */
+      el.addEventListener('click', hide);
+    });
+  })();
+
+  /* ---- 9) Sub Nav 타일 → 캔버스 드래그앤드롭(+클릭)으로 위젯 추가 (편집 모드 전용) ----
+     · 타일 항목을 캔버스로 드래그하면 삽입 위치 플레이스홀더가 표시되고, 드롭 시 실제 .plate-w 위젯 생성
+     · 생성 위젯은 선택/레이어/저장 시스템에 즉시 등록 (기존 위젯과 동일 동작)
+     · 타일 카드의 + 클릭은 캔버스 끝에 추가 (동일 affordance) */
+  (function(){
+    var world = document.querySelector('[data-plate-world]');
+    var grid  = world && world.querySelector('.grid');
+    if(!world || !grid) return;
+
+    var DEFAULT_SPAN = 4;          /* 드래그/클릭으로 추가 시 모든 위젯 기본 너비 = 4 span */
+    var GUTTER = 14, ROW_MIN = 184; /* 그리드 gutter · grid-auto-rows 최소 행 높이 (리사이즈 계산용) */
+
+    /* 타일 id → 기본 스펙(span·태그·변형·아이콘·이름) — 카탈로그 19종과 1:1 */
+    var TILE_SPECS = {
+      'chart.timeseries':  {span:11, tag:'LINE',   variant:'line',   icon:'ph-chart-line',     name:'시계열 차트'},
+      'chart.category':    {span:8,  tag:'BAR',    variant:'bar',    icon:'ph-chart-bar',      name:'카테고리 차트'},
+      'chart.distribution':{span:4,  tag:'DONUT',  variant:'donut',  icon:'ph-chart-donut',    name:'분포 차트'},
+      'chart.radar':       {span:5,  tag:'POLAR',  variant:'polar',  icon:'ph-hexagon',        name:'레이더 차트'},
+      'chart.bollinger':   {span:8,  tag:'BAND',   variant:'band',   icon:'ph-chart-line-up',  name:'볼린저 밴드'},
+      'chart.heatmap':     {span:8,  tag:'MATRIX', variant:'matrix', icon:'ph-grid-nine',      name:'히트맵'},
+      'chart.sankey':      {span:8,  tag:'SANKEY', variant:'sankey', icon:'ph-flow-arrow',     name:'Sankey 흐름도'},
+      'value.kpi':         {span:4,  tag:'KPI',    variant:'kpi',    icon:'ph-target',         name:'KPI 카드'},
+      'value.gauge':       {span:4,  tag:'RADIAL', variant:'radial', icon:'ph-gauge',          name:'게이지'},
+      'value.number':      {span:4,  tag:'SINGLE', variant:'single', icon:'ph-numpad',         name:'숫자 표시'},
+      'value.cards':       {span:8,  tag:'CARDS',  variant:'cards',  icon:'ph-grid-four',      name:'KPI 카드 그리드'},
+      'table.entity':      {span:8,  tag:'GRID',   variant:'grid',   icon:'ph-list-bullets',   name:'엔티티 테이블'},
+      'table.timeseries':  {span:8,  tag:'ROWS',   variant:'rows',   icon:'ph-rows',           name:'시계열 테이블'},
+      'ontology.tree':     {span:5,  tag:'TREE',   variant:'tree',   icon:'ph-tree-structure', name:'계층 트리'},
+      'ontology.filter':   {span:4,  tag:'FILTER', variant:'filter', icon:'ph-funnel',         name:'필터 패널'},
+      'ontology.map':      {span:8,  tag:'MAP',    variant:'map',    icon:'ph-map-pin',        name:'설비 맵'},
+      'alarm.list':        {span:8,  tag:'LIST',   variant:'list',   icon:'ph-bell',           name:'알람 목록'},
+      'layout.text':       {span:8,  tag:'TEXT',   variant:'text',   icon:'ph-text-aa',        name:'마크다운 텍스트'},
+      'layout.divider':    {span:16, tag:'RULE',   variant:'rule',   icon:'ph-minus',          name:'구분선'}
+    };
+
+    function makeUid(){
+      var n = 0, id;
+      do { n++; id = 't-add-' + n; } while(document.querySelector('.plate-w[data-w="'+id+'"]'));
+      return id;
+    }
+
+    /* 기존 위젯과 동일한 마크업으로 .plate-w 생성 */
+    function buildWidget(tileId){
+      var s = TILE_SPECS[tileId];
+      if(!s) return null;
+      var id = makeUid();
+      var w = document.createElement('div');
+      w.className = 'plate-w';
+      w.setAttribute('data-w', id);
+      w.setAttribute('data-name', s.name);
+      w.setAttribute('data-x', '0');
+      w.setAttribute('data-y', '0');
+      w.setAttribute('data-wd', String(DEFAULT_SPAN));    /* 추가 시 기본 4 span — 이후 SE 핸들로 리사이즈 */
+      w.setAttribute('data-ht', '1');
+      w.style.gridColumn = 'span ' + DEFAULT_SPAN;
+      w.innerHTML =
+        '<div class="rfn-widget">' +
+          '<div class="rfn-widget-head">' +
+            '<div class="rfn-widget-title"></div>' +
+            '<div class="rfn-widget-actions"><span class="tag neutral"></span></div>' +
+          '</div>' +
+          '<div class="rfn-widget-body">' +
+            '<div class="plate-tile-empty">' +
+              '<span class="ic"><i class="ph"></i></span>' +
+              '<div class="code"></div>' +
+              '<div class="hint">[데이터] 탭에서 예시 케이스 선택</div>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      w.querySelector('.rfn-widget-title').textContent = s.name;
+      w.querySelector('.tag.neutral').textContent = s.tag;
+      w.querySelector('.plate-tile-empty .ic i').className = 'ph ' + s.icon;
+      w.querySelector('.plate-tile-empty .code').textContent = tileId + ' — ' + s.variant;
+      return { el: w, id: id, spec: s };
+    }
+
+    /* 신규 위젯을 선택 시스템에 등록 (기존 widgets.forEach 바인딩과 동일) */
+    function registerWidget(w){
+      widgets.push(w);
+      addHandles(w);
+      attachReorder(w);
+      w.addEventListener('mousedown', function(e){
+        if(document.body.getAttribute('data-plate-mode') !== 'edit') return;
+        e.stopPropagation();
+        selectTile(w.getAttribute('data-w'));
+        if(window.enablePlateSave) window.enablePlateSave();
+      });
+    }
+
+    /* ----- 리사이즈 — 축별 핸들(우측=너비 / 하단=높이 / 우하단=양방향) -----
+       · 너비: 16-col 그리드 규칙 유지 → 컬럼(span) 단위 스냅 (디자인시스템 계약: 행 span 합 = 16)
+       · 높이: 자유도 ↑ → 픽셀 단위 자유 리사이즈 (행 단위 스냅 폐지) */
+    var H_MIN = 120, H_MAX = 1600;
+    function addHandles(w){
+      if(w.querySelector('[data-resize]')) return;
+      [['e','너비 조정'], ['s','높이 조정'], ['se','크기 조정']].forEach(function(p){
+        var h = document.createElement('span');
+        h.className = 'plate-w-handle ' + p[0];
+        h.setAttribute('data-resize', p[0]);
+        h.setAttribute('title', p[1]);
+        h.addEventListener('mousedown', startResize);
+        w.appendChild(h);
+      });
+    }
+    /* 16-col 1칸의 stride(칸폭 + gutter) — 현재 그리드 폭 기준 실시간 계산 */
+    function cellStrideX(){ return (grid.clientWidth - GUTTER * 15) / 16 + GUTTER; }
+    function clamp(v, lo, hi){ return Math.max(lo, Math.min(hi, v)); }
+    function startResize(e){
+      if(document.body.getAttribute('data-plate-mode') !== 'edit') return;
+      var handle = e.currentTarget;
+      var dir = handle.getAttribute('data-resize') || 'se';
+      var doW = dir.indexOf('e') !== -1, doH = dir.indexOf('s') !== -1;   /* e/se=너비, s/se=높이 */
+      var w = handle.closest('.plate-w');
+      if(!w) return;
+      e.preventDefault(); e.stopPropagation();           /* 위젯 select·캔버스 deselect 로 전파 방지 */
+      selectTile(w.getAttribute('data-w'));
+      var startX = e.clientX, startY = e.clientY;
+      var rect = w.getBoundingClientRect();
+      var startW = rect.width, startH = rect.height;
+      var strideX = cellStrideX();
+      document.body.classList.add('plate-resizing');
+      function onMove(ev){
+        if(doW){
+          var wd = clamp(Math.round((startW + (ev.clientX - startX) + GUTTER) / strideX), 1, 16);
+          if(String(wd) !== w.getAttribute('data-wd')){ w.setAttribute('data-wd', wd); w.style.gridColumn = 'span ' + wd; }
+          var wf = document.querySelector('[data-insp-w]'); if(wf && 'value' in wf) wf.value = wd;
+        }
+        if(doH){
+          var hpx = clamp(Math.round(startH + (ev.clientY - startY)), H_MIN, H_MAX);
+          w.style.height = hpx + 'px';                    /* 자유 픽셀 높이 (그리드 행이 콘텐츠에 맞춰 성장) */
+          w.setAttribute('data-ht', hpx);
+          var hf = document.querySelector('[data-insp-h]'); if(hf && 'value' in hf) hf.value = hpx;
+        }
+      }
+      function onUp(){
+        document.removeEventListener('mousemove', onMove);
+        document.removeEventListener('mouseup', onUp);
+        document.body.classList.remove('plate-resizing');
+        if(window.enablePlateSave) window.enablePlateSave();
+      }
+      document.addEventListener('mousemove', onMove);
+      document.addEventListener('mouseup', onUp);
+    }
+    /* 기존(정적) 위젯에도 리사이즈 핸들 부착 */
+    widgets.forEach(addHandles);
+
+    /* ===== 위젯 순서 변경(드래그 이동) + 스마트 스냅 + 레이어 순서 동기화 ===== */
+    /* 레이어 패널(.plate-layer-items) 순서를 실제 캔버스(grid) 위젯 순서와 일치 */
+    function syncLayerOrder(){
+      var items = document.querySelector('.plate-layers .plate-layer-items');
+      if(!items) return;
+      Array.prototype.slice.call(grid.querySelectorAll('.plate-w')).forEach(function(ww){
+        var row = items.querySelector('.plate-layer[data-layer="'+ww.getAttribute('data-w')+'"]');
+        if(row) items.appendChild(row);   /* grid 순서대로 append → 레이어 순서 = 위젯 순서 */
+      });
+    }
+    window.syncPlateLayerOrder = syncLayerOrder;
+
+    /* 드래그 중 삽입 위치(스냅 대상) 계산 — 끌고 있는 위젯 제외 */
+    function reorderTarget(x, y, exclude){
+      var els = Array.prototype.slice.call(grid.querySelectorAll('.plate-w')).filter(function(el){
+        return el !== exclude && el.style.display !== 'none';
+      });
+      if(!els.length) return null;
+      for(var i=0;i<els.length;i++){
+        var r = els[i].getBoundingClientRect();
+        if(x>=r.left && x<=r.right && y>=r.top && y<=r.bottom){
+          return (x < r.left + r.width/2) ? els[i] : els[i].nextElementSibling;
+        }
+      }
+      var best=null, bestD=Infinity;
+      els.forEach(function(el){ var r=el.getBoundingClientRect(); var dx=x-(r.left+r.width/2), dy=y-(r.top+r.height/2); var d=dx*dx+dy*dy; if(d<bestD){ bestD=d; best=el; } });
+      if(!best) return null;
+      var br=best.getBoundingClientRect();
+      if(y < br.top + br.height/2) return best;
+      if(x < br.left + br.width/2) return best;
+      return best.nextElementSibling;
+    }
+
+    /* 위젯에 드래그-이동 바인딩 — 임계치(5px) 넘게 움직여야 reorder 시작(클릭=선택 보존) */
+    function attachReorder(w){
+      w.addEventListener('mousedown', function(e){
+        if(document.body.getAttribute('data-plate-mode') !== 'edit') return;
+        if(e.button !== 0) return;
+        if(e.target.closest('[data-resize]')) return;     /* 리사이즈 핸들은 별도 처리 */
+        var startX = e.clientX, startY = e.clientY;
+        var dragging = false, ph = null, offX = 0, offY = 0, saved = null;
+        function begin(){
+          dragging = true;
+          var rect = w.getBoundingClientRect();
+          offX = startX - rect.left; offY = startY - rect.top;
+          ph = document.createElement('div');
+          ph.className = 'plate-drop-ph';
+          ph.style.gridColumn = w.style.gridColumn || ('span ' + (w.getAttribute('data-wd') || 4));
+          ph.style.height = rect.height + 'px';
+          grid.insertBefore(ph, w);
+          saved = { position:w.style.position, left:w.style.left, top:w.style.top, width:w.style.width, height:w.style.height, zIndex:w.style.zIndex, pointerEvents:w.style.pointerEvents };
+          w.style.position='fixed'; w.style.width=rect.width+'px'; w.style.height=rect.height+'px';
+          w.style.zIndex='999'; w.style.pointerEvents='none';
+          w.classList.add('plate-w-floating');
+          document.body.classList.add('plate-reordering');
+        }
+        function move(ev){
+          w.style.left = (ev.clientX - offX) + 'px';
+          w.style.top  = (ev.clientY - offY) + 'px';
+          var ref = reorderTarget(ev.clientX, ev.clientY, w);
+          if(ref === ph) return;
+          if(ref && ref.parentNode === grid) grid.insertBefore(ph, ref);
+          else grid.appendChild(ph);
+        }
+        function onMove(ev){
+          if(!dragging){
+            if(Math.abs(ev.clientX-startX) < 5 && Math.abs(ev.clientY-startY) < 5) return;
+            begin();
+          }
+          move(ev);
+        }
+        function onUp(){
+          document.removeEventListener('mousemove', onMove);
+          document.removeEventListener('mouseup', onUp);
+          if(!dragging) return;                            /* 단순 클릭 → 선택만(다른 리스너가 처리) */
+          grid.insertBefore(w, ph);                        /* 플레이스홀더 자리에 위젯 안착 */
+          if(ph.parentNode) grid.removeChild(ph);
+          w.style.position=saved.position; w.style.left=saved.left; w.style.top=saved.top;
+          w.style.width=saved.width; w.style.height=saved.height;
+          w.style.zIndex=saved.zIndex; w.style.pointerEvents=saved.pointerEvents;
+          w.classList.remove('plate-w-floating');
+          document.body.classList.remove('plate-reordering');
+          syncLayerOrder();                                /* 레이어 순서 = 새 위젯 순서 */
+          if(window.enablePlateSave) window.enablePlateSave();
+        }
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('mouseup', onUp);
+      });
+    }
+    widgets.forEach(attachReorder);
+    syncLayerOrder();   /* 초기 1회 — 레이어 순서를 현재 위젯 순서에 정렬 */
+
+    /* 레이어 패널에 행 추가 + 선택/가시성/인라인 라벨 편집 바인딩 (기존 레이어 행과 동일 동작) */
+    function addLayerRow(id, spec){
+      var items = document.querySelector('.plate-layers .plate-layer-items');
+      if(!items) return;
+      var row = document.createElement('div');
+      row.className = 'plate-layer';
+      row.setAttribute('data-layer', id);
+      row.innerHTML =
+        '<span class="ic"><i class="ph ' + spec.icon + '"></i></span>' +
+        '<span class="lbl"></span>' +
+        '<span class="eye" data-layer-eye role="button" tabindex="0" title="가시성 전환" aria-label="가시성 전환"><i class="ph ph-eye"></i></span>';
+      row.querySelector('.lbl').textContent = spec.name;
+      items.insertBefore(row, items.firstChild);
+      layersEls.push(row);
+      /* 선택 */
+      row.addEventListener('click', function(e){
+        if(e.target.closest('[data-layer-eye]')) return;
+        selectTile(row.getAttribute('data-layer'));
+      });
+      /* 가시성 토글 */
+      var eye = row.querySelector('[data-layer-eye]');
+      eye.addEventListener('click', function(e){
+        e.stopPropagation();
+        var hidden = row.classList.toggle('hidden-w');
+        var icn = eye.querySelector('i');
+        if(icn) icn.className = hidden ? 'ph ph-eye-slash' : 'ph ph-eye';
+        var ww = document.querySelector('.plate-w[data-w="'+id+'"]');
+        if(ww) ww.style.display = hidden ? 'none' : '';
+      });
+      /* 인라인 라벨 편집 — 위젯 data-name + 제목 동기화 */
+      var lbl = row.querySelector('.lbl');
+      lbl.setAttribute('contenteditable', 'plaintext-only');
+      lbl.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === 'Escape'){ e.preventDefault(); lbl.blur(); } e.stopPropagation(); });
+      lbl.addEventListener('click', function(e){ e.stopPropagation(); });
+      lbl.addEventListener('blur', function(){
+        var newText = lbl.textContent.trim() || '레이어';
+        lbl.textContent = newText;
+        var widget = document.querySelector('.plate-w[data-w="'+id+'"]');
+        if(widget){ widget.setAttribute('data-name', newText); var t = widget.querySelector('.rfn-widget-title'); if(t) t.textContent = newText; }
+      });
+    }
+
+    /* 위젯을 캔버스에 커밋 → 등록 + 레이어 + 저장 활성화
+       (※ 선택 안 함 — Sub Nav 타일 추가는 인스펙터를 바꾸지 않는다.
+          인스펙터는 항상 '대시보드'가 기본이며, 캔버스에서 위젯을 직접 클릭할 때만 위젯 인스펙터로 전환) */
+    function commitWidget(tileId, beforeEl){
+      var built = buildWidget(tileId);
+      if(!built) return;
+      if(beforeEl && beforeEl.parentNode === grid) grid.insertBefore(built.el, beforeEl);
+      else grid.appendChild(built.el);
+      registerWidget(built.el);
+      addLayerRow(built.id, built.spec);
+      syncLayerOrder();                 /* 추가된 위젯 위치에 맞춰 레이어 순서 정렬 */
+      if(window.enablePlateSave) window.enablePlateSave();
+    }
+
+    /* ----- 드래그앤드롭 ----- */
+    var dragTileId = null, placeholder = null;
+
+    function ensurePlaceholder(span){
+      if(!placeholder){ placeholder = document.createElement('div'); placeholder.className = 'plate-drop-ph'; }
+      placeholder.style.gridColumn = 'span ' + span;
+      return placeholder;
+    }
+    function removePlaceholder(){ if(placeholder && placeholder.parentNode) placeholder.parentNode.removeChild(placeholder); }
+
+    /* 커서 위치 → 어느 위젯 앞에 삽입할지 결정 (없으면 끝에 추가) */
+    function dropBefore(x, y){
+      var els = Array.prototype.slice.call(grid.querySelectorAll('.plate-w')).filter(function(el){ return el.style.display !== 'none'; });
+      if(!els.length) return null;
+      /* 1) 위젯 위에 직접 호버 — 좌측 절반이면 그 앞, 우측 절반이면 다음 앞 */
+      for(var i=0;i<els.length;i++){
+        var r = els[i].getBoundingClientRect();
+        if(x >= r.left && x <= r.right && y >= r.top && y <= r.bottom){
+          return (x < r.left + r.width/2) ? els[i] : els[i].nextElementSibling;
+        }
+      }
+      /* 2) 가장 가까운 위젯 중심 기준 폴백 */
+      var best = null, bestD = Infinity;
+      els.forEach(function(el){
+        var r = el.getBoundingClientRect();
+        var dx = x - (r.left + r.width/2), dy = y - (r.top + r.height/2);
+        var d = dx*dx + dy*dy;
+        if(d < bestD){ bestD = d; best = el; }
+      });
+      if(!best) return null;
+      var br = best.getBoundingClientRect();
+      if(y < br.top + br.height/2) return best;
+      if(x < br.left + br.width/2) return best;
+      return best.nextElementSibling;
+    }
+
+    function cleanupDrag(){
+      dragTileId = null;
+      world.classList.remove('is-drop-target');
+      removePlaceholder();
+      document.querySelectorAll('.plate-wcat-item.is-dragging').forEach(function(el){ el.classList.remove('is-dragging'); });
+    }
+
+    world.addEventListener('dragover', function(e){
+      if(!dragTileId || document.body.getAttribute('data-plate-mode') !== 'edit') return;
+      e.preventDefault();
+      if(e.dataTransfer) e.dataTransfer.dropEffect = 'copy';
+      world.classList.add('is-drop-target');
+      var ref = dropBefore(e.clientX, e.clientY);
+      var ph = ensurePlaceholder(DEFAULT_SPAN);
+      if(ref && ref.parentNode === grid){ if(ref !== ph) grid.insertBefore(ph, ref); }
+      else grid.appendChild(ph);
+    });
+    world.addEventListener('dragleave', function(e){
+      if(e.relatedTarget && world.contains(e.relatedTarget)) return;   /* 자식 간 이동은 무시 */
+      world.classList.remove('is-drop-target');
+      removePlaceholder();
+    });
+    world.addEventListener('drop', function(e){
+      if(!dragTileId || document.body.getAttribute('data-plate-mode') !== 'edit') return;
+      e.preventDefault();
+      var tileId = dragTileId;
+      var ref = (placeholder && placeholder.parentNode === grid) ? placeholder.nextElementSibling : dropBefore(e.clientX, e.clientY);
+      removePlaceholder();
+      commitWidget(tileId, ref);
+      cleanupDrag();
+    });
+
+    /* 타일 항목 — draggable + dragstart/dragend, 그리고 클릭(+) = 끝에 추가 */
+    document.querySelectorAll('.plate-wcat-item[data-add-tile]').forEach(function(item){
+      item.setAttribute('draggable', 'true');
+      item.addEventListener('dragstart', function(e){
+        if(document.body.getAttribute('data-plate-mode') !== 'edit'){ e.preventDefault(); return; }
+        dragTileId = item.getAttribute('data-add-tile');
+        if(e.dataTransfer){ e.dataTransfer.effectAllowed = 'copy'; try{ e.dataTransfer.setData('text/plain', dragTileId); }catch(_){} }
+        item.classList.add('is-dragging');
+      });
+      item.addEventListener('dragend', cleanupDrag);
+      item.addEventListener('click', function(){
+        if(document.body.getAttribute('data-plate-mode') !== 'edit') return;
+        commitWidget(item.getAttribute('data-add-tile'), null);
+      });
+    });
+  })();
+})();
+</script>
+
+<script>
+/* ============================================================
+   Plate — Overview ↔ Composer 단일 파일 뷰 전환 컨트롤러
+   (통합: 기존 UI_Refinery_PlateOverview.html 병합)
+   · data-view="plate-overview"(카탈로그) ↔ "plate"(편집기) 토글 → refinery.css 가 셸/페이지/Sub Nav/브레드크럼 자동 라우팅
+   · 진입 규칙(가이드 §3): Rail 진입(fresh)=Overview, 새로고침=직전 화면 복원
+   ============================================================ */
+(function(){
+  var body = document.body;
+  var VIEW_KEY = 'refinery-plate-active-view-v1';
+  function curView(){ return body.getAttribute('data-view') === 'plate' ? 'composer' : 'overview'; }
+  function syncChrome(){
+    var v = curView();
+    var si = document.getElementById('sideSearchInput');
+    if(si) si.setAttribute('placeholder', v === 'composer' ? '타일 · 데이터 검색...' : '대시보드 검색...');
+  }
+  /* 시간/객체 chip + 편집 도구를 모드별 위치로 이동 (duplicate 없이 단일 element 유지 → 상태 100% 보존).
+     · 편집: chips 는 H1 옆 (보기 모드와 동일), 편집 도구는 [나가기] 좌측, 사이에 sep
+     · 보기: chips 는 view-head H1 옆 / toolbar 는 정적 형태로 복귀 */
+  function syncSharedChipsToMode(mode){
+    var timeAnchor = document.getElementById('timeChipAnchor');
+    var objectAnchor = document.getElementById('objectChipAnchor');
+    var timePop = document.getElementById('timePop');
+    var objectPop = document.getElementById('objectPop');
+    var toolbar = document.querySelector('.plate-toolbar');
+    var viewHead = document.querySelector('.plate-view-head');
+    if(!timeAnchor || !objectAnchor || !toolbar || !viewHead) return;
+    /* 이전 전환 시 추가한 동적 sep 정리 */
+    document.querySelectorAll('[data-chips-sep], [data-h1-sep], [data-tools-sep]').forEach(function(s){ s.remove(); });
+    if(mode === 'edit'){
+      var exitBtn = toolbar.querySelector('#plateExitBtn');
+      var tools = toolbar.querySelector('.plate-tb-group');
+      /* 1. 편집 도구를 [나가기] 좌측으로 이동 */
+      if(tools && exitBtn) toolbar.insertBefore(tools, exitBtn);
+      /* 2. chips 를 [나가기] 좌측 (편집 도구 뒤) 으로 이동 */
+      if(exitBtn){
+        toolbar.insertBefore(timeAnchor, exitBtn);
+        toolbar.insertBefore(objectAnchor, exitBtn);
+      }
+      /* 3. 편집 도구 ↔ chips 사이에 sep 추가 (삭제 ↔ 시간 설정) */
+      if(tools){
+        var toolsSep = document.createElement('span');
+        toolsSep.className = 'plate-tb-sep';
+        toolsSep.setAttribute('data-tools-sep', '');
+        tools.after(toolsSep);
+      }
+      /* 4. chips ↔ [나가기] 사이에 sep 추가 */
+      if(exitBtn){
+        var newSep = document.createElement('span');
+        newSep.className = 'plate-tb-sep';
+        newSep.setAttribute('data-chips-sep', '');
+        toolbar.insertBefore(newSep, exitBtn);
+      }
+      /* 4. 원래 H1↔tools 사이 sep (이제 H1 ↔ spacer 사이) 제거 */
+      var origSep = Array.from(toolbar.querySelectorAll('.plate-tb-sep:not([data-chips-sep])')).find(function(s){
+        return s.nextElementSibling && s.nextElementSibling.classList.contains('plate-tb-spacer');
+      });
+      if(origSep) origSep.remove();
+      /* chips 가 우측에 위치 → anchor-end (좌측으로 펼침) */
+      if(timePop) timePop.classList.add('rfn-popover--anchor-end');
+      if(objectPop) objectPop.classList.add('rfn-popover--anchor-end');
+    } else {
+      /* 보기 모드 — chips 를 view-head 의 [공유] 아이콘 그룹 다음 ([편집] 좌측) 으로 복귀. */
+      var iconGroupV = viewHead.querySelector('.plate-tb-group[aria-label="대시보드 액션"]');
+      if(iconGroupV){
+        iconGroupV.after(timeAnchor);
+        timeAnchor.after(objectAnchor);
+      }
+      /* toolbar 정적 형태 복원 — H1 다음에 sep + tools (다음 편집 전환 시 정상 동작) */
+      var h1Tb2 = toolbar.querySelector('h1');
+      var tools2 = toolbar.querySelector('.plate-tb-group');
+      if(h1Tb2 && tools2){
+        var afterH1 = h1Tb2.nextElementSibling;
+        if(!afterH1 || !afterH1.classList.contains('plate-tb-sep')){
+          var restoredSep = document.createElement('span');
+          restoredSep.className = 'plate-tb-sep';
+          h1Tb2.after(restoredSep);
+        }
+        var sepAfterH1 = h1Tb2.nextElementSibling;
+        if(sepAfterH1) sepAfterH1.after(tools2);
+      }
+      /* chips 가 우측에 위치 → anchor-end (좌측으로 펼침) */
+      if(timePop) timePop.classList.add('rfn-popover--anchor-end');
+      if(objectPop) objectPop.classList.add('rfn-popover--anchor-end');
+    }
+  }
+  /* 보기(view) ↔ 편집(edit) 모드 토글 — 기본 view (편집 기능 비활성).
+     보기 모드 진입 시엔 카탈로그 탭을 항상 '메뉴'로 강제(편집에서만 '타일' 탭 노출). */
+  function setPlateMode(m){
+    var edit = (m === 'edit');
+    body.setAttribute('data-plate-mode', edit ? 'edit' : 'view');
+    syncSharedChipsToMode(edit ? 'edit' : 'view');
+    /* 편집 진입 = '타일' 탭 default · 편집 종료 = '메뉴' 탭 default */
+    if(window.setCatTab) window.setCatTab(edit ? 'tiles' : 'data');
+  }
+  window.setPlateMode = setPlateMode;
+
+  window.setPlateView = function(v){
+    v = (v === 'composer') ? 'composer' : 'overview';
+    body.setAttribute('data-view', v === 'composer' ? 'plate' : 'plate-overview');
+    try{ localStorage.setItem(VIEW_KEY, v); }catch(e){}
+    /* 대시보드·Overview 모두 보기 모드로 진입 (setPlateMode 가 setCatTab('data') 도 수행) */
+    setPlateMode('view');
+    /* Overview 진입 시 'Overview' 메뉴 항목 active 동기화 */
+    if(v !== 'composer'){
+      document.querySelectorAll('[data-plate-menu] .item[data-plate-menu-key]').forEach(function(x){
+        x.classList.toggle('active', x.getAttribute('data-plate-menu-key') === 'overview');
+      });
+    }
+    syncChrome();
+    var pg = document.querySelector('.page'); if(pg) pg.scrollTop = 0;
+  };
+  syncChrome();  /* 초기 동기화 — data-view 는 pre-paint 부트스트랩이 이미 결정 */
+  /* 초기 chips/tools 배치 — 페이지 로드 시 현재 모드에 맞춰 H1↔chips 사이 sep 등 설정 */
+  syncSharedChipsToMode(body.getAttribute('data-plate-mode') === 'edit' ? 'edit' : 'view');
+
+  /* 편집기에 특정 플레이트 로드 → Sub Nav '메뉴' active + 브레드크럼 동기화 + 영속화.
+     key=null 이면 새 플레이트(중립 상태): active 없음 · 브레드크럼 'Tile Composer' */
+  var PLATE_KEY = 'refinery-plate-active-plate-v1';
+  function setPlateActive(key, name){
+    document.querySelectorAll('[data-plate-menu] .item[data-plate-menu-key]').forEach(function(x){
+      x.classList.toggle('active', !!key && x.getAttribute('data-plate-menu-key') === key);
+    });
+    var here = document.querySelector('[data-crumbs-view="plate"] .here');
+    if(here) here.textContent = name || 'Tile Composer';
+    /* 보기 모드 H1 + 편집 모드 toolbar H1 양쪽 동기화 */
+    document.querySelectorAll('[data-plate-title]').forEach(function(t){
+      t.textContent = name || '새 대시보드';
+    });
+    try{ localStorage.setItem(PLATE_KEY, JSON.stringify(key ? { key: key, name: name } : null)); }catch(e){}
+  }
+  window.setPlateActive = setPlateActive;
+  /* 새로고침 복원 — 직전에 편집하던 플레이트를 다시 활성화 */
+  (function(){
+    try{
+      var sp = JSON.parse(localStorage.getItem(PLATE_KEY) || 'null');
+      if(sp && sp.key) setPlateActive(sp.key, sp.name);
+    }catch(e){}
+  })();
+
+  var saveBtn = document.querySelector('[data-plate-save]');
+  function enableSave(){ if(saveBtn) saveBtn.disabled = false; }
+  window.enablePlateSave = enableSave;
+
+  /* 편집기 "나가기" → 편집 모드 비활성화(보기 모드로 복귀) */
+  var exitBtn = document.getElementById('plateExitBtn');
+  if(exitBtn) exitBtn.addEventListener('click', function(){ setPlateMode('view'); });
+
+  /* Overview "New Dashboard" → 모달 오픈. 모달 [만들기] 클릭 시 composer + edit 모드 진입 */
+  var newBtn = document.querySelector('#actionsDefault .rfn-btn--primary');
+  if(newBtn) newBtn.addEventListener('click', function(){
+    if(window.openNewDashboardModal){ window.openNewDashboardModal(); return; }
+    /* 모달 미로딩 시 폴백 — 기존 동작 유지 */
+    setPlateActive(null, 'Tile Composer'); window.setPlateView('composer'); setPlateMode('edit'); enableSave();
+  });
+
+  /* ============================================================
+     New Dashboard 모달 — 열기/닫기 + 입력 검증 + 만들기
+     ============================================================ */
+  (function(){
+    var overlay = document.getElementById('newDashboardOverlay');
+    if(!overlay) return;
+    var nameIn   = document.getElementById('newDashboardName');
+    var descIn   = document.getElementById('newDashboardDesc');
+    var createBtn= document.getElementById('newDashboardCreate');
+
+    function resetForm(){
+      nameIn.value = '';
+      descIn.value = '';
+      createBtn.disabled = true;
+      /* seg 기본값 — 레이아웃: 16열 그리드 / 접근 권한: 팀 */
+      document.querySelectorAll('[data-new-dashboard-layout]').forEach(function(b){
+        var on = b.getAttribute('data-new-dashboard-layout') === 'grid';
+        b.classList.toggle('on', on); b.setAttribute('aria-checked', on ? 'true' : 'false');
+      });
+      document.querySelectorAll('[data-new-dashboard-access]').forEach(function(b){
+        var on = b.getAttribute('data-new-dashboard-access') === 'public';
+        b.classList.toggle('on', on); b.setAttribute('aria-checked', on ? 'true' : 'false');
+      });
+    }
+    function isOpen(){ return overlay.style.display !== 'none'; }
+    function open(){
+      resetForm();
+      overlay.style.display = 'flex';   /* .rfn-modal-overlay 의 CSS display:flex 가 UA [hidden]{display:none} 을 덮으므로 인라인 style 로 직접 토글 */
+      setTimeout(function(){ if(nameIn) nameIn.focus(); }, 0);
+    }
+    function close(){ overlay.style.display = 'none'; }
+    function create(){
+      var name = (nameIn.value || '').trim();
+      if(!name) return;
+      close();
+      /* 기존 [New Dashboard] 직진입 로직을 그대로 호출 — 단, 이름만 입력값으로 교체 */
+      if(window.setPlateActive)  window.setPlateActive(null, name);
+      if(window.setPlateView)    window.setPlateView('composer');
+      if(window.setPlateMode)    window.setPlateMode('edit');
+      if(window.enablePlateSave) window.enablePlateSave();
+    }
+
+    window.openNewDashboardModal = open;
+
+    /* 닫기 트리거 — 우상단 [×] + 푸터 [취소] */
+    document.querySelectorAll('[data-new-dashboard-close]').forEach(function(b){
+      b.addEventListener('click', close);
+    });
+    /* overlay 빈 곳 클릭 → 닫기 (모달 본체 클릭은 닫히지 않음) */
+    overlay.addEventListener('click', function(e){ if(e.target === overlay) close(); });
+    /* ESC → 닫기 */
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && isOpen()) close();
+    });
+    /* 제목 입력값으로 [만들기] 활성/비활성 + Enter 키 submit */
+    if(nameIn){
+      nameIn.addEventListener('input', function(){ createBtn.disabled = !nameIn.value.trim(); });
+      nameIn.addEventListener('keydown', function(e){
+        if(e.key === 'Enter'){ e.preventDefault(); if(!createBtn.disabled) create(); }
+      });
+    }
+    if(createBtn) createBtn.addEventListener('click', create);
+    /* seg 라디오 동작 — 레이아웃 · 접근 권한 */
+    ['[data-new-dashboard-layout]', '[data-new-dashboard-access]'].forEach(function(sel){
+      var btns = document.querySelectorAll(sel);
+      btns.forEach(function(b){
+        b.addEventListener('click', function(){
+          btns.forEach(function(x){
+            var on = (x === b);
+            x.classList.toggle('on', on);
+            x.setAttribute('aria-checked', on ? 'true' : 'false');
+          });
+        });
+      });
+    });
+  })();
+
+  /* 보기 헤더 [편집] → 편집 모드 진입 (저장 비활성 + 위젯 선택 모두 해제 시작) / 편집 툴바 [저장] → 저장 후 비활성화 */
+  var editBtn = document.querySelector('[data-plate-edit]');
+  if(editBtn) editBtn.addEventListener('click', function(){
+    setPlateMode('edit');
+    /* 위젯·레이어 선택 초기화 + 인스펙터를 항상 '대시보드' 상태로 복원
+       (직전 선택이 있어도 편집 진입은 무조건 미선택 상태로 시작) */
+    if(window.deselectPlateTile){
+      window.deselectPlateTile();
+    } else {
+      document.querySelectorAll('.plate-w.selected, .plate-layer.selected').forEach(function(el){ el.classList.remove('selected'); });
+    }
+    /* 저장 + 편집 도구 (undo/redo/dup/del) 모두 비활성 — 변경/선택 이전까지 클릭 불가 */
+    if(saveBtn) saveBtn.disabled = true;
+    document.querySelectorAll('[data-plate-undo], [data-plate-redo], [data-plate-dup], [data-plate-del]').forEach(function(b){ b.disabled = true; });
+  });
+  if(saveBtn) saveBtn.addEventListener('click', function(){ saveBtn.disabled = true; });
+
+  /* H1 옆 편집 잠금(Lock) 아이콘 버튼 — 보기 모드에만 노출.
+     · 잠금 OFF (기본) → 정상. [편집] 버튼 활성, 편집 진입 가능
+     · 잠금 ON       → [편집] 버튼 비활성, 편집 진입 차단
+     · body[data-plate-lock="on"] 로 상태 표현
+     · 편집 모드에는 잠금 아이콘이 없으므로 편집 중 잠금 진입 경로 자체가 없음 */
+  (function(){
+    var locks = document.querySelectorAll('[data-plate-lock]');
+    if(!locks.length) return;
+    function isLocked(){ return document.body.getAttribute('data-plate-lock') === 'on'; }
+    function syncLockUI(){
+      var locked = isLocked();
+      var label  = locked ? '잠금 해제' : '편집 잠금';
+      locks.forEach(function(b){
+        b.classList.toggle('on', locked);
+        b.setAttribute('aria-pressed', locked ? 'true' : 'false');
+        b.setAttribute('title', label);
+        b.setAttribute('aria-label', label);
+        var icn = b.querySelector('i.ph');
+        if(icn) icn.className = locked ? 'ph ph-lock-simple' : 'ph ph-lock-simple-open';
+      });
+      /* 잠금 시 보기 모드의 [편집] 버튼 비활성화 (편집 진입 차단) */
+      var editBtn = document.querySelector('[data-plate-edit]');
+      if(editBtn) editBtn.disabled = locked;
+    }
+    locks.forEach(function(b){
+      b.addEventListener('click', function(){
+        if(isLocked()){
+          /* 잠금 해제 */
+          document.body.removeAttribute('data-plate-lock');
+        } else {
+          /* 잠금 적용 — 편집 중이면 먼저 보기 모드로 복귀시킨 뒤 잠금 */
+          if(document.body.getAttribute('data-plate-mode') === 'edit'){
+            var ex = document.getElementById('plateExitBtn');
+            if(ex) ex.click();
+          }
+          document.body.setAttribute('data-plate-lock', 'on');
+        }
+        syncLockUI();
+      });
+    });
+    syncLockUI();
+  })();
+
+  /* 통합 Sub Nav '메뉴' 탭 — 플레이트 목록 (Overview·대시보드 공용).
+     · 'Overview' 선택 → Plate Overview 카탈로그 페이지로 전환
+     · 그 외 대시보드 → 대시보드 보기 화면(composer)으로 전환 + 해당 플레이트 active (Sub Nav + 브레드크럼 동기화) */
+  var menuItems = document.querySelectorAll('[data-plate-menu] .item[data-plate-menu-key]');
+  menuItems.forEach(function(it){
+    it.addEventListener('click', function(){
+      var key = this.getAttribute('data-plate-menu-key');
+      if(key === 'overview'){ window.setPlateView('overview'); return; }
+      setPlateActive(key, this.textContent.trim());
+      window.setPlateView('composer');   /* Overview 든 다른 대시보드 든 composer 로 전환 (보기 모드 진입은 setPlateView 가 수행) */
+    });
+  });
+})();
+</script>
+<script>
+  // ======== Plate Overview — 데이터 · 렌더 · 인터랙션 ========
+  (function(){
+    const CATS = {
+      ops:       { label:'Operations', dv:'var(--dv-1)' },
+      energy:    { label:'Energy',     dv:'var(--dv-7)' },
+      quality:   { label:'Quality',    dv:'var(--dv-8)' },
+      equipment: { label:'Equipment',  dv:'var(--dv-3)' },
+      mgmt:      { label:'Management',  dv:'var(--dv-10)' }
+    };
+    const STATUS = {
+      live:  { label:'LIVE',      tag:'good' },
+      draft: { label:'DRAFT',     tag:'neutral' },
+      sched: { label:'SCHEDULED', tag:'warn' },
+      sync:  { label:'SYNCING',   tag:'brand' }
+    };
+    // 공개 범위 — 갤러리 카드/리스트 행 공용 (아이콘·라벨·색은 .rfn-card-vis--* 토큰)
+    const VISMAP = {
+      public:  { icon:'ph-globe',       label:'공개' },
+      team:    { icon:'ph-users-three', label:'팀' },
+      private: { icon:'ph-lock-simple', label:'비공개' }
+    };
+    // 카드 = Sub Nav 의 대시보드. [slug, name, cat, chart, status, desc]
+    // desc = 대시보드별 상세 설명 (선택 — 빈 문자열이면 카드/행에서 미표시)
+    const SEED = [
+      ['power',           '전력모니터링 (Accura)',          'energy',    'line',           'live',  '수배전반·피더별 전력량과 역률 실시간 추적'],
+      ['water',           '용수 모니터링',                   'energy',    'stacked-area',   'live',  '공정용수·냉각수 유량과 수질 지표 모니터링'],
+      ['steam',           '스팀 유량 모니터링',              'energy',    'sparkline',      'sync',  ''],
+      ['lng',             'LNG 가스 모니터링',               'energy',    'heatmap',        'live',  'LNG 공급 압력·유량과 기화기 상태 점검'],
+      ['energy-flow',     '에너지 흐름 분석',                'energy',    'combo',          'live',  '에너지원별 투입·손실·회수 흐름 분석'],
+      ['tank',            '탱크 수위 관리',                  'equipment', 'gauge',          'draft', ''],
+      ['air',             '공기압축기 모니터링',             'equipment', 'column',         'live',  '압축공기 토출압·소비전력·가동률 추적'],
+      ['energy-summary',  '에너지 종합 현황',                'energy',    'donut',          'live',  '전력·스팀·용수·가스 사용량 단일 화면 요약'],
+      ['air-rt',          '공압기 실시간 모니터링',          'equipment', 'multiline',      'sync',  ''],
+      ['power-usage',     '전력 사용량 분석',                'energy',    'stacked-column', 'live',  '시간대·설비별 전력 사용 패턴과 피크 분석'],
+      ['utility-summary', '유틸리티 종합 (스팀·용수·LNG)',   'energy',    'bar',            'live',  '스팀·용수·LNG 유틸리티 공급 현황 통합 집계'],
+      ['scada',           '변전실 SCADA 모니터링',           'equipment', 'line',           'sched', '수전 설비·차단기 상태 SCADA 감시'],
+      ['esg-report',      'ESG 종합 리포트',                 'mgmt',      'donut',          'live',  '환경·사회·지배구조 핵심 지표 종합 리포트'],
+      ['esg-efficiency',  'ESG 에너지 효율 분석',            'mgmt',      'grouped-column', 'live',  ''],
+      ['esg-carbon',      'ESG 탄소배출 관리',               'mgmt',      'stacked-bar',    'sched', 'Scope 1·2·3 온실가스 배출량과 감축 목표 관리'],
+      ['energy-cost',     '에너지 비용 분석',                'mgmt',      'stacked-area',   'live',  '에너지원별 단가·비용 추이 분석 및 절감 포인트 도출'],
+      ['process-energy',  '공정별 에너지 분석',              'mgmt',      'column-markers', 'draft', ''],
+      ['exec',            '경영진 대시보드',                 'mgmt',      'scatter',        'live',  '핵심 경영 지표와 에너지 KPI 경영진용 요약'],
+      ['env',             '환경/기상 모니터링',              'ops',       'multiline',      'live',  '외기 온습도·미세먼지·풍향 등 환경 지표 모니터링'],
+      ['integrated',      '종합 모니터링',                   'ops',       'table',          'live',  '주요 설비·공정·유틸리티 단일 보드 통합 모니터링'],
+      ['vibration',       '진동 분석 대시보드',              'equipment', 'sparkline',      'sync',  '']
+    ];
+    const OWNERS = ['김현영','박지훈','이수민','정민재','한가람'];
+    // updated: 정렬·표시용 상대 시간(시간 단위, 작을수록 최근). tiles/vis/views 는 자동 시드 합성값.
+    const PLATES = SEED.map(function(s, i){
+      return {
+        id:      'PL-' + (1042 - i),
+        slug:    s[0],
+        name:    s[1],
+        cat:     s[2],
+        chart:   s[3],
+        status:  s[4],
+        desc:    s[5] || '',
+        tiles:   (i * 5) % 17,
+        vis:     ['public','team','public','private'][i % 4],
+        updated: ((i * 17 + 4) % 170) + 1,
+        owner:   OWNERS[i % 5],
+        views:   ((i * 173 + 420) % 4800) + 200,
+        fav:     i % 6 === 0
+      };
+    });
+
+    const grid     = document.getElementById('plateGrid');
+    const listWrap = document.getElementById('plateList');
+    const emptyBox = document.getElementById('plateEmpty');
+    const STATE_KEY = 'refinery-plate-overview-state-v1';
+
+    let view   = 'grid';
+    let filter = 'all';   // all | fav | recent | shared | <cat>
+    let status = 'all';
+    let sort   = 'recent';
+    let query  = '';
+    let navKey = 'overview'; // 현재 선택된 Sub Nav 항목 (data-plate-nav)
+    const selected = new Set(); // 체크박스로 선택된 카드 id
+    let selectMode = false;     // 선택(삭제) 모드 on/off
+    let sharedSet = new Set(['PL-1039','PL-1035','PL-1023','PL-1013','PL-1007']);
+
+    function loadState(){
+      try{
+        const s = JSON.parse(localStorage.getItem(STATE_KEY) || 'null');
+        if(!s) return;
+        if(s.view === 'grid' || s.view === 'list') view = s.view;
+        if(typeof s.filter === 'string') filter = s.filter;
+        if(['all','public','team','private'].indexOf(s.status) !== -1) status = s.status;
+        if(typeof s.sort === 'string') sort = s.sort;
+        if(typeof s.navKey === 'string') navKey = s.navKey;
+      }catch(e){}
+    }
+    function saveState(){
+      try{ localStorage.setItem(STATE_KEY, JSON.stringify({ view, filter, status, sort, navKey })); }catch(e){}
+    }
+
+    function esc(s){ return String(s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+    function rel(h){
+      if(h < 1)  return 'just now';
+      if(h < 24) return h + 'h ago';
+      const d = Math.floor(h / 24);
+      if(d < 7)  return d + 'd ago';
+      return Math.floor(d / 7) + 'w ago';
+    }
+
+    // 카테고리별 토큰 색을 쓰는 차트 썸네일 (SVG presentation 대신 style=var() — 토큰 유지)
+    // Chart Library — 16 types, 단색 브랜드블루 (음영은 opacity 로 표현)
+    function thumb(type, base){
+      const ln  = 'fill:none;stroke:'+base+';stroke-width:2.6;stroke-linejoin:round;stroke-linecap:round';
+      const ln2 = ln + ';stroke-width:2.4';
+      const f1  = 'fill:'+base;
+      const f2  = 'fill:'+base+';opacity:.5';
+      const ax  = 'stroke:var(--ink-300);stroke-width:1.3';
+      const open = '<svg viewBox="0 0 200 132" width="100%">';
+      const baseLine = '<line x1="26" y1="110" x2="174" y2="110" style="'+ax+'"/>';
+      const vAxis = '<line x1="40" y1="28" x2="40" y2="107" style="'+ax+'"/>';
+      switch(type){
+        case 'multiline':
+          return open
+            + '<polyline points="26,68 56,86 88,60 120,90 152,66 174,90" style="'+ln+';opacity:.28"/>'
+            + '<polyline points="26,90 56,72 88,96 120,68 152,96 174,80" style="'+ln+';opacity:.55"/>'
+            + '<polyline points="26,78 56,52 88,84 120,46 152,86 174,62" style="'+ln+'"/>'
+            + baseLine + '</svg>';
+        case 'stacked-area':
+          return open
+            + '<polygon points="26,74 62,60 98,66 134,46 170,52 170,72 134,66 98,86 62,82 26,90" style="'+f2+'"/>'
+            + '<polygon points="26,90 62,82 98,86 134,66 170,72 170,110 26,110" style="'+f1+'"/>'
+            + baseLine + '</svg>';
+        case 'bar':
+          return open
+            + '<rect x="42" y="32" width="92"  height="11" style="'+f1+'"/>'
+            + '<rect x="42" y="52" width="124" height="11" style="'+f1+'"/>'
+            + '<rect x="42" y="72" width="58"  height="11" style="'+f1+'"/>'
+            + '<rect x="42" y="92" width="104" height="11" style="'+f1+'"/>'
+            + vAxis + '</svg>';
+        case 'stacked-bar':
+          return open
+            + '<rect x="42" y="32" width="56" height="11" style="'+f1+'"/><rect x="98"  y="32" width="40" height="11" style="'+f2+'"/>'
+            + '<rect x="42" y="52" width="84" height="11" style="'+f1+'"/><rect x="126" y="52" width="34" height="11" style="'+f2+'"/>'
+            + '<rect x="42" y="72" width="40" height="11" style="'+f1+'"/><rect x="82"  y="72" width="62" height="11" style="'+f2+'"/>'
+            + '<rect x="42" y="92" width="70" height="11" style="'+f1+'"/><rect x="112" y="92" width="30" height="11" style="'+f2+'"/>'
+            + vAxis + '</svg>';
+        case 'column':
+          return open
+            + '<rect x="34"  y="60" width="16" height="50" style="'+f1+'"/>'
+            + '<rect x="57"  y="38" width="16" height="72" style="'+f1+'"/>'
+            + '<rect x="80"  y="76" width="16" height="34" style="'+f1+'"/>'
+            + '<rect x="103" y="26" width="16" height="84" style="'+f1+'"/>'
+            + '<rect x="126" y="54" width="16" height="56" style="'+f1+'"/>'
+            + '<rect x="149" y="42" width="16" height="68" style="'+f1+'"/>'
+            + baseLine + '</svg>';
+        case 'stacked-column':
+          return open
+            + '<rect x="34"  y="54" width="16" height="22" style="'+f2+'"/><rect x="34"  y="76" width="16" height="34" style="'+f1+'"/>'
+            + '<rect x="57"  y="30" width="16" height="30" style="'+f2+'"/><rect x="57"  y="60" width="16" height="50" style="'+f1+'"/>'
+            + '<rect x="80"  y="72" width="16" height="16" style="'+f2+'"/><rect x="80"  y="88" width="16" height="22" style="'+f1+'"/>'
+            + '<rect x="103" y="28" width="16" height="28" style="'+f2+'"/><rect x="103" y="56" width="16" height="54" style="'+f1+'"/>'
+            + '<rect x="126" y="58" width="16" height="22" style="'+f2+'"/><rect x="126" y="80" width="16" height="30" style="'+f1+'"/>'
+            + '<rect x="149" y="44" width="16" height="26" style="'+f2+'"/><rect x="149" y="70" width="16" height="40" style="'+f1+'"/>'
+            + baseLine + '</svg>';
+        case 'grouped-column':
+          return open
+            + '<rect x="36"  y="40" width="13" height="70" style="'+f1+'"/><rect x="50"  y="60" width="13" height="50" style="'+f2+'"/>'
+            + '<rect x="86"  y="66" width="13" height="44" style="'+f1+'"/><rect x="100" y="32" width="13" height="78" style="'+f2+'"/>'
+            + '<rect x="136" y="26" width="13" height="84" style="'+f1+'"/><rect x="150" y="52" width="13" height="58" style="'+f2+'"/>'
+            + baseLine + '</svg>';
+        case 'column-markers':
+          return open
+            + '<rect x="34"  y="62" width="16" height="48" style="'+f2+'"/>'
+            + '<rect x="57"  y="44" width="16" height="66" style="'+f2+'"/>'
+            + '<rect x="80"  y="70" width="16" height="40" style="'+f2+'"/>'
+            + '<rect x="103" y="38" width="16" height="72" style="'+f2+'"/>'
+            + '<rect x="126" y="58" width="16" height="52" style="'+f2+'"/>'
+            + '<rect x="149" y="48" width="16" height="62" style="'+f2+'"/>'
+            + '<circle cx="42"  cy="54" r="4" style="'+f1+'"/><circle cx="65"  cy="40" r="4" style="'+f1+'"/>'
+            + '<circle cx="88"  cy="62" r="4" style="'+f1+'"/><circle cx="111" cy="44" r="4" style="'+f1+'"/>'
+            + '<circle cx="134" cy="56" r="4" style="'+f1+'"/><circle cx="157" cy="46" r="4" style="'+f1+'"/>'
+            + baseLine + '</svg>';
+        case 'sparkline':
+          return open
+            + '<polyline points="30,70 54,58 78,78 102,50 126,70 150,46 170,62" style="'+ln2+'"/>'
+            + '<circle cx="30"  cy="70" r="3.4" style="'+f1+'"/>'
+            + '<circle cx="170" cy="62" r="3.4" style="'+f1+'"/>'
+            + '<line x1="30" y1="98" x2="170" y2="98" style="'+ax+'"/></svg>';
+        case 'table':
+          return open
+            + '<line x1="36" y1="42"  x2="164" y2="42"  style="stroke:var(--ink-400);stroke-width:2"/>'
+            + '<line x1="36" y1="58"  x2="164" y2="58"  style="stroke:var(--ink-200);stroke-width:1.3"/>'
+            + '<line x1="36" y1="70"  x2="164" y2="70"  style="stroke:var(--ink-200);stroke-width:1.3"/>'
+            + '<line x1="36" y1="82"  x2="164" y2="82"  style="stroke:var(--ink-200);stroke-width:1.3"/>'
+            + '<line x1="36" y1="94"  x2="164" y2="94"  style="stroke:var(--ink-200);stroke-width:1.3"/>'
+            + '<line x1="36" y1="106" x2="164" y2="106" style="stroke:var(--ink-200);stroke-width:1.3"/></svg>';
+        case 'donut':
+          return open
+            + '<g transform="rotate(-90 100 66)" fill="none" stroke-width="18">'
+            + '<circle cx="100" cy="66" r="38" style="stroke:'+base+'" stroke-dasharray="107.4 131.4" stroke-dashoffset="0"/>'
+            + '<circle cx="100" cy="66" r="38" style="stroke:'+base+';opacity:.5" stroke-dasharray="71.6 167.2" stroke-dashoffset="-107.4"/>'
+            + '<circle cx="100" cy="66" r="38" style="stroke:'+base+';opacity:.28" stroke-dasharray="59.7 179" stroke-dashoffset="-179"/>'
+            + '</g></svg>';
+        case 'scatter':
+          return open
+            + '<g style="'+f1+'"><circle cx="64" cy="86" r="6"/><circle cx="110" cy="78" r="5"/><circle cx="132" cy="54" r="11"/><circle cx="160" cy="60" r="6"/></g>'
+            + '<g style="'+f2+'"><circle cx="88" cy="64" r="9"/><circle cx="96" cy="94" r="4"/><circle cx="150" cy="74" r="7"/><circle cx="122" cy="90" r="5"/></g>'
+            + '<line x1="42" y1="28"  x2="42"  y2="106" style="'+ax+'"/>'
+            + '<line x1="42" y1="106" x2="174" y2="106" style="'+ax+'"/></svg>';
+        case 'gauge':
+          return open
+            + '<path d="M56,96 A44,44 0 0 1 144,96" fill="none" style="stroke:'+base+';opacity:.28" stroke-width="14" stroke-linecap="round"/>'
+            + '<path d="M56,96 A44,44 0 0 1 123.6,58.9" fill="none" style="stroke:'+base+'" stroke-width="14" stroke-linecap="round"/>'
+            + '<circle cx="123.6" cy="58.9" r="3" style="'+f1+'"/></svg>';
+        case 'heatmap': {
+          const rows=[[0.2,0.5,0.85,0.3,0.6,0.95],[0.6,0.95,0.4,0.7,0.3,0.5],[0.3,0.7,0.6,0.95,0.5,0.2],[0.85,0.4,0.7,0.25,0.6,0.45]];
+          const size=18, gap=4, x0=46, y0=30; let cells='';
+          rows.forEach((r,ri)=> r.forEach((v,ci)=>{
+            cells += '<rect x="'+(x0+ci*(size+gap))+'" y="'+(y0+ri*(size+gap))+'" width="'+size+'" height="'+size+'" rx="1" style="fill:'+base+'" fill-opacity="'+Math.max(0.12,v).toFixed(2)+'"/>';
+          }));
+          return open + cells + '</svg>';
+        }
+        case 'combo':
+          return open
+            + '<rect x="34"  y="66" width="16" height="44" style="'+f2+'"/>'
+            + '<rect x="57"  y="50" width="16" height="60" style="'+f2+'"/>'
+            + '<rect x="80"  y="74" width="16" height="36" style="'+f2+'"/>'
+            + '<rect x="103" y="42" width="16" height="68" style="'+f2+'"/>'
+            + '<rect x="126" y="60" width="16" height="50" style="'+f2+'"/>'
+            + '<rect x="149" y="52" width="16" height="58" style="'+f2+'"/>'
+            + '<polyline points="42,64 65,48 88,70 111,42 134,60 157,50" style="'+ln2+'"/>'
+            + '<circle cx="42"  cy="64" r="3.2" style="'+f1+'"/><circle cx="65"  cy="48" r="3.2" style="'+f1+'"/>'
+            + '<circle cx="88"  cy="70" r="3.2" style="'+f1+'"/><circle cx="111" cy="42" r="3.2" style="'+f1+'"/>'
+            + '<circle cx="134" cy="60" r="3.2" style="'+f1+'"/><circle cx="157" cy="50" r="3.2" style="'+f1+'"/>'
+            + baseLine + '</svg>';
+        case 'line':
+        default:
+          return open
+            + '<polyline points="26,86 58,86 82,58 110,80 136,40 166,94" style="'+ln+'"/>'
+            + baseLine + '</svg>';
+      }
+    }
+
+    function matches(p){
+      if(query && (p.name + ' ' + p.owner + ' ' + p.id).toLowerCase().indexOf(query) === -1) return false;
+      if(status !== 'all' && p.vis !== status) return false;
+      if(filter === 'fav')    return p.fav;
+      if(filter === 'recent') return p.updated <= 7;
+      if(filter === 'shared') return sharedSet.has(p.id);
+      if(CATS[filter])        return p.cat === filter;
+      return true; // all
+    }
+    function sorted(list){
+      const a = list.slice();
+      if(sort === 'name')  a.sort((x,y)=> x.name.localeCompare(y.name, 'ko'));
+      else if(sort === 'views') a.sort((x,y)=> y.views - x.views);
+      else a.sort((x,y)=> x.updated - y.updated); // recent
+      return a;
+    }
+
+    function cardHTML(p){
+      const v = VISMAP[p.vis] || VISMAP.public;
+      const visIcon = v.icon, visLabel = v.label;
+      return ''
+      + '<div class="rfn-widget rfn-widget--link rfn-card'+(selected.has(p.id)?' is-selected':'')+'" style="grid-column:span 4" data-id="'+p.id+'" tabindex="0" role="link" aria-label="'+esc(p.name)+' 열기">'
+      +   '<span class="rfn-card-check"><div class="rfn-checkbox" data-state="'+(selected.has(p.id)?'checked':'')+'" data-check role="checkbox" tabindex="0" aria-checked="'+(selected.has(p.id)?'true':'false')+'" title="선택" aria-label="선택"></div></span>'
+      +   '<span class="rfn-popover-anchor rfn-card-menu">'
+      +     '<button type="button" class="rfn-icon-btn rfn-icon-btn--sm" data-menu title="더보기" aria-label="더보기"><i class="ph ph-dots-three"></i></button>'
+      +     '<div class="rfn-popover" role="menu" aria-hidden="true">'
+      +       '<div class="rfn-popover-list">'
+      +         '<button type="button" class="rfn-popover-item" data-act="dup"><i class="ph ph-copy"></i><span class="lbl">복제</span></button>'
+      +         '<button type="button" class="rfn-popover-item" data-act="share"><i class="ph ph-share-network"></i><span class="lbl">공유</span></button>'
+      +       '</div>'
+      +     '</div>'
+      +   '</span>'
+      +   '<div class="rfn-card-cover">'
+      +     thumb(p.chart, 'var(--brand)')
+      +   '</div>'
+      +   '<div class="rfn-card-body">'
+      +     '<div class="rfn-card-main">'
+      +       '<div class="rfn-card-titlerow"><div class="rfn-card-title">'+esc(p.name)+'</div><span class="rfn-badge"><i class="ph ph-hash"></i>'+esc(p.slug)+'</span></div>'
+      +       (p.desc ? '<div class="rfn-card-desc"><span class="rfn-card-desc-txt">'+esc(p.desc)+'</span></div>' : '')
+      +     '</div>'
+      +     '<div class="rfn-card-foot">'
+      +       '<div class="rfn-card-foot-l">'
+      +         '<span class="rfn-card-meta-item"><i class="ph ph-squares-four"></i><span class="num">'+p.tiles+'</span>개</span>'
+      +         '<span class="rfn-card-meta-item rfn-card-vis--'+p.vis+'"><i class="ph '+visIcon+'"></i>'+visLabel+'</span>'
+      +       '</div>'
+      +       '<span class="rfn-card-time">'+rel(p.updated)+'</span>'
+      +     '</div>'
+      +   '</div>'
+      + '</div>';
+    }
+
+    // 리스트뷰 — 카테고리 그룹 안의 행 카드.
+    // 구성 항목·색상은 갤러리 카드(cardHTML)와 동일: 브랜드 썸네일 · 제목 ·
+    // "샘플 대시보드 (자동 시드)" + slug 뱃지 · 타일수 · 공개범위 · 상대시간.
+    function rowcardHTML(p){
+      const v = VISMAP[p.vis] || VISMAP.public;
+      return ''
+      + '<div class="rfn-rowcard'+(selected.has(p.id)?' is-selected':'')+'" data-id="'+p.id+'" tabindex="0" role="link" aria-label="'+esc(p.name)+' 열기">'
+      +   '<span class="rfn-rowcard-check"><div class="rfn-checkbox" data-state="'+(selected.has(p.id)?'checked':'')+'" data-check role="checkbox" tabindex="0" aria-checked="'+(selected.has(p.id)?'true':'false')+'" title="선택" aria-label="선택"></div></span>'
+      +   '<div class="rfn-rowcard-thumb">'+thumb(p.chart, 'var(--brand)')+'</div>'
+      +   '<div class="rfn-rowcard-main">'
+      +     '<div class="rfn-card-titlerow"><div class="rfn-card-title">'+esc(p.name)+'</div><span class="rfn-badge"><i class="ph ph-hash"></i>'+esc(p.slug)+'</span></div>'
+      +     (p.desc ? '<div class="rfn-card-desc"><span class="rfn-card-desc-txt">'+esc(p.desc)+'</span></div>' : '')
+      +   '</div>'
+      +   '<span class="rfn-card-meta-item"><i class="ph ph-squares-four"></i><span class="num">'+p.tiles+'</span>개</span>'
+      +   '<span class="rfn-card-meta-item rfn-card-vis--'+p.vis+'"><i class="ph '+v.icon+'"></i>'+v.label+'</span>'
+      +   '<span class="rfn-card-time">'+rel(p.updated)+'</span>'
+      +   '<span class="rfn-popover-anchor rfn-rowcard-menu">'
+      +     '<button type="button" class="rfn-icon-btn rfn-icon-btn--sm" data-menu title="더보기" aria-label="더보기"><i class="ph ph-dots-three"></i></button>'
+      +     '<div class="rfn-popover" role="menu" aria-hidden="true">'
+      +       '<div class="rfn-popover-list">'
+      +         '<button type="button" class="rfn-popover-item" data-act="dup"><i class="ph ph-copy"></i><span class="lbl">복제</span></button>'
+      +         '<button type="button" class="rfn-popover-item" data-act="share"><i class="ph ph-share-network"></i><span class="lbl">공유</span></button>'
+      +       '</div>'
+      +     '</div>'
+      +   '</span>'
+      + '</div>';
+    }
+    function listHTML(list){
+      return list.map(rowcardHTML).join('');
+    }
+
+    function render(){
+      const list = sorted(PLATES.filter(matches));
+      const isEmpty = list.length === 0;
+
+      grid.innerHTML = list.map(cardHTML).join('');
+      listWrap.innerHTML = isEmpty ? '' : listHTML(list);
+
+      grid.style.display     = (view === 'grid' && !isEmpty) ? '' : 'none';
+      listWrap.style.display = (view === 'list' && !isEmpty) ? '' : 'none';
+      emptyBox.style.display = isEmpty ? '' : 'none';
+      document.body.setAttribute('data-plate-overview', view);
+
+      bindCardEvents();
+    }
+
+    const CARD_SEL = '#plateGrid [data-id], #plateList [data-id]';
+    // 카탈로그에서 플레이트 열기 → 편집기 로드 + 해당 플레이트를 Sub Nav '메뉴' / 브레드크럼에 active
+    function gotoComposer(id){
+      var p = null;
+      for(var i=0;i<PLATES.length;i++){ if(PLATES[i].id === id){ p = PLATES[i]; break; } }
+      if(window.setPlateActive) window.setPlateActive(p ? p.slug : null, p ? p.name : null);
+      if(window.setPlateView){ window.setPlateView('composer'); } else { window.location.href = 'UI_Refinery_Plate.html'; }
+    }
+    function bindCardEvents(){
+      // 카드/행 클릭 → 편집기로 이동 (선택 모드면 선택 토글, 메뉴·체크박스 제외)
+      document.querySelectorAll(CARD_SEL).forEach(card=>{
+        card.addEventListener('click', function(e){
+          if(e.target.closest('.rfn-popover-anchor') || e.target.closest('[data-check]')) return;
+          if(selectMode){ toggleSelect(this.dataset.id); return; }
+          gotoComposer(this.dataset.id);
+        });
+        card.addEventListener('keydown', function(e){
+          if(e.key === 'Enter'){
+            if(selectMode){ e.preventDefault(); toggleSelect(this.dataset.id); return; }
+            gotoComposer(this.dataset.id);
+          }
+        });
+      });
+      // 선택 체크박스 (카드 + 행)
+      document.querySelectorAll('#plateGrid [data-check], #plateList [data-check]').forEach(box=>{
+        function toggle(e){
+          e.stopPropagation();
+          toggleSelect(box.closest('[data-id]').dataset.id);
+        }
+        box.addEventListener('click', toggle);
+        box.addEventListener('keydown', function(e){
+          if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); toggle(e); }
+        });
+      });
+      // 더보기 메뉴 (카드 + 행)
+      document.querySelectorAll('#plateGrid .rfn-popover-anchor, #plateList .rfn-popover-anchor').forEach(anchor=>{
+        const trigger = anchor.querySelector('[data-menu]');
+        const pop = anchor.querySelector('.rfn-popover');
+        trigger.addEventListener('click', function(e){
+          e.stopPropagation();
+          const open = pop.classList.contains('open');
+          closeAllMenus();
+          if(!open){ pop.classList.add('open'); pop.setAttribute('aria-hidden','false'); anchor.classList.add('is-open'); }
+        });
+        anchor.querySelectorAll('.rfn-popover-item').forEach(it=>{
+          it.addEventListener('click', function(e){
+            e.stopPropagation();
+            if(this.dataset.act === 'open') gotoComposer(anchor.closest('[data-id]').dataset.id);
+            closeAllMenus();
+          });
+        });
+      });
+    }
+    function closeAllMenus(){
+      document.querySelectorAll('#plateGrid .rfn-popover.open, #plateList .rfn-popover.open').forEach(p=>{ p.classList.remove('open'); p.setAttribute('aria-hidden','true'); });
+      document.querySelectorAll('#plateGrid .rfn-popover-anchor.is-open, #plateList .rfn-popover-anchor.is-open').forEach(a=>a.classList.remove('is-open'));
+    }
+    document.addEventListener('click', closeAllMenus);
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeAllMenus(); });
+
+    // ---- 선택(삭제) 모드 ----
+    function updateSelUI(){
+      const n = selected.size;
+      document.getElementById('actionsDefault').style.display = selectMode ? 'none' : 'flex';
+      document.getElementById('actionsSelect').style.display  = selectMode ? 'flex' : 'none';
+      grid.classList.toggle('rfn-cards--selecting', selectMode);
+      listWrap.classList.toggle('rfn-cards--selecting', selectMode);
+      const del = document.getElementById('btnDeleteSelect');
+      del.disabled = (n === 0);
+      del.querySelector('.lbl').textContent = n > 0 ? ('삭제 (' + n + ')') : '삭제';
+      document.getElementById('selCount').textContent = n + '개 선택됨';
+    }
+    function toggleSelect(id){
+      if(selected.has(id)) selected.delete(id); else selected.add(id);
+      render();
+      updateSelUI();
+    }
+    function enterSelectMode(){
+      selectMode = true; selected.clear();
+      render(); updateSelUI();
+    }
+    function exitSelectMode(){
+      selectMode = false; selected.clear();
+      render(); updateSelUI();
+    }
+    function deleteSelected(){
+      if(!selected.size) return;
+      for(let i = PLATES.length - 1; i >= 0; i--){ if(selected.has(PLATES[i].id)) PLATES.splice(i, 1); }
+      exitSelectMode();
+    }
+    document.getElementById('btnEnterSelect').addEventListener('click', enterSelectMode);
+    document.getElementById('btnCancelSelect').addEventListener('click', exitSelectMode);
+    document.getElementById('btnDeleteSelect').addEventListener('click', deleteSelected);
+
+    // ---- 컨트롤 바인딩 ----
+    // (Sub Nav 메뉴 항목 클릭은 통합 핸들러에서 처리 — 위 IIFE 의 [data-plate-menu] 바인딩)
+
+    // 뷰 전환 (grid / list)
+    document.querySelectorAll('#viewSeg button').forEach(b=>{
+      b.addEventListener('click', function(){
+        view = this.dataset.viewMode;
+        document.querySelectorAll('#viewSeg button').forEach(x=>x.classList.toggle('on', x===this));
+        saveState(); render();
+      });
+    });
+
+    // 상태 필터 / 정렬 팝오버 (공통 헬퍼)
+    function setupMenuChip(chipId, popId, labelId, attr, apply){
+      const chip = document.getElementById(chipId);
+      const pop  = document.getElementById(popId);
+      const label= document.getElementById(labelId);
+      chip.addEventListener('click', function(e){
+        e.stopPropagation();
+        const open = pop.classList.contains('open');
+        closeChips();
+        if(!open){ pop.classList.add('open'); pop.setAttribute('aria-hidden','false'); chip.setAttribute('aria-expanded','true'); }
+      });
+      pop.querySelectorAll('.rfn-popover-item').forEach(it=>{
+        it.addEventListener('click', function(e){
+          e.stopPropagation();
+          pop.querySelectorAll('.rfn-popover-item').forEach(x=>x.setAttribute('aria-checked','false'));
+          this.setAttribute('aria-checked','true');
+          label.textContent = this.querySelector('.lbl').textContent;
+          apply(this.dataset[attr]);
+          closeChips(); saveState(); render();
+        });
+      });
+    }
+    function closeChips(){
+      ['statusPop','sortPop'].forEach(id=>{ const p=document.getElementById(id); p.classList.remove('open'); p.setAttribute('aria-hidden','true'); });
+      ['statusChip','sortChip'].forEach(id=>document.getElementById(id).setAttribute('aria-expanded','false'));
+    }
+    document.addEventListener('click', closeChips);
+    setupMenuChip('statusChip','statusPop','statusChipLabel','statusFilter', v=>{ status = v; });
+    setupMenuChip('sortChip','sortPop','sortChipLabel','sort', v=>{ sort = v; });
+
+    // ---- 초기 상태 복원 + UI 동기화 ----
+    loadState();
+    // 통합 Sub Nav 의 'Overview' 항목 active 동기화 (Overview view 진입 시).
+    // 특정 대시보드 진입 시엔 PLATE_KEY 복원 IIFE 가 setPlateActive 로 처리.
+    if(document.body.getAttribute('data-view') === 'plate-overview'){
+      document.querySelectorAll('[data-plate-menu] .item[data-plate-menu-key]').forEach(x=>{
+        x.classList.toggle('active', x.getAttribute('data-plate-menu-key') === 'overview');
+      });
+    }
+    document.querySelectorAll('#viewSeg button').forEach(x=>x.classList.toggle('on', x.dataset.viewMode === view));
+    (function syncChip(popId,labelId,attr,val){
+      const pop=document.getElementById(popId), label=document.getElementById(labelId);
+      pop.querySelectorAll('.rfn-popover-item').forEach(it=>{
+        const on = it.dataset[attr] === val;
+        it.setAttribute('aria-checked', on?'true':'false');
+        if(on) label.textContent = it.querySelector('.lbl').textContent;
+      });
+    })('statusPop','statusChipLabel','statusFilter',status);
+    (function syncChip(popId,labelId,attr,val){
+      const pop=document.getElementById(popId), label=document.getElementById(labelId);
+      pop.querySelectorAll('.rfn-popover-item').forEach(it=>{
+        const on = it.dataset[attr] === val;
+        it.setAttribute('aria-checked', on?'true':'false');
+        if(on) label.textContent = it.querySelector('.lbl').textContent;
+      });
+    })('sortPop','sortChipLabel','sort',sort);
+
+    render();
+  })();
+</script>
+<script>
+  // ======== Nav Collapse ========
+  (function(){
+    const app  = document.querySelector('.app');
+    const rail = document.querySelector('.rail');
+    const side = document.querySelector('.side');
+
+    // Global Nav — 접기 (패널 아이콘 버튼)
+    document.getElementById('railCollapse').addEventListener('click', function(){
+      rail.classList.add('collapsed');
+      app.classList.add('rail-col');
+    });
+
+    // Global Nav — 펼치기 (kbd › 버튼)
+    document.getElementById('railExpand').addEventListener('click', function(){
+      rail.classList.remove('collapsed');
+      app.classList.remove('rail-col');
+    });
+
+    // Theme toggle — 계정 팝오버 안 Light/Dark 세그먼트
+    (function(){
+      const lightBtn = document.getElementById('themeLight');
+      const darkBtn = document.getElementById('themeDark');
+
+      function applyTheme(isDark){
+        document.body.classList.toggle('dark', isDark);
+        if(lightBtn) lightBtn.classList.toggle('on', !isDark);
+        if(darkBtn) darkBtn.classList.toggle('on', isDark);
+        // 새로고침 시 유지하기 위해 localStorage 에 저장
+        if(window.saveRefineryState) window.saveRefineryState();
+      }
+
+      // restoreRefineryState 에서 호출할 수 있도록 글로벌로 노출
+      window.applyTheme = applyTheme;
+
+      if(lightBtn) lightBtn.addEventListener('click', function(){ applyTheme(false); });
+      if(darkBtn)  darkBtn.addEventListener('click', function(){ applyTheme(true); });
+    })();
+
+    // Rail / Side 하단 페이드 — overflow 없거나 scroll 바닥일 때 fade 숨김(.at-bottom 토글)
+    (function(){
+      function bind(scrollEl, footerEl){
+        if(!scrollEl || !footerEl) return;
+        function check(){
+          var max = scrollEl.scrollHeight - scrollEl.clientHeight;
+          var atBottom = max <= 2 || scrollEl.scrollTop >= max - 2;
+          footerEl.classList.toggle('at-bottom', atBottom);
+        }
+        scrollEl.addEventListener('scroll', check, {passive:true});
+        window.addEventListener('resize', check);
+        check();
+        requestAnimationFrame(check);
+      }
+      bind(document.querySelector('.rail-scroll'), document.querySelector('.rail .bot'));
+      bind(document.querySelector('.side .nav'), document.querySelector('.side-close-bar'));
+    })();
+
+    // Sub Nav — 접기 (하단 버튼)
+    document.getElementById('sideCollapse').addEventListener('click', function(){
+      app.classList.add('side-col');
+      side.classList.add('collapsed');
+    });
+
+    // Sub Nav — 펼치기 (kbd › 배지, 접힌 상태 hover 시 등장)
+    document.getElementById('sideToggle').addEventListener('click', function(){
+      app.classList.remove('side-col');
+      side.classList.remove('collapsed');
+    });
+
+    // Sub Nav expand btn — Rail 전체 hover 시 표시
+    var sideExpandBtn = document.getElementById('sideToggle');
+    var hideTimer;
+    function showExpandBtn(){
+      clearTimeout(hideTimer);
+      if(side.classList.contains('collapsed')) sideExpandBtn.classList.add('visible');
+    }
+    function hideExpandBtn(){
+      hideTimer = setTimeout(function(){ sideExpandBtn.classList.remove('visible'); }, 200);
+    }
+    rail.addEventListener('mouseenter', showExpandBtn);
+    rail.addEventListener('mouseleave', hideExpandBtn);
+    sideExpandBtn.addEventListener('mouseenter', function(){ clearTimeout(hideTimer); });
+    sideExpandBtn.addEventListener('mouseleave', hideExpandBtn);
+  })();
+
+  // ======== Density Toggle ========
+  (function(){
+    const btn = document.getElementById('densityBtn');
+    const pop = document.getElementById('densityPopover');
+    const opts = pop.querySelectorAll('.density-opt');
+
+    // 저장된 밀도 복원
+    const saved = (function(){ try{ return localStorage.getItem('refinery-density'); }catch(e){ return null; } })();
+    if(saved && ['compact','default','comfortable'].includes(saved)){
+      applyDensity(saved);
+    }
+
+    function applyDensity(mode){
+      document.body.setAttribute('data-density', mode);
+      opts.forEach(o=>{
+        const isOn = o.dataset.density === mode;
+        o.classList.toggle('on', isOn);
+        o.setAttribute('aria-checked', isOn ? 'true':'false');
+      });
+      try{ localStorage.setItem('refinery-density', mode); }catch(e){}
+    }
+
+    function openPop(){
+      pop.classList.add('open');
+      pop.setAttribute('aria-hidden','false');
+      btn.setAttribute('aria-expanded','true');
+    }
+    function closePop(){
+      pop.classList.remove('open');
+      pop.setAttribute('aria-hidden','true');
+      btn.setAttribute('aria-expanded','false');
+    }
+
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      pop.classList.contains('open') ? closePop() : openPop();
+    });
+
+    opts.forEach(o=>{
+      o.addEventListener('click', function(e){
+        e.stopPropagation();
+        applyDensity(this.dataset.density);
+        closePop();
+      });
+    });
+
+    // 외부 클릭 시 닫기
+    document.addEventListener('click', function(e){
+      if(!pop.contains(e.target) && e.target !== btn && !btn.contains(e.target)){
+        closePop();
+      }
+    });
+    // ESC 키로 닫기
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && pop.classList.contains('open')) closePop();
+    });
+  })();
+
+  // ======== Fullscreen Toggle ========
+  (function(){
+    const btn = document.getElementById('fullscreenBtn');
+    const docEl = document.documentElement;
+
+    function isFs(){
+      return !!(document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement);
+    }
+    function enterFs(){
+      const fn = docEl.requestFullscreen || docEl.webkitRequestFullscreen || docEl.msRequestFullscreen;
+      if(fn) fn.call(docEl);
+    }
+    function exitFs(){
+      const fn = document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen;
+      if(fn) fn.call(document);
+    }
+    function syncState(){
+      document.body.classList.toggle('is-fullscreen', isFs());
+      btn.setAttribute('title', isFs() ? '전체화면 해제' : '전체화면');
+    }
+
+    btn.addEventListener('click', function(){
+      isFs() ? exitFs() : enterFs();
+    });
+
+    document.addEventListener('fullscreenchange', syncState);
+    document.addEventListener('webkitfullscreenchange', syncState);
+    document.addEventListener('msfullscreenchange', syncState);
+  })();
+
+  // ======== Application 즐겨찾기 + Favorites 영역 ========
+  (function(){
+    const items = document.querySelectorAll('#appGroupItems .ic');
+    const favContainer = document.getElementById('favGroupItems');
+    const favSection = document.getElementById('favSection');
+    const favToggle = document.getElementById('favGroupToggle');
+    if(!items.length || !favContainer) return;
+
+    const STORAGE_KEY = 'refinery-app-favorites';
+    const FAV_COLLAPSE_KEY = 'refinery-fav-group';
+
+    // 저장된 즐겨찾기 순서 복원 (Set 대신 배열로 유지해 순서 보존)
+    let favOrder = [];
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(raw) favOrder = JSON.parse(raw) || [];
+    }catch(e){ favOrder = []; }
+    const inFav = (key)=> favOrder.indexOf(key) !== -1;
+
+    function applyState(ic){
+      const key = ic.dataset.key;
+      const btn = ic.querySelector('.fav-btn');
+      // 채움 상태에선 .ph 클래스가 사라지므로 <i> 태그 자체를 잡는다
+      const icon = btn && btn.querySelector('i');
+      const isOn = inFav(key);
+      if(!btn || !icon) return;
+      // 별 버튼 상태만 토글 — .active는 현재 활성화된 페이지 표시이므로 건드리지 않음
+      btn.classList.toggle('on', isOn);
+      btn.setAttribute('aria-pressed', isOn ? 'true' : 'false');
+      btn.setAttribute('aria-label', isOn ? '즐겨찾기 해제' : '즐겨찾기 추가');
+      icon.className = isOn ? 'ph-fill ph-star' : 'ph ph-star';
+    }
+
+    function persist(){
+      try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(favOrder)); }catch(e){}
+    }
+
+    // Favorites 영역 다시 그리기 — 즐겨찾기가 하나도 없으면 섹션 전체를 숨김
+    function renderFavorites(){
+      favContainer.innerHTML = '';
+      const isEmpty = favOrder.length === 0;
+      if(favSection) favSection.classList.toggle('empty', isEmpty);
+      if(isEmpty) return;
+
+      favOrder.forEach(key=>{
+        // 원본 아이템에서 아이콘/라벨/title을 복제
+        const src = document.querySelector('#appGroupItems .ic[data-key="'+key+'"]');
+        if(!src) return;
+        const phIcon = src.querySelector(':scope > .ph');
+        const lbl = src.querySelector(':scope > .lbl');
+        // 뱃지가 있으면 함께 복제 (New, Hot 등)
+        const badge = src.querySelector(':scope > .rail-badge');
+
+        const node = document.createElement('div');
+        // FAVORITES 영역에선 현재 페이지(.active) 하이라이트를 제거 — 즐겨찾기 자체만 표시
+        node.className = 'ic';
+        node.setAttribute('title', src.getAttribute('title') || '');
+        node.dataset.key = key;
+        node.dataset.favRef = '1';
+        // 원본의 data-view 복사 → 클릭 시 view 전환 가능
+        if(src.dataset.view) node.dataset.view = src.dataset.view;
+        if(src.dataset.nav)  node.dataset.nav  = src.dataset.nav;
+        node.innerHTML = ''
+          + '<i class="'+(phIcon ? phIcon.className : 'ph ph-circle')+'"></i>'
+          + '<span class="lbl">'+(lbl ? lbl.textContent : key)+'</span>'
+          + (badge ? badge.outerHTML : '')
+          + '<button class="fav-btn on" type="button" aria-label="즐겨찾기 해제" aria-pressed="true"><i class="ph-fill ph-star"></i></button>';
+
+        // Favorites 영역의 별 클릭 → 해당 항목 즐겨찾기 해제
+        node.querySelector('.fav-btn').addEventListener('click', function(e){
+          e.stopPropagation();
+          toggleKey(key);
+        });
+
+        // 행 클릭 → 즐겨찾기 항목으로 이동 (별 버튼 제외)
+        // data-nav(다른 파일)=크로스파일 이동 / data-view(같은 파일)=인페이지 뷰 전환.
+        // 셸 위임 핸들러에만 의존하지 않고 자체적으로 이동을 보장 (특히 data-view 없는 대시보드 즐겨찾기).
+        node.addEventListener('click', function(e){
+          if(e.target.closest('.fav-btn')) return;
+          var nav = this.dataset.nav;
+          var cur = (location.pathname.split('/').pop() || '').split('?')[0];
+          if(nav && nav !== cur){
+            try{ localStorage.setItem('refinery-nav-active', JSON.stringify({ file: nav, key: this.dataset.key || nav, src: 'fav' })); }catch(_e){}
+            try{ sessionStorage.setItem('refinery-fresh-nav', '1'); }catch(_e){}
+            window.location.href = nav;
+            return;
+          }
+          if(this.dataset.view && window.setView) window.setView(this.dataset.view, this);
+        });
+
+        favContainer.appendChild(node);
+      });
+    }
+
+    function toggleKey(key){
+      const idx = favOrder.indexOf(key);
+      if(idx >= 0) favOrder.splice(idx, 1);
+      else favOrder.push(key);
+      // 원본 아이템 상태 동기화
+      const src = document.querySelector('#appGroupItems .ic[data-key="'+key+'"]');
+      if(src) applyState(src);
+      persist();
+      renderFavorites();
+    }
+
+    // 원본 Application 아이템들에 별 클릭 핸들러 등록 + 초기 상태 반영
+    items.forEach(ic=>{
+      applyState(ic);
+      const btn = ic.querySelector('.fav-btn');
+      if(!btn) return;
+      btn.addEventListener('click', function(e){
+        e.stopPropagation();
+        toggleKey(ic.dataset.key);
+      });
+    });
+
+    // Favorites 그룹 접기/펼치기 (APPLICATION 토글과 동일 패턴)
+    if(favToggle){
+      const savedFavCollapsed = (function(){ try{ return localStorage.getItem(FAV_COLLAPSE_KEY); }catch(e){ return null; } })();
+      if(savedFavCollapsed === 'collapsed'){
+        favContainer.classList.add('collapsed');
+        favToggle.setAttribute('aria-expanded','false');
+      }
+      favToggle.addEventListener('click', function(){
+        const isCollapsed = favContainer.classList.toggle('collapsed');
+        favToggle.setAttribute('aria-expanded', isCollapsed ? 'false' : 'true');
+        try{ localStorage.setItem(FAV_COLLAPSE_KEY, isCollapsed ? 'collapsed' : 'expanded'); }catch(e){}
+      });
+    }
+
+    // 최초 렌더
+    renderFavorites();
+  })();
+
+  // ======== Application 그룹 접기/펼치기 ========
+  (function(){
+    const toggle = document.getElementById('appGroupToggle');
+    const items = document.getElementById('appGroupItems');
+    if(!toggle || !items) return;
+
+    // 저장된 상태 복원 (기본은 펼친 상태)
+    const saved = (function(){ try{ return localStorage.getItem('refinery-app-group'); }catch(e){ return null; } })();
+    if(saved === 'collapsed'){
+      items.classList.add('collapsed');
+      toggle.setAttribute('aria-expanded','false');
+    }
+
+    toggle.addEventListener('click', function(){
+      const isCollapsed = items.classList.toggle('collapsed');
+      toggle.setAttribute('aria-expanded', isCollapsed ? 'false' : 'true');
+      try{ localStorage.setItem('refinery-app-group', isCollapsed ? 'collapsed' : 'expanded'); }catch(e){}
+    });
+  })();
+
+  // ======== User Popover (Global Nav 계정 메뉴) ========
+  (function(){
+    const btn = document.getElementById('userBtn');
+    const pop = document.getElementById('userPopover');
+    if(!btn || !pop) return;
+
+    // rail 아바타 이미지를 팝오버 헤드에도 동일하게 반영
+    const railAvatarImg = document.querySelector('.rail .bot-user .avatar img');
+    const popAvatarImg = pop.querySelector('.user-pop-head .avatar img');
+    if(railAvatarImg && popAvatarImg){
+      popAvatarImg.src = railAvatarImg.src;
+      popAvatarImg.style.display = '';
+    }
+
+    function openPop(){
+      pop.classList.add('open');
+      pop.setAttribute('aria-hidden','false');
+      btn.setAttribute('aria-expanded','true');
+    }
+    function closePop(){
+      pop.classList.remove('open');
+      pop.setAttribute('aria-hidden','true');
+      btn.setAttribute('aria-expanded','false');
+    }
+
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      pop.classList.contains('open') ? closePop() : openPop();
+    });
+    btn.addEventListener('keydown', function(e){
+      if(e.key === 'Enter' || e.key === ' '){
+        e.preventDefault();
+        pop.classList.contains('open') ? closePop() : openPop();
+      }
+    });
+
+    // 메뉴 아이템 클릭 처리 (현재는 콘솔 로그 + 팝오버 닫기)
+    pop.querySelectorAll('.user-pop-item').forEach(item=>{
+      item.addEventListener('click', function(e){
+        e.stopPropagation();
+        const action = this.dataset.action;
+        // 실제 라우팅은 추후 페이지 연결 시 구현
+        console.log('[user menu]', action);
+        if(action === 'logout'){
+          window.location.href = 'UI_Refinery_Login.html';
+          return;
+        }
+        closePop();
+      });
+    });
+
+    // 외부 클릭 시 닫기
+    document.addEventListener('click', function(e){
+      if(!pop.contains(e.target) && e.target !== btn && !btn.contains(e.target)){
+        closePop();
+      }
+    });
+    // ESC 키로 닫기
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && pop.classList.contains('open')) closePop();
+    });
+  })();
+
+  // ======== Topbar Search Toggle ========
+  (function(){
+    const btn = document.getElementById('searchBtn');
+    const pop = document.getElementById('searchPopover');
+    const input = document.getElementById('topbarSearchInput');
+
+    function openPop(){
+      pop.classList.add('open');
+      pop.setAttribute('aria-hidden','false');
+      btn.setAttribute('aria-expanded','true');
+      setTimeout(()=>input.focus(), 50);
+    }
+    function closePop(){
+      pop.classList.remove('open');
+      pop.setAttribute('aria-hidden','true');
+      btn.setAttribute('aria-expanded','false');
+      input.blur();
+    }
+
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      pop.classList.contains('open') ? closePop() : openPop();
+    });
+
+    // 외부 클릭 시 닫기
+    document.addEventListener('click', function(e){
+      if(!pop.contains(e.target) && e.target !== btn && !btn.contains(e.target)){
+        if(pop.classList.contains('open')) closePop();
+      }
+    });
+    // ESC 키로 닫기
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && pop.classList.contains('open')) closePop();
+    });
+  })();
+</script>
+<script>
+/* ============================================================
+   Refinery Shell — 통합 크로스파일 내비게이션 · 테마 · 진입 규칙 · Active 소유
+   Dashboard / DesignSystem / Ontology 3개 파일 동일 적용
+   ============================================================ */
+(function(){
+  var THEME_KEY  = 'refinery-theme';
+  var FRESH_KEY  = 'refinery-fresh-nav';
+  var ACTIVE_KEY = 'refinery-nav-active';
+  var body = document.body;
+  var rail = document.querySelector('.rail');
+  var curFile = (location.pathname.split('/').pop() || '').split('?')[0];
+
+  /* 1) 공유 테마 — 항상 refinery-theme 기준으로 3파일 통일 */
+  function persistTheme(){ if(window.self!==window.top) return; try{ localStorage.setItem(THEME_KEY, body.classList.contains('dark') ? 'dark' : 'light'); }catch(e){} }
+  var __t = null; try{ __t = (window.self===window.top) ? localStorage.getItem(THEME_KEY) : 'light'; }catch(e){}
+  var __isDark = (window.self!==window.top) ? false : ((__t === 'dark') ? true : (__t === 'light' ? false : body.classList.contains('dark')));
+  /* body + 세그먼트 토글 + 아이콘까지 일괄 동기화 — restore 없는 파일(Ontology)의 토글 desync 교정 */
+  if(typeof window.applyTheme === 'function') window.applyTheme(__isDark);
+  else body.classList.toggle('dark', __isDark);
+  ['themeLight','themeDark'].forEach(function(id){
+    var b = document.getElementById(id);
+    if(b) b.addEventListener('click', function(){ setTimeout(persistTheme, 0); });
+  });
+  persistTheme();
+
+  /* ── Active 소유 모델 ──────────────────────────────────────
+     원칙 1) FAVORITE 와 APPLICATION 에 active 가 동시에 존재할 수 없음 (rail 전체 단 1개).
+     원칙 2) active 는 "클릭한 섹션" 이 소유 — FAVORITE 에서 클릭 시 FAVORITE 항목이 active,
+             APPLICATION 에서 클릭 시 APPLICATION 항목이 active. 반대편 쌍둥이는 normal.
+     {file,key,src} 를 localStorage 에 영속화 → 크로스파일·새로고침에도 소유 섹션 유지. */
+  function sectionOf(el){
+    if(el.hasAttribute('data-fav-ref')) return 'fav';
+    if(el.closest('#appGroupItems'))    return 'app';
+    return 'standalone';
+  }
+  function standaloneSelf(){
+    return [].slice.call(document.querySelectorAll('.rail .ic[data-nav="' + curFile + '"]'))
+      .filter(function(n){ return !n.closest('#appGroupItems') && !n.hasAttribute('data-fav-ref'); })[0] || null;
+  }
+  function resolveActiveEl(){
+    var raw = null;
+    try{ raw = JSON.parse(localStorage.getItem(ACTIVE_KEY) || 'null'); }catch(e){ raw = null; }
+    var src, key;
+    if(raw && raw.file === curFile){ src = raw.src; key = raw.key; }
+    else {
+      var appSelf = document.querySelector('#appGroupItems .ic[data-nav="' + curFile + '"]');
+      if(appSelf){ src = 'app'; key = appSelf.dataset.key; }
+      else { src = 'standalone'; var st = standaloneSelf(); key = st ? (st.dataset.key || st.dataset.nav) : curFile; }
+    }
+    var el = null;
+    if(src === 'fav'){ el = document.querySelector('#favGroupItems .ic[data-key="' + key + '"]'); if(!el) src = 'app'; }
+    if(src === 'app'){ el = document.querySelector('#appGroupItems .ic[data-key="' + key + '"]'); if(!el) src = 'standalone'; }
+    if(src === 'standalone'){ el = standaloneSelf() || document.querySelector('#appGroupItems .ic[data-nav="' + curFile + '"]'); }
+    return el;
+  }
+  function applyActive(){
+    var el = resolveActiveEl();
+    document.querySelectorAll('.rail .ic.active').forEach(function(i){ i.classList.remove('active'); });
+    if(el) el.classList.add('active');
+  }
+
+  /* 2) 크로스파일 내비 — Global Nav + FAVORITES(동적 클론) 위임 처리 + Active 소유 기록 */
+  function go(target){
+    try{ sessionStorage.setItem(FRESH_KEY, '1'); }catch(e){}
+    window.location.href = target;
+  }
+  (rail || document).addEventListener('click', function(e){
+    if(e.target.closest('.fav-btn')) return;
+    var el = e.target.closest('.ic[data-nav]');
+    if(!el) return;
+    var target = el.getAttribute('data-nav');
+    var src = sectionOf(el);
+    var key = el.dataset.key || el.dataset.nav;
+    try{ localStorage.setItem(ACTIVE_KEY, JSON.stringify({ file: el.dataset.nav, key: key, src: src })); }catch(e){}
+    if(target && target !== curFile){ e.preventDefault(); go(target); }
+    else { setTimeout(applyActive, 0); }   // 같은 파일: 다른 click 핸들러 이후 Active 최종 확정
+  }, true);
+
+  /* 3) 진입 규칙 — Global Nav 진입(fresh)=섹션 첫 Sub Nav 로, 새로고침=직전 sub-page 유지(가이드 §3) */
+  var fresh = false;
+  try{ fresh = sessionStorage.getItem(FRESH_KEY) === '1'; if(fresh) sessionStorage.removeItem(FRESH_KEY); }catch(e){}
+  if(fresh){
+    var view = body.getAttribute('data-view');
+    var firstItem = document.querySelector(
+      '[data-side-view="' + view + '"] [data-onto-page], [data-side-view="' + view + '"] [data-ds-page]'
+    );
+    if(firstItem) firstItem.click();
+    var pageEl = document.querySelector('.page');
+    if(pageEl) pageEl.scrollTo({ top:0, left:0, behavior:'auto' });
+  }
+
+  /* 4) Active 최종 적용 — 파일별 restore/뷰스위처가 건드린 것을 Shell 이 권위적으로 통일.
+        FAVORITES 동적 재렌더(별 토글) 시에도 소유 섹션 유지하도록 관찰. */
+  applyActive();
+  var favBox = document.getElementById('favGroupItems');
+  if(favBox && window.MutationObserver){
+    new MutationObserver(function(){ applyActive(); }).observe(favBox, { childList:true });
+  }
+})();
+</script>
+<script>
+/* Account avatar — 계정명 첫 영문자를 이니셜로 표시 (이미지 업로드 전 기본 상태) */
+(function(){
+  function pickInitial(){
+    var nameEl = document.querySelector('.rail .bot-name')
+              || document.querySelector('.user-pop-head .info .name');
+    var s = (nameEl && nameEl.textContent) || '';
+    if(!/[A-Za-z]/.test(s)){
+      var em = document.querySelector('.rail .bot-email') || document.querySelector('.user-pop-head .info .email');
+      s = (em && em.textContent) || '';
+    }
+    var m = s.match(/[A-Za-z]/);
+    return m ? m[0].toUpperCase() : 'U';
+  }
+  var ch = pickInitial();
+  document.querySelectorAll('.avatar').forEach(function(a){
+    var ini = a.querySelector('.avatar-initial');
+    if(ini) ini.textContent = ch;
+    var img = a.querySelector('img');
+    // 사용자가 이미지를 업로드(=img에 유효 src)하면 이미지로 대체, 그 전까지는 이니셜
+    a.classList.toggle('has-img', !!(img && img.getAttribute('src')));
+  });
+})();
+</script>
+<script>
+(function() {
+  if (location.search.indexOf('embed=1') === -1) return;
+  function collapseNow() {
+    var app = document.querySelector('.app');
+    var rail = document.querySelector('.rail');
+    var side = document.querySelector('.side');
+    if (app) { app.style.transition = 'none'; app.classList.add('rail-col'); app.classList.add('side-col'); }
+    if (rail) { rail.style.transition = 'none'; rail.classList.add('collapsed'); }
+    if (side) { side.style.transition = 'none'; side.classList.add('collapsed'); }
+    void document.documentElement.offsetWidth;
+    document.documentElement.style.visibility = '';
+  }
+  collapseNow();
+  document.addEventListener('DOMContentLoaded', collapseNow);
+  window.addEventListener('load', collapseNow);
+  setTimeout(collapseNow, 50);
+  setTimeout(collapseNow, 300);
+})();
+</script>
+</body>
+</html>

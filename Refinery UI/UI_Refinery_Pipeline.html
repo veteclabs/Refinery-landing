@@ -1,0 +1,1706 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Refinery — 파이프라인</title>
+<!-- ============================================================
+     Refinery — 파이프라인 (Schema / ERD Snapshot Diff)
+     Global Nav: 파이프라인 · data-view="pipeline"
+     Styles: refinery.css (single source of truth · linked)
+     Components used: app-shell, rfn-tree, rfn-erd, rfn-node, rfn-tabs(1·2depth),
+                      kpi, rfn-widget, rfn-table, rfn-toggle, rfn-empty, chip, rfn-btn
+     Built following skill: refinery-html-page (Refinery_DesignSystem_Guide.md)
+     Generated: 2026-05-22
+     ============================================================ -->
+<!-- ============================================================
+     Favicon · 단일 정적 심볼 (라이트/다크/시크릿 모드 무관 · 동일 적용)
+     ============================================================ -->
+<link rel="icon" type="image/svg+xml" href="fav_refienry-symbol.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<!-- ============================================================
+     ICON SYSTEM — Phosphor Icons (Regular weight)
+     모든 아이콘은 Phosphor Regular 가중치로 통일합니다.
+     사용법: <i class="ph ph-icon-name"></i>
+     아이콘 검색: https://phosphoricons.com
+     크기 조정: font-size로 (기본 컨텍스트별 규칙은 하단 CSS 참조)
+     색상 조정: color 속성 (자동으로 currentColor 상속)
+     향후 추가되는 모든 아이콘도 반드시 이 방식을 따를 것.
+     ============================================================ -->
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<!-- 즐겨찾기 노란 채움별 등 fill 가중치 글리프용 (예외적 사용) -->
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<link rel="stylesheet" href="refinery.css">
+</head>
+<body class="app-side-wide" data-view="pipeline" data-pl-page="erd" data-pl-diff="on">
+<script>try{if(window.self===window.top && localStorage.getItem("refinery-theme")==="dark")document.body.classList.add("dark");}catch(e){}</script>
+
+<div class="app side-col">
+
+  <!-- ============ Global Nav ============ -->
+<aside class="rail">
+    <button class="rail-expand-btn" id="railExpand" title="내비게이션 펼치기"><i class="ph ph-caret-right"></i></button>
+    <div class="logo-dot">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 32 32">
+        <g transform="translate(-8 -14)">
+          <g transform="translate(10.289 16.289)">
+            <g transform="translate(1.318 1.318)">
+              <path fill="#16202C" d="M55.606,40H42.754A2.754,2.754,0,0,0,40,42.754V55.606a2.754,2.754,0,0,0,2.754,2.754h2.3a1.377,1.377,0,0,1-1.377-1.377V45.049a1.377,1.377,0,0,1,1.377-1.377H56.983a1.377,1.377,0,0,1,1.377,1.377v-2.3A2.754,2.754,0,0,0,55.606,40Z" transform="translate(-40 -40)"/>
+              <path fill="#16202C" d="M195.606,180h-2.3a1.377,1.377,0,0,1,1.377,1.377v11.934a1.377,1.377,0,0,1-1.377,1.377H181.377A1.377,1.377,0,0,1,180,193.311v2.3a2.754,2.754,0,0,0,2.754,2.754h12.852a2.754,2.754,0,0,0,2.754-2.754V182.754A2.754,2.754,0,0,0,195.606,180Z" transform="translate(-173.574 -173.574)"/>
+            </g>
+          </g>
+        </g>
+      </svg>
+      <span class="logo-name">Refinery</span>
+      <button class="rail-collapse-btn" id="railCollapse" title="내비게이션 접기">
+        <i class="ph ph-sidebar-simple"></i>
+      </button>
+    </div>
+
+    <div class="rail-scroll">
+      <!-- ============ 영역 1 : 개인/콘텐츠 ============ -->
+      <div class="ic" title="홈">
+        <i class="ph ph-house"></i>
+        <span class="lbl">홈</span>
+      </div>
+      <div class="ic" title="검색">
+        <i class="ph ph-magnifying-glass"></i>
+        <span class="lbl">검색</span>
+      </div>
+      <div class="ic" title="알림">
+        <i class="ph ph-bell"></i>
+        <span class="lbl">알림</span>
+        <span class="rail-badge rail-badge-count">13</span>
+      </div>
+      <div class="ic" title="최근">
+        <i class="ph ph-clock-counter-clockwise"></i>
+        <span class="lbl">최근</span>
+      </div>
+      <div class="ic" title="즐겨찾기">
+        <i class="ph ph-star"></i>
+        <span class="lbl">즐겨찾기</span>
+      </div>
+      <div class="ic" title="파일">
+        <i class="ph ph-file"></i>
+        <span class="lbl">파일</span>
+      </div>
+      <div class="ic" title="데이터셋">
+        <i class="ph ph-database"></i>
+        <span class="lbl">데이터셋</span>
+      </div>
+
+      <div class="sep"></div>
+
+      <!-- ============ FAVORITES (즐겨찾기) — 즐겨찾기가 있을 때만 노출 ============ -->
+      <div class="fav-section" id="favSection">
+        <button class="rail-group-title" id="favGroupToggle" type="button" aria-expanded="true" aria-controls="favGroupItems">
+          <span class="lbl">Favorites</span>
+          <i class="ph ph-caret-down caret"></i>
+        </button>
+        <div class="rail-group-items" id="favGroupItems"></div>
+        <div class="sep"></div>
+      </div>
+
+      <!-- ============ 영역 2 : Application ============ -->
+      <button class="rail-group-title" id="appGroupToggle" type="button" aria-expanded="true" aria-controls="appGroupItems">
+        <span class="lbl">Application</span>
+        <i class="ph ph-caret-down caret"></i>
+      </button>
+      <div class="rail-group-items" id="appGroupItems">
+        <div class="ic" title="대시보드" data-key="dashboard" data-nav="UI_Refinery_Dashboard.html">
+          <i class="ph ph-squares-four"></i>
+          <span class="lbl">대시보드</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="AI 어시스턴트" data-key="llm">
+          <i class="ph ph-sparkle"></i>
+          <span class="lbl">AI 어시스턴트</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="공장/도면" data-key="factory">
+          <i class="ph ph-factory"></i>
+          <span class="lbl">공장/도면</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="플레이트" data-key="plate">
+          <i class="ph ph-presentation"></i>
+          <span class="lbl">플레이트</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="타일" data-key="tile" data-view="tile" data-nav="UI_Refinery_Tile.html">
+          <i class="ph ph-grid-four"></i>
+          <span class="lbl">타일</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="분석" data-key="analytics">
+          <i class="ph ph-chart-bar"></i>
+          <span class="lbl">분석</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="에너지" data-key="energy">
+          <i class="ph ph-lightning"></i>
+          <span class="lbl">에너지</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="노트북" data-key="notebook">
+          <i class="ph ph-notebook"></i>
+          <span class="lbl">노트북</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="시트" data-key="sheet">
+          <i class="ph ph-table"></i>
+          <span class="lbl">시트</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic active" title="파이프라인" data-key="pipeline" data-view="pipeline" data-nav="UI_Refinery_Pipeline.html">
+          <i class="ph ph-flow-arrow"></i>
+          <span class="lbl">파이프라인</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="온톨로지" data-key="ontology" data-view="ontology" data-nav="UI_Refinery_Ontology.html">
+          <i class="ph ph-tree-structure"></i>
+          <span class="lbl">온톨로지</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="캘린더" data-key="calendar" data-view="calendar" data-nav="UI_Refinery_Calendar.html">
+          <i class="ph ph-calendar-blank"></i>
+          <span class="lbl">캘린더</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="코드 리포지토리" data-key="code-repo">
+          <i class="ph ph-brackets-angle"></i>
+          <span class="lbl">코드 리포지토리</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="오브젝트 탐색기" data-key="object-explorer">
+          <i class="ph ph-stack"></i>
+          <span class="lbl">오브젝트</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="데이터 흐름" data-key="data-flow">
+          <i class="ph ph-pulse"></i>
+          <span class="lbl">데이터흐름</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="데이터 품질" data-key="data-quality">
+          <i class="ph ph-check-square"></i>
+          <span class="lbl">데이터품질</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="탐색기" data-key="explorer">
+          <i class="ph ph-compass"></i>
+          <span class="lbl">탐색기</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+        <div class="ic" title="에너지 고지서" data-key="energy-bill">
+          <i class="ph ph-receipt"></i>
+          <span class="lbl">에너지 고지서</span>
+          <button class="fav-btn" type="button" aria-label="즐겨찾기" aria-pressed="false"><i class="ph ph-star"></i></button>
+        </div>
+      </div>
+
+      <div class="sep"></div>
+
+      <!-- ============ 영역 3 : 시스템 ============ -->
+      <div class="ic" title="설정">
+        <i class="ph ph-gear"></i>
+        <span class="lbl">설정</span>
+      </div>
+      <div class="ic" title="조직관리">
+        <i class="ph ph-users-three"></i>
+        <span class="lbl">조직관리</span>
+      </div>
+      <div class="ic" title="도움말">
+        <i class="ph ph-question"></i>
+        <span class="lbl">도움말</span>
+      </div>
+      <div class="ic" title="Design System" data-nav="UI_Refinery_DesignSystem.html">
+        <i class="ph ph-palette"></i>
+        <span class="lbl">Design System</span>
+      </div>
+    </div>
+
+    <div class="bot">
+      <div class="bot-user-wrap">
+      <div class="bot-user" id="userBtn" role="button" tabindex="0" aria-haspopup="menu" aria-expanded="false" aria-controls="userPopover">
+        <div class="avatar"><span class="avatar-initial"></span></div>
+        <div class="bot-info">
+          <div class="bot-name">Hyeyoung Han</div>
+          <div class="bot-email">hyhan@vetec.co.kr</div>
+        </div>
+        <i class="ph ph-caret-up caret"></i>
+      </div>
+
+      <div class="user-popover" id="userPopover" role="menu" aria-hidden="true">
+        <div class="user-pop-head">
+          <div class="avatar"><span class="avatar-initial"></span></div>
+          <div class="info">
+            <div class="name">Hyeyoung Han</div>
+            <div class="email">hyhan@vetec.co.kr</div>
+          </div>
+        </div>
+
+        <div class="user-pop-list">
+          <button class="user-pop-item" role="menuitem" data-action="user-settings">
+            <i class="ph ph-user-gear"></i>
+            <span class="lbl">사용자 설정</span>
+          </button>
+          <button class="user-pop-item" role="menuitem" data-action="notif-settings">
+            <i class="ph ph-bell-ringing"></i>
+            <span class="lbl">알림 설정</span>
+          </button>
+          <button class="user-pop-item" role="menuitem" data-action="notif-list">
+            <i class="ph ph-bell"></i>
+            <span class="lbl">알림 목록</span>
+            <span class="badge">3</span>
+          </button>
+        </div>
+
+        <div class="user-pop-sep"></div>
+
+        <div class="user-pop-theme" role="group" aria-label="화면 모드">
+          <div class="user-pop-theme-label">
+            <i class="ph ph-circle-half"></i>
+            <span class="lbl">화면 모드</span>
+          </div>
+          <div class="seg theme-seg">
+            <button class="on" id="themeLight" type="button" title="Light 모드로 전환">
+              <i class="ph ph-sun"></i>Light
+            </button>
+            <button id="themeDark" type="button" title="Dark 모드로 전환">
+              <i class="ph ph-moon"></i>Dark
+            </button>
+          </div>
+        </div>
+
+        <div class="user-pop-sep"></div>
+
+        <div class="user-pop-list">
+          <button class="user-pop-item" role="menuitem" data-action="logout">
+            <i class="ph ph-sign-out"></i>
+            <span class="lbl">로그아웃</span>
+          </button>
+        </div>
+      </div>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ============ Sub Nav (Schema Tree) ============ -->
+  <aside class="side collapsed">
+    <button class="side-expand-btn" id="sideToggle" title="메뉴 펼치기"><i class="ph ph-caret-right"></i></button>
+    <div class="search">
+      <i class="ph ph-magnifying-glass"></i>
+      <input id="sideSearchInput" placeholder="스키마 검색..." style="font-family:var(--font-kr)">
+      <kbd>/</kbd>
+    </div>
+
+    <div class="nav">
+      <!-- ======== Sub Nav: Pipeline (Schema Tree) ======== -->
+      <div data-side-view="pipeline">
+        <div class="rfn-tree" data-pl-tree>
+
+          <!-- ===== Tables ===== -->
+          <div class="rfn-tree-node">
+            <div class="rfn-tree-row group open" data-tree-toggle>
+              <span class="rfn-tree-chev"><i class="ph ph-caret-right"></i></span>
+              <span class="rfn-tree-ic"><i class="ph ph-table"></i></span>
+              <span class="rfn-tree-lbl">Tables</span>
+            </div>
+            <div class="rfn-tree-children">
+
+              <div class="rfn-tree-node">
+                <div class="rfn-tree-row" data-pl-focus="tenants">
+                  <span class="rfn-tree-chev leaf"></span>
+                  <span class="rfn-tree-ic"><i class="ph ph-table"></i></span>
+                  <span class="rfn-tree-lbl">tenants</span>
+                </div>
+              </div>
+
+              <div class="rfn-tree-node">
+                <div class="rfn-tree-row" data-pl-focus="sites">
+                  <span class="rfn-tree-chev leaf"></span>
+                  <span class="rfn-tree-ic"><i class="ph ph-table"></i></span>
+                  <span class="rfn-tree-lbl">sites</span>
+                </div>
+              </div>
+
+              <!-- meters (changed) -->
+              <div class="rfn-tree-node">
+                <div class="rfn-tree-row changed open" data-tree-toggle data-pl-focus="meters">
+                  <span class="rfn-diff-bar"></span>
+                  <span class="rfn-tree-chev"><i class="ph ph-caret-right"></i></span>
+                  <span class="rfn-tree-ic"><i class="ph ph-table"></i></span>
+                  <span class="rfn-tree-mark">~</span>
+                  <span class="rfn-tree-lbl">meters</span>
+                </div>
+                <div class="rfn-tree-children">
+                  <div class="rfn-tree-node">
+                    <div class="rfn-tree-row group open" data-tree-toggle>
+                      <span class="rfn-tree-chev"><i class="ph ph-caret-right"></i></span>
+                      <span class="rfn-tree-ic"><i class="ph ph-list-dashes"></i></span>
+                      <span class="rfn-tree-lbl">Columns</span>
+                    </div>
+                    <div class="rfn-tree-children">
+                      <div class="rfn-tree-node"><div class="rfn-tree-row"><span class="rfn-tree-chev leaf"></span><span class="rfn-tree-ic"><i class="ph ph-key"></i></span><span class="rfn-tree-lbl">meter_id</span><span class="rfn-tree-type">uuid</span></div></div>
+                      <div class="rfn-tree-node"><div class="rfn-tree-row"><span class="rfn-tree-chev leaf"></span><span class="rfn-tree-ic"><i class="ph ph-link"></i></span><span class="rfn-tree-lbl">site_id</span><span class="rfn-tree-type">uuid</span></div></div>
+                      <div class="rfn-tree-node"><div class="rfn-tree-row"><span class="rfn-tree-chev leaf"></span><span class="rfn-tree-ic"><i class="ph ph-columns"></i></span><span class="rfn-tree-lbl">serial</span><span class="rfn-tree-type">varchar(64)</span></div></div>
+                      <div class="rfn-tree-node"><div class="rfn-tree-row"><span class="rfn-tree-chev leaf"></span><span class="rfn-tree-ic"><i class="ph ph-columns"></i></span><span class="rfn-tree-lbl">kind</span><span class="rfn-tree-type">meter_kind</span></div></div>
+                      <div class="rfn-tree-node"><div class="rfn-tree-row"><span class="rfn-tree-chev leaf"></span><span class="rfn-tree-ic"><i class="ph ph-columns"></i></span><span class="rfn-tree-lbl">installed_at</span><span class="rfn-tree-type">date</span></div></div>
+                      <div class="rfn-tree-node"><div class="rfn-tree-row added"><span class="rfn-diff-bar"></span><span class="rfn-tree-chev leaf"></span><span class="rfn-tree-ic"><i class="ph ph-columns"></i></span><span class="rfn-tree-mark">+</span><span class="rfn-tree-lbl">firmware_version</span><span class="rfn-tree-type">varchar(24)</span></div></div>
+                    </div>
+                  </div>
+                  <div class="rfn-tree-node">
+                    <div class="rfn-tree-row" data-tree-toggle>
+                      <span class="rfn-tree-chev"><i class="ph ph-caret-right"></i></span>
+                      <span class="rfn-tree-ic"><i class="ph ph-list-numbers"></i></span>
+                      <span class="rfn-tree-lbl">Indexes</span>
+                    </div>
+                    <div class="rfn-tree-children collapsed"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- readings (changed) -->
+              <div class="rfn-tree-node">
+                <div class="rfn-tree-row changed" data-tree-toggle data-pl-focus="readings">
+                  <span class="rfn-diff-bar"></span>
+                  <span class="rfn-tree-chev"><i class="ph ph-caret-right"></i></span>
+                  <span class="rfn-tree-ic"><i class="ph ph-table"></i></span>
+                  <span class="rfn-tree-mark">~</span>
+                  <span class="rfn-tree-lbl">readings</span>
+                </div>
+                <div class="rfn-tree-children collapsed"></div>
+              </div>
+
+              <div class="rfn-tree-node">
+                <div class="rfn-tree-row" data-pl-focus="tariffs">
+                  <span class="rfn-tree-chev leaf"></span>
+                  <span class="rfn-tree-ic"><i class="ph ph-table"></i></span>
+                  <span class="rfn-tree-lbl">tariffs</span>
+                </div>
+              </div>
+
+              <div class="rfn-tree-node">
+                <div class="rfn-tree-row" data-pl-focus="invoices">
+                  <span class="rfn-tree-chev leaf"></span>
+                  <span class="rfn-tree-ic"><i class="ph ph-table"></i></span>
+                  <span class="rfn-tree-lbl">invoices</span>
+                </div>
+              </div>
+
+              <!-- consumption_events (removed) -->
+              <div class="rfn-tree-node">
+                <div class="rfn-tree-row removed" data-pl-focus="consumption_events">
+                  <span class="rfn-diff-bar"></span>
+                  <span class="rfn-tree-chev leaf"></span>
+                  <span class="rfn-tree-ic"><i class="ph ph-table"></i></span>
+                  <span class="rfn-tree-mark">−</span>
+                  <span class="rfn-tree-lbl">consumption_events</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- ===== Views ===== -->
+          <div class="rfn-tree-node">
+            <div class="rfn-tree-row group open" data-tree-toggle>
+              <span class="rfn-tree-chev"><i class="ph ph-caret-right"></i></span>
+              <span class="rfn-tree-ic"><i class="ph ph-eye"></i></span>
+              <span class="rfn-tree-lbl">Views</span>
+            </div>
+            <div class="rfn-tree-children">
+              <!-- daily_kwh (added view) -->
+              <div class="rfn-tree-node">
+                <div class="rfn-tree-row added open" data-tree-toggle data-pl-focus="daily_kwh">
+                  <span class="rfn-diff-bar"></span>
+                  <span class="rfn-tree-chev"><i class="ph ph-caret-right"></i></span>
+                  <span class="rfn-tree-ic"><i class="ph ph-eye"></i></span>
+                  <span class="rfn-tree-mark">+</span>
+                  <span class="rfn-tree-lbl">daily_kwh</span>
+                </div>
+                <div class="rfn-tree-children">
+                  <div class="rfn-tree-node">
+                    <div class="rfn-tree-row group open" data-tree-toggle>
+                      <span class="rfn-tree-chev"><i class="ph ph-caret-right"></i></span>
+                      <span class="rfn-tree-ic"><i class="ph ph-list-dashes"></i></span>
+                      <span class="rfn-tree-lbl">Columns</span>
+                    </div>
+                    <div class="rfn-tree-children">
+                      <div class="rfn-tree-node"><div class="rfn-tree-row added"><span class="rfn-diff-bar"></span><span class="rfn-tree-chev leaf"></span><span class="rfn-tree-ic"><i class="ph ph-link"></i></span><span class="rfn-tree-mark">+</span><span class="rfn-tree-lbl">site_id</span><span class="rfn-tree-type">uuid</span></div></div>
+                      <div class="rfn-tree-node"><div class="rfn-tree-row added"><span class="rfn-diff-bar"></span><span class="rfn-tree-chev leaf"></span><span class="rfn-tree-ic"><i class="ph ph-columns"></i></span><span class="rfn-tree-mark">+</span><span class="rfn-tree-lbl">day</span><span class="rfn-tree-type">date</span></div></div>
+                      <div class="rfn-tree-node"><div class="rfn-tree-row added"><span class="rfn-diff-bar"></span><span class="rfn-tree-chev leaf"></span><span class="rfn-tree-ic"><i class="ph ph-columns"></i></span><span class="rfn-tree-mark">+</span><span class="rfn-tree-lbl">total_kwh</span><span class="rfn-tree-type">decimal(16,6)</span></div></div>
+                      <div class="rfn-tree-node"><div class="rfn-tree-row added"><span class="rfn-diff-bar"></span><span class="rfn-tree-chev leaf"></span><span class="rfn-tree-ic"><i class="ph ph-columns"></i></span><span class="rfn-tree-mark">+</span><span class="rfn-tree-lbl">peak_kw</span><span class="rfn-tree-type">decimal(10,3)</span></div></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="side-close-bar">
+      <button id="sideCollapse" class="side-collapse-inner">
+        <i class="ph ph-caret-left"></i>
+        <span>메뉴 접기</span>
+      </button>
+    </div>
+  </aside>
+
+
+  <!-- ============ main ============ -->
+  <section class="main">
+
+    <header class="topbar">
+      <button class="side-collapse-btn" id="sideToggleTopbar" title="서브 메뉴 접기 / 펼치기">
+        <i class="ph ph-caret-left"></i>
+      </button>
+      <div class="crumbs" data-crumbs-view="pipeline">
+        <i class="ph ph-flow-arrow"></i>
+        <span>파이프라인</span>
+        <i class="ph ph-caret-right"></i>
+        <span class="here">Schema · Snapshot Diff</span>
+      </div>
+      <div class="actions">
+        <div class="density-wrap">
+          <div class="icon-btn" id="densityBtn" title="화면 밀도">
+            <i class="ph ph-text-aa"></i>
+          </div>
+          <div class="density-popover" id="densityPopover" role="menu" aria-hidden="true">
+            <div class="density-pop-head">
+              <div class="density-pop-title">화면 밀도</div>
+              <div class="density-pop-sub">정보 밀도와 가독성을 조정합니다</div>
+            </div>
+            <div class="density-pop-list">
+              <button class="density-opt" data-density="compact" role="menuitemradio">
+                <span class="density-opt-icn"><i class="ph ph-text-aa"></i></span>
+                <span class="density-opt-text">
+                  <span class="density-opt-label">Compact</span>
+                  <span class="density-opt-desc">데이터 밀집 표시</span>
+                </span>
+                <span class="density-opt-check"><i class="ph ph-check"></i></span>
+              </button>
+              <button class="density-opt on" data-density="default" role="menuitemradio" aria-checked="true">
+                <span class="density-opt-icn"><i class="ph ph-text-aa"></i></span>
+                <span class="density-opt-text">
+                  <span class="density-opt-label">Default</span>
+                  <span class="density-opt-desc">기본 보기</span>
+                </span>
+                <span class="density-opt-check"><i class="ph ph-check"></i></span>
+              </button>
+              <button class="density-opt" data-density="comfortable" role="menuitemradio">
+                <span class="density-opt-icn"><i class="ph ph-text-aa"></i></span>
+                <span class="density-opt-text">
+                  <span class="density-opt-label">Comfortable</span>
+                  <span class="density-opt-desc">가독성 우선</span>
+                </span>
+                <span class="density-opt-check"><i class="ph ph-check"></i></span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="icon-btn" id="fullscreenBtn" title="전체화면">
+          <i class="ph ph-corners-out ic-expand"></i>
+          <i class="ph ph-corners-in ic-compress"></i>
+        </div>
+        <div class="search-wrap">
+          <div class="icon-btn" id="searchBtn" title="검색"><i class="ph ph-magnifying-glass"></i></div>
+          <div class="search-popover" id="searchPopover" aria-hidden="true">
+            <div class="search">
+              <i class="ph ph-magnifying-glass"></i>
+              <input id="topbarSearchInput" placeholder="통합 검색..." style="font-family:var(--font-kr)">
+              <kbd>ESC</kbd>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="page">
+    <div data-page-view="pipeline">
+
+      <!-- ===== Page Header ===== -->
+      <div class="page-head">
+        <h1>Schema · Snapshot Diff</h1>
+        <!-- Branch switcher -->
+        <div class="rfn-popover-anchor">
+          <button type="button" class="chip" id="plBranchBtn" aria-haspopup="menu" aria-expanded="false" title="브랜치 전환">
+            <i class="ph ph-git-branch"></i><span id="plBranchLabel">main</span><i class="ph ph-caret-down"></i>
+          </button>
+          <div class="rfn-popover" id="plBranchPop" role="menu" aria-label="브랜치 선택" aria-hidden="true">
+            <div class="rfn-popover-list">
+              <button type="button" class="rfn-popover-item" role="menuitemradio" aria-checked="true" data-branch="main">
+                <span class="lbl">main</span>
+              </button>
+              <button type="button" class="rfn-popover-item" role="menuitemradio" aria-checked="false" data-branch="develop">
+                <span class="lbl">develop</span>
+              </button>
+              <button type="button" class="rfn-popover-item" role="menuitemradio" aria-checked="false" data-branch="feat/firmware-version">
+                <span class="lbl">feat/firmware-version</span>
+              </button>
+              <button type="button" class="rfn-popover-item" role="menuitemradio" aria-checked="false" data-branch="release/2026.05">
+                <span class="lbl">release/2026.05</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="page-head-meta">
+          <div class="env"><span>flux-energy</span><i class="ph ph-caret-right" style="color:var(--ink-400)"></i><span>grid_ops</span></div>
+          <div class="last-sync"><span>Last sync</span><span class="mono num">2026-05-22 09:14 KST</span></div>
+          <div class="icon-btn" title="새로고침"><i class="ph ph-arrow-clockwise"></i></div>
+        </div>
+        <div class="page-head-actions">
+          <!-- Snapshot compare -->
+          <button class="chip" id="plSnapshot" title="스냅샷 비교" style="cursor:pointer">
+            <i class="ph ph-git-diff"></i>
+            <span class="mono">2026-05-15</span>
+            <i class="ph ph-arrow-right" style="font-size:12px"></i>
+            <span class="mono">2026-05-22</span>
+            <i class="ph ph-caret-down"></i>
+          </button>
+          <!-- Diff toggle -->
+          <div style="display:flex;align-items:center;gap:8px;color:var(--ink-600);font-size:var(--fs-caption)">
+            <span>Diff</span>
+            <button class="rfn-toggle on" id="plDiffToggle" role="switch" aria-checked="true" aria-label="Diff 보기 토글"></button>
+          </div>
+          <button class="rfn-btn rfn-btn--secondary"><i class="ph ph-download-simple"></i>Export</button>
+          <button class="rfn-btn rfn-btn--primary"><i class="ph ph-git-pull-request"></i>Apply Migration</button>
+        </div>
+      </div>
+
+      <!-- ===== 1depth Tabs (Schema Snapshot Diff views) ===== -->
+      <div class="rfn-tabs" data-pl-tabs>
+        <button class="rfn-tab active" data-pl-tab="erd"><i class="ph ph-tree-structure"></i>ERD</button>
+        <button class="rfn-tab" data-pl-tab="sql-plan"><i class="ph ph-list-checks"></i>SQL Plan</button>
+        <button class="rfn-tab" data-pl-tab="hcl-diff"><i class="ph ph-file-code"></i>HCL Diff</button>
+        <button class="rfn-tab" data-pl-tab="sql-diff"><i class="ph ph-git-diff"></i>SQL Diff</button>
+      </div>
+
+      <div class="pl-views" style="margin-top:16px">
+
+      <!-- ============================================================
+           ERD — Schema · Snapshot Diff (full-bleed canvas)
+           ============================================================ -->
+      <div data-pl-content="erd">
+        <div class="rfn-erd">
+                  <div class="rfn-erd-scroll" data-erd-scroll>
+                    <div class="rfn-erd-world" data-erd-world>
+
+                      <!-- FK edges -->
+                      <svg class="rfn-erd-edges" width="1480" height="920" viewBox="0 0 1480 920">
+                        <path class="rfn-erd-edge" d="M 270 330 C 270 286 710 286 710 242"/>
+                        <path class="rfn-erd-edge" d="M 710 330 C 710 300 710 272 710 242"/>
+                        <path class="rfn-erd-edge" d="M 1150 330 C 1150 286 710 286 710 242"/>
+                        <path class="rfn-erd-edge" d="M 270 640 C 270 610 270 601 270 571"/>
+                        <path class="rfn-erd-edge" d="M 560 760 C 490 762 470 773 420 775"/>
+                        <path class="rfn-erd-edge removed" d="M 1000 760 C 640 860 420 700 270 580"/>
+                        <path class="rfn-erd-edge added" d="M 1230 242 C 800 360 470 360 290 330"/>
+                        <circle class="rfn-erd-dot" cx="270" cy="330" r="3.5"/>
+                        <circle class="rfn-erd-dot" cx="710" cy="330" r="3.5"/>
+                        <circle class="rfn-erd-dot" cx="1150" cy="330" r="3.5"/>
+                        <circle class="rfn-erd-dot" cx="270" cy="640" r="3.5"/>
+                        <circle class="rfn-erd-dot" cx="560" cy="760" r="3.5"/>
+                        <circle class="rfn-erd-dot removed" cx="1000" cy="760" r="3.5"/>
+                        <circle class="rfn-erd-dot added" cx="1230" cy="242" r="3.5"/>
+                      </svg>
+
+                      <!-- tenants (unchanged) -->
+                      <div class="rfn-node" data-pl-node="tenants" style="left:560px;top:30px">
+                        <div class="rfn-node-head"><span class="rfn-node-ic"><i class="ph ph-table"></i></span><span class="rfn-node-name">tenants</span><span class="rfn-node-grip" title="노드 이동" aria-label="노드 이동"><i class="ph ph-dots-six-vertical"></i></span></div>
+                        <div class="rfn-node-tabs"><button class="rfn-node-tab active">Columns</button><button class="rfn-node-tab">Create Statement</button><button class="rfn-node-tab">Dependencies</button></div>
+                        <div class="rfn-node-colhead"><span>Name</span><span>Type</span><span>Null</span></div>
+                        <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key pk"><i class="ph ph-key"></i></span><span class="rfn-node-col-lbl">tenant_id</span></span><span class="rfn-node-col-type">uuid</span><span class="rfn-node-col-null">No</span></div>
+                        <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key none"></span><span class="rfn-node-col-lbl">name</span></span><span class="rfn-node-col-type">varchar(120)</span><span class="rfn-node-col-null">No</span></div>
+                        <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key none"></span><span class="rfn-node-col-lbl">plan</span></span><span class="rfn-node-col-type">plan_enum</span><span class="rfn-node-col-null">No</span></div>
+                        <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key none"></span><span class="rfn-node-col-lbl">created_at</span></span><span class="rfn-node-col-type">timestamptz</span><span class="rfn-node-col-null">No</span></div>
+                      </div>
+
+                      <!-- daily_kwh (added view) -->
+                      <div class="rfn-node added" data-pl-node="daily_kwh" style="left:1080px;top:30px">
+                        <div class="rfn-node-head"><span class="rfn-node-ic"><i class="ph ph-eye"></i></span><span class="rfn-node-name">daily_kwh</span><span class="rfn-node-badge">VIEW</span><span class="rfn-node-grip" title="노드 이동" aria-label="노드 이동"><i class="ph ph-dots-six-vertical"></i></span></div>
+                        <div class="rfn-node-tabs"><button class="rfn-node-tab active">Columns</button><button class="rfn-node-tab">Create Statement</button><button class="rfn-node-tab">Dependencies</button></div>
+                        <div class="rfn-node-colhead"><span>Name</span><span>Type</span><span>Null</span></div>
+                        <div class="rfn-node-col added"><span class="rfn-node-col-name"><span class="rfn-key fk"><i class="ph ph-link"></i></span><span class="rfn-node-col-lbl">site_id</span></span><span class="rfn-node-col-type">uuid</span><span class="rfn-node-col-null">No</span></div>
+                        <div class="rfn-node-col added"><span class="rfn-node-col-name"><span class="rfn-key none"></span><span class="rfn-node-col-lbl">day</span></span><span class="rfn-node-col-type">date</span><span class="rfn-node-col-null">No</span></div>
+                        <div class="rfn-node-col added"><span class="rfn-node-col-name"><span class="rfn-key none"></span><span class="rfn-node-col-lbl">total_kwh</span></span><span class="rfn-node-col-type">decimal(16,6)</span><span class="rfn-node-col-null">No</span></div>
+                        <div class="rfn-node-col added"><span class="rfn-node-col-name"><span class="rfn-key none"></span><span class="rfn-node-col-lbl">peak_kw</span></span><span class="rfn-node-col-type">decimal(10,3)</span><span class="rfn-node-col-null">Yes</span></div>
+                      </div>
+
+                      <!-- sites (unchanged) -->
+                      <div class="rfn-node" data-pl-node="sites" style="left:120px;top:330px">
+                        <div class="rfn-node-head"><span class="rfn-node-ic"><i class="ph ph-table"></i></span><span class="rfn-node-name">sites</span><span class="rfn-node-grip" title="노드 이동" aria-label="노드 이동"><i class="ph ph-dots-six-vertical"></i></span></div>
+                        <div class="rfn-node-tabs"><button class="rfn-node-tab active">Columns</button><button class="rfn-node-tab">Create Statement</button><button class="rfn-node-tab">Dependencies</button></div>
+                        <div class="rfn-node-colhead"><span>Name</span><span>Type</span><span>Null</span></div>
+                        <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key pk"><i class="ph ph-key"></i></span><span class="rfn-node-col-lbl">site_id</span></span><span class="rfn-node-col-type">uuid</span><span class="rfn-node-col-null">No</span></div>
+                        <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key fk"><i class="ph ph-link"></i></span><span class="rfn-node-col-lbl">tenant_id</span></span><span class="rfn-node-col-type">uuid</span><span class="rfn-node-col-null">No</span></div>
+                        <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key none"></span><span class="rfn-node-col-lbl">label</span></span><span class="rfn-node-col-type">varchar(80)</span><span class="rfn-node-col-null">No</span></div>
+                        <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key none"></span><span class="rfn-node-col-lbl">region</span></span><span class="rfn-node-col-type">varchar(32)</span><span class="rfn-node-col-null">No</span></div>
+                        <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key none"></span><span class="rfn-node-col-lbl">timezone</span></span><span class="rfn-node-col-type">varchar(40)</span><span class="rfn-node-col-null">No</span></div>
+                      </div>
+
+                      <!-- tariffs (unchanged) -->
+                      <div class="rfn-node" data-pl-node="tariffs" style="left:560px;top:330px">
+                        <div class="rfn-node-head"><span class="rfn-node-ic"><i class="ph ph-table"></i></span><span class="rfn-node-name">tariffs</span><span class="rfn-node-grip" title="노드 이동" aria-label="노드 이동"><i class="ph ph-dots-six-vertical"></i></span></div>
+                        <div class="rfn-node-tabs"><button class="rfn-node-tab active">Columns</button><button class="rfn-node-tab">Create Statement</button><button class="rfn-node-tab">Dependencies</button></div>
+                        <div class="rfn-node-colhead"><span>Name</span><span>Type</span><span>Null</span></div>
+                        <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key pk"><i class="ph ph-key"></i></span><span class="rfn-node-col-lbl">tariff_id</span></span><span class="rfn-node-col-type">uuid</span><span class="rfn-node-col-null">No</span></div>
+                        <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key fk"><i class="ph ph-link"></i></span><span class="rfn-node-col-lbl">tenant_id</span></span><span class="rfn-node-col-type">uuid</span><span class="rfn-node-col-null">No</span></div>
+                        <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key none"></span><span class="rfn-node-col-lbl">name</span></span><span class="rfn-node-col-type">varchar(60)</span><span class="rfn-node-col-null">No</span></div>
+                        <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key none"></span><span class="rfn-node-col-lbl">rate_cents</span></span><span class="rfn-node-col-type">int</span><span class="rfn-node-col-null">No</span></div>
+                        <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key none"></span><span class="rfn-node-col-lbl">effective_from</span></span><span class="rfn-node-col-type">date</span><span class="rfn-node-col-null">No</span></div>
+                      </div>
+
+                      <!-- invoices (unchanged) -->
+                      <div class="rfn-node" data-pl-node="invoices" style="left:1000px;top:330px">
+                        <div class="rfn-node-head"><span class="rfn-node-ic"><i class="ph ph-table"></i></span><span class="rfn-node-name">invoices</span><span class="rfn-node-grip" title="노드 이동" aria-label="노드 이동"><i class="ph ph-dots-six-vertical"></i></span></div>
+                        <div class="rfn-node-tabs"><button class="rfn-node-tab active">Columns</button><button class="rfn-node-tab">Create Statement</button><button class="rfn-node-tab">Dependencies</button></div>
+                        <div class="rfn-node-colhead"><span>Name</span><span>Type</span><span>Null</span></div>
+                        <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key pk"><i class="ph ph-key"></i></span><span class="rfn-node-col-lbl">invoice_id</span></span><span class="rfn-node-col-type">uuid</span><span class="rfn-node-col-null">No</span></div>
+                        <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key fk"><i class="ph ph-link"></i></span><span class="rfn-node-col-lbl">tenant_id</span></span><span class="rfn-node-col-type">uuid</span><span class="rfn-node-col-null">No</span></div>
+                        <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key none"></span><span class="rfn-node-col-lbl">period</span></span><span class="rfn-node-col-type">daterange</span><span class="rfn-node-col-null">No</span></div>
+                        <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key none"></span><span class="rfn-node-col-lbl">total_cents</span></span><span class="rfn-node-col-type">bigint</span><span class="rfn-node-col-null">No</span></div>
+                        <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key none"></span><span class="rfn-node-col-lbl">status</span></span><span class="rfn-node-col-type">invoice_status</span><span class="rfn-node-col-null">No</span></div>
+                      </div>
+
+                      <!-- meters (changed) -->
+                      <div class="rfn-node changed" data-pl-node="meters" style="left:120px;top:640px">
+                        <div class="rfn-node-head"><span class="rfn-node-ic"><i class="ph ph-table"></i></span><span class="rfn-node-name">meters</span><span class="rfn-node-grip" title="노드 이동" aria-label="노드 이동"><i class="ph ph-dots-six-vertical"></i></span></div>
+                        <div class="rfn-node-tabs"><button class="rfn-node-tab active">Columns</button><button class="rfn-node-tab">Create Statement</button><button class="rfn-node-tab">Dependencies</button></div>
+                        <div class="rfn-node-colhead"><span>Name</span><span>Type</span><span>Null</span></div>
+                        <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key pk"><i class="ph ph-key"></i></span><span class="rfn-node-col-lbl">meter_id</span></span><span class="rfn-node-col-type">uuid</span><span class="rfn-node-col-null">No</span></div>
+                        <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key fk"><i class="ph ph-link"></i></span><span class="rfn-node-col-lbl">site_id</span></span><span class="rfn-node-col-type">uuid</span><span class="rfn-node-col-null">No</span></div>
+                        <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key none"></span><span class="rfn-node-col-lbl">serial</span></span><span class="rfn-node-col-type">varchar(64)</span><span class="rfn-node-col-null">No</span></div>
+                        <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key none"></span><span class="rfn-node-col-lbl">kind</span></span><span class="rfn-node-col-type">meter_kind</span><span class="rfn-node-col-null">No</span></div>
+                        <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key none"></span><span class="rfn-node-col-lbl">installed_at</span></span><span class="rfn-node-col-type">date</span><span class="rfn-node-col-null">No</span></div>
+                        <div class="rfn-node-col added"><span class="rfn-node-col-name"><span class="rfn-key none"></span><span class="rfn-node-col-lbl">firmware_version</span></span><span class="rfn-node-col-type">varchar(24)</span><span class="rfn-node-col-null">Yes</span></div>
+                      </div>
+
+                      <!-- readings (changed) -->
+                      <div class="rfn-node changed" data-pl-node="readings" style="left:560px;top:640px">
+                        <div class="rfn-node-head"><span class="rfn-node-ic"><i class="ph ph-table"></i></span><span class="rfn-node-name">readings</span><span class="rfn-node-grip" title="노드 이동" aria-label="노드 이동"><i class="ph ph-dots-six-vertical"></i></span></div>
+                        <div class="rfn-node-tabs"><button class="rfn-node-tab active">Columns</button><button class="rfn-node-tab">Create Statement</button><button class="rfn-node-tab">Dependencies</button></div>
+                        <div class="rfn-node-colhead"><span>Name</span><span>Type</span><span>Null</span></div>
+                        <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key pk"><i class="ph ph-key"></i></span><span class="rfn-node-col-lbl">reading_id</span></span><span class="rfn-node-col-type">uuid</span><span class="rfn-node-col-null">No</span></div>
+                        <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key fk"><i class="ph ph-link"></i></span><span class="rfn-node-col-lbl">meter_id</span></span><span class="rfn-node-col-type">uuid</span><span class="rfn-node-col-null">No</span></div>
+                        <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key none"></span><span class="rfn-node-col-lbl">ts</span></span><span class="rfn-node-col-type">timestamptz</span><span class="rfn-node-col-null">No</span></div>
+                        <div class="rfn-node-col changed"><span class="rfn-node-col-name"><span class="rfn-key none"></span><span class="rfn-node-col-lbl">kwh</span></span><span class="rfn-node-col-type"><span class="rfn-node-col-from">decimal(10,2)</span>decimal(14,6)</span><span class="rfn-node-col-null">No</span></div>
+                        <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key none"></span><span class="rfn-node-col-lbl">kw_peak</span></span><span class="rfn-node-col-type">decimal(10,3)</span><span class="rfn-node-col-null">Yes</span></div>
+                      </div>
+
+                      <!-- consumption_events (removed) -->
+                      <div class="rfn-node removed" data-pl-node="consumption_events" style="left:1000px;top:640px">
+                        <div class="rfn-node-head"><span class="rfn-node-ic"><i class="ph ph-table"></i></span><span class="rfn-node-name">consumption_events</span><span class="rfn-node-grip" title="노드 이동" aria-label="노드 이동"><i class="ph ph-dots-six-vertical"></i></span></div>
+                        <div class="rfn-node-tabs"><button class="rfn-node-tab active">Columns</button><button class="rfn-node-tab">Create Statement</button><button class="rfn-node-tab">Dependencies</button></div>
+                        <div class="rfn-node-colhead"><span>Name</span><span>Type</span><span>Null</span></div>
+                        <div class="rfn-node-col removed"><span class="rfn-node-col-name"><span class="rfn-key pk"><i class="ph ph-key"></i></span><span class="rfn-node-col-lbl">event_id</span></span><span class="rfn-node-col-type">uuid</span><span class="rfn-node-col-null">No</span></div>
+                        <div class="rfn-node-col removed"><span class="rfn-node-col-name"><span class="rfn-key fk"><i class="ph ph-link"></i></span><span class="rfn-node-col-lbl">site_id</span></span><span class="rfn-node-col-type">uuid</span><span class="rfn-node-col-null">No</span></div>
+                        <div class="rfn-node-col removed"><span class="rfn-node-col-name"><span class="rfn-key none"></span><span class="rfn-node-col-lbl">kind</span></span><span class="rfn-node-col-type">varchar(32)</span><span class="rfn-node-col-null">No</span></div>
+                        <div class="rfn-node-col removed"><span class="rfn-node-col-name"><span class="rfn-key none"></span><span class="rfn-node-col-lbl">payload</span></span><span class="rfn-node-col-type">jsonb</span><span class="rfn-node-col-null">Yes</span></div>
+                        <div class="rfn-node-col removed"><span class="rfn-node-col-name"><span class="rfn-key none"></span><span class="rfn-node-col-lbl">occurred_at</span></span><span class="rfn-node-col-type">timestamptz</span><span class="rfn-node-col-null">No</span></div>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <!-- canvas chrome -->
+                  <div class="rfn-erd-legend">
+                    <span class="it"><span class="sw added"></span>Added</span>
+                    <span class="it"><span class="sw changed"></span>Changed</span>
+                    <span class="it"><span class="sw removed"></span>Removed</span>
+                  </div>
+                  <div class="rfn-erd-zoom" data-erd-zoom>100%</div>
+                  <div class="rfn-erd-controls">
+                    <button class="rfn-icon-btn rfn-icon-btn--sm" data-erd-zoom-out title="축소" aria-label="축소"><i class="ph ph-minus"></i></button>
+                    <button class="rfn-icon-btn rfn-icon-btn--sm" data-erd-zoom-in title="확대" aria-label="확대"><i class="ph ph-plus"></i></button>
+                    <button class="rfn-icon-btn rfn-icon-btn--sm" data-erd-fit title="화면 맞춤" aria-label="화면 맞춤"><i class="ph ph-corners-out"></i></button>
+                    <button class="rfn-icon-btn rfn-icon-btn--sm" data-erd-reset title="초기화" aria-label="초기화"><i class="ph ph-arrow-counter-clockwise"></i></button>
+                    <button class="rfn-icon-btn rfn-icon-btn--sm" data-erd-pan title="이동 — 드래그로 탐색" aria-label="이동 도구" aria-pressed="false"><i class="ph ph-hand"></i></button>
+                  </div>
+                </div>
+      </div>
+
+      <!-- ============================================================
+           SQL Plan — planned migration statements
+           ============================================================ -->
+      <div data-pl-content="sql-plan">
+        <div class="grid" style="display:grid;grid-template-columns:repeat(16,1fr);gap:14px">
+          <div class="rfn-widget" style="grid-column:span 16">
+            <div class="rfn-widget-body">
+                <pre class="rfn-box" style="margin:0;overflow:auto;max-height:600px;font-family:var(--font-mono);font-size:var(--fs-code);line-height:1.7;color:var(--ink-700);white-space:pre">-- Planned migration · grid_ops/public · 2026-05-22
+1. ALTER TABLE "meters"      ADD COLUMN "firmware_version" varchar(24) NULL;
+2. ALTER TABLE "readings"    ALTER COLUMN "kwh" TYPE decimal(14,6);
+3. DROP TABLE "consumption_events";
+4. CREATE VIEW "daily_kwh" AS
+     SELECT m.site_id, date_trunc('day', r.ts)::date AS day,
+            sum(r.kwh) AS total_kwh, max(r.kw_peak) AS peak_kw
+       FROM readings r JOIN meters m ON m.meter_id = r.meter_id
+      GROUP BY 1, 2;
+
+-- 4 statements · est. 1 lock (DROP TABLE) · 0 destructive column drops</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================
+           HCL Diff — declarative schema diff
+           ============================================================ -->
+      <div data-pl-content="hcl-diff">
+        <div class="grid" style="display:grid;grid-template-columns:repeat(16,1fr);gap:14px">
+          <div class="rfn-widget" style="grid-column:span 16">
+            <div class="rfn-widget-body">
+                <pre class="rfn-box" style="margin:0;overflow:auto;max-height:600px;font-family:var(--font-mono);font-size:var(--fs-code);line-height:1.7;color:var(--ink-700);white-space:pre"><span style="color:var(--ink-500)">table "meters" {</span>
+<span style="color:var(--good)">+  column "firmware_version" {</span>
+<span style="color:var(--good)">+    type = varchar(24)</span>
+<span style="color:var(--good)">+    null = true</span>
+<span style="color:var(--good)">+  }</span>
+<span style="color:var(--ink-500)">}</span>
+
+<span style="color:var(--ink-500)">table "readings" {</span>
+<span style="color:var(--ink-500)">  column "kwh" {</span>
+<span style="color:var(--bad)">-    type = decimal(10,2)</span>
+<span style="color:var(--good)">+    type = decimal(14,6)</span>
+<span style="color:var(--ink-500)">  }</span>
+<span style="color:var(--ink-500)">}</span>
+
+<span style="color:var(--bad)">- table "consumption_events" { ... }</span>
+
+<span style="color:var(--good)">+ view "daily_kwh" {</span>
+<span style="color:var(--good)">+   schema = schema.public</span>
+<span style="color:var(--good)">+ }</span></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================
+           SQL Diff — raw statement diff
+           ============================================================ -->
+      <div data-pl-content="sql-diff">
+        <div class="grid" style="display:grid;grid-template-columns:repeat(16,1fr);gap:14px">
+          <div class="rfn-widget" style="grid-column:span 16">
+            <div class="rfn-widget-body">
+                <pre class="rfn-box" style="margin:0;overflow:auto;max-height:600px;font-family:var(--font-mono);font-size:var(--fs-code);line-height:1.7;color:var(--ink-700);white-space:pre"><span style="color:var(--good)">+ ALTER TABLE "meters" ADD COLUMN "firmware_version" varchar(24) NULL;</span>
+<span style="color:var(--bad)">- ALTER TABLE "readings" ALTER COLUMN "kwh" TYPE decimal(10,2);</span>
+<span style="color:var(--good)">+ ALTER TABLE "readings" ALTER COLUMN "kwh" TYPE decimal(14,6);</span>
+<span style="color:var(--bad)">- DROP TABLE "consumption_events";</span>
+<span style="color:var(--good)">+ CREATE VIEW "daily_kwh" AS SELECT ...;</span></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Docs -->
+      <div data-pl-content="docs">
+        <div class="rfn-widget"><div class="rfn-widget-body"><div class="rfn-empty">
+          <div class="rfn-empty-ic"><i class="ph ph-file-text"></i></div>
+          <h3>Docs</h3>
+          <p>스키마 문서가 아직 생성되지 않았습니다. 마이그레이션을 적용하면 테이블·뷰 설명이 자동으로 문서화됩니다.</p>
+          <button class="rfn-btn rfn-btn--secondary"><i class="ph ph-plus"></i>문서 생성</button>
+        </div></div></div>
+      </div>
+
+      <!-- CI Runs -->
+      <div data-pl-content="ci">
+        <div class="rfn-widget"><div class="rfn-widget-body"><div class="rfn-empty">
+          <div class="rfn-empty-ic"><i class="ph ph-play-circle"></i></div>
+          <h3>CI Runs</h3>
+          <p>최근 실행된 CI 파이프라인이 없습니다. 저장소에 푸시되면 스키마 검증·마이그레이션 계획이 자동 실행됩니다.</p>
+        </div></div></div>
+      </div>
+
+      <!-- Migrations -->
+      <div data-pl-content="migrations">
+        <div class="rfn-widget">
+          <div class="rfn-widget-head">
+            <div class="rfn-widget-title">Migrations</div>
+            <div class="rfn-widget-sub mono">3 ITEMS</div>
+          </div>
+          <div class="rfn-widget-body">
+            <table class="rfn-table">
+              <thead><tr><th>Version</th><th>Name</th><th>Status</th><th>Applied at</th></tr></thead>
+              <tbody>
+                <tr><td><span class="mono">20260522_0914</span></td><td>add_firmware_alter_kwh_drop_events</td><td><span class="rfn-tcell-dot rfn-tcell-dot--warn"></span>Pending</td><td><span class="mono">—</span></td></tr>
+                <tr><td><span class="mono">20260515_1130</span></td><td>create_tariffs_invoices</td><td><span class="rfn-tcell-dot rfn-tcell-dot--good"></span>Applied</td><td><span class="mono">2026-05-15 11:30</span></td></tr>
+                <tr><td><span class="mono">20260508_0902</span></td><td>init_core_schema</td><td><span class="rfn-tcell-dot rfn-tcell-dot--good"></span>Applied</td><td><span class="mono">2026-05-08 09:02</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Webhooks -->
+      <div data-pl-content="webhooks">
+        <div class="rfn-widget"><div class="rfn-widget-body"><div class="rfn-empty">
+          <div class="rfn-empty-ic"><i class="ph ph-plugs-connected"></i></div>
+          <h3>Webhooks</h3>
+          <p>연결된 웹훅이 없습니다. 마이그레이션 적용·CI 완료 시 외부 시스템으로 이벤트를 전달할 수 있습니다.</p>
+          <button class="rfn-btn rfn-btn--secondary"><i class="ph ph-plus"></i>웹훅 추가</button>
+        </div></div></div>
+      </div>
+
+      <!-- Tags -->
+      <div data-pl-content="tags">
+        <div class="rfn-widget">
+          <div class="rfn-widget-head">
+            <div class="rfn-widget-title">Tags</div>
+            <div class="rfn-widget-sub mono">2 ITEMS</div>
+          </div>
+          <div class="rfn-widget-body">
+            <table class="rfn-table">
+              <thead><tr><th>Tag</th><th>Snapshot</th><th>Created</th></tr></thead>
+              <tbody>
+                <tr><td><span class="rfn-tcell-tag">v2026.05.22</span></td><td><span class="mono">2026-05-22 09:14</span></td><td><span class="mono">방금 전</span></td></tr>
+                <tr><td><span class="rfn-tcell-tag">v2026.05.15</span></td><td><span class="mono">2026-05-15 11:30</span></td><td><span class="mono">7일 전</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Settings -->
+      <div data-pl-content="settings">
+        <div class="rfn-widget"><div class="rfn-widget-body"><div class="rfn-empty">
+          <div class="rfn-empty-ic"><i class="ph ph-gear"></i></div>
+          <h3>Settings</h3>
+          <p>파이프라인 설정 — 연결된 데이터베이스, 마이그레이션 정책, 권한을 관리합니다.</p>
+        </div></div></div>
+      </div>
+
+      </div>
+    </div>
+    </div>
+
+  </section>
+
+</div>
+
+<script>
+/* ============================================================
+   Pipeline — Schema/ERD 페이지 인터랙션
+   · 스키마 트리 펼침/접힘 + 노드 포커스
+   · 1depth Tab(섹션) 전환 + localStorage 영속화 (가이드 §3)
+   · ERD 2depth view(ERD/SQL Plan/HCL Diff/SQL Diff) 전환
+   · 노드 내부 탭, Diff 토글, 캔버스 줌
+   ============================================================ */
+(function(){
+  var body = document.body;
+  var STATE_KEY = 'refinery-pipeline-state-v1';
+  var PAGES = ['erd','sql-plan','hcl-diff','sql-diff'];
+
+  /* ---- 1) Schema Tree : 펼침/접힘 ---- */
+  document.querySelectorAll('[data-pl-tree] [data-tree-toggle]').forEach(function(row){
+    row.addEventListener('click', function(){
+      var kids = row.nextElementSibling;
+      var open = row.classList.toggle('open');
+      if(kids && kids.classList.contains('rfn-tree-children')) kids.classList.toggle('collapsed', !open);
+    });
+  });
+
+  /* ---- 1b) 깊은 트리 행 — 이름/타입 hover 툴팁 (잘려도 전체 값 확인) ---- */
+  document.querySelectorAll('[data-pl-tree] .rfn-tree-lbl, [data-pl-tree] .rfn-tree-type').forEach(function(el){
+    var t = el.textContent.trim();
+    if(t) el.title = t;
+  });
+
+  /* ---- 2) Schema Tree : 노드 포커스 (트리 → 캔버스) ---- */
+  function focusNode(name){
+    var node = document.querySelector('.rfn-node[data-pl-node="'+name+'"]');
+    if(!node) return;
+    setPage('erd');
+    var scroll = document.querySelector('[data-erd-scroll]');
+    var w = document.querySelector('[data-erd-world]');
+    var sc = (w && parseFloat(w.dataset.scale)) || 1;
+    if(scroll){
+      scroll.scrollTo({
+        left: Math.max(0, node.offsetLeft * sc - 60),
+        top:  Math.max(0, node.offsetTop * sc - 60),
+        behavior:'smooth'
+      });
+    }
+    /* 노드의 현재 stroke(border) 색을 그대로 활성화 링으로 — diff 상태(neutral/added/changed/removed)·라이트/다크 자동 정합 */
+    var ringColor = getComputedStyle(node).borderTopColor;
+    node.style.boxShadow = '0 0 0 2px ' + ringColor;
+    setTimeout(function(){ node.style.boxShadow = ''; }, 1400);
+  }
+  document.querySelectorAll('[data-pl-tree] [data-pl-focus]').forEach(function(row){
+    row.addEventListener('click', function(e){
+      document.querySelectorAll('[data-pl-tree] .rfn-tree-row.selected').forEach(function(r){ r.classList.remove('selected'); });
+      row.classList.add('selected');
+      focusNode(row.getAttribute('data-pl-focus'));
+    });
+  });
+
+  /* ---- 3) 1depth Tabs (섹션 전환 + 영속화) ---- */
+  var tabs = document.querySelectorAll('[data-pl-tabs] [data-pl-tab]');
+  function syncTabActive(page){
+    tabs.forEach(function(t){ t.classList.toggle('active', t.getAttribute('data-pl-tab') === page); });
+  }
+  function saveState(){
+    try{ localStorage.setItem(STATE_KEY, JSON.stringify({
+      plPage: body.getAttribute('data-pl-page'),
+      diff: body.getAttribute('data-pl-diff') === 'off' ? 'off' : 'on'
+    })); }catch(e){}
+  }
+  function setPage(page){
+    if(PAGES.indexOf(page) === -1) page = 'erd';
+    body.setAttribute('data-pl-page', page);
+    syncTabActive(page);
+    saveState();
+    var pageEl = document.querySelector('.page');
+    if(pageEl) pageEl.scrollTo({top:0,left:0,behavior:'auto'});
+  }
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(){ setPage(t.getAttribute('data-pl-tab')); });
+  });
+
+  /* ---- 4) 노드 내부 탭 (Columns / Create Statement / Dependencies) ---- */
+  document.querySelectorAll('.rfn-node-tabs').forEach(function(group){
+    var nts = group.querySelectorAll('.rfn-node-tab');
+    nts.forEach(function(nt){
+      nt.addEventListener('click', function(){
+        nts.forEach(function(x){ x.classList.remove('active'); });
+        nt.classList.add('active');
+      });
+    });
+  });
+
+  /* ---- 5) Diff 토글 ---- */
+  var diffBtn = document.getElementById('plDiffToggle');
+  function setDiff(on){
+    body.setAttribute('data-pl-diff', on ? 'on' : 'off');
+    if(diffBtn){
+      diffBtn.classList.toggle('on', on);
+      diffBtn.setAttribute('aria-checked', on ? 'true' : 'false');
+    }
+    saveState();
+  }
+  if(diffBtn){
+    diffBtn.addEventListener('click', function(){
+      setDiff(body.getAttribute('data-pl-diff') === 'off');
+    });
+  }
+
+  /* ---- 5b) 브랜치 전환 popover (rfn-popover Select) ---- */
+  (function(){
+    var btn   = document.getElementById('plBranchBtn');
+    var pop   = document.getElementById('plBranchPop');
+    var label = document.getElementById('plBranchLabel');
+    if(!btn || !pop) return;
+    var opts  = pop.querySelectorAll('.rfn-popover-item');
+    var BKEY  = 'refinery-pipeline-branch';
+
+    function openPop(){ pop.classList.add('open'); pop.setAttribute('aria-hidden','false'); btn.setAttribute('aria-expanded','true'); }
+    function closePop(){ pop.classList.remove('open'); pop.setAttribute('aria-hidden','true'); btn.setAttribute('aria-expanded','false'); }
+
+    function selectBranch(name, save){
+      opts.forEach(function(o){
+        o.setAttribute('aria-checked', o.getAttribute('data-branch') === name ? 'true' : 'false');
+      });
+      if(label) label.textContent = name;
+      if(save){ try{ localStorage.setItem(BKEY, name); }catch(e){} }
+    }
+
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      pop.classList.contains('open') ? closePop() : openPop();
+    });
+    opts.forEach(function(o){
+      o.addEventListener('click', function(e){
+        e.stopPropagation();
+        selectBranch(o.getAttribute('data-branch'), true);
+        closePop();
+      });
+    });
+    document.addEventListener('click', function(e){
+      if(!pop.contains(e.target) && !btn.contains(e.target)) closePop();
+    });
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && pop.classList.contains('open')) closePop();
+    });
+
+    /* 직전 선택 브랜치 복원 */
+    try{
+      var saved = localStorage.getItem(BKEY);
+      if(saved){
+        var valid = false;
+        opts.forEach(function(o){ if(o.getAttribute('data-branch') === saved) valid = true; });
+        if(valid) selectBranch(saved, false);
+      }
+    }catch(e){}
+  })();
+
+  /* ---- 6) 캔버스 줌 — 기본 100%, [-]/[+] 는 10% 단위(항상 10의 배수)로 조정 ---- */
+  (function(){
+    var world  = document.querySelector('[data-erd-world]');
+    var scroll = document.querySelector('[data-erd-scroll]');
+    var label  = document.querySelector('[data-erd-zoom]');
+    if(!world || !scroll) return;
+    var scale = 1;
+    function apply(){
+      world.style.transform = 'scale(' + scale + ')';
+      world.dataset.scale = scale;
+      if(label) label.textContent = Math.round(scale * 100) + '%';
+    }
+    function setScale(s){ scale = Math.min(1.6, Math.max(0.4, s)); apply(); }
+    /* 현재 배율을 10% 격자에 스냅한 뒤 ±10% — 결과는 항상 10의 배수 */
+    function step(dir){
+      var pct = Math.round(Math.round(scale * 100) / 10) * 10;
+      setScale((pct + dir * 10) / 100);
+    }
+    function fit(){
+      var s = Math.min(scroll.clientWidth / 1480, scroll.clientHeight / 920);
+      setScale(Math.max(0.4, s));
+      scroll.scrollTo({top:0,left:0,behavior:'auto'});
+    }
+    var zi = document.querySelector('[data-erd-zoom-in]');
+    var zo = document.querySelector('[data-erd-zoom-out]');
+    var zf = document.querySelector('[data-erd-fit]');
+    var zr = document.querySelector('[data-erd-reset]');
+    if(zi) zi.addEventListener('click', function(){ step(+1); });
+    if(zo) zo.addEventListener('click', function(){ step(-1); });
+    if(zf) zf.addEventListener('click', fit);
+    if(zr) zr.addEventListener('click', function(){
+      setScale(1);
+      scroll.scrollTo({top:0,left:0,behavior:'auto'});
+    });
+
+    /* 손 도구 — pan 모드: 드래그로 캔버스 자유 탐색 */
+    var panBtn = document.querySelector('[data-erd-pan]');
+    var panOn = false, dragging = false, sx = 0, sy = 0, sl = 0, st = 0;
+    function setPan(on){
+      panOn = on;
+      if(panBtn){ panBtn.classList.toggle('on', on); panBtn.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+      scroll.classList.toggle('pan-ready', on);
+      if(!on){ scroll.classList.remove('panning'); dragging = false; }
+    }
+    if(panBtn) panBtn.addEventListener('click', function(){ setPan(!panOn); });
+    scroll.addEventListener('pointerdown', function(e){
+      if(!panOn) return;
+      dragging = true;
+      sx = e.clientX; sy = e.clientY; sl = scroll.scrollLeft; st = scroll.scrollTop;
+      scroll.classList.add('panning');
+      try{ scroll.setPointerCapture(e.pointerId); }catch(_e){}
+      e.preventDefault();
+    });
+    scroll.addEventListener('pointermove', function(e){
+      if(!dragging) return;
+      scroll.scrollLeft = sl - (e.clientX - sx);
+      scroll.scrollTop  = st - (e.clientY - sy);
+    });
+    function endPan(e){
+      if(!dragging) return;
+      dragging = false;
+      scroll.classList.remove('panning');
+      try{ scroll.releasePointerCapture(e.pointerId); }catch(_e){}
+    }
+    scroll.addEventListener('pointerup', endPan);
+    scroll.addEventListener('pointercancel', endPan);
+
+    /* 초기 진입 = 기본 배율 100% */
+    setScale(1);
+    scroll.scrollTo({top:0,left:0,behavior:'auto'});
+  })();
+
+  /* ---- 6b) ERD 엣지 인터랙션 — 호버 시 강조 + 나머지 흐리게 (hit 영역 확대) ---- */
+  (function(){
+    var svg = document.querySelector('.rfn-erd-edges');
+    if(!svg) return;
+    Array.prototype.forEach.call(svg.querySelectorAll('.rfn-erd-edge'), function(edge){
+      var hit = edge.cloneNode(false);          // 같은 d 의 투명 와이드 path = 넓은 hit 영역
+      hit.setAttribute('class', 'rfn-erd-edge-hit');
+      svg.insertBefore(hit, edge);              // 보이는 엣지 뒤(아래)에 배치
+      hit.addEventListener('mouseenter', function(){ edge.classList.add('hot'); svg.classList.add('edge-focus'); });
+      hit.addEventListener('mouseleave', function(){ edge.classList.remove('hot'); svg.classList.remove('edge-focus'); });
+    });
+  })();
+
+  /* ---- 6c) Null 컬럼 칩 — Yes(warn 깃발) / No(ink 중립) 통일 표식 ---- */
+  document.querySelectorAll('.rfn-node-col-null').forEach(function(el){
+    var t = el.textContent.trim().toLowerCase();
+    if(t === 'yes')     el.innerHTML = '<span class="is-nullable">Yes</span>';
+    else if(t === 'no') el.innerHTML = '<span class="not-nullable">No</span>';
+  });
+
+  /* ---- 7) 초기 복원 — fresh 진입=erd, 새로고침=직전 상태 ---- */
+  (function(){
+    var fresh = false;
+    try{ fresh = sessionStorage.getItem('refinery-fresh-nav') === '1'; }catch(e){}
+    if(fresh){ setPage('erd'); setDiff(true); return; }
+    try{
+      var raw = localStorage.getItem(STATE_KEY);
+      if(raw){
+        var st = JSON.parse(raw) || {};
+        setDiff(st.diff !== 'off');
+        if(st.plPage && PAGES.indexOf(st.plPage) !== -1) setPage(st.plPage);
+        else syncTabActive(body.getAttribute('data-pl-page') || 'erd');
+      } else {
+        setDiff(true);
+        syncTabActive(body.getAttribute('data-pl-page') || 'erd');
+      }
+    }catch(e){ syncTabActive('erd'); }
+  })();
+
+})();
+</script>
+
+<script>
+  // ======== Nav Collapse ========
+  (function(){
+    const app  = document.querySelector('.app');
+    const rail = document.querySelector('.rail');
+    const side = document.querySelector('.side');
+
+    // Global Nav — 접기 (패널 아이콘 버튼)
+    document.getElementById('railCollapse').addEventListener('click', function(){
+      rail.classList.add('collapsed');
+      app.classList.add('rail-col');
+    });
+
+    // Global Nav — 펼치기 (kbd › 버튼)
+    document.getElementById('railExpand').addEventListener('click', function(){
+      rail.classList.remove('collapsed');
+      app.classList.remove('rail-col');
+    });
+
+    // Theme toggle — 계정 팝오버 안 Light/Dark 세그먼트
+    (function(){
+      const lightBtn = document.getElementById('themeLight');
+      const darkBtn = document.getElementById('themeDark');
+
+      function applyTheme(isDark){
+        document.body.classList.toggle('dark', isDark);
+        if(lightBtn) lightBtn.classList.toggle('on', !isDark);
+        if(darkBtn) darkBtn.classList.toggle('on', isDark);
+        // 새로고침 시 유지하기 위해 localStorage 에 저장
+        if(window.saveRefineryState) window.saveRefineryState();
+      }
+
+      // restoreRefineryState 에서 호출할 수 있도록 글로벌로 노출
+      window.applyTheme = applyTheme;
+
+      if(lightBtn) lightBtn.addEventListener('click', function(){ applyTheme(false); });
+      if(darkBtn)  darkBtn.addEventListener('click', function(){ applyTheme(true); });
+    })();
+
+    // Rail / Side 하단 페이드 — overflow 없거나 scroll 바닥일 때 fade 숨김(.at-bottom 토글)
+    (function(){
+      function bind(scrollEl, footerEl){
+        if(!scrollEl || !footerEl) return;
+        function check(){
+          var max = scrollEl.scrollHeight - scrollEl.clientHeight;
+          var atBottom = max <= 2 || scrollEl.scrollTop >= max - 2;
+          footerEl.classList.toggle('at-bottom', atBottom);
+        }
+        scrollEl.addEventListener('scroll', check, {passive:true});
+        window.addEventListener('resize', check);
+        check();
+        requestAnimationFrame(check);
+      }
+      bind(document.querySelector('.rail-scroll'), document.querySelector('.rail .bot'));
+      bind(document.querySelector('.side .nav'), document.querySelector('.side-close-bar'));
+    })();
+
+    // Sub Nav — 접기 (하단 버튼)
+    document.getElementById('sideCollapse').addEventListener('click', function(){
+      app.classList.add('side-col');
+      side.classList.add('collapsed');
+    });
+
+    // Sub Nav — 펼치기 (kbd › 배지, 접힌 상태 hover 시 등장)
+    document.getElementById('sideToggle').addEventListener('click', function(){
+      app.classList.remove('side-col');
+      side.classList.remove('collapsed');
+    });
+
+    // Sub Nav expand btn — Rail 전체 hover 시 표시
+    var sideExpandBtn = document.getElementById('sideToggle');
+    var hideTimer;
+    function showExpandBtn(){
+      clearTimeout(hideTimer);
+      if(side.classList.contains('collapsed')) sideExpandBtn.classList.add('visible');
+    }
+    function hideExpandBtn(){
+      hideTimer = setTimeout(function(){ sideExpandBtn.classList.remove('visible'); }, 200);
+    }
+    rail.addEventListener('mouseenter', showExpandBtn);
+    rail.addEventListener('mouseleave', hideExpandBtn);
+    sideExpandBtn.addEventListener('mouseenter', function(){ clearTimeout(hideTimer); });
+    sideExpandBtn.addEventListener('mouseleave', hideExpandBtn);
+  })();
+
+  // ======== Density Toggle ========
+  (function(){
+    const btn = document.getElementById('densityBtn');
+    const pop = document.getElementById('densityPopover');
+    const opts = pop.querySelectorAll('.density-opt');
+
+    // 저장된 밀도 복원
+    const saved = (function(){ try{ return localStorage.getItem('refinery-density'); }catch(e){ return null; } })();
+    if(saved && ['compact','default','comfortable'].includes(saved)){
+      applyDensity(saved);
+    }
+
+    function applyDensity(mode){
+      document.body.setAttribute('data-density', mode);
+      opts.forEach(o=>{
+        const isOn = o.dataset.density === mode;
+        o.classList.toggle('on', isOn);
+        o.setAttribute('aria-checked', isOn ? 'true':'false');
+      });
+      try{ localStorage.setItem('refinery-density', mode); }catch(e){}
+    }
+
+    function openPop(){
+      pop.classList.add('open');
+      pop.setAttribute('aria-hidden','false');
+      btn.setAttribute('aria-expanded','true');
+    }
+    function closePop(){
+      pop.classList.remove('open');
+      pop.setAttribute('aria-hidden','true');
+      btn.setAttribute('aria-expanded','false');
+    }
+
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      pop.classList.contains('open') ? closePop() : openPop();
+    });
+
+    opts.forEach(o=>{
+      o.addEventListener('click', function(e){
+        e.stopPropagation();
+        applyDensity(this.dataset.density);
+        closePop();
+      });
+    });
+
+    // 외부 클릭 시 닫기
+    document.addEventListener('click', function(e){
+      if(!pop.contains(e.target) && e.target !== btn && !btn.contains(e.target)){
+        closePop();
+      }
+    });
+    // ESC 키로 닫기
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && pop.classList.contains('open')) closePop();
+    });
+  })();
+
+  // ======== Fullscreen Toggle ========
+  (function(){
+    const btn = document.getElementById('fullscreenBtn');
+    const docEl = document.documentElement;
+
+    function isFs(){
+      return !!(document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement);
+    }
+    function enterFs(){
+      const fn = docEl.requestFullscreen || docEl.webkitRequestFullscreen || docEl.msRequestFullscreen;
+      if(fn) fn.call(docEl);
+    }
+    function exitFs(){
+      const fn = document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen;
+      if(fn) fn.call(document);
+    }
+    function syncState(){
+      document.body.classList.toggle('is-fullscreen', isFs());
+      btn.setAttribute('title', isFs() ? '전체화면 해제' : '전체화면');
+    }
+
+    btn.addEventListener('click', function(){
+      isFs() ? exitFs() : enterFs();
+    });
+
+    document.addEventListener('fullscreenchange', syncState);
+    document.addEventListener('webkitfullscreenchange', syncState);
+    document.addEventListener('msfullscreenchange', syncState);
+  })();
+
+  // ======== Application 즐겨찾기 + Favorites 영역 ========
+  (function(){
+    const items = document.querySelectorAll('#appGroupItems .ic');
+    const favContainer = document.getElementById('favGroupItems');
+    const favSection = document.getElementById('favSection');
+    const favToggle = document.getElementById('favGroupToggle');
+    if(!items.length || !favContainer) return;
+
+    const STORAGE_KEY = 'refinery-app-favorites';
+    const FAV_COLLAPSE_KEY = 'refinery-fav-group';
+
+    // 저장된 즐겨찾기 순서 복원 (Set 대신 배열로 유지해 순서 보존)
+    let favOrder = [];
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(raw) favOrder = JSON.parse(raw) || [];
+    }catch(e){ favOrder = []; }
+    const inFav = (key)=> favOrder.indexOf(key) !== -1;
+
+    function applyState(ic){
+      const key = ic.dataset.key;
+      const btn = ic.querySelector('.fav-btn');
+      // 채움 상태에선 .ph 클래스가 사라지므로 <i> 태그 자체를 잡는다
+      const icon = btn && btn.querySelector('i');
+      const isOn = inFav(key);
+      if(!btn || !icon) return;
+      // 별 버튼 상태만 토글 — .active는 현재 활성화된 페이지 표시이므로 건드리지 않음
+      btn.classList.toggle('on', isOn);
+      btn.setAttribute('aria-pressed', isOn ? 'true' : 'false');
+      btn.setAttribute('aria-label', isOn ? '즐겨찾기 해제' : '즐겨찾기 추가');
+      icon.className = isOn ? 'ph-fill ph-star' : 'ph ph-star';
+    }
+
+    function persist(){
+      try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(favOrder)); }catch(e){}
+    }
+
+    // Favorites 영역 다시 그리기 — 즐겨찾기가 하나도 없으면 섹션 전체를 숨김
+    function renderFavorites(){
+      favContainer.innerHTML = '';
+      const isEmpty = favOrder.length === 0;
+      if(favSection) favSection.classList.toggle('empty', isEmpty);
+      if(isEmpty) return;
+
+      favOrder.forEach(key=>{
+        // 원본 아이템에서 아이콘/라벨/title을 복제
+        const src = document.querySelector('#appGroupItems .ic[data-key="'+key+'"]');
+        if(!src) return;
+        const phIcon = src.querySelector(':scope > .ph');
+        const lbl = src.querySelector(':scope > .lbl');
+        // 뱃지가 있으면 함께 복제 (New, Hot 등)
+        const badge = src.querySelector(':scope > .rail-badge');
+
+        const node = document.createElement('div');
+        // FAVORITES 영역에선 현재 페이지(.active) 하이라이트를 제거 — 즐겨찾기 자체만 표시
+        node.className = 'ic';
+        node.setAttribute('title', src.getAttribute('title') || '');
+        node.dataset.key = key;
+        node.dataset.favRef = '1';
+        // 원본의 data-view 복사 → 클릭 시 view 전환 가능
+        if(src.dataset.view) node.dataset.view = src.dataset.view;
+        if(src.dataset.nav)  node.dataset.nav  = src.dataset.nav;
+        node.innerHTML = ''
+          + '<i class="'+(phIcon ? phIcon.className : 'ph ph-circle')+'"></i>'
+          + '<span class="lbl">'+(lbl ? lbl.textContent : key)+'</span>'
+          + (badge ? badge.outerHTML : '')
+          + '<button class="fav-btn on" type="button" aria-label="즐겨찾기 해제" aria-pressed="true"><i class="ph-fill ph-star"></i></button>';
+
+        // Favorites 영역의 별 클릭 → 해당 항목 즐겨찾기 해제
+        node.querySelector('.fav-btn').addEventListener('click', function(e){
+          e.stopPropagation();
+          toggleKey(key);
+        });
+
+        // 행 클릭 → 즐겨찾기 항목으로 이동 (별 버튼 제외)
+        // data-nav(다른 파일)=크로스파일 이동 / data-view(같은 파일)=인페이지 뷰 전환.
+        // 셸 위임 핸들러에만 의존하지 않고 자체적으로 이동을 보장 (특히 data-view 없는 대시보드 즐겨찾기).
+        node.addEventListener('click', function(e){
+          if(e.target.closest('.fav-btn')) return;
+          var nav = this.dataset.nav;
+          var cur = (location.pathname.split('/').pop() || '').split('?')[0];
+          if(nav && nav !== cur){
+            try{ localStorage.setItem('refinery-nav-active', JSON.stringify({ file: nav, key: this.dataset.key || nav, src: 'fav' })); }catch(_e){}
+            try{ sessionStorage.setItem('refinery-fresh-nav', '1'); }catch(_e){}
+            window.location.href = nav;
+            return;
+          }
+          if(this.dataset.view && window.setView) window.setView(this.dataset.view, this);
+        });
+
+        favContainer.appendChild(node);
+      });
+    }
+
+    function toggleKey(key){
+      const idx = favOrder.indexOf(key);
+      if(idx >= 0) favOrder.splice(idx, 1);
+      else favOrder.push(key);
+      // 원본 아이템 상태 동기화
+      const src = document.querySelector('#appGroupItems .ic[data-key="'+key+'"]');
+      if(src) applyState(src);
+      persist();
+      renderFavorites();
+    }
+
+    // 원본 Application 아이템들에 별 클릭 핸들러 등록 + 초기 상태 반영
+    items.forEach(ic=>{
+      applyState(ic);
+      const btn = ic.querySelector('.fav-btn');
+      if(!btn) return;
+      btn.addEventListener('click', function(e){
+        e.stopPropagation();
+        toggleKey(ic.dataset.key);
+      });
+    });
+
+    // Favorites 그룹 접기/펼치기 (APPLICATION 토글과 동일 패턴)
+    if(favToggle){
+      const savedFavCollapsed = (function(){ try{ return localStorage.getItem(FAV_COLLAPSE_KEY); }catch(e){ return null; } })();
+      if(savedFavCollapsed === 'collapsed'){
+        favContainer.classList.add('collapsed');
+        favToggle.setAttribute('aria-expanded','false');
+      }
+      favToggle.addEventListener('click', function(){
+        const isCollapsed = favContainer.classList.toggle('collapsed');
+        favToggle.setAttribute('aria-expanded', isCollapsed ? 'false' : 'true');
+        try{ localStorage.setItem(FAV_COLLAPSE_KEY, isCollapsed ? 'collapsed' : 'expanded'); }catch(e){}
+      });
+    }
+
+    // 최초 렌더
+    renderFavorites();
+  })();
+
+  // ======== Application 그룹 접기/펼치기 ========
+  (function(){
+    const toggle = document.getElementById('appGroupToggle');
+    const items = document.getElementById('appGroupItems');
+    if(!toggle || !items) return;
+
+    // 저장된 상태 복원 (기본은 펼친 상태)
+    const saved = (function(){ try{ return localStorage.getItem('refinery-app-group'); }catch(e){ return null; } })();
+    if(saved === 'collapsed'){
+      items.classList.add('collapsed');
+      toggle.setAttribute('aria-expanded','false');
+    }
+
+    toggle.addEventListener('click', function(){
+      const isCollapsed = items.classList.toggle('collapsed');
+      toggle.setAttribute('aria-expanded', isCollapsed ? 'false' : 'true');
+      try{ localStorage.setItem('refinery-app-group', isCollapsed ? 'collapsed' : 'expanded'); }catch(e){}
+    });
+  })();
+
+  // ======== User Popover (Global Nav 계정 메뉴) ========
+  (function(){
+    const btn = document.getElementById('userBtn');
+    const pop = document.getElementById('userPopover');
+    if(!btn || !pop) return;
+
+    // rail 아바타 이미지를 팝오버 헤드에도 동일하게 반영
+    const railAvatarImg = document.querySelector('.rail .bot-user .avatar img');
+    const popAvatarImg = pop.querySelector('.user-pop-head .avatar img');
+    if(railAvatarImg && popAvatarImg){
+      popAvatarImg.src = railAvatarImg.src;
+      popAvatarImg.style.display = '';
+    }
+
+    function openPop(){
+      pop.classList.add('open');
+      pop.setAttribute('aria-hidden','false');
+      btn.setAttribute('aria-expanded','true');
+    }
+    function closePop(){
+      pop.classList.remove('open');
+      pop.setAttribute('aria-hidden','true');
+      btn.setAttribute('aria-expanded','false');
+    }
+
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      pop.classList.contains('open') ? closePop() : openPop();
+    });
+    btn.addEventListener('keydown', function(e){
+      if(e.key === 'Enter' || e.key === ' '){
+        e.preventDefault();
+        pop.classList.contains('open') ? closePop() : openPop();
+      }
+    });
+
+    // 메뉴 아이템 클릭 처리 (현재는 콘솔 로그 + 팝오버 닫기)
+    pop.querySelectorAll('.user-pop-item').forEach(item=>{
+      item.addEventListener('click', function(e){
+        e.stopPropagation();
+        const action = this.dataset.action;
+        // 실제 라우팅은 추후 페이지 연결 시 구현
+        console.log('[user menu]', action);
+        if(action === 'logout'){
+          window.location.href = 'UI_Refinery_Login.html';
+          return;
+        }
+        closePop();
+      });
+    });
+
+    // 외부 클릭 시 닫기
+    document.addEventListener('click', function(e){
+      if(!pop.contains(e.target) && e.target !== btn && !btn.contains(e.target)){
+        closePop();
+      }
+    });
+    // ESC 키로 닫기
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && pop.classList.contains('open')) closePop();
+    });
+  })();
+
+  // ======== Topbar Search Toggle ========
+  (function(){
+    const btn = document.getElementById('searchBtn');
+    const pop = document.getElementById('searchPopover');
+    const input = document.getElementById('topbarSearchInput');
+
+    function openPop(){
+      pop.classList.add('open');
+      pop.setAttribute('aria-hidden','false');
+      btn.setAttribute('aria-expanded','true');
+      setTimeout(()=>input.focus(), 50);
+    }
+    function closePop(){
+      pop.classList.remove('open');
+      pop.setAttribute('aria-hidden','true');
+      btn.setAttribute('aria-expanded','false');
+      input.blur();
+    }
+
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      pop.classList.contains('open') ? closePop() : openPop();
+    });
+
+    // 외부 클릭 시 닫기
+    document.addEventListener('click', function(e){
+      if(!pop.contains(e.target) && e.target !== btn && !btn.contains(e.target)){
+        if(pop.classList.contains('open')) closePop();
+      }
+    });
+    // ESC 키로 닫기
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && pop.classList.contains('open')) closePop();
+    });
+  })();
+</script>
+<script>
+/* ============================================================
+   Refinery Shell — 통합 크로스파일 내비게이션 · 테마 · 진입 규칙 · Active 소유
+   Dashboard / DesignSystem / Ontology 3개 파일 동일 적용
+   ============================================================ */
+(function(){
+  var THEME_KEY  = 'refinery-theme';
+  var FRESH_KEY  = 'refinery-fresh-nav';
+  var ACTIVE_KEY = 'refinery-nav-active';
+  var body = document.body;
+  var rail = document.querySelector('.rail');
+  var curFile = (location.pathname.split('/').pop() || '').split('?')[0];
+
+  /* 1) 공유 테마 — 항상 refinery-theme 기준으로 3파일 통일 */
+  function persistTheme(){ if(window.self!==window.top) return; try{ localStorage.setItem(THEME_KEY, body.classList.contains('dark') ? 'dark' : 'light'); }catch(e){} }
+  var __t = null; try{ __t = (window.self===window.top) ? localStorage.getItem(THEME_KEY) : 'light'; }catch(e){}
+  var __isDark = (window.self!==window.top) ? false : ((__t === 'dark') ? true : (__t === 'light' ? false : body.classList.contains('dark')));
+  /* body + 세그먼트 토글 + 아이콘까지 일괄 동기화 — restore 없는 파일(Ontology)의 토글 desync 교정 */
+  if(typeof window.applyTheme === 'function') window.applyTheme(__isDark);
+  else body.classList.toggle('dark', __isDark);
+  ['themeLight','themeDark'].forEach(function(id){
+    var b = document.getElementById(id);
+    if(b) b.addEventListener('click', function(){ setTimeout(persistTheme, 0); });
+  });
+  persistTheme();
+
+  /* ── Active 소유 모델 ──────────────────────────────────────
+     원칙 1) FAVORITE 와 APPLICATION 에 active 가 동시에 존재할 수 없음 (rail 전체 단 1개).
+     원칙 2) active 는 "클릭한 섹션" 이 소유 — FAVORITE 에서 클릭 시 FAVORITE 항목이 active,
+             APPLICATION 에서 클릭 시 APPLICATION 항목이 active. 반대편 쌍둥이는 normal.
+     {file,key,src} 를 localStorage 에 영속화 → 크로스파일·새로고침에도 소유 섹션 유지. */
+  function sectionOf(el){
+    if(el.hasAttribute('data-fav-ref')) return 'fav';
+    if(el.closest('#appGroupItems'))    return 'app';
+    return 'standalone';
+  }
+  function standaloneSelf(){
+    return [].slice.call(document.querySelectorAll('.rail .ic[data-nav="' + curFile + '"]'))
+      .filter(function(n){ return !n.closest('#appGroupItems') && !n.hasAttribute('data-fav-ref'); })[0] || null;
+  }
+  function resolveActiveEl(){
+    var raw = null;
+    try{ raw = JSON.parse(localStorage.getItem(ACTIVE_KEY) || 'null'); }catch(e){ raw = null; }
+    var src, key;
+    if(raw && raw.file === curFile){ src = raw.src; key = raw.key; }
+    else {
+      var appSelf = document.querySelector('#appGroupItems .ic[data-nav="' + curFile + '"]');
+      if(appSelf){ src = 'app'; key = appSelf.dataset.key; }
+      else { src = 'standalone'; var st = standaloneSelf(); key = st ? (st.dataset.key || st.dataset.nav) : curFile; }
+    }
+    var el = null;
+    if(src === 'fav'){ el = document.querySelector('#favGroupItems .ic[data-key="' + key + '"]'); if(!el) src = 'app'; }
+    if(src === 'app'){ el = document.querySelector('#appGroupItems .ic[data-key="' + key + '"]'); if(!el) src = 'standalone'; }
+    if(src === 'standalone'){ el = standaloneSelf() || document.querySelector('#appGroupItems .ic[data-nav="' + curFile + '"]'); }
+    return el;
+  }
+  function applyActive(){
+    var el = resolveActiveEl();
+    document.querySelectorAll('.rail .ic.active').forEach(function(i){ i.classList.remove('active'); });
+    if(el) el.classList.add('active');
+  }
+
+  /* 2) 크로스파일 내비 — Global Nav + FAVORITES(동적 클론) 위임 처리 + Active 소유 기록 */
+  function go(target){
+    try{ sessionStorage.setItem(FRESH_KEY, '1'); }catch(e){}
+    window.location.href = target;
+  }
+  (rail || document).addEventListener('click', function(e){
+    if(e.target.closest('.fav-btn')) return;
+    var el = e.target.closest('.ic[data-nav]');
+    if(!el) return;
+    var target = el.getAttribute('data-nav');
+    var src = sectionOf(el);
+    var key = el.dataset.key || el.dataset.nav;
+    try{ localStorage.setItem(ACTIVE_KEY, JSON.stringify({ file: el.dataset.nav, key: key, src: src })); }catch(e){}
+    if(target && target !== curFile){ e.preventDefault(); go(target); }
+    else { setTimeout(applyActive, 0); }   // 같은 파일: 다른 click 핸들러 이후 Active 최종 확정
+  }, true);
+
+  /* 3) 진입 규칙 — Global Nav 진입(fresh)=섹션 첫 Sub Nav 로, 새로고침=직전 sub-page 유지(가이드 §3) */
+  var fresh = false;
+  try{ fresh = sessionStorage.getItem(FRESH_KEY) === '1'; if(fresh) sessionStorage.removeItem(FRESH_KEY); }catch(e){}
+  if(fresh){
+    var view = body.getAttribute('data-view');
+    var firstItem = document.querySelector(
+      '[data-side-view="' + view + '"] [data-onto-page], [data-side-view="' + view + '"] [data-ds-page]'
+    );
+    if(firstItem) firstItem.click();
+    var pageEl = document.querySelector('.page');
+    if(pageEl) pageEl.scrollTo({ top:0, left:0, behavior:'auto' });
+  }
+
+  /* 4) Active 최종 적용 — 파일별 restore/뷰스위처가 건드린 것을 Shell 이 권위적으로 통일.
+        FAVORITES 동적 재렌더(별 토글) 시에도 소유 섹션 유지하도록 관찰. */
+  applyActive();
+  var favBox = document.getElementById('favGroupItems');
+  if(favBox && window.MutationObserver){
+    new MutationObserver(function(){ applyActive(); }).observe(favBox, { childList:true });
+  }
+})();
+</script>
+<script>
+/* Account avatar — 계정명 첫 영문자를 이니셜로 표시 (이미지 업로드 전 기본 상태) */
+(function(){
+  function pickInitial(){
+    var nameEl = document.querySelector('.rail .bot-name')
+              || document.querySelector('.user-pop-head .info .name');
+    var s = (nameEl && nameEl.textContent) || '';
+    if(!/[A-Za-z]/.test(s)){
+      var em = document.querySelector('.rail .bot-email') || document.querySelector('.user-pop-head .info .email');
+      s = (em && em.textContent) || '';
+    }
+    var m = s.match(/[A-Za-z]/);
+    return m ? m[0].toUpperCase() : 'U';
+  }
+  var ch = pickInitial();
+  document.querySelectorAll('.avatar').forEach(function(a){
+    var ini = a.querySelector('.avatar-initial');
+    if(ini) ini.textContent = ch;
+    var img = a.querySelector('img');
+    // 사용자가 이미지를 업로드(=img에 유효 src)하면 이미지로 대체, 그 전까지는 이니셜
+    a.classList.toggle('has-img', !!(img && img.getAttribute('src')));
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "static",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": [
+        "-c",
+        "cd / && exec python3 -m http.server 4599 --directory \"/Users/hhy/refinery-preview\""
+      ],
+      "port": 4599
+    }
+  ]
+}
