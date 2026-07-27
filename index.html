@@ -197,6 +197,12 @@
     .mobile-nav-panel .mobile-nav-cta:hover, .mobile-nav-panel .mobile-nav-cta:active { background: transparent; color: #76A6D7; border-color: #76A6D7; }
     @media (max-width: 900px) {
       .nav-hamburger { display: flex; }
+      /* 모바일에서는 헤더(햄버거 버튼)가 스크롤에 따라 위로 숨겨지지 않도록 한다.
+         버튼이 화면 밖으로 나가있는 상태에서 탭하면 그 탭은 버튼이 아니라
+         아래 콘텐츠에 히트되고, 헤더가 다시 나타난 "다음" 탭에서야 실제로
+         버튼이 눌리는 2탭 문제가 있었다 — 모바일에서는 아예 숨김 자체를
+         비활성화해서 언제나 한 번에 눌리도록 한다. */
+      nav.nav-hidden { transform: none !important; }
     }
     .btn-primary:hover, .btn-primary:active { background: #f4f4f5; }
     nav .btn-primary:hover, nav .btn-primary:active { background: transparent; color: #76A6D7; border-color: #76A6D7; }
