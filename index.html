@@ -2373,5 +2373,45 @@ function switchDash(btn, src, key) {
   })();
 </script>
 
+<script>
+(function(){
+  if (typeof gtag !== 'function') return;
+  if (!('IntersectionObserver' in window)) return;
+  document.addEventListener('DOMContentLoaded', function(){
+    var sections = document.querySelectorAll('section[id]');
+    var startTimes = {};
+    var viewed = {};
+    function sendView(id){
+      if (viewed[id]) return;
+      viewed[id] = true;
+      gtag('event', 'section_view', { section_name: id });
+    }
+    function sendTime(id, ms){
+      var sec = Math.round(ms / 1000);
+      if (sec < 1) return;
+      gtag('event', 'section_time', { section_name: id, engagement_seconds: sec });
+    }
+    var observer = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        var id = entry.target.id;
+        if (entry.isIntersecting) {
+          startTimes[id] = performance.now();
+          sendView(id);
+        } else if (startTimes[id]) {
+          sendTime(id, performance.now() - startTimes[id]);
+          delete startTimes[id];
+        }
+      });
+    }, { threshold: 0.5 });
+    sections.forEach(function(sec){ observer.observe(sec); });
+    window.addEventListener('beforeunload', function(){
+      Object.keys(startTimes).forEach(function(id){
+        sendTime(id, performance.now() - startTimes[id]);
+      });
+    });
+  });
+})();
+</script>
+
 </body>
 </html>
