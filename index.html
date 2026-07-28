@@ -43,34 +43,6 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    @font-face {
-      font-family: 'Space Grotesk';
-      src: url('SpaceGrotesk_Complete/Fonts/WEB/fonts/SpaceGrotesk-Bold.woff2') format('woff2'),
-           url('SpaceGrotesk_Complete/Fonts/WEB/fonts/SpaceGrotesk-Bold.woff') format('woff'),
-           url('SpaceGrotesk_Complete/Fonts/WEB/fonts/SpaceGrotesk-Bold.ttf') format('truetype');
-      font-weight: 700;
-      font-style: normal;
-      font-display: swap;
-    }
-    @font-face {
-      font-family: 'Space Grotesk';
-      src: url('SpaceGrotesk_Complete/Fonts/WEB/fonts/SpaceGrotesk-Regular.woff2') format('woff2'),
-           url('SpaceGrotesk_Complete/Fonts/WEB/fonts/SpaceGrotesk-Regular.woff') format('woff'),
-           url('SpaceGrotesk_Complete/Fonts/WEB/fonts/SpaceGrotesk-Regular.ttf') format('truetype');
-      font-weight: 400;
-      font-style: normal;
-      font-display: swap;
-    }
-    @font-face {
-      font-family: 'Space Grotesk';
-      src: url('SpaceGrotesk_Complete/Fonts/WEB/fonts/SpaceGrotesk-Medium.woff2') format('woff2'),
-           url('SpaceGrotesk_Complete/Fonts/WEB/fonts/SpaceGrotesk-Medium.woff') format('woff'),
-           url('SpaceGrotesk_Complete/Fonts/WEB/fonts/SpaceGrotesk-Medium.ttf') format('truetype');
-      font-weight: 500;
-      font-style: normal;
-      font-display: swap;
-    }
-
     :root {
       --bg: #ffffff;
       --bg-card: #f4f4f5;
@@ -708,6 +680,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
   </noscript>
   <link rel="icon" href="fav_refienry-symbol.svg" type="image/svg+xml">
+  <meta name="theme-color" content="#ffffff">
 <!-- Mixpanel -->
 <script type="text/javascript">
   (function (f, b) { if (!b.__SV) { var e, g, i, h; window.mixpanel = b; b._i = []; b.init = function (e, f, c) { function g(a, d) { var b = d.split("."); 2 == b.length && ((a = a[b[0]]), (d = b[1])); a[d] = function () { a.push([d].concat(Array.prototype.slice.call(arguments, 0))); }; } var a = b; "undefined" !== typeof c ? (a = b[c] = []) : (c = "mixpanel"); a.people = a.people || []; a.toString = function (a) { var d = "mixpanel"; "mixpanel" !== c && (d += "." + c); a || (d += " (stub)"); return d; }; a.people.toString = function () { return a.toString(1) + ".people (stub)"; }; i = "disable time_event track track_pageview track_links track_forms track_with_groups add_group set_group remove_group register register_once alias unregister identify name_tag set_config reset opt_in_tracking opt_out_tracking has_opted_in_tracking has_opted_out_tracking clear_opt_in_out_tracking start_batch_senders people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user people.remove".split( " "); for (h = 0; h < i.length; h++) g(a, i[h]); var j = "set set_once union unset remove delete".split(" "); a.get_group = function () { function b(c) { d[c] = function () { call2_args = arguments; call2 = [c].concat(Array.prototype.slice.call(call2_args, 0)); a.push([e, call2]); }; } for ( var d = {}, e = ["get_group"].concat( Array.prototype.slice.call(arguments, 0)), c = 0; c < j.length; c++) b(j[c]); return d; }; b._i.push([e, f, c]); }; b.__SV = 1.2; e = f.createElement("script"); e.type = "text/javascript"; e.async = !0; e.src = "undefined" !== typeof MIXPANEL_CUSTOM_LIB_URL ? MIXPANEL_CUSTOM_LIB_URL : "file:" === f.location.protocol && "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//) ? "https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js" : "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js"; g = f.getElementsByTagName("script")[0]; g.parentNode.insertBefore(e, g); } })(document, window.mixpanel || []);
@@ -718,7 +691,8 @@
     record_heatmap_data: true
   });
 </script>
-
+  <!-- Vercel Web Analytics (활성화: Vercel 프로젝트 > Analytics 탭에서 Enable 필요) -->
+  <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
 
@@ -1219,7 +1193,7 @@
       </div>
     </div>
     <div class="platform-graphic-wrap">
-      <img src="From%20Data%20to%20Intelligence.svg" alt="Refinery 플랫폼 아이소메트릭 다이어그램" class="platform-graphic-img" style="display:block;width:100%;height:auto;">
+      <img src="From%20Data%20to%20Intelligence.svg" alt="Refinery 플랫폼 아이소메트릭 다이어그램" class="platform-graphic-img" loading="lazy" decoding="async" style="display:block;width:100%;height:auto;">
     </div>
     <div class="series-nav-row">
       <div class="series-progress"><div class="series-progress-fill"></div></div>
@@ -1289,15 +1263,15 @@
       </div>
     </div>
     <div class="industries-grid">
-      <div class="industry-card"><div class="industry-name">에너지 · 유틸리티</div><div class="industry-desc">분산 설비 통합 관제,<br>ESG 대응 자동화</div><img src="industry-08.svg" alt="에너지 · 유틸리티" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">정유 · 가스</div><div class="industry-desc">대규모 설비 예지보전,<br>에너지 효율 AI 최적화</div><img src="industry-04.svg" alt="정유 · 가스" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">반도체</div><div class="industry-desc">나노 공정 미세 변동 실시간 감지,<br>AI 기반 수율 예측</div><img src="industry-01.svg" alt="반도체" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">철강</div><div class="industry-desc">고온 공정 실시간 모니터링,<br>AI 품질 예측</div><img src="industry-05.svg" alt="철강" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">화학 · 정밀화학</div><div class="industry-desc">반응 공정 최적화,<br>AI 안전 모니터링</div><img src="industry-03.svg" alt="화학 · 정밀화학" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">행정</div><div class="industry-desc">민원 처리기한 초과 자동 감지,<br>AI 기반 우선순위 알림</div><img src="industry-02.svg" alt="행정" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">물류</div><div class="industry-desc">콜드체인 온도 이탈 구간 실시간 감지,<br>AI 이상 알림</div><img src="industry-09.svg" alt="물류" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">총무</div><div class="industry-desc">사내 자산 · 설비 미반납 자동 추적,<br>AI 회수 요청 자동화</div><img src="industry-06.svg" alt="총무" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">환경</div><div class="industry-desc">측정소 데이터 품질 자동 진단,<br>ESG 리포트 자동 생성</div><img src="industry-07.svg" alt="환경" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
+      <div class="industry-card"><div class="industry-name">에너지 · 유틸리티</div><div class="industry-desc">분산 설비 통합 관제,<br>ESG 대응 자동화</div><img loading="lazy" decoding="async" src="industry-08.svg" alt="에너지 · 유틸리티" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
+      <div class="industry-card"><div class="industry-name">정유 · 가스</div><div class="industry-desc">대규모 설비 예지보전,<br>에너지 효율 AI 최적화</div><img loading="lazy" decoding="async" src="industry-04.svg" alt="정유 · 가스" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
+      <div class="industry-card"><div class="industry-name">반도체</div><div class="industry-desc">나노 공정 미세 변동 실시간 감지,<br>AI 기반 수율 예측</div><img loading="lazy" decoding="async" src="industry-01.svg" alt="반도체" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
+      <div class="industry-card"><div class="industry-name">철강</div><div class="industry-desc">고온 공정 실시간 모니터링,<br>AI 품질 예측</div><img loading="lazy" decoding="async" src="industry-05.svg" alt="철강" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
+      <div class="industry-card"><div class="industry-name">화학 · 정밀화학</div><div class="industry-desc">반응 공정 최적화,<br>AI 안전 모니터링</div><img loading="lazy" decoding="async" src="industry-03.svg" alt="화학 · 정밀화학" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
+      <div class="industry-card"><div class="industry-name">행정</div><div class="industry-desc">민원 처리기한 초과 자동 감지,<br>AI 기반 우선순위 알림</div><img loading="lazy" decoding="async" src="industry-02.svg" alt="행정" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
+      <div class="industry-card"><div class="industry-name">물류</div><div class="industry-desc">콜드체인 온도 이탈 구간 실시간 감지,<br>AI 이상 알림</div><img loading="lazy" decoding="async" src="industry-09.svg" alt="물류" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
+      <div class="industry-card"><div class="industry-name">총무</div><div class="industry-desc">사내 자산 · 설비 미반납 자동 추적,<br>AI 회수 요청 자동화</div><img loading="lazy" decoding="async" src="industry-06.svg" alt="총무" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
+      <div class="industry-card"><div class="industry-name">환경</div><div class="industry-desc">측정소 데이터 품질 자동 진단,<br>ESG 리포트 자동 생성</div><img loading="lazy" decoding="async" src="industry-07.svg" alt="환경" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
           </div>
   </div>
 </section>
@@ -1312,12 +1286,12 @@
       </div>
     </div>
     <div class="teams-menu-horizontal">
-      <button class="teams-tab-btn active" onclick="switchDash(this, 'Solutions/Solutions-02-ai-agent.png', 'llm')"><i class="ph ph-sparkle"></i> AI 에이전트</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-01-dashboard.png', 'plate')"><i class="ph ph-presentation"></i> 플레이트</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-04-tile.png', 'tile')"><i class="ph ph-grid-four"></i> 타일</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-05-pipeline.png', 'pipeline')"><i class="ph ph-flow-arrow"></i> 파이프라인</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-06-ontology.png', 'ontology')"><i class="ph ph-tree-structure"></i> 온톨로지</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-07-calendar-2.png', 'calendar')"><i class="ph ph-calendar-blank"></i> 캘린더</button>
+      <button class="teams-tab-btn active" onclick="switchDash(this, 'Solutions/Solutions-02-ai-agent.webp', 'llm')"><i class="ph ph-sparkle"></i> AI 에이전트</button>
+      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-01-dashboard.webp', 'plate')"><i class="ph ph-presentation"></i> 플레이트</button>
+      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-04-tile.webp', 'tile')"><i class="ph ph-grid-four"></i> 타일</button>
+      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-05-pipeline.webp', 'pipeline')"><i class="ph ph-flow-arrow"></i> 파이프라인</button>
+      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-06-ontology.webp', 'ontology')"><i class="ph ph-tree-structure"></i> 온톨로지</button>
+      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-07-calendar-2.webp', 'calendar')"><i class="ph ph-calendar-blank"></i> 캘린더</button>
     </div>
     <div class="teams-preview" id="teamsPreviewBox" style="margin-top:0;border-radius:0 0 var(--radius) var(--radius);overflow:hidden;border:1px solid var(--border);position:relative;aspect-ratio:1368/650;">
       <div class="teams-preview-decor" style="position:absolute;top:0;left:0;bottom:0;width:28.5%;z-index:1;background:#F6F8FA;pointer-events:none;"></div>
@@ -1335,7 +1309,7 @@
 근거가 된 데이터 출처도 함께 제시됩니다.</p>
       </div>
       <div id="iframe-wrapper" style="position:absolute;inset:0;overflow:hidden;">
-        <img id="dash-image" src="Solutions/Solutions-02-ai-agent.png"
+        <img id="dash-image" src="Solutions/Solutions-02-ai-agent.webp" width="2000" height="1250" loading="lazy" decoding="async"
           style="display:block;position:absolute;top:0;left:0;transform-origin:top left;pointer-events:none;"
           alt="Refinery 솔루션 대시보드 미리보기">
       </div>
@@ -1401,12 +1375,12 @@
       // 보이는 시점에 미리 나머지 이미지들을 백그라운드로 캐싱해둬서,
       // 실제로 탭을 누를 때는 이미 캐시된 이미지라 즉시 전환되도록 한다.
       var dashPreloadSrcs = [
-        'Solutions/Solutions-02-ai-agent.png',
-        'Solutions/Solutions-01-dashboard.png',
-        'Solutions/Solutions-04-tile.png',
-        'Solutions/Solutions-05-pipeline.png',
-        'Solutions/Solutions-06-ontology.png',
-        'Solutions/Solutions-07-calendar-2.png'
+        'Solutions/Solutions-02-ai-agent.webp',
+        'Solutions/Solutions-01-dashboard.webp',
+        'Solutions/Solutions-04-tile.webp',
+        'Solutions/Solutions-05-pipeline.webp',
+        'Solutions/Solutions-06-ontology.webp',
+        'Solutions/Solutions-07-calendar-2.webp'
       ];
       var dashPreloadDone = false;
       function preloadDashImages() {
@@ -1655,22 +1629,22 @@
     </div>
     <div class="security-grid">
       <div class="sec-card">
-        <div class="sec-card-img"><img src="Security-1.svg" alt="데이터 암호화 아이콘" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
+        <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-1.svg" alt="데이터 암호화 아이콘" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="sec-card-divider"></div>
         <div class="sec-card-body"><h4>데이터 암호화</h4><p>전송 구간은 TLS 1.3, 저장 데이터는 <br class="mobile-br">AES-256으로 암호화합니다.<br>키는 HSM 기반으로 안전하게 분리 관리합니다.</p></div>
       </div>
       <div class="sec-card">
-        <div class="sec-card-img"><img src="Security-2.svg" alt="멀티테넌시 격리 아이콘" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
+        <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-2.svg" alt="멀티테넌시 격리 아이콘" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="sec-card-divider"></div>
         <div class="sec-card-body"><h4>멀티테넌시 격리</h4><p>조직별 데이터를 완전히 분리합니다.<br>PostgreSQL RLS와 네트워크 레벨 분리를 통해 교차 접근을 차단합니다.</p></div>
       </div>
       <div class="sec-card">
-        <div class="sec-card-img"><img src="Security-3.svg" alt="OT/IT 경계 보안 아이콘" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
+        <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-3.svg" alt="OT/IT 경계 보안 아이콘" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="sec-card-divider"></div>
         <div class="sec-card-body"><div class="sec-card-title-row"><h4>OT/IT 경계 보안</h4><span class="ot-it-badge"><i class="ph ph-info"></i>제조 · 에너지 등 산업 제어 환경</span></div><p>현장 엣지(Silo/Agent)와 클라우드 간 단방향 <br class="mobile-br">전송을 지원합니다.<br>제어 시스템으로의 역방향 침투를 원천 <br class="mobile-br">차단합니다.</p></div>
       </div>
       <div class="sec-card">
-        <div class="sec-card-img"><img src="Security-4.svg" alt="감사 로그 및 RBAC 아이콘" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
+        <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-4.svg" alt="감사 로그 및 RBAC 아이콘" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="sec-card-divider"></div>
         <div class="sec-card-body"><h4>감사 로그 &amp; RBAC</h4><p>모든 API 호출과 업무 처리 이력을 안전하게 <br class="mobile-br">기록합니다.<br>역할 기반 접근 제어(RBAC)를 통해 최소 권한 <br class="mobile-br">원칙을 적용합니다.</p></div>
       </div>
@@ -1698,7 +1672,7 @@
 
 <!-- CTA -->
 <section id="cta" style="position:relative;overflow:hidden;">
-  <img src="img_login-bg.png" alt="" aria-hidden="true" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:right bottom;pointer-events:none;user-select:none;">
+  <img src="img_login-bg.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:right bottom;pointer-events:none;user-select:none;">
   <div class="container" style="position:relative;z-index:1;">
     <h2>지금 바로 Refinery를 통해<br>현장 운영의 새로운 기준을 <br class="mobile-br">경험해보세요.</h2>
     <div class="hero-actions" style="justify-content:flex-start;margin-top:40px;">
