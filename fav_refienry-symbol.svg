@@ -1,12 +1,32 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg id="_레이어_1" data-name="레이어_1" xmlns="http://www.w3.org/2000/svg" width="820" height="820" version="1.1" viewBox="0 0 820 820">
-  <!-- Generator: Adobe Illustrator 30.0.0, SVG Export Plug-In . SVG Version: 2.1.1 Build 123)  -->
-  <g id="_레이어_11" data-name="레이어_1">
-    <g id="_그룹_752" data-name="그룹_752">
-      <rect id="_사각형_24485" data-name="사각형_24485" x="100" y="100" width="620" height="620" fill="none"/>
-      <g id="_그룹_751" data-name="그룹_751">
-        <path id="_패스_6211" data-name="패스_6211" d="M480,140H200c-33.1,0-60,26.9-60,60v280c0,33.1,26.9,60,60,60h50c-16.6,0-30-13.4-30-30h0V250c0-16.6,13.4-30,30-30h260c16.6,0,30,13.4,30,30h0v-50c0-33.1-26.9-60-60-60Z" fill="#fff"/>
-        <path id="_패스_6212" data-name="패스_6212" d="M620,280h-50c16.6,0,30,13.4,30,30h0v260c0,16.6-13.4,30-30,30h-260c-16.6,0-30-13.4-30-30v50c0,33.1,26.9,60,60,60h280c33.1,0,60-26.9,60-60h0v-280c0-33.1-26.9-60-60-60Z" fill="#fff"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="820" viewBox="0 0 820 820">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #131519;
+      }
+
+      .cls-2 {
+        fill: none;
+      }
+
+      .cls-3 {
+        fill: #edeef0;
+      }
+    </style>
+  </defs>
+  <g id="그룹_755" data-name="그룹 755" transform="translate(-13921 -9149)">
+    <g id="그룹_754" data-name="그룹 754" transform="translate(287 365)">
+      <g id="그룹_753" data-name="그룹 753">
+        <rect id="사각형_24486" data-name="사각형 24486" class="cls-1" width="820" height="820" transform="translate(13634 8784)"/>
+        <g id="레이어_1" data-name="레이어 1" transform="translate(13734 8884)">
+          <g id="그룹_752" data-name="그룹 752">
+            <rect id="사각형_24485" data-name="사각형 24485" class="cls-2" width="620" height="620"/>
+            <g id="그룹_751" data-name="그룹 751">
+              <path id="패스_6211" data-name="패스 6211" class="cls-3" d="M380,40H100a60,60,0,0,0-60,60V380a60,60,0,0,0,60,60h50a30,30,0,0,1-30-30V150a30,30,0,0,1,30-30H410a30,30,0,0,1,30,30V100A60,60,0,0,0,380,40Z"/>
+              <path id="패스_6212" data-name="패스 6212" class="cls-3" d="M520,180H470a30,30,0,0,1,30,30V470a30,30,0,0,1-30,30H210a30,30,0,0,1-30-30v50a60,60,0,0,0,60,60H520a60,60,0,0,0,60-60V240A60,60,0,0,0,520,180Z"/>
+            </g>
+          </g>
+        </g>
       </g>
     </g>
   </g>
