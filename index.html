@@ -1384,6 +1384,42 @@
       document.addEventListener('DOMContentLoaded', resizeDash);
       var dashImageEl = document.getElementById('dash-image');
       if (dashImageEl) dashImageEl.addEventListener('load', resizeDash);
+
+      // Solutions 탭 전환 시 큰 이미지(장당 400~650KB)를 그제서야 받아오느라
+      // 탭을 눌러도 바로 안 보이고 잠깐 버벅이는 문제가 있었다 — 섹션이 화면에
+      // 보이는 시점에 미리 나머지 이미지들을 백그라운드로 캐싱해둬서,
+      // 실제로 탭을 누를 때는 이미 캐시된 이미지라 즉시 전환되도록 한다.
+      var dashPreloadSrcs = [
+        'Solutions/Solutions-02-ai-agent.png',
+        'Solutions/Solutions-01-dashboard.png',
+        'Solutions/Solutions-04-tile.png',
+        'Solutions/Solutions-05-pipeline.png',
+        'Solutions/Solutions-06-ontology.png',
+        'Solutions/Solutions-07-calendar-2.png'
+      ];
+      var dashPreloadDone = false;
+      function preloadDashImages() {
+        if (dashPreloadDone) return;
+        dashPreloadDone = true;
+        dashPreloadSrcs.forEach(function(src) {
+          var im = new Image();
+          im.src = src;
+        });
+      }
+      var teamsSectionEl = document.getElementById('teams');
+      if (teamsSectionEl && 'IntersectionObserver' in window) {
+        var dashPreloadObserver = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              preloadDashImages();
+              dashPreloadObserver.disconnect();
+            }
+          });
+        }, { rootMargin: '600px 0px' });
+        dashPreloadObserver.observe(teamsSectionEl);
+      } else {
+        window.addEventListener('load', preloadDashImages);
+      }
     })();
     </script>
   </div>
