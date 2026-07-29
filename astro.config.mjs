@@ -5,6 +5,12 @@ import sitemap from '@astrojs/sitemap';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://refinery-ai-platform.vercel.app',
+  // 다국어: 한국어 기본(무접두사), 영어 /en/, 일본어 /ja/. 기존 한국어 URL 보존.
+  i18n: {
+    locales: ['ko', 'en', 'ja'],
+    defaultLocale: 'ko',
+    routing: { prefixDefaultLocale: false },
+  },
   // 정적 출력(기본). Vercel이 Astro를 자동 감지하여 dist/를 배포한다.
   build: {
     // 기존 URL 보존: contact.astro → /contact.html (기존 href="contact.html" 링크 유지)

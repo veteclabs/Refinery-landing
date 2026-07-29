@@ -1,0 +1,27 @@
+---
+import { languages, getLangFromUrl, translatePath, type Lang } from '../i18n/ui';
+
+const current = getLangFromUrl(Astro.url);
+const items = (Object.keys(languages) as Lang[]).map((lang) => ({
+  lang,
+  label: lang.toUpperCase(),
+  href: translatePath(Astro.url, lang),
+  active: lang === current,
+}));
+---
+<div class="lang-switcher" aria-label="언어 선택 / Language">
+  {items.map((it, i) => (
+    <>
+      {i > 0 && <span class="lang-sep" aria-hidden="true">·</span>}
+      <a href={it.href} hreflang={it.lang} class={it.active ? 'lang-item is-active' : 'lang-item'} aria-current={it.active ? 'true' : undefined}>{it.label}</a>
+    </>
+  ))}
+</div>
+
+<style>
+  .lang-switcher { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; }
+  .lang-item { color: #7E8A98; text-decoration: none; transition: color .2s; }
+  .lang-item:hover { color: #76A6D7; }
+  .lang-item.is-active { color: #16202C; font-weight: 600; }
+  .lang-sep { color: #d4d4d8; }
+</style>
