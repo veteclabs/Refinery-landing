@@ -22,7 +22,7 @@ const jsonLd = {
 };
 const lines = (s: string) => s.split('\n');
 ---
-<BaseLayout title={ind.pageTitle} description={ind.description} canonical={canonical} jsonLd={jsonLd}>
+<BaseLayout title={ind.pageTitle} description={ind.description} canonical={canonical} ogImage={ind.seo?.ogImage} ogTitle={ind.seo?.ogTitle} jsonLd={jsonLd}>
   <Nav />
   <main class="ind">
     <!-- HERO -->

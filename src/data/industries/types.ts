@@ -28,6 +28,11 @@ export interface IndustryData {
   name: string;            // 예: 에너지 · 유틸리티
   pageTitle: string;       // <title> (SEO)
   description: string;     // meta description (SEO)
+  // 페이지별 SEO 미세조정(선택). 미지정 시 사이트 기본값 사용.
+  seo?: {
+    ogImage?: string;      // 산업 전용 OG 이미지 경로(예: /og/industry-energy.png)
+    ogTitle?: string;      // OG/Twitter 전용 제목
+  };
   hero: {
     eyebrow: string;
     title: string;
