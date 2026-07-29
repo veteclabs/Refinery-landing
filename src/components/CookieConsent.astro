@@ -94,6 +94,8 @@ const t =
 
     var el = document.getElementById('cookieConsent');
     function hide() { if (el) el.hidden = true; }
+    // 푸터 '쿠키 설정' 등에서 배너를 다시 열어 재선택할 수 있게 한다.
+    window.openCookieSettings = function () { if (el) el.hidden = false; };
 
     var consent = getCookie('cookie_consent');
     if (consent === 'granted') {
