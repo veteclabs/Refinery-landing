@@ -1,0 +1,110 @@
+---
+// 쿠키 동의 배너 + 동의 게이팅. 동의('granted') 시에만 GA·Mixpanel 로드.
+// Vercel Analytics(쿠키리스)는 Analytics.astro에서 항상 로드.
+const lang = (Astro.currentLocale ?? 'ko') as 'ko' | 'en';
+const t =
+  lang === 'en'
+    ? {
+        text: 'We use analytics cookies to improve our service. If you accept, Google Analytics and Mixpanel are enabled.',
+        more: 'Learn more:',
+        accept: 'Accept',
+        decline: 'Decline',
+        cookie: 'Cookie Policy',
+        privacy: 'Privacy Policy',
+        cookieHref: '/en/cookie-policy',
+        privacyHref: '/en/privacy',
+        aria: 'Cookie consent',
+      }
+    : {
+        text: '서비스 개선을 위해 분석 쿠키를 사용합니다. ‘동의’ 시 Google Analytics·Mixpanel 분석이 활성화됩니다.',
+        more: '자세한 내용:',
+        accept: '동의',
+        decline: '거부',
+        cookie: '쿠키 정책',
+        privacy: '개인정보처리방침',
+        cookieHref: '/cookie-policy',
+        privacyHref: '/privacy',
+        aria: '쿠키 동의',
+      };
+---
+<div id="cookieConsent" class="cc" role="dialog" aria-label={t.aria} aria-live="polite" hidden>
+  <div class="cc-copy">
+    <p class="cc-text">{t.text}</p>
+    <p class="cc-links">{t.more} <a href={t.cookieHref}>{t.cookie}</a> · <a href={t.privacyHref}>{t.privacy}</a></p>
+  </div>
+  <div class="cc-actions">
+    <button type="button" id="ccDecline" class="cc-btn cc-ghost">{t.decline}</button>
+    <button type="button" id="ccAccept" class="cc-btn cc-primary">{t.accept}</button>
+  </div>
+</div>
+
+<style>
+  .cc {
+    position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 200;
+    max-width: 720px; margin: 0 auto;
+    background: #ffffff; color: #16202c;
+    border: 1px solid #e3e7ec; border-radius: 14px;
+    box-shadow: 0 10px 40px rgba(10, 14, 20, 0.18);
+    padding: 18px 20px;
+    display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  .cc[hidden] { display: none; }
+  .cc-copy { flex: 1 1 320px; }
+  .cc-text { margin: 0; font-size: 13.5px; line-height: 1.6; color: #47535f; }
+  .cc-links { margin: 6px 0 0; font-size: 12.5px; color: #7e8a98; }
+  .cc-links a { color: #4b86bf; text-decoration: underline; text-underline-offset: 2px; }
+  .cc-actions { display: flex; gap: 8px; margin-left: auto; }
+  .cc-btn { font-size: 14px; font-weight: 600; padding: 9px 18px; border-radius: 8px; cursor: pointer; border: 1px solid transparent; font-family: inherit; }
+  .cc-primary { background: #16202c; color: #fff; }
+  .cc-primary:hover { background: #0b1219; }
+  .cc-ghost { background: transparent; color: #47535f; border-color: #d4d4d8; }
+  .cc-ghost:hover { border-color: #16202c; color: #16202c; }
+  @media (max-width: 560px) {
+    .cc { flex-direction: column; align-items: stretch; }
+    .cc-actions { margin-left: 0; }
+    .cc-btn { flex: 1; }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var GA_ID = 'G-26MDX5Q369';
+    var MP_TOKEN = '72c823a8ffe370ae7f80c35c3475300b';
+
+    function getCookie(n) { var m = document.cookie.match('(?:^|; )' + n + '=([^;]*)'); return m ? m[1] : null; }
+    function setCookie(n, v) { document.cookie = n + '=' + v + '; path=/; max-age=31536000; samesite=lax'; }
+
+    function loadGA() {
+      if (window.__gaLoaded) return; window.__gaLoaded = 1;
+      var s = document.createElement('script'); s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+      document.head.appendChild(s);
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () { dataLayer.push(arguments); };
+      gtag('js', new Date());
+      gtag('config', GA_ID);
+    }
+    function loadMixpanel() {
+      if (window.__mpLoaded) return; window.__mpLoaded = 1;
+      (function (f, b) { if (!b.__SV) { var e, g, i, h; window.mixpanel = b; b._i = []; b.init = function (e, f, c) { function g(a, d) { var b = d.split("."); 2 == b.length && ((a = a[b[0]]), (d = b[1])); a[d] = function () { a.push([d].concat(Array.prototype.slice.call(arguments, 0))); }; } var a = b; "undefined" !== typeof c ? (a = b[c] = []) : (c = "mixpanel"); a.people = a.people || []; a.toString = function (a) { var d = "mixpanel"; "mixpanel" !== c && (d += "." + c); a || (d += " (stub)"); return d; }; a.people.toString = function () { return a.toString(1) + ".people (stub)"; }; i = "disable time_event track track_pageview track_links track_forms track_with_groups add_group set_group remove_group register register_once alias unregister identify name_tag set_config reset opt_in_tracking opt_out_tracking has_opted_in_tracking has_opted_out_tracking clear_opt_in_out_tracking start_batch_senders people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user people.remove".split(" "); for (h = 0; h < i.length; h++) g(a, i[h]); var j = "set set_once union unset remove delete".split(" "); a.get_group = function () { function b(c) { d[c] = function () { call2_args = arguments; call2 = [c].concat(Array.prototype.slice.call(call2_args, 0)); a.push([e, call2]); }; } for (var d = {}, e = ["get_group"].concat(Array.prototype.slice.call(arguments, 0)), c = 0; c < j.length; c++) b(j[c]); return d; }; b._i.push([e, f, c]); }; b.__SV = 1.2; e = f.createElement("script"); e.type = "text/javascript"; e.async = !0; e.src = "undefined" !== typeof MIXPANEL_CUSTOM_LIB_URL ? MIXPANEL_CUSTOM_LIB_URL : "file:" === f.location.protocol && "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//) ? "https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js" : "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js"; g = f.getElementsByTagName("script")[0]; g.parentNode.insertBefore(e, g); } })(document, window.mixpanel || []);
+      mixpanel.init(MP_TOKEN, { track_pageview: true, persistence: "localStorage", record_sessions_percent: 100, record_heatmap_data: true });
+    }
+    function loadTrackers() { try { loadGA(); loadMixpanel(); } catch (e) {} }
+
+    var el = document.getElementById('cookieConsent');
+    function hide() { if (el) el.hidden = true; }
+
+    var consent = getCookie('cookie_consent');
+    if (consent === 'granted') {
+      loadTrackers();
+    } else if (consent !== 'denied') {
+      if (el) el.hidden = false; // 미결정 → 배너 노출
+    }
+
+    var a = document.getElementById('ccAccept');
+    var d = document.getElementById('ccDecline');
+    if (a) a.addEventListener('click', function () { setCookie('cookie_consent', 'granted'); loadTrackers(); hide(); });
+    if (d) d.addEventListener('click', function () { setCookie('cookie_consent', 'denied'); hide(); });
+  })();
+</script>

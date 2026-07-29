@@ -1,0 +1,101 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/legal.css';
+---
+<BaseLayout
+  title="개인정보처리방침 — Refinery"
+  description="Refinery 웹사이트의 개인정보 수집·이용에 관한 처리방침입니다."
+  canonical="/privacy"
+  robots="index, follow"
+>
+  <Nav />
+  <main class="legal-main">
+    <nav class="legal-crumb" aria-label="위치"><a href="/">Home</a> › 개인정보처리방침</nav>
+    <h1>개인정보처리방침</h1>
+    <p class="legal-updated">시행일: <span class="legal-ph">[YYYY-MM-DD]</span></p>
+
+    <div class="legal-draft">
+      ⚠️ 본 문서는 <strong>초안</strong>입니다. 게시 전 <strong>실제 회사 정보 기입</strong>(<span class="legal-ph">[…]</span> 표기 부분)과
+      <strong>법무 검토</strong>가 필요합니다. 아래 처리 도구·수집 항목은 현재 사이트 구현 기준의 사실입니다.
+    </div>
+
+    <div class="legal-body">
+      <p>
+        <span class="legal-ph">[회사명(예: 주식회사 베텍)]</span>(이하 "회사")는 「개인정보 보호법」 등 관련 법령을 준수하며,
+        Refinery 웹사이트(<span class="legal-ph">[도메인]</span>) 이용자의 개인정보를 다음과 같이 처리합니다.
+      </p>
+
+      <section>
+        <h2>1. 수집하는 개인정보 항목</h2>
+        <h3>가. 문의·데모 신청 시 (이용자가 직접 입력)</h3>
+        <ul>
+          <li>필수: 회사명, 성함, 이메일, 연락처</li>
+          <li>선택: 직책, 산업 분야, 문의 내용</li>
+        </ul>
+        <h3>나. 서비스 이용 과정에서 자동 수집</h3>
+        <ul>
+          <li>쿠키, 접속 IP·브라우저·기기 정보, 방문 기록, 분석 도구가 생성하는 식별자</li>
+          <li>단, 분석 쿠키(Google Analytics·Mixpanel)는 <strong>이용자 동의 후에만</strong> 수집됩니다. (<a href="/cookie-policy">쿠키 정책</a> 참고)</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>2. 개인정보의 수집·이용 목적</h2>
+        <ul>
+          <li>문의·데모 신청 접수 및 회신, 상담</li>
+          <li>서비스 이용 통계·품질 개선(동의 시)</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>3. 보유 및 이용 기간</h2>
+        <p>수집 목적 달성 후 지체 없이 파기합니다. 관계 법령에 따라 보존이 필요한 경우 해당 기간 동안 보관합니다.</p>
+        <p>문의 관련 개인정보 보유기간: <span class="legal-ph">[예: 접수 후 N년]</span> <span class="legal-ph">[법무 확인]</span></p>
+      </section>
+
+      <section>
+        <h2>4. 개인정보 처리의 위탁 · 국외 이전</h2>
+        <p>회사는 서비스 제공을 위해 아래 처리자에게 개인정보 처리를 위탁하며, 일부는 국외에 서버를 둡니다.</p>
+        <div class="legal-table-wrap">
+          <table class="legal-table">
+            <thead><tr><th>수탁자</th><th>위탁 업무</th><th>비고</th></tr></thead>
+            <tbody>
+              <tr><td>Web3Forms</td><td>문의 폼 전송·처리</td><td>국외</td></tr>
+              <tr><td>Google (Analytics)</td><td>웹 이용 분석</td><td>국외 · 동의 기반</td></tr>
+              <tr><td>Mixpanel</td><td>제품 이용 분석</td><td>국외 · 동의 기반</td></tr>
+              <tr><td>Vercel</td><td>웹사이트 호스팅·트래픽 분석</td><td>국외</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p><span class="legal-ph">[각 수탁자의 개인정보 처리방침 링크·보관위치·기간을 법무 확인 후 명시]</span></p>
+      </section>
+
+      <section>
+        <h2>5. 정보주체의 권리와 행사 방법</h2>
+        <p>이용자는 개인정보 열람·정정·삭제·처리정지를 요청할 수 있으며, 아래 연락처로 요청하실 수 있습니다.</p>
+      </section>
+
+      <section>
+        <h2>6. 쿠키의 사용</h2>
+        <p>회사는 서비스 개선을 위해 쿠키를 사용할 수 있습니다. 분석 쿠키는 최초 방문 시 동의 배너를 통해 동의한 경우에만 활성화되며, 브라우저 설정 또는 동의 철회로 거부할 수 있습니다. 자세한 내용은 <a href="/cookie-policy">쿠키 정책</a>을 참고하세요.</p>
+      </section>
+
+      <section>
+        <h2>7. 개인정보 보호책임자 · 문의처</h2>
+        <ul>
+          <li>책임자: <span class="legal-ph">[성명 / 직책]</span></li>
+          <li>이메일: <span class="legal-ph">[privacy@도메인]</span></li>
+          <li>주소: <span class="legal-ph">[회사 주소]</span></li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>8. 고지의 의무</h2>
+        <p>본 방침은 <span class="legal-ph">[시행일]</span>부터 적용되며, 내용 변경 시 웹사이트를 통해 사전 고지합니다.</p>
+      </section>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
