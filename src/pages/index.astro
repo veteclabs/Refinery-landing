@@ -945,6 +945,68 @@ const jsonLd = {
   </div>
 </section>
 
+<!-- ================= CASE STUDIES (도입사례) =================
+     ⚠️ 플레이스홀더 섹션. 실제 고객사 로고·지표·인용을 확보한 뒤 교체할 것.
+     실제 내용 확정 전에는 프로덕션 공개에 주의(현재 자리표시자 문구 노출됨). -->
+<section id="cases" style="background:#ffffff;border-top:1px solid #E3E7EC;">
+  <style is:global>
+    #cases .cs-note{display:inline-block;font-size:12px;font-weight:600;letter-spacing:.04em;color:#B45309;background:#FEF3C7;border:1px solid #FDE68A;border-radius:999px;padding:4px 12px;margin-bottom:20px;}
+    #cases .cs-head h2{font-size:clamp(28px,4vw,42px);font-weight:600;letter-spacing:-0.6px;line-height:1.3;margin-bottom:14px;}
+    #cases .cs-head p{color:#7E8A98;font-size:16px;max-width:640px;}
+    #cases .cs-logos{display:flex;flex-wrap:wrap;gap:14px;margin:40px 0 48px;}
+    #cases .cs-logo{flex:1 1 140px;min-width:120px;height:64px;display:flex;align-items:center;justify-content:center;border:1px dashed #d4d4d8;border-radius:10px;color:#B0B8C1;font-size:13px;font-weight:600;letter-spacing:.05em;background:#FAFBFC;}
+    #cases .cs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+    #cases .cs-card{border:1px solid #E3E7EC;border-radius:12px;padding:28px;display:flex;flex-direction:column;gap:16px;background:#fff;}
+    #cases .cs-card-top{display:flex;align-items:center;justify-content:space-between;}
+    #cases .cs-card-logo{width:96px;height:32px;border:1px dashed #d4d4d8;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#B0B8C1;font-size:11px;font-weight:600;letter-spacing:.05em;}
+    #cases .cs-tag{font-size:12px;font-weight:600;color:#76A6D7;background:rgba(118,166,215,.1);padding:4px 10px;border-radius:999px;}
+    #cases .cs-metric{font-size:40px;font-weight:700;letter-spacing:-1px;color:#16202C;line-height:1;}
+    #cases .cs-metric span{font-size:16px;color:#7E8A98;font-weight:500;margin-left:6px;}
+    #cases .cs-quote{color:#2b3644;font-size:15px;line-height:1.65;border-left:3px solid #E3E7EC;padding-left:14px;}
+    #cases .cs-quote-by{margin-top:10px;font-size:13px;color:#7E8A98;}
+    #cases .cs-ph{font-size:11px;color:#B0B8C1;font-style:italic;}
+    @media (max-width:900px){#cases .cs-grid{grid-template-columns:1fr;}}
+  </style>
+  <div class="container">
+    <div class="section-header-row cs-head">
+      <span class="cs-note">⚠ 자리표시자 · 실제 고객 확정 후 교체</span>
+      <h2>현장에서 검증되는 성과</h2>
+      <p>Refinery를 도입한 조직들의 실제 성과와 이야기를 이곳에 담습니다.</p>
+    </div>
+
+    <!-- 고객사 로고 스트립 (실제 로고 SVG로 교체) -->
+    <div class="cs-logos">
+      <div class="cs-logo">LOGO</div>
+      <div class="cs-logo">LOGO</div>
+      <div class="cs-logo">LOGO</div>
+      <div class="cs-logo">LOGO</div>
+      <div class="cs-logo">LOGO</div>
+    </div>
+
+    <!-- 대표 사례 카드 (실제 지표·인용으로 교체) -->
+    <div class="cs-grid">
+      <div class="cs-card">
+        <div class="cs-card-top"><div class="cs-card-logo">LOGO</div><span class="cs-tag">에너지</span></div>
+        <div class="cs-metric">00%<span>지표 개선</span></div>
+        <div class="cs-quote">“핵심 성과를 요약한 고객 인용문이 들어갑니다.”<div class="cs-quote-by">직함 · 회사명</div></div>
+        <div class="cs-ph">※ 실제 수치·인용·출처로 교체</div>
+      </div>
+      <div class="cs-card">
+        <div class="cs-card-top"><div class="cs-card-logo">LOGO</div><span class="cs-tag">제조</span></div>
+        <div class="cs-metric">00<span>시간 단축</span></div>
+        <div class="cs-quote">“핵심 성과를 요약한 고객 인용문이 들어갑니다.”<div class="cs-quote-by">직함 · 회사명</div></div>
+        <div class="cs-ph">※ 실제 수치·인용·출처로 교체</div>
+      </div>
+      <div class="cs-card">
+        <div class="cs-card-top"><div class="cs-card-logo">LOGO</div><span class="cs-tag">공공</span></div>
+        <div class="cs-metric">00%<span>자동화율</span></div>
+        <div class="cs-quote">“핵심 성과를 요약한 고객 인용문이 들어갑니다.”<div class="cs-quote-by">직함 · 회사명</div></div>
+        <div class="cs-ph">※ 실제 수치·인용·출처로 교체</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- SECURITY -->
 <section id="security" style="background:#F6F8FA;border-top:1px solid #E3E7EC;">
   <div class="container">
