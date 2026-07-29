@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import { getCollection } from 'astro:content';
+import '../../styles/blog.css';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
+);
+
+const fmt = (d: Date) =>
+  new Intl.DateTimeFormat('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' }).format(d);
+---
+<BaseLayout
+  title="블로그 — Refinery"
+  description="산업 데이터·AI 에이전트·현장 운영에 대한 Refinery의 인사이트와 제품 소식."
+  canonical="/blog"
+>
+  <SiteHeader />
+  <main class="blog-main">
+    <header class="blog-hero">
+      <p class="blog-eyebrow">BLOG</p>
+      <h1>인사이트 &amp; 소식</h1>
+      <p class="blog-lede">산업 데이터를 정제해 의사결정으로 잇는 방법, 그리고 Refinery의 제품 이야기.</p>
+    </header>
+
+    <ul class="blog-grid">
+      {posts.map((post) => (
+        <li class="blog-card">
+          <a href={`/blog/${post.id}.html`}>
+            <div class="blog-card-meta">
+              <time datetime={post.data.pubDate.toISOString()}>{fmt(post.data.pubDate)}</time>
+              {post.data.tags[0] && <span class="blog-card-tag">#{post.data.tags[0]}</span>}
+            </div>
+            <h2>{post.data.title}</h2>
+            <p>{post.data.description}</p>
+            <span class="blog-card-more">읽기 →</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </main>
+  <SiteFooter />
+</BaseLayout>

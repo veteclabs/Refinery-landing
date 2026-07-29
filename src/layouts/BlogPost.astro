@@ -1,0 +1,80 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import '../styles/blog.css';
+
+export interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  updatedDate?: Date;
+  author?: string;
+  tags?: string[];
+  ogImage?: string;
+  slug: string;
+}
+
+const { title, description, pubDate, updatedDate, author = 'Refinery', tags = [], ogImage, slug } = Astro.props;
+
+const fmt = (d: Date) =>
+  new Intl.DateTimeFormat('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' }).format(d);
+
+// canonical/sitemap 정합: 클린 URL 사용(Vercel이 .html도 동일 경로로 서빙)
+const canonical = `/blog/${slug}`;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  description,
+  datePublished: pubDate.toISOString(),
+  dateModified: (updatedDate ?? pubDate).toISOString(),
+  author: { '@type': 'Organization', name: author },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Refinery',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://refinery-ai-platform.vercel.app/logo_Refinery_symbol.svg',
+    },
+  },
+  image: new URL(ogImage ?? '/og-image.png', 'https://refinery-ai-platform.vercel.app/').href,
+  mainEntityOfPage: `https://refinery-ai-platform.vercel.app${canonical}`,
+};
+---
+<BaseLayout
+  title={`${title} — Refinery 블로그`}
+  ogTitle={title}
+  description={description}
+  canonical={canonical}
+  ogType="article"
+  ogImage={ogImage}
+  jsonLd={jsonLd}
+>
+  <SiteHeader />
+  <main class="blog-main">
+    <article class="post">
+      <nav class="post-breadcrumb" aria-label="위치">
+        <a href="/blog.html">← 블로그</a>
+      </nav>
+      <header class="post-header">
+        <div class="post-meta">
+          <time datetime={pubDate.toISOString()}>{fmt(pubDate)}</time>
+          <span class="post-dot">·</span>
+          <span>{author}</span>
+        </div>
+        <h1>{title}</h1>
+        <p class="post-desc">{description}</p>
+        {tags.length > 0 && (
+          <ul class="post-tags">
+            {tags.map((t) => <li>#{t}</li>)}
+          </ul>
+        )}
+      </header>
+      <div class="post-body">
+        <slot />
+      </div>
+    </article>
+  </main>
+  <SiteFooter />
+</BaseLayout>
