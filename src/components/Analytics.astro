@@ -1,14 +1,15 @@
 ---
 // 사이트 전역 분석/추적 (GA · Mixpanel · Vercel Analytics · Speed Insights)
-const GA_ID = 'G-26MDX5Q369';
+// 주의: gtag는 본문 스크립트(section_view 이벤트 등)에서 전역으로 참조하므로
+// define:vars(IIFE 래핑)를 쓰면 안 된다 — 반드시 전역 함수로 남겨야 한다.
 ---
 <!-- Google Analytics -->
-<script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}></script>
-<script is:inline define:vars={{ GA_ID }}>
+<script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-26MDX5Q369"></script>
+<script is:inline>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', GA_ID);
+  gtag('config', 'G-26MDX5Q369');
 </script>
 <!-- Mixpanel -->
 <script is:inline type="text/javascript">
