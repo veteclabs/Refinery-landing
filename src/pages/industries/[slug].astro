@@ -1,0 +1,150 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import '../../styles/industry.css';
+import { industries } from '../../data/industries';
+
+export function getStaticPaths() {
+  return industries.map((ind) => ({ params: { slug: ind.slug }, props: { ind } }));
+}
+
+const { ind } = Astro.props;
+const canonical = `/industries/${ind.slug}`;
+const SITE = 'https://refinery-ai-platform.vercel.app';
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Industries', item: `${SITE}/#industries` },
+    { '@type': 'ListItem', position: 2, name: ind.name, item: `${SITE}${canonical}` },
+  ],
+};
+const lines = (s: string) => s.split('\n');
+---
+<BaseLayout title={ind.pageTitle} description={ind.description} canonical={canonical} jsonLd={jsonLd}>
+  <Nav />
+  <main class="ind">
+    <!-- HERO -->
+    <section class="ind-hero">
+      <div class="ind-container">
+        <nav class="ind-crumb" aria-label="위치"><a href="/#industries">Industries</a><span>›</span><span>{ind.name}</span></nav>
+        <p class="ind-eyebrow">{ind.hero.eyebrow}</p>
+        <h1>{lines(ind.hero.title).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</h1>
+        <p class="ind-lede">{ind.hero.lede}</p>
+        <div class="ind-hero-actions">
+          <a href="/contact" class="ind-btn-primary">데모 신청하기</a>
+          <a href="/#teams" class="ind-btn-ghost">제품 살펴보기 →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHALLENGES -->
+    <section class="ind-section ind-soft">
+      <div class="ind-container">
+        <header class="ind-head">
+          <h2>{ind.challenges.title}</h2>
+          {ind.challenges.subtitle && <p>{ind.challenges.subtitle}</p>}
+        </header>
+        <div class="ind-grid ind-grid-2">
+          {ind.challenges.items.map((c) => (
+            <div class="ind-card">
+              <h3>{c.title}</h3>
+              <p>{c.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- USE CASES -->
+    <section class="ind-section">
+      <div class="ind-container">
+        <header class="ind-head">
+          <span class="ind-badge">USE CASES</span>
+          <h2>{ind.useCases.title}</h2>
+          {ind.useCases.subtitle && <p>{ind.useCases.subtitle}</p>}
+        </header>
+        <div class="ind-usecases">
+          {ind.useCases.items.map((u, i) => (
+            <article class="ind-usecase">
+              <div class="ind-usecase-num">{String(i + 1).padStart(2, '0')}</div>
+              <div class="ind-usecase-body">
+                <h3>{u.title}</h3>
+                <dl>
+                  <div><dt>문제</dt><dd>{u.problem}</dd></div>
+                  <div><dt>접근</dt><dd>{u.approach}</dd></div>
+                  <div><dt>성과</dt><dd class="ind-outcome">{u.outcome}</dd></div>
+                </dl>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ARCHITECTURE -->
+    <section class="ind-section ind-dark">
+      <div class="ind-container">
+        <header class="ind-head ind-head-light">
+          <h2>{ind.architecture.title}</h2>
+          {ind.architecture.subtitle && <p>{ind.architecture.subtitle}</p>}
+        </header>
+        <div class="ind-flow">
+          {ind.architecture.steps.map((s, i) => (
+            <>
+              {i > 0 && <div class="ind-flow-arrow" aria-hidden="true">→</div>}
+              <div class="ind-flow-step">
+                <div class="ind-flow-label">{s.label}</div>
+                <div class="ind-flow-detail">{s.detail}</div>
+              </div>
+            </>
+          ))}
+        </div>
+        {ind.architecture.note && <p class="ind-flow-note">{ind.architecture.note}</p>}
+      </div>
+    </section>
+
+    <!-- BENEFITS -->
+    <section class="ind-section ind-soft">
+      <div class="ind-container">
+        <header class="ind-head">
+          <span class="ind-badge">BENEFITS</span>
+          <h2>{ind.benefits.title}</h2>
+          {ind.benefits.subtitle && <p>{ind.benefits.subtitle}</p>}
+        </header>
+        <div class="ind-grid ind-grid-3">
+          {ind.benefits.items.map((b) => (
+            <div class="ind-card">
+              <h3>{b.title}</h3>
+              <p>{b.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- INTEGRATIONS -->
+    <section class="ind-section">
+      <div class="ind-container">
+        <header class="ind-head">
+          <h2>{ind.integrations.title}</h2>
+          {ind.integrations.subtitle && <p>{ind.integrations.subtitle}</p>}
+        </header>
+        <div class="ind-systems">
+          {ind.integrations.systems.map((s) => <span class="ind-system">{s}</span>)}
+        </div>
+        {ind.integrations.note && <p class="ind-systems-note">{ind.integrations.note}</p>}
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="ind-cta">
+      <div class="ind-container">
+        <h2>{lines(ind.cta.title).map((l, i) => (<>{i > 0 && <br />}{l}</>))}</h2>
+        <a href="/contact" class="ind-btn-primary ind-btn-lg">{ind.cta.buttonLabel}</a>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

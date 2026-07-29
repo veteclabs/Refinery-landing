@@ -1,0 +1,108 @@
+/* 산업 페이지 스타일 — 랜딩과 동일한 브랜드 토큰 */
+:root {
+  --bg: #ffffff;
+  --bg-soft: #f6f8fa;
+  --bg-dark: #111316;
+  --bg-card: #f4f4f5;
+  --border: #e3e7ec;
+  --border2: #d4d4d8;
+  --text: #16202c;
+  --text-muted: #7e8a98;
+  --accent: #76a6d7;
+  --accent-ink: #4b86bf;
+  --accent-soft: rgba(118, 166, 215, 0.12);
+  --radius: 12px;
+}
+
+* , *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg); color: var(--text); line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; height: auto; }
+
+.ind-container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+/* 버튼 */
+.ind-btn-primary {
+  display: inline-flex; align-items: center; padding: 12px 24px;
+  background: var(--text); color: #fff; border-radius: 8px;
+  font-size: 15px; font-weight: 600; transition: background .2s, transform .2s;
+}
+.ind-btn-primary:hover { background: #0b1219; transform: translateY(-1px); }
+.ind-btn-lg { padding: 14px 30px; font-size: 16px; }
+.ind-btn-ghost { display: inline-flex; align-items: center; padding: 12px 8px; color: var(--text-muted); font-size: 15px; font-weight: 500; transition: color .2s; }
+.ind-btn-ghost:hover { color: var(--accent-ink); }
+
+/* HERO (고정 내비 70px 오프셋 포함) */
+.ind-hero { padding: 140px 0 72px; background: var(--bg-soft); border-bottom: 1px solid var(--border); }
+.ind-crumb { display: flex; gap: 8px; align-items: center; font-size: 13px; color: var(--text-muted); margin-bottom: 22px; }
+.ind-crumb a:hover { color: var(--accent-ink); }
+.ind-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--accent-ink); margin-bottom: 16px; }
+.ind-hero h1 { font-size: clamp(30px, 5vw, 52px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; text-wrap: balance; }
+.ind-lede { margin-top: 20px; font-size: 18px; color: var(--text-muted); max-width: 60ch; line-height: 1.6; }
+.ind-hero-actions { margin-top: 32px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+/* 섹션 공통 */
+.ind-section { padding: 84px 0; border-bottom: 1px solid var(--border); }
+.ind-soft { background: var(--bg-soft); }
+.ind-head { max-width: 640px; margin-bottom: 44px; }
+.ind-badge { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .1em; color: var(--accent-ink); background: var(--accent-soft); padding: 5px 12px; border-radius: 999px; margin-bottom: 16px; }
+.ind-head h2 { font-size: clamp(26px, 3.4vw, 38px); font-weight: 650; letter-spacing: -0.02em; line-height: 1.25; }
+.ind-head p { margin-top: 12px; font-size: 16px; color: var(--text-muted); }
+
+/* 카드 그리드 */
+.ind-grid { display: grid; gap: 18px; }
+.ind-grid-2 { grid-template-columns: repeat(2, 1fr); }
+.ind-grid-3 { grid-template-columns: repeat(3, 1fr); }
+.ind-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 26px; }
+.ind-soft .ind-card { background: #fff; }
+.ind-card h3 { font-size: 18px; font-weight: 650; letter-spacing: -0.01em; margin-bottom: 8px; }
+.ind-card p { font-size: 15px; color: var(--text-muted); line-height: 1.6; }
+
+/* USE CASES */
+.ind-usecases { display: grid; gap: 16px; }
+.ind-usecase { display: grid; grid-template-columns: 56px 1fr; gap: 8px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px 30px; transition: border-color .2s, box-shadow .2s; }
+.ind-usecase:hover { border-color: var(--accent); box-shadow: 0 8px 28px rgba(16, 32, 44, 0.06); }
+.ind-usecase-num { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 15px; font-weight: 600; color: var(--accent); }
+.ind-usecase-body h3 { font-size: 20px; font-weight: 650; letter-spacing: -0.01em; margin-bottom: 16px; }
+.ind-usecase dl { display: grid; gap: 10px; }
+.ind-usecase dl > div { display: grid; grid-template-columns: 52px 1fr; gap: 14px; align-items: baseline; }
+.ind-usecase dt { font-size: 12px; font-weight: 700; color: var(--text-muted); letter-spacing: .02em; }
+.ind-usecase dd { font-size: 15px; color: #2b3644; line-height: 1.55; }
+.ind-usecase dd.ind-outcome { color: var(--text); font-weight: 550; }
+
+/* ARCHITECTURE (dark) */
+.ind-dark { background: var(--bg-dark); border-bottom-color: #24282e; }
+.ind-head-light h2 { color: #eef1f4; }
+.ind-head-light p { color: #9aa4b0; }
+.ind-flow { display: flex; align-items: stretch; gap: 8px; flex-wrap: wrap; }
+.ind-flow-step { flex: 1 1 180px; min-width: 160px; background: #191d22; border: 1px solid #272b32; border-radius: var(--radius); padding: 22px 20px; }
+.ind-flow-label { font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+.ind-flow-detail { font-size: 14.5px; color: #c8ccd1; line-height: 1.55; }
+.ind-flow-arrow { display: flex; align-items: center; color: #4a515a; font-size: 20px; }
+.ind-flow-note { margin-top: 24px; font-size: 14px; color: #9aa4b0; max-width: 68ch; }
+
+/* INTEGRATIONS */
+.ind-systems { display: flex; flex-wrap: wrap; gap: 10px; }
+.ind-system { font-size: 14px; font-weight: 550; color: var(--text); background: var(--bg-soft); border: 1px solid var(--border); border-radius: 8px; padding: 10px 16px; }
+.ind-systems-note { margin-top: 20px; font-size: 14px; color: var(--text-muted); max-width: 62ch; }
+
+/* CTA */
+.ind-cta { padding: 92px 0; text-align: center; background: var(--bg); }
+.ind-cta h2 { font-size: clamp(26px, 3.6vw, 40px); font-weight: 650; letter-spacing: -0.02em; line-height: 1.3; margin-bottom: 32px; text-wrap: balance; }
+
+/* 반응형 */
+@media (max-width: 860px) {
+  .ind-grid-2, .ind-grid-3 { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .ind-hero { padding: 118px 0 56px; }
+  .ind-section { padding: 60px 0; }
+  .ind-usecase { grid-template-columns: 1fr; gap: 14px; }
+  .ind-usecase dl > div { grid-template-columns: 44px 1fr; gap: 10px; }
+  .ind-flow-arrow { transform: rotate(90deg); width: 100%; justify-content: center; }
+}
