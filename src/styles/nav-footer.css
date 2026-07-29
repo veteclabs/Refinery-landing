@@ -130,6 +130,6 @@ nav .btn-primary:hover, nav .btn-primary:active { background: transparent; color
 
 /* 푸터 하단 법적 링크 바 */
 .footer-legal { display: flex; flex-wrap: wrap; gap: 8px 18px; }
-.footer-legal a { font-size: 13px; color: #7E8A98; text-decoration: none; transition: color .2s; }
-.footer-legal a:hover { color: #76A6D7; }
+.footer-legal a, .footer-legal button { font-size: 13px; color: #7E8A98; text-decoration: none; transition: color .2s; background: none; border: none; padding: 0; cursor: pointer; font-family: inherit; }
+.footer-legal a:hover, .footer-legal button:hover { color: #76A6D7; }
 @media (max-width: 640px) { .footer-legal { gap: 8px 14px; } }
