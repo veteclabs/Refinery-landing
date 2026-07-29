@@ -52,12 +52,8 @@
       font-weight: 500;
     }
 .mobile-nav-panel .mobile-nav-cta:hover, .mobile-nav-panel .mobile-nav-cta:active { background: transparent; color: #76A6D7; border-color: #76A6D7; }
-.nav-hamburger { display: flex; }
 .btn-primary:hover, .btn-primary:active { background: #f4f4f5; }
 nav .btn-primary:hover, nav .btn-primary:active { background: transparent; color: #76A6D7; border-color: #76A6D7; }
-.nav-links { display: none; }
-.container { padding: 0 24px; }
-.nav-inner { padding: 0 24px; }
 .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 24px; }
 .footer-brand p { font-family: 'JetBrains Mono', monospace; font-size: 15px; color: #0b0e14; margin-top: 10px; line-height: 1.7; max-width: 220px; }
 .footer-col-title { font-size: 13px; font-weight: 600; margin-bottom: 14px; }
@@ -68,8 +64,6 @@ nav .btn-primary:hover, nav .btn-primary:active { background: transparent; color
 .footer-bottom-text { font-size: 13px; color: #C8CED5; }
 .footer-logo-big { margin-top: 40px; line-height: 0; width: 60%; margin-left: calc(40% - 14px); }
 .footer-logo-big svg { width: 100%; height: auto; display: block; opacity: 1; }
-.footer-grid { grid-template-columns: 1fr 1fr; }
-.footer-grid { grid-template-columns: 1fr; }
 @media (max-width: 900px) {
       .nav-hamburger { display: flex; }
     }
