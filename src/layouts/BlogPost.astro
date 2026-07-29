@@ -1,7 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-import SiteHeader from '../components/SiteHeader.astro';
-import SiteFooter from '../components/SiteFooter.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
 import '../styles/blog.css';
 
 export interface Props {
@@ -51,7 +51,7 @@ const jsonLd = {
   ogImage={ogImage}
   jsonLd={jsonLd}
 >
-  <SiteHeader />
+  <Nav />
   <main class="blog-main">
     <article class="post">
       <nav class="post-breadcrumb" aria-label="위치">
@@ -76,5 +76,5 @@ const jsonLd = {
       </div>
     </article>
   </main>
-  <SiteFooter />
+  <Footer />
 </BaseLayout>
