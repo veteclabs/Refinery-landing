@@ -176,7 +176,7 @@ const jsonLd = {
       </div>
     </div>
     <div class="hero-motion-placeholder">
-      <iframe id="hero-agent-iframe" src="1-agent-demo-energy_260716.html" scrolling="no" tabindex="-1" style="display:block;border:none;position:absolute;top:0;left:0;transform-origin:top left;pointer-events:none;"></iframe>
+      <iframe id="hero-agent-iframe" data-src="1-agent-demo-energy_260716.html" loading="lazy" scrolling="no" tabindex="-1" title="Refinery AI 에이전트 데모" style="display:block;border:none;position:absolute;top:0;left:0;transform-origin:top left;pointer-events:none;"></iframe>
         </div>
 
   </div>
@@ -214,6 +214,21 @@ const jsonLd = {
       window.addEventListener('load', resizeHeroAgent);
       window.addEventListener('resize', resizeHeroAgent);
       document.addEventListener('DOMContentLoaded', resizeHeroAgent);
+
+      /* 성능: 무거운 데모 iframe(자체 JS·애니메이션)은 페이지가 인터랙티브해진 뒤(유휴 시점)
+         로드해 초기 TBT/네트워크 부하를 줄인다. 로드 후 크기 재계산. */
+      function loadHeroDemo() {
+        var f = document.getElementById('hero-agent-iframe');
+        if (f && !f.src && f.getAttribute('data-src')) {
+          f.addEventListener('load', resizeHeroAgent);
+          f.src = f.getAttribute('data-src');
+        }
+      }
+      if ('requestIdleCallback' in window) {
+        window.addEventListener('load', function () { requestIdleCallback(loadHeroDemo, { timeout: 1500 }); });
+      } else {
+        window.addEventListener('load', function () { setTimeout(loadHeroDemo, 200); });
+      }
 
       /* 히어로 데모가 재생 완료된 뒤 화면 밖으로 나갔다가 다시 들어오면
          재생을 처음부터 다시 시작한다 (멈춰있는 화면처럼 보이지 않도록). */
