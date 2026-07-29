@@ -9,7 +9,7 @@ const alternates = [
   { lang: 'en', href: '/en' },
 ];
 
-const jsonLd = {
+const orgSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
   "name": "Refinery",
@@ -18,6 +18,28 @@ const jsonLd = {
   "description": "산업 데이터의 복잡성을 정제하여 명료한 인사이트로. 수집부터 AI 분석, 예측, 자율 제어까지. 데이터 기반 의사결정이 가능한 조직을 만듭니다.",
   "sameAs": []
 };
+
+// FAQ 섹션과 동일한 Q&A → FAQPage 구조화 데이터(구글 리치 결과). 본문 FAQ와 함께 유지.
+const faqItems = [
+  { q: "가격은 어떻게 책정되나요?", a: "정책이 확정되는 대로 안내드립니다. 자세한 내용은 영업팀에 문의해 주세요." },
+  { q: "도입까지 얼마나 걸리나요?", a: "PoC부터 전사 확장까지 현장 규모와 기존 시스템 복잡도에 따라 달라집니다. 정확한 일정은 상담을 통해 안내드립니다." },
+  { q: "보안은 어떻게 보장되나요?", a: "전송 구간은 TLS 1.3, 저장 데이터는 AES-256으로 암호화하고, 조직별 데이터 격리(PostgreSQL RLS)와 RBAC·감사 로그를 적용합니다. 온프레미스 배포 옵션도 제공하며, 이 경우 데이터가 사내를 벗어나지 않습니다." },
+  { q: "현장 데이터를 AI 학습에 사용하나요?", a: "아니오. 고객 데이터는 AI 모델 학습에 사용되지 않습니다. 각 고객의 데이터는 완전히 격리되어 관리됩니다." },
+  { q: "기존 SCADA/MES/ERP는 어떻게 되나요?", a: "Refinery는 기존 시스템 위에 통합 지능 레이어로 동작합니다. 기존 시스템과 양방향으로 연동됩니다." },
+  { q: "어떤 언어를 지원하나요?", a: "인터페이스와 AI 에이전트의 답변은 현재 한국어로 제공됩니다. 영어 지원은 추후 확대할 예정입니다." },
+  { q: "클라우드와 온프레미스 중 선택할 수 있나요?", a: "클라우드, 온프레미스, 하이브리드 모두 지원합니다. 보안 정책에 따라 유연하게 선택 가능합니다." },
+];
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqItems.map((f) => ({
+    "@type": "Question",
+    "name": f.q,
+    "acceptedAnswer": { "@type": "Answer", "text": f.a },
+  })),
+};
+
+const jsonLd = [orgSchema, faqSchema];
 ---
 <BaseLayout
   title="Refinery — Refining complexity into pure insight"
