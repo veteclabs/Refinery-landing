@@ -28,7 +28,7 @@ const fmt = (d: Date) =>
     <ul class="blog-grid">
       {posts.map((post) => (
         <li class="blog-card">
-          <a href={`/blog/${post.id}.html`}>
+          <a href={`/blog/${post.id}`}>
             <div class="blog-card-meta">
               <time datetime={post.data.pubDate.toISOString()}>{fmt(post.data.pubDate)}</time>
               {post.data.tags[0] && <span class="blog-card-tag">#{post.data.tags[0]}</span>}
