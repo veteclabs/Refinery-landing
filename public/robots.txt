@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://refinery-ai-platform.vercel.app/sitemap.xml
+Sitemap: https://refinery-ai-platform.vercel.app/sitemap-index.xml
