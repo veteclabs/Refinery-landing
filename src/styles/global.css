@@ -7,7 +7,7 @@
       --border: #E3E7EC;
       --border2: #d4d4d8;
       --text: #16202C;
-      --text-muted: #7E8A98;
+      --text-muted: #7E8A98; /* NOTE: 라이트 배경에선 3.5:1로 AA 미달이나, 다크 섹션(integrations)에서도 재사용됨 → 전역 darken 금지. 대비는 per-섹션으로 개선 필요. */
       --text-dim: #888888;
       --accent: #76A6D7;
       --accent2: #76A6D7;
