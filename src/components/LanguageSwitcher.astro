@@ -17,12 +17,24 @@ const LIVE: { lang: Lang; label: string; home: string }[] = [
       <a
         href={it.home}
         hreflang={it.lang}
+        data-lang={it.lang}
         class={it.lang === current ? 'lang-item is-active' : 'lang-item'}
         aria-current={it.lang === current ? 'true' : undefined}
       >{it.label}</a>
     </>
   ))}
 </div>
+
+<script is:inline>
+  /* 사용자가 언어를 명시 선택하면 쿠키에 저장 → 자동 언어 안내(미들웨어)가 이 선택을 존중한다. */
+  (function () {
+    document.querySelectorAll('.lang-switcher .lang-item').forEach(function (a) {
+      a.addEventListener('click', function () {
+        document.cookie = 'lang=' + a.getAttribute('data-lang') + '; path=/; max-age=31536000; samesite=lax';
+      });
+    });
+  })();
+</script>
 
 <style>
   .lang-switcher { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; }
