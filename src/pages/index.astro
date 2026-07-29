@@ -160,6 +160,7 @@ const jsonLd = {
 </script>
 
 <!-- HERO -->
+<main id="main">
 <section id="hero">
   <div class="container">
     <div class="hero-row">
@@ -175,7 +176,7 @@ const jsonLd = {
       </div>
     </div>
     <div class="hero-motion-placeholder">
-      <iframe id="hero-agent-iframe" src="1-agent-demo-energy_260716.html" scrolling="no" tabindex="-1" style="display:block;border:none;position:absolute;top:0;left:0;transform-origin:top left;pointer-events:none;"></iframe>
+      <iframe id="hero-agent-iframe" data-src="1-agent-demo-energy_260716.html" loading="lazy" scrolling="no" tabindex="-1" title="Refinery AI 에이전트 데모" style="display:block;border:none;position:absolute;top:0;left:0;transform-origin:top left;pointer-events:none;"></iframe>
         </div>
 
   </div>
@@ -213,6 +214,21 @@ const jsonLd = {
       window.addEventListener('load', resizeHeroAgent);
       window.addEventListener('resize', resizeHeroAgent);
       document.addEventListener('DOMContentLoaded', resizeHeroAgent);
+
+      /* 성능: 무거운 데모 iframe(자체 JS·애니메이션)은 페이지가 인터랙티브해진 뒤(유휴 시점)
+         로드해 초기 TBT/네트워크 부하를 줄인다. 로드 후 크기 재계산. */
+      function loadHeroDemo() {
+        var f = document.getElementById('hero-agent-iframe');
+        if (f && !f.src && f.getAttribute('data-src')) {
+          f.addEventListener('load', resizeHeroAgent);
+          f.src = f.getAttribute('data-src');
+        }
+      }
+      if ('requestIdleCallback' in window) {
+        window.addEventListener('load', function () { requestIdleCallback(loadHeroDemo, { timeout: 1500 }); });
+      } else {
+        window.addEventListener('load', function () { setTimeout(loadHeroDemo, 200); });
+      }
 
       /* 히어로 데모가 재생 완료된 뒤 화면 밖으로 나갔다가 다시 들어오면
          재생을 처음부터 다시 시작한다 (멈춰있는 화면처럼 보이지 않도록). */
@@ -947,6 +963,7 @@ const jsonLd = {
 
 <!-- SECURITY -->
 <section id="security" style="background:#F6F8FA;border-top:1px solid #E3E7EC;">
+  <style>.sec-card-body h3{font-size:16px;font-weight:700;line-height:1.4;}</style>
   <div class="container">
     <div class="section-header">
       <div class="section-header-row">
@@ -958,22 +975,22 @@ const jsonLd = {
       <div class="sec-card">
         <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-1.svg" alt="데이터 암호화 아이콘" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="sec-card-divider"></div>
-        <div class="sec-card-body"><h4>데이터 암호화</h4><p>전송 구간은 TLS 1.3, 저장 데이터는 <br class="mobile-br">AES-256으로 암호화합니다.<br>키는 HSM 기반으로 안전하게 분리 관리합니다.</p></div>
+        <div class="sec-card-body"><h3>데이터 암호화</h3><p>전송 구간은 TLS 1.3, 저장 데이터는 <br class="mobile-br">AES-256으로 암호화합니다.<br>키는 HSM 기반으로 안전하게 분리 관리합니다.</p></div>
       </div>
       <div class="sec-card">
         <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-2.svg" alt="멀티테넌시 격리 아이콘" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="sec-card-divider"></div>
-        <div class="sec-card-body"><h4>멀티테넌시 격리</h4><p>조직별 데이터를 완전히 분리합니다.<br>PostgreSQL RLS와 네트워크 레벨 분리를 통해 교차 접근을 차단합니다.</p></div>
+        <div class="sec-card-body"><h3>멀티테넌시 격리</h3><p>조직별 데이터를 완전히 분리합니다.<br>PostgreSQL RLS와 네트워크 레벨 분리를 통해 교차 접근을 차단합니다.</p></div>
       </div>
       <div class="sec-card">
         <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-3.svg" alt="OT/IT 경계 보안 아이콘" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="sec-card-divider"></div>
-        <div class="sec-card-body"><div class="sec-card-title-row"><h4>OT/IT 경계 보안</h4><span class="ot-it-badge"><i class="ph ph-info"></i>제조 · 에너지 등 산업 제어 환경</span></div><p>현장 엣지(Silo/Agent)와 클라우드 간 단방향 <br class="mobile-br">전송을 지원합니다.<br>제어 시스템으로의 역방향 침투를 원천 <br class="mobile-br">차단합니다.</p></div>
+        <div class="sec-card-body"><div class="sec-card-title-row"><h3>OT/IT 경계 보안</h3><span class="ot-it-badge"><i class="ph ph-info"></i>제조 · 에너지 등 산업 제어 환경</span></div><p>현장 엣지(Silo/Agent)와 클라우드 간 단방향 <br class="mobile-br">전송을 지원합니다.<br>제어 시스템으로의 역방향 침투를 원천 <br class="mobile-br">차단합니다.</p></div>
       </div>
       <div class="sec-card">
         <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-4.svg" alt="감사 로그 및 RBAC 아이콘" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="sec-card-divider"></div>
-        <div class="sec-card-body"><h4>감사 로그 &amp; RBAC</h4><p>모든 API 호출과 업무 처리 이력을 안전하게 <br class="mobile-br">기록합니다.<br>역할 기반 접근 제어(RBAC)를 통해 최소 권한 <br class="mobile-br">원칙을 적용합니다.</p></div>
+        <div class="sec-card-body"><h3>감사 로그 &amp; RBAC</h3><p>모든 API 호출과 업무 처리 이력을 안전하게 <br class="mobile-br">기록합니다.<br>역할 기반 접근 제어(RBAC)를 통해 최소 권한 <br class="mobile-br">원칙을 적용합니다.</p></div>
       </div>
     </div>
   </div>
@@ -1007,6 +1024,8 @@ const jsonLd = {
     </div>
   </div>
 </section>
+
+</main>
 
 <!-- FOOTER -->
 <footer>
@@ -1415,7 +1434,7 @@ function switchDash(btn, src, key) {
 </style>
 
 <div id="contactDrawerOverlay" onclick="closeContactDrawer()"></div>
-<aside id="contactDrawerPanel" aria-hidden="true">
+<aside id="contactDrawerPanel" aria-hidden="true" inert>
   <button type="button" class="cd-close" onclick="closeContactDrawer()" aria-label="닫기"><i class="ph ph-x"></i></button>
   <div class="cd-inner">
     <h2 class="cd-title" id="cdTitle"><span class="cd-title-desktop-only">간단한 정보만 <br class="mobile-br">입력하시면<br></span>맞춤 데모를 <br class="mobile-br">안내해드립니다.</h2>
@@ -1541,12 +1560,14 @@ function switchDash(btn, src, key) {
       overlay.classList.add('open');
       panel.classList.add('open');
       panel.setAttribute('aria-hidden', 'false');
+      panel.removeAttribute('inert');
       document.body.style.overflow = 'hidden';
     };
     window.closeContactDrawer = function() {
       overlay.classList.remove('open');
       panel.classList.remove('open');
       panel.setAttribute('aria-hidden', 'true');
+      panel.setAttribute('inert', '');
       document.body.style.overflow = '';
       document.body.style.paddingRight = '';
       var navEl = document.querySelector('nav');
