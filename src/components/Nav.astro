@@ -1,20 +1,110 @@
 ---
 import LanguageSwitcher from './LanguageSwitcher.astro';
 import '../styles/nav-footer.css';
+
+// 메가메뉴 IA. 라이브 항목은 실제 페이지로, 예정 항목은 badge 표시.
+type Link = { label: string; href?: string; badge?: string };
+type Group = { title?: string; items: Link[] };
+type Menu = { label: string; href: string; groups?: Group[] };
+
+const menu: Menu[] = [
+  {
+    label: '플랫폼',
+    href: '/#platform',
+    groups: [
+      {
+        items: [
+          { label: '플랫폼 개요', href: '/#platform' },
+          { label: 'AI 에이전트', href: '/#teams' },
+          { label: '온톨로지', href: '/#platform' },
+          { label: '대시보드 · 분석', href: '/#teams' },
+          { label: '파이프라인', href: '/#teams' },
+          { label: '자동화', href: '/#platform' },
+        ],
+      },
+    ],
+  },
+  {
+    label: '솔루션',
+    href: '/#industries',
+    groups: [
+      {
+        title: '산업별',
+        items: [
+          { label: '에너지 · 유틸리티', href: '/industries/energy' },
+          { label: '전체 산업 보기', href: '/#industries' },
+          { label: '반도체', badge: '준비중' },
+          { label: '정유 · 가스', badge: '준비중' },
+        ],
+      },
+      {
+        title: '유즈케이스',
+        items: [
+          { label: '예지보전', href: '/#teams' },
+          { label: '품질 예측', href: '/#teams' },
+          { label: '에너지 최적화', href: '/#teams' },
+        ],
+      },
+    ],
+  },
+  {
+    label: '리소스',
+    href: '/blog',
+    groups: [
+      {
+        items: [
+          { label: '블로그', href: '/blog' },
+          { label: '문서', badge: '준비중' },
+        ],
+      },
+    ],
+  },
+  { label: '보안', href: '/#security' },
+  {
+    label: '회사',
+    href: '/company',
+    groups: [
+      {
+        items: [
+          { label: '회사 소개', href: '/company' },
+          { label: '문의하기', href: '/contact' },
+        ],
+      },
+    ],
+  },
+];
 ---
-<nav>
+<nav class="mm-nav">
   <div class="nav-inner">
     <div class="nav-left">
-      <a href="/" class="nav-logo"><img src="/logo_Refinery_symbol-text.svg" alt="Refinery" style="height:30px;"></a>
-      <div class="nav-links">
-        <a href="/#platform">Platform</a>
-        <a href="/#industries">Industries</a>
-        <a href="/#teams">Solutions</a>
-        <a href="/#integrations">Integrations</a>
-        <a href="/#security">Security</a>
-        <a href="/#faq">FAQ</a>
-        <a href="/blog">Blog</a>
-      </div>
+      <a href="/" class="nav-logo" aria-label="Refinery 홈"><img src="/logo_Refinery_symbol-text.svg" alt="Refinery" style="height:30px;"></a>
+      <ul class="mm-menu">
+        {menu.map((m) => (
+          <li class={m.groups ? 'mm-item has-panel' : 'mm-item'}>
+            <a href={m.href} class="mm-top">{m.label}{m.groups && <i class="ph ph-caret-down mm-caret" aria-hidden="true"></i>}</a>
+            {m.groups && (
+              <div class="mm-panel">
+                <div class="mm-panel-inner">
+                  {m.groups.map((g) => (
+                    <div class="mm-col">
+                      {g.title && <div class="mm-col-title">{g.title}</div>}
+                      <ul>
+                        {g.items.map((it) => (
+                          <li>
+                            {it.href
+                              ? <a href={it.href}>{it.label}</a>
+                              : <span class="mm-soon">{it.label}<span class="mm-badge">{it.badge}</span></span>}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </li>
+        ))}
+      </ul>
     </div>
     <div class="nav-actions">
       <LanguageSwitcher />
@@ -24,41 +114,35 @@ import '../styles/nav-footer.css';
       </button>
     </div>
   </div>
-  <div class="mobile-nav-panel" id="mobileNavPanel">
-    <a href="/#platform">Platform</a>
-    <a href="/#industries">Industries</a>
-    <a href="/#teams">Solutions</a>
-    <a href="/#integrations">Integrations</a>
-    <a href="/#security">Security</a>
-    <a href="/#faq">FAQ</a>
-    <a href="/blog">Blog</a>
+
+  <div class="mobile-nav-panel mm-mobile" id="mobileNavPanel">
+    {menu.map((m) => (
+      <div class="mm-mobile-group">
+        <a href={m.href} class="mm-mobile-top">{m.label}</a>
+        {m.groups && (
+          <div class="mm-mobile-sub">
+            {m.groups.map((g) => g.items.map((it) => (
+              it.href
+                ? <a href={it.href}>{it.label}</a>
+                : <span class="mm-soon">{it.label}<span class="mm-badge">{it.badge}</span></span>
+            )))}
+          </div>
+        )}
+      </div>
+    ))}
     <a href="/contact" class="mobile-nav-cta">문의하기</a>
   </div>
 </nav>
+
 <script is:inline>
-  (function() {
-    var hamburgerBtn = document.getElementById('navHamburgerBtn');
-    var mobileNavPanel = document.getElementById('mobileNavPanel');
-    if (!hamburgerBtn || !mobileNavPanel) return;
-    function closeMobileNav() {
-      mobileNavPanel.classList.remove('open');
-      hamburgerBtn.setAttribute('aria-expanded', 'false');
-      hamburgerBtn.innerHTML = '<i class="ph ph-list"></i>';
-    }
-    function openMobileNav() {
-      mobileNavPanel.classList.add('open');
-      hamburgerBtn.setAttribute('aria-expanded', 'true');
-      hamburgerBtn.innerHTML = '<i class="ph ph-x"></i>';
-    }
-    hamburgerBtn.addEventListener('click', function() {
-      if (mobileNavPanel.classList.contains('open')) closeMobileNav();
-      else openMobileNav();
-    });
-    mobileNavPanel.querySelectorAll('a').forEach(function(a) {
-      a.addEventListener('click', closeMobileNav);
-    });
-    window.addEventListener('resize', function() {
-      if (window.innerWidth > 900) closeMobileNav();
-    });
+  (function () {
+    var btn = document.getElementById('navHamburgerBtn');
+    var panel = document.getElementById('mobileNavPanel');
+    if (!btn || !panel) return;
+    function close() { panel.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); btn.innerHTML = '<i class="ph ph-list"></i>'; }
+    function open() { panel.classList.add('open'); btn.setAttribute('aria-expanded', 'true'); btn.innerHTML = '<i class="ph ph-x"></i>'; }
+    btn.addEventListener('click', function () { panel.classList.contains('open') ? close() : open(); });
+    panel.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', close); });
+    window.addEventListener('resize', function () { if (window.innerWidth > 980) close(); });
   })();
 </script>
