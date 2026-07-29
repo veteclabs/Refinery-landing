@@ -1,10 +1,12 @@
-# Vercel 배포에서 제외할 파일/폴더 (git 추적과는 별개 — 리포에는 남지만 배포에는 미포함)
+# Astro는 dist/만 배포한다. 아래는 빌드 업로드에서 제외할 소스/원본.
+# 주의: public/ 안의 파일(예: 1-agent-demo-energy_260716.html)은 절대 제외하지 말 것 —
+#       히어로 iframe이 참조하므로 제외 시 배포에서 404가 된다.
 
 # 디자인 원본 폴더 (사이트에서 참조하지 않음, 18MB 중복 이미지 포함)
 Refinery UI/
 
-# standalone 미리보기 HTML (랜딩에서 링크하지 않음)
+# standalone 미리보기 HTML (Astro 사이트에서 참조하지 않음)
 UI_Refinery_Dashboard.html
 
-# 주의: 1-agent-demo-energy_260716.html 은 index.html 히어로가 <iframe>으로
-# 임베드하므로 배포에서 제외하면 안 된다 (제외 시 히어로 데모가 404).
+# 마이그레이션 기록 문서 (배포 불필요)
+MIGRATION-PLAN.md

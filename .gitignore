@@ -1,3 +1,12 @@
+# dependencies & build (Astro)
+node_modules/
+dist/
+.astro/
+
+# env
+.env
+.env.production
+
 # macOS
 .DS_Store
 

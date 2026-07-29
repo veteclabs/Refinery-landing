@@ -1,0 +1,51 @@
+---
+export interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImage?: string;
+  ogType?: string;
+  robots?: string;
+  jsonLd?: unknown;
+}
+
+const {
+  title,
+  description,
+  canonical,
+  ogTitle,
+  ogDescription,
+  ogImage = '/og-image.png',
+  ogType = 'website',
+  robots = 'index, follow',
+  jsonLd,
+} = Astro.props;
+
+const canonicalURL = new URL(canonical ?? Astro.url.pathname, Astro.site);
+const ogImageURL = new URL(ogImage, Astro.site);
+const _ogTitle = ogTitle ?? title;
+const _ogDesc = ogDescription ?? description;
+---
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta name="robots" content={robots} />
+<link rel="canonical" href={canonicalURL} />
+
+<meta property="og:title" content={_ogTitle} />
+<meta property="og:description" content={_ogDesc} />
+<meta property="og:locale" content="ko_KR" />
+<meta property="og:type" content={ogType} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:image" content={ogImageURL} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:site_name" content="Refinery" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={_ogTitle} />
+<meta name="twitter:description" content={_ogDesc} />
+<meta name="twitter:image" content={ogImageURL} />
+
+{jsonLd && <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />}

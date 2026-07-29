@@ -1,0 +1,53 @@
+---
+import Seo from '../components/Seo.astro';
+import Analytics from '../components/Analytics.astro';
+// 페이지별 CSS는 각 페이지에서 import한다(레이아웃은 스타일 비의존).
+
+export interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImage?: string;
+  ogType?: string;
+  robots?: string;
+  jsonLd?: unknown;
+}
+const props = Astro.props;
+---
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <Seo {...props} />
+    <!-- 아래 외부 스타일시트(구글 폰트/Pretendard/Phosphor 아이콘)는 원래 render/script-blocking 리소스라,
+           네트워크가 느리거나 해당 CDN 응답이 지연되면 body 안의 인라인 스크립트(햄버거 메뉴 등) 실행까지
+           함께 지연되어 "버튼을 눌러도 반응이 없는" 것처럼 보일 수 있다. media="print" + onload 스위치로
+           비차단(non-blocking) 로딩시켜 폰트/아이콘은 늦게 적용되더라도 페이지 인터랙션은 즉시 동작하게 한다. -->
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" media="print" onload="this.media='all'">
+      <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css" media="print" onload="this.media='all'">
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+      <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+      <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+      <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" media="print" onload="this.media='all'">
+      <noscript>
+        <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+        <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+      </noscript>
+      <link rel="icon" href="/fav_refienry-symbol.svg" type="image/svg+xml">
+      <meta name="theme-color" content="#ffffff">
+    <Analytics />
+    <slot name="head" />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
