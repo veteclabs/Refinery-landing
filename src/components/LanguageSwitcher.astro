@@ -1,0 +1,33 @@
+---
+// 언어 스위처. format:'file' 환경에서 URL 파싱이 불안정하므로 Astro.currentLocale로 현재 로케일을 판별하고,
+// 각 로케일 홈으로 링크한다. (딥링크 경로 매핑은 로케일/페이지 확장 시 고도화 예정)
+type Lang = 'ko' | 'en' | 'ja';
+const current = (Astro.currentLocale ?? 'ko') as Lang;
+
+// 현재 게시(존재)하는 로케일만 노출. ja 페이지 생성 후 추가.
+const LIVE: { lang: Lang; label: string; home: string }[] = [
+  { lang: 'ko', label: 'KO', home: '/' },
+  { lang: 'en', label: 'EN', home: '/en' },
+];
+---
+<div class="lang-switcher" aria-label="언어 선택 / Language">
+  {LIVE.map((it, i) => (
+    <>
+      {i > 0 && <span class="lang-sep" aria-hidden="true">·</span>}
+      <a
+        href={it.home}
+        hreflang={it.lang}
+        class={it.lang === current ? 'lang-item is-active' : 'lang-item'}
+        aria-current={it.lang === current ? 'true' : undefined}
+      >{it.label}</a>
+    </>
+  ))}
+</div>
+
+<style>
+  .lang-switcher { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; }
+  .lang-item { color: #7E8A98; text-decoration: none; transition: color .2s; }
+  .lang-item:hover { color: #76A6D7; }
+  .lang-item.is-active { color: #16202C; font-weight: 600; }
+  .lang-sep { color: #d4d4d8; }
+</style>

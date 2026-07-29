@@ -9,6 +9,9 @@ export interface Props {
   ogType?: string;
   robots?: string;
   jsonLd?: unknown;
+  /** hreflang 대체 링크. 로케일별 페이지가 모두 존재할 때만 전달(없으면 미출력). */
+  alternates?: { lang: string; href: string }[];
+  ogLocale?: string;
 }
 
 const {
@@ -21,9 +24,16 @@ const {
   ogType = 'website',
   robots = 'index, follow',
   jsonLd,
+  alternates,
+  ogLocale = 'ko_KR',
 } = Astro.props;
 
 const canonicalURL = new URL(canonical ?? Astro.url.pathname, Astro.site);
+// hreflang: x-default는 기본 로케일(ko)로.
+const hreflangs = alternates?.map((a) => ({
+  hreflang: a.lang,
+  href: new URL(a.href, Astro.site).href,
+}));
 const ogImageURL = new URL(ogImage, Astro.site);
 const _ogTitle = ogTitle ?? title;
 const _ogDesc = ogDescription ?? description;
@@ -32,10 +42,16 @@ const _ogDesc = ogDescription ?? description;
 <meta name="description" content={description} />
 <meta name="robots" content={robots} />
 <link rel="canonical" href={canonicalURL} />
+{hreflangs && (
+  <>
+    {hreflangs.map((h) => <link rel="alternate" hreflang={h.hreflang} href={h.href} />)}
+    <link rel="alternate" hreflang="x-default" href={hreflangs[0].href} />
+  </>
+)}
 
 <meta property="og:title" content={_ogTitle} />
 <meta property="og:description" content={_ogDesc} />
-<meta property="og:locale" content="ko_KR" />
+<meta property="og:locale" content={ogLocale} />
 <meta property="og:type" content={ogType} />
 <meta property="og:url" content={canonicalURL} />
 <meta property="og:image" content={ogImageURL} />
