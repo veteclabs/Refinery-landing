@@ -3,6 +3,8 @@
 # 디자인 원본 폴더 (사이트에서 참조하지 않음, 18MB 중복 이미지 포함)
 Refinery UI/
 
-# standalone 데모/미리보기 HTML (랜딩에서 링크하지 않음)
-1-agent-demo-energy_260716.html
+# standalone 미리보기 HTML (랜딩에서 링크하지 않음)
 UI_Refinery_Dashboard.html
+
+# 주의: 1-agent-demo-energy_260716.html 은 index.html 히어로가 <iframe>으로
+# 임베드하므로 배포에서 제외하면 안 된다 (제외 시 히어로 데모가 404).
