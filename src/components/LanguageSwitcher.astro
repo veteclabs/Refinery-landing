@@ -1,19 +1,25 @@
 ---
-import { languages, getLangFromUrl, translatePath, type Lang } from '../i18n/ui';
+// 언어 스위처. format:'file' 환경에서 URL 파싱이 불안정하므로 Astro.currentLocale로 현재 로케일을 판별하고,
+// 각 로케일 홈으로 링크한다. (딥링크 경로 매핑은 로케일/페이지 확장 시 고도화 예정)
+type Lang = 'ko' | 'en' | 'ja';
+const current = (Astro.currentLocale ?? 'ko') as Lang;
 
-const current = getLangFromUrl(Astro.url);
-const items = (Object.keys(languages) as Lang[]).map((lang) => ({
-  lang,
-  label: lang.toUpperCase(),
-  href: translatePath(Astro.url, lang),
-  active: lang === current,
-}));
+// 현재 게시(존재)하는 로케일만 노출. ja 페이지 생성 후 추가.
+const LIVE: { lang: Lang; label: string; home: string }[] = [
+  { lang: 'ko', label: 'KO', home: '/' },
+  { lang: 'en', label: 'EN', home: '/en' },
+];
 ---
 <div class="lang-switcher" aria-label="언어 선택 / Language">
-  {items.map((it, i) => (
+  {LIVE.map((it, i) => (
     <>
       {i > 0 && <span class="lang-sep" aria-hidden="true">·</span>}
-      <a href={it.href} hreflang={it.lang} class={it.active ? 'lang-item is-active' : 'lang-item'} aria-current={it.active ? 'true' : undefined}>{it.label}</a>
+      <a
+        href={it.home}
+        hreflang={it.lang}
+        class={it.lang === current ? 'lang-item is-active' : 'lang-item'}
+        aria-current={it.lang === current ? 'true' : undefined}
+      >{it.label}</a>
     </>
   ))}
 </div>

@@ -11,6 +11,7 @@ export interface Props {
   jsonLd?: unknown;
   /** hreflang 대체 링크. 로케일별 페이지가 모두 존재할 때만 전달(없으면 미출력). */
   alternates?: { lang: string; href: string }[];
+  ogLocale?: string;
 }
 
 const {
@@ -24,6 +25,7 @@ const {
   robots = 'index, follow',
   jsonLd,
   alternates,
+  ogLocale = 'ko_KR',
 } = Astro.props;
 
 const canonicalURL = new URL(canonical ?? Astro.url.pathname, Astro.site);
@@ -49,7 +51,7 @@ const _ogDesc = ogDescription ?? description;
 
 <meta property="og:title" content={_ogTitle} />
 <meta property="og:description" content={_ogDesc} />
-<meta property="og:locale" content="ko_KR" />
+<meta property="og:locale" content={ogLocale} />
 <meta property="og:type" content={ogType} />
 <meta property="og:url" content={canonicalURL} />
 <meta property="og:image" content={ogImageURL} />

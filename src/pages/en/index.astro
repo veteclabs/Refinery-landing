@@ -1,7 +1,7 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import '../styles/global.css';
-import LanguageSwitcher from '../components/LanguageSwitcher.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import '../../styles/global.css';
+import LanguageSwitcher from '../../components/LanguageSwitcher.astro';
 
 // hreflang: 존재하는 로케일만(ko·en). ja 페이지 생성 후 추가.
 const alternates = [
@@ -15,16 +15,16 @@ const jsonLd = {
   "name": "Refinery",
   "url": "https://refinery-ai-platform.vercel.app/",
   "logo": "https://refinery-ai-platform.vercel.app/logo_Refinery_symbol.svg",
-  "description": "산업 데이터의 복잡성을 정제하여 명료한 인사이트로. 수집부터 AI 분석, 예측, 자율 제어까지. 데이터 기반 의사결정이 가능한 조직을 만듭니다.",
+  "description": "Refine the complexity of industrial data into clear insight — from collection to AI analysis, prediction, and autonomous control. Build an organization that decides with data.",
   "sameAs": []
 };
 ---
 <BaseLayout
   title="Refinery — Refining complexity into pure insight"
   ogTitle="Refinery"
-  description="산업 데이터의 복잡성을 정제하여 명료한 인사이트로. 수집부터 AI 분석, 예측, 자율 제어까지. 데이터 기반 의사결정이 가능한 조직을 만듭니다."
+  description="Refine the complexity of industrial data into clear insight — from collection to AI analysis, prediction, and autonomous control. Build an organization that decides with data."
   ogDescription="Refining complexity into pure insight"
-  canonical="/"
+  canonical="/en"
   alternates={alternates}
   jsonLd={jsonLd}
 >
@@ -45,8 +45,8 @@ const jsonLd = {
     </div>
     <div class="nav-actions">
       <LanguageSwitcher />
-      <a href="contact.html" class="btn-primary">문의하기</a>
-      <button type="button" class="nav-hamburger" id="navHamburgerBtn" aria-label="메뉴 열기" aria-expanded="false">
+      <a href="/contact.html" class="btn-primary">Contact</a>
+      <button type="button" class="nav-hamburger" id="navHamburgerBtn" aria-label="Open menu" aria-expanded="false">
         <i class="ph ph-list"></i>
       </button>
     </div>
@@ -60,7 +60,7 @@ const jsonLd = {
   <a href="#security">Security</a>
   <a href="#faq">FAQ</a>
   <a href="/blog.html">Blog</a>
-  <a href="contact.html" class="mobile-nav-cta">문의하기</a>
+  <a href="contact.html" class="mobile-nav-cta">Contact</a>
 </div>
 <script is:inline>
   (function() {
@@ -125,9 +125,9 @@ const jsonLd = {
       // 터치는 감지되는데(탭 하이라이트는 보임) 메뉴는 안 열리는 증상은,
       // 카카오톡/인스타그램 인앱 브라우저 등 일부 모바일 웹뷰에서 <button>에
       // 바인딩한 'click' 이벤트가 터치 후 씹히거나 아주 늦게 발생하는 문제일
-      // 가능성이 높다 — 이런 환경에서도 확실히 동작하도록 'touchend'에서
+      // 가능성이 높다 — 이런 Environment에서도 확실히 동작하도록 'touchend'에서
       // 직접 토글을 처리하고, 그 뒤 이어지는 합성 클릭은 preventDefault로
-      // 무시한다. 순수 마우스 환경(트랙패드 등)을 위해 'click'도 남겨두되,
+      // 무시한다. 순수 마우스 Environment(트랙패드 등)을 위해 'click'도 남겨두되,
       // 같은 탭에서 두 이벤트가 겹쳐 두 번 토글되지 않도록 디바운스한다.
       var lastToggleAt = 0;
       function toggleMobileNav() {
@@ -174,11 +174,11 @@ const jsonLd = {
     <div class="hero-row">
       <div class="hero-text">
         <h1>Refinery <span class="hero-title-accent">Agentic AI</span></h1>
-        <p>현장 곳곳에 흩어진 데이터와 문서를 하나의 산업 <br class="mobile-br">지식으로 연결합니다.<br>AI는 현장을 이해하고 예지보전부터 품질, 에너지, <br class="mobile-br">자율 운전까지 모든 운영 의사결정을 지원합니다.</p>
+        <p>Connect the data and documents scattered across your operations <br class="mobile-br">into a single body of industrial knowledge.<br>AI understands the field and supports every operational decision — <br class="mobile-br">from predictive maintenance to quality, energy, and autonomous operation.</p>
       </div>
       <div class="hero-actions">
         <a href="contact.html" class="hero-demo-link" onclick="if(window.openContactDrawer){openContactDrawer();return false;}">
-          데모 신청하기
+          Request a demo
           <svg width="20" height="20" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg>
         </a>
       </div>
@@ -525,19 +525,19 @@ const jsonLd = {
     <div class="section-header">
       <div class="section-header-row">
         <h2 style="color:#EDEEF0;">From Data<br>to Intelligence</h2>
-        <p>현장 데이터를 연결하고 온톨로지를 통해<br>의미를 부여하여 AI 기반 의사결정으로 이어집니다.</p>
+        <p>Connect field data and, through an ontology,<br>give it meaning that leads to AI-driven decisions.</p>
       </div>
     </div>
     <div class="platform-graphic-wrap">
-      <img src="From%20Data%20to%20Intelligence.svg" alt="Refinery 플랫폼 아이소메트릭 다이어그램" class="platform-graphic-img" loading="lazy" decoding="async" style="display:block;width:100%;height:auto;">
+      <img src="From%20Data%20to%20Intelligence.svg" alt="Refinery platform isometric diagram" class="platform-graphic-img" loading="lazy" decoding="async" style="display:block;width:100%;height:auto;">
     </div>
     <div class="series-nav-row">
       <div class="series-progress"><div class="series-progress-fill"></div></div>
       <div class="series-nav-btns">
-        <button type="button" class="series-nav-btn series-prev" aria-label="이전 카드">
+        <button type="button" class="series-nav-btn series-prev" aria-label="Previous">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
-        <button type="button" class="series-nav-btn series-next" aria-label="다음 카드">
+        <button type="button" class="series-nav-btn series-next" aria-label="Next">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
       </div>
@@ -545,44 +545,44 @@ const jsonLd = {
     <div class="series-viewport">
       <div class="series-slider">
       <div class="series-card">
-        <div class="series-icon" role="img" aria-label="산업 데이터 통합"><i class="ph ph-share-network"></i></div>
-        <h3>산업 데이터 통합</h3>
-        <p class="series-desc">현장의 여러 설비와 시스템에 흩어진 데이터를<br>한곳에 모으는 첫 단계입니다.</p>
+        <div class="series-icon" role="img" aria-label="Industrial data integration"><i class="ph ph-share-network"></i></div>
+        <h3>Industrial data integration</h3>
+        <p class="series-desc">Data scattered across field equipment and systems<br>is unified in one place — the first step.</p>
       </div>
       <div class="series-card">
-        <div class="series-icon" role="img" aria-label="온톨로지"><i class="ph ph-tree-structure"></i></div>
+        <div class="series-icon" role="img" aria-label="Ontology"><i class="ph ph-tree-structure"></i></div>
         <div class="series-tagline">Ontology</div>
-        <h3>데이터에 의미를 입히는 구조</h3>
-        <p class="series-desc">흩어진 숫자와 기록 하나하나에 "무엇에 대한<br>데이터인지" 의미를 붙이는 과정입니다.</p>
+        <h3>A structure that gives data meaning</h3>
+        <p class="series-desc">It attaches meaning to every scattered number and record — "what each piece of<br>data is about." </p>
       </div>
       <div class="series-card">
-        <div class="series-icon" role="img" aria-label="워크플로우"><i class="ph ph-git-branch"></i></div>
+        <div class="series-icon" role="img" aria-label="Workflow"><i class="ph ph-git-branch"></i></div>
         <div class="series-tagline">Workflow</div>
-        <h3>대화로 설계하는 운영 절차</h3>
-        <p class="series-desc">승인이 필요한 상황과 자동 처리할 상황을<br>대화로 정해두는 과정입니다.</p>
+        <h3>Operational procedures designed through dialogue</h3>
+        <p class="series-desc">You define which cases need approval and which run automatically —<br>all through conversation.</p>
       </div>
       <div class="series-card">
         <div class="series-icon" role="img" aria-label="Plate"><i class="ph ph-presentation"></i></div>
         <div class="series-tagline">Plate</div>
-        <h3>현장을 한 화면에 담은 대시보드</h3>
-        <p class="series-desc">실시간 KPI · 현황 · 알람을<br>한 화면에서 확인할 수 있습니다.</p>
+        <h3>The whole field on a single dashboard</h3>
+        <p class="series-desc">Check real-time KPIs, status, and alarms<br>all on one screen.</p>
       </div>
       <div class="series-card">
         <div class="series-icon" role="img" aria-label="Lens"><i class="ph ph-magnifying-glass"></i></div>
         <div class="series-tagline">Lens</div>
-        <h3>원인을 찾고 미래를 그리는 분석</h3>
-        <p class="series-desc">시간에 따라 쌓인 데이터를 살펴보고<br>평소와 다른 부분을 찾아 원인을 짚어냅니다.</p>
+        <h3>Analysis that finds causes and forecasts the future</h3>
+        <p class="series-desc">It reviews data accumulated over time<br>to spot anomalies and pinpoint their causes.</p>
       </div>
       <div class="series-card">
         <div class="series-icon" role="img" aria-label="AI Agent"><i class="ph ph-sparkle"></i></div>
         <div class="series-tagline">AI Agent</div>
-        <h3>질문 하나로 움직이는 현장</h3>
-        <p class="series-desc">궁금한 점을 물어보면 데이터를 근거로 답하고<br>다음 조치까지 제안합니다.</p>
+        <h3>A field that moves with a single question</h3>
+        <p class="series-desc">Ask a question and it answers from the data,<br>and even suggests the next action.</p>
       </div>
       <div class="series-card">
-        <div class="series-icon" role="img" aria-label="자동화"><i class="ph ph-robot"></i></div>
-        <h3>자동화, 사람 없이도 돌아가는 현장</h3>
-        <p class="series-desc">분석 결과가 보고서 · 알람 · 워크플로우 실행까지<br>사람 없이 자동으로 이어집니다.</p>
+        <div class="series-icon" role="img" aria-label="Automation"><i class="ph ph-robot"></i></div>
+        <h3>Automation — operations that run without hands-on work</h3>
+        <p class="series-desc">Analysis flows into reports, alarms, and workflow execution<br>automatically, without manual steps.</p>
       </div>
       </div>
     </div>
@@ -594,20 +594,20 @@ const jsonLd = {
   <div class="container">
     <div class="section-header">
       <div class="section-header-row">
-        <h2>모든 현장에 최적화된<br>산업을 가리지 않는 플랫폼</h2>
-        <p>Refinery AI Agent가<br>각 산업의 고유한 과제를 학습하고 해결합니다.</p>
+        <h2>Optimized for every field,<br>a platform for any industry</h2>
+        <p>The Refinery AI Agent learns and solves<br>the unique challenges of each industry.</p>
       </div>
     </div>
     <div class="industries-grid">
-      <div class="industry-card"><div class="industry-name">에너지 · 유틸리티</div><div class="industry-desc">분산 설비 통합 관제,<br>ESG 대응 자동화</div><img loading="lazy" decoding="async" src="industry-08.svg" alt="에너지 · 유틸리티" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">정유 · 가스</div><div class="industry-desc">대규모 설비 예지보전,<br>에너지 효율 AI 최적화</div><img loading="lazy" decoding="async" src="industry-04.svg" alt="정유 · 가스" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">반도체</div><div class="industry-desc">나노 공정 미세 변동 실시간 감지,<br>AI 기반 수율 예측</div><img loading="lazy" decoding="async" src="industry-01.svg" alt="반도체" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">철강</div><div class="industry-desc">고온 공정 실시간 모니터링,<br>AI 품질 예측</div><img loading="lazy" decoding="async" src="industry-05.svg" alt="철강" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">화학 · 정밀화학</div><div class="industry-desc">반응 공정 최적화,<br>AI 안전 모니터링</div><img loading="lazy" decoding="async" src="industry-03.svg" alt="화학 · 정밀화학" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">행정</div><div class="industry-desc">민원 처리기한 초과 자동 감지,<br>AI 기반 우선순위 알림</div><img loading="lazy" decoding="async" src="industry-02.svg" alt="행정" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">물류</div><div class="industry-desc">콜드체인 온도 이탈 구간 실시간 감지,<br>AI 이상 알림</div><img loading="lazy" decoding="async" src="industry-09.svg" alt="물류" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">총무</div><div class="industry-desc">사내 자산 · 설비 미반납 자동 추적,<br>AI 회수 요청 자동화</div><img loading="lazy" decoding="async" src="industry-06.svg" alt="총무" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
-      <div class="industry-card"><div class="industry-name">환경</div><div class="industry-desc">측정소 데이터 품질 자동 진단,<br>ESG 리포트 자동 생성</div><img loading="lazy" decoding="async" src="industry-07.svg" alt="환경" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
+      <div class="industry-card"><div class="industry-name">Energy · Utilities</div><div class="industry-desc">Unified control of distributed assets,<br>automated ESG compliance</div><img loading="lazy" decoding="async" src="industry-08.svg" alt="Energy · Utilities" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
+      <div class="industry-card"><div class="industry-name">Oil · Gas</div><div class="industry-desc">Predictive maintenance for large-scale assets,<br>AI-optimized energy efficiency</div><img loading="lazy" decoding="async" src="industry-04.svg" alt="Oil · Gas" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
+      <div class="industry-card"><div class="industry-name">Semiconductor</div><div class="industry-desc">Real-time detection of nano-process variation,<br>AI-based yield prediction</div><img loading="lazy" decoding="async" src="industry-01.svg" alt="Semiconductor" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
+      <div class="industry-card"><div class="industry-name">Steel</div><div class="industry-desc">Real-time monitoring of high-temperature processes,<br>AI quality prediction</div><img loading="lazy" decoding="async" src="industry-05.svg" alt="Steel" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
+      <div class="industry-card"><div class="industry-name">Chemicals · Fine Chemicals</div><div class="industry-desc">Reaction-process optimization,<br>AI safety monitoring</div><img loading="lazy" decoding="async" src="industry-03.svg" alt="Chemicals · Fine Chemicals" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
+      <div class="industry-card"><div class="industry-name">Public Administration</div><div class="industry-desc">Auto-detection of overdue civil requests,<br>AI-based priority alerts</div><img loading="lazy" decoding="async" src="industry-02.svg" alt="Public Administration" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
+      <div class="industry-card"><div class="industry-name">Logistics</div><div class="industry-desc">Real-time detection of cold-chain temperature excursions,<br>AI anomaly alerts</div><img loading="lazy" decoding="async" src="industry-09.svg" alt="Logistics" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
+      <div class="industry-card"><div class="industry-name">General Affairs</div><div class="industry-desc">Auto-tracking of unreturned assets and equipment,<br>automated AI recovery requests</div><img loading="lazy" decoding="async" src="industry-06.svg" alt="General Affairs" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
+      <div class="industry-card"><div class="industry-name">Environment</div><div class="industry-desc">Automated data-quality diagnostics for monitoring stations,<br>automated ESG report generation</div><img loading="lazy" decoding="async" src="industry-07.svg" alt="Environment" style="position:absolute;right:-10px;bottom:-10px;width:100px;height:100px;opacity:0.15;transition:transform 0.3s ease, opacity 0.3s ease;transform-origin:bottom right;"></div>
           </div>
   </div>
 </section>
@@ -617,17 +617,17 @@ const jsonLd = {
   <div class="container">
     <div class="section-header">
       <div class="section-header-row">
-        <h2>현장 운영에 필요한<br>모든 기능을 제공하는 솔루션</h2>
-        <p style="max-width:640px;">데이터를 모으고 보여주고 판단하는 것까지<br>현장 운영에 필요한 모든 기능이 한 플랫폼 안에 <br class="mobile-br">있습니다.</p>
+        <h2>Everything your operations need,<br>in one solution</h2>
+        <p style="max-width:640px;">From collecting and visualizing data to making decisions —<br>every capability your operations need lives in one platform. <br class="mobile-br"></p>
       </div>
     </div>
     <div class="teams-menu-horizontal">
-      <button class="teams-tab-btn active" onclick="switchDash(this, 'Solutions/Solutions-02-ai-agent.webp', 'llm')"><i class="ph ph-sparkle"></i> AI 에이전트</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-01-dashboard.webp', 'plate')"><i class="ph ph-presentation"></i> 플레이트</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-04-tile.webp', 'tile')"><i class="ph ph-grid-four"></i> 타일</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-05-pipeline.webp', 'pipeline')"><i class="ph ph-flow-arrow"></i> 파이프라인</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-06-ontology.webp', 'ontology')"><i class="ph ph-tree-structure"></i> 온톨로지</button>
-      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-07-calendar-2.webp', 'calendar')"><i class="ph ph-calendar-blank"></i> 캘린더</button>
+      <button class="teams-tab-btn active" onclick="switchDash(this, 'Solutions/Solutions-02-ai-agent.webp', 'llm')"><i class="ph ph-sparkle"></i> AI Agent</button>
+      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-01-dashboard.webp', 'plate')"><i class="ph ph-presentation"></i> Plate</button>
+      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-04-tile.webp', 'tile')"><i class="ph ph-grid-four"></i> Tile</button>
+      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-05-pipeline.webp', 'pipeline')"><i class="ph ph-flow-arrow"></i> Pipeline</button>
+      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-06-ontology.webp', 'ontology')"><i class="ph ph-tree-structure"></i> Ontology</button>
+      <button class="teams-tab-btn" onclick="switchDash(this, 'Solutions/Solutions-07-calendar-2.webp', 'calendar')"><i class="ph ph-calendar-blank"></i> Calendar</button>
     </div>
     <div class="teams-preview" id="teamsPreviewBox" style="margin-top:0;border-radius:0 0 var(--radius) var(--radius);overflow:hidden;border:1px solid var(--border);position:relative;aspect-ratio:1368/650;">
       <div class="teams-preview-decor" style="position:absolute;top:0;left:0;bottom:0;width:28.5%;z-index:1;background:#F6F8FA;pointer-events:none;"></div>
@@ -636,18 +636,18 @@ const jsonLd = {
       <div class="teams-preview-decor" style="position:absolute;top:0;right:0;bottom:0;width:15%;z-index:1;background:linear-gradient(to left, #F6F8FA 0%, rgba(246,248,250,0) 100%);pointer-events:none;"></div>
       <div class="teams-preview-title-wrap" style="position:absolute;top:0;left:0;z-index:2;padding:28px 32px 0;">
         <div class="teams-preview-tagline" id="teamsPreviewTagline">AI Agent</div>
-        <h3 id="teamsPreviewTitle">질문하면
-온톨로지가 답을 찾습니다.</h3>
+        <h3 id="teamsPreviewTitle">Ask a question,
+and the ontology finds the answer.</h3>
       </div>
       <div class="teams-preview-text" id="teamsPreviewTextBox" style="position:absolute;bottom:0;left:0;z-index:2;">
-        <p id="teamsPreviewBody">AI가 온톨로지에 축적된 자산 · 업무 · 이력 데이터를
-근거로 원인을 추론하고 대화형으로 답변합니다.
-근거가 된 데이터 출처도 함께 제시됩니다.</p>
+        <p id="teamsPreviewBody">The AI reasons over asset, task, and history data stored in the ontology
+to infer causes and answer conversationally.
+It also cites the data sources behind each answer.</p>
       </div>
       <div id="iframe-wrapper" style="position:absolute;inset:0;overflow:hidden;">
         <img id="dash-image" src="Solutions/Solutions-02-ai-agent.webp" width="2000" height="1250" loading="lazy" decoding="async"
           style="display:block;position:absolute;top:0;left:0;transform-origin:top left;pointer-events:none;"
-          alt="Refinery 솔루션 대시보드 미리보기">
+          alt="Refinery solution dashboard preview">
       </div>
     </div>
     <script is:inline>
@@ -751,8 +751,8 @@ const jsonLd = {
   <div class="container">
     <div class="section-header">
       <div class="section-header-row">
-        <h2>새로 도입해도 <br class="mobile-br">끊김 없는 <br class="desktop-br">기존 시스템과의 <br class="mobile-br">자연스러운 통합</h2>
-        <p>현장의 레거시 시스템부터<br>최신 클라우드, AI 도구까지 손쉽게 통합됩니다.</p>
+        <h2>Adopt it anew, <br class="mobile-br">seamlessly — <br class="desktop-br">natural integration with <br class="mobile-br">your existing systems</h2>
+        <p>From legacy field systems<br>to modern cloud and AI tools, it integrates with ease.</p>
       </div>
     </div>
     <style is:global>
@@ -812,7 +812,7 @@ const jsonLd = {
     <svg class="int-flow-svg-layer" id="intFlowSvg"></svg>
     <div class="int-node-grid" id="intNodeGrid">
       <div class="rfn-node" data-pl-node="protocols">
-        <div class="rfn-node-head"><span class="rfn-node-ic"><i class="ph ph-plug"></i></span><span class="rfn-node-name">protocols</span><span class="rfn-node-grip" title="노드 이동" aria-label="노드 이동"><i class="ph ph-dots-six-vertical"></i></span></div>
+        <div class="rfn-node-head"><span class="rfn-node-ic"><i class="ph ph-plug"></i></span><span class="rfn-node-name">protocols</span><span class="rfn-node-grip" title="Move node" aria-label="Move node"><i class="ph ph-dots-six-vertical"></i></span></div>
         <div class="rfn-node-colhead"><span>Name</span><span>Type</span></div>
         <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key conn"><i class="ph ph-plug"></i></span><span class="rfn-node-col-lbl">OPC-UA</span></span><span class="rfn-node-col-type">industrial</span></div>
         <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key conn"><i class="ph ph-plug"></i></span><span class="rfn-node-col-lbl">Modbus</span></span><span class="rfn-node-col-type">industrial</span></div>
@@ -821,7 +821,7 @@ const jsonLd = {
         <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key conn"><i class="ph ph-plug"></i></span><span class="rfn-node-col-lbl">GPS/Telematics</span></span><span class="rfn-node-col-type">logistics</span></div>
       </div>
       <div class="rfn-node" data-pl-node="systems">
-        <div class="rfn-node-head"><span class="rfn-node-ic"><i class="ph ph-factory"></i></span><span class="rfn-node-name">systems</span><span class="rfn-node-grip" title="노드 이동" aria-label="노드 이동"><i class="ph ph-dots-six-vertical"></i></span></div>
+        <div class="rfn-node-head"><span class="rfn-node-ic"><i class="ph ph-factory"></i></span><span class="rfn-node-name">systems</span><span class="rfn-node-grip" title="Move node" aria-label="Move node"><i class="ph ph-dots-six-vertical"></i></span></div>
         <div class="rfn-node-colhead"><span>Name</span><span>Type</span></div>
         <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key sys"><i class="ph ph-factory"></i></span><span class="rfn-node-col-lbl">MES</span></span><span class="rfn-node-col-type">manufacturing</span></div>
         <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key sys"><i class="ph ph-factory"></i></span><span class="rfn-node-col-lbl">EMS</span></span><span class="rfn-node-col-type">energy</span></div>
@@ -830,14 +830,14 @@ const jsonLd = {
         <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key sys"><i class="ph ph-factory"></i></span><span class="rfn-node-col-lbl">ERP (SAP, Oracle)</span></span><span class="rfn-node-col-type">enterprise</span></div>
       </div>
       <div class="rfn-node" data-pl-node="cloud">
-        <div class="rfn-node-head"><span class="rfn-node-ic"><i class="ph ph-cloud"></i></span><span class="rfn-node-name">cloud</span><span class="rfn-node-grip" title="노드 이동" aria-label="노드 이동"><i class="ph ph-dots-six-vertical"></i></span></div>
+        <div class="rfn-node-head"><span class="rfn-node-ic"><i class="ph ph-cloud"></i></span><span class="rfn-node-name">cloud</span><span class="rfn-node-grip" title="Move node" aria-label="Move node"><i class="ph ph-dots-six-vertical"></i></span></div>
         <div class="rfn-node-colhead"><span>Name</span><span>Type</span></div>
         <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key cloud"><i class="ph ph-cloud"></i></span><span class="rfn-node-col-lbl">AWS</span></span><span class="rfn-node-col-type">IaaS</span></div>
         <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key cloud"><i class="ph ph-cloud"></i></span><span class="rfn-node-col-lbl">Azure</span></span><span class="rfn-node-col-type">IaaS</span></div>
         <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key cloud"><i class="ph ph-cloud"></i></span><span class="rfn-node-col-lbl">GCP</span></span><span class="rfn-node-col-type">IaaS</span></div>
       </div>
       <div class="rfn-node" data-pl-node="bi_ai">
-        <div class="rfn-node-head"><span class="rfn-node-ic"><i class="ph ph-chart-line-up"></i></span><span class="rfn-node-name">bi_ai</span><span class="rfn-node-grip" title="노드 이동" aria-label="노드 이동"><i class="ph ph-dots-six-vertical"></i></span></div>
+        <div class="rfn-node-head"><span class="rfn-node-ic"><i class="ph ph-chart-line-up"></i></span><span class="rfn-node-name">bi_ai</span><span class="rfn-node-grip" title="Move node" aria-label="Move node"><i class="ph ph-dots-six-vertical"></i></span></div>
         <div class="rfn-node-colhead"><span>Name</span><span>Type</span></div>
         <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key bi"><i class="ph ph-chart-line-up"></i></span><span class="rfn-node-col-lbl">Grafana</span></span><span class="rfn-node-col-type">monitoring</span></div>
         <div class="rfn-node-col"><span class="rfn-node-col-name"><span class="rfn-key bi"><i class="ph ph-chart-line-up"></i></span><span class="rfn-node-col-lbl">Power BI</span></span><span class="rfn-node-col-type">analytics</span></div>
@@ -959,30 +959,30 @@ const jsonLd = {
   <div class="container">
     <div class="section-header">
       <div class="section-header-row">
-        <h2>어떤 현장에서도<br>타협하지 않는 현장 보안 체계</h2>
-        <p style="max-width:680px;"><i class="ph ph-check-circle" style="color:var(--text-muted);margin-right:6px;position:relative;top:2px;"></i>고객 데이터는 AI 모델 학습에 <br class="mobile-br">사용되지 않습니다.<br><i class="ph ph-check-circle" style="color:var(--text-muted);margin-right:6px;position:relative;top:2px;"></i>온프레미스로 배포하면 <br class="mobile-br">데이터가 사내를 벗어나지 않습니다.</p>
+        <h2>No matter the field,<br>an uncompromising security framework</h2>
+        <p style="max-width:680px;"><i class="ph ph-check-circle" style="color:var(--text-muted);margin-right:6px;position:relative;top:2px;"></i>Customer data is never used <br class="mobile-br">to train AI models.<br><i class="ph ph-check-circle" style="color:var(--text-muted);margin-right:6px;position:relative;top:2px;"></i>With on-premises deployment, <br class="mobile-br">data never leaves your premises.</p>
       </div>
     </div>
     <div class="security-grid">
       <div class="sec-card">
-        <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-1.svg" alt="데이터 암호화 아이콘" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
+        <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-1.svg" alt="Data encryption icon" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="sec-card-divider"></div>
-        <div class="sec-card-body"><h4>데이터 암호화</h4><p>전송 구간은 TLS 1.3, 저장 데이터는 <br class="mobile-br">AES-256으로 암호화합니다.<br>키는 HSM 기반으로 안전하게 분리 관리합니다.</p></div>
+        <div class="sec-card-body"><h4>Data encryption</h4><p>Data in transit uses TLS 1.3; data at rest is <br class="mobile-br">encrypted with AES-256.<br>Keys are managed separately and securely with an HSM.</p></div>
       </div>
       <div class="sec-card">
-        <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-2.svg" alt="멀티테넌시 격리 아이콘" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
+        <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-2.svg" alt="Multitenancy isolation icon" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="sec-card-divider"></div>
-        <div class="sec-card-body"><h4>멀티테넌시 격리</h4><p>조직별 데이터를 완전히 분리합니다.<br>PostgreSQL RLS와 네트워크 레벨 분리를 통해 교차 접근을 차단합니다.</p></div>
+        <div class="sec-card-body"><h4>Multitenancy isolation</h4><p>Each organization's data is fully isolated.<br>PostgreSQL RLS and network-level separation block any cross-access.</p></div>
       </div>
       <div class="sec-card">
-        <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-3.svg" alt="OT/IT 경계 보안 아이콘" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
+        <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-3.svg" alt="OT/IT boundary security icon" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="sec-card-divider"></div>
-        <div class="sec-card-body"><div class="sec-card-title-row"><h4>OT/IT 경계 보안</h4><span class="ot-it-badge"><i class="ph ph-info"></i>제조 · 에너지 등 산업 제어 환경</span></div><p>현장 엣지(Silo/Agent)와 클라우드 간 단방향 <br class="mobile-br">전송을 지원합니다.<br>제어 시스템으로의 역방향 침투를 원천 <br class="mobile-br">차단합니다.</p></div>
+        <div class="sec-card-body"><div class="sec-card-title-row"><h4>OT/IT boundary security</h4><span class="ot-it-badge"><i class="ph ph-info"></i>Industrial control environments such as manufacturing and energy</span></div><p>One-way transfer between field edge (Silo/Agent) and cloud <br class="mobile-br">is supported.<br>Reverse intrusion into control systems is blocked <br class="mobile-br">at the source.</p></div>
       </div>
       <div class="sec-card">
-        <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-4.svg" alt="감사 로그 및 RBAC 아이콘" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
+        <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-4.svg" alt="Audit log and RBAC icon" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="sec-card-divider"></div>
-        <div class="sec-card-body"><h4>감사 로그 &amp; RBAC</h4><p>모든 API 호출과 업무 처리 이력을 안전하게 <br class="mobile-br">기록합니다.<br>역할 기반 접근 제어(RBAC)를 통해 최소 권한 <br class="mobile-br">원칙을 적용합니다.</p></div>
+        <div class="sec-card-body"><h4>Audit Log &amp; RBAC</h4><p>Every API call and task history is recorded <br class="mobile-br">securely.<br>Role-based access control (RBAC) enforces <br class="mobile-br">the principle of least privilege.</p></div>
       </div>
     </div>
   </div>
@@ -992,15 +992,15 @@ const jsonLd = {
 <section id="faq" style="background:#ffffff;border-top:1px solid #E3E7EC;">
   <div class="container">
     <div class="section-header" style="display:grid;grid-template-columns:1fr 2fr;gap:64px;align-items:start;margin-bottom:0;">
-      <h2>도입 전에<br>자주 묻는 질문</h2>
+      <h2>Before you adopt,<br>frequently asked questions</h2>
       <div class="faq-list" style="max-width:none;margin:0;">
-      <div class="faq-item"><div class="faq-q">가격은 어떻게 책정되나요?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">정책이 확정되는 대로 안내드립니다. <br class="mobile-br">자세한 내용은 영업팀에 문의해 주세요.</div></div>
-      <div class="faq-item"><div class="faq-q">도입까지 얼마나 걸리나요?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">PoC부터 전사 확장까지 현장 규모와 <br class="mobile-br">기존 시스템 복잡도에 따라 달라집니다.<br>정확한 일정은 상담을 통해 안내드립니다.</div></div>
-      <div class="faq-item"><div class="faq-q">보안은 어떻게 보장되나요?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">전송 구간은 TLS 1.3, 저장 데이터는 AES-256으로 암호화하고,<br>조직별 데이터 격리(PostgreSQL RLS)와 RBAC·감사 로그를 적용합니다.<br>온프레미스 배포 옵션도 제공하며, <br class="mobile-br">이 경우 데이터가 사내를 벗어나지 않습니다.</div></div>
-      <div class="faq-item"><div class="faq-q">현장 데이터를 AI 학습에 사용하나요?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">아니오. 고객 데이터는 AI 모델 학습에 사용되지 않습니다.<br>각 고객의 데이터는 완전히 격리되어 관리됩니다.</div></div>
-      <div class="faq-item"><div class="faq-q">기존 SCADA/MES/ERP는 어떻게 되나요?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">Refinery는 기존 시스템 위에 <br class="mobile-br">통합 지능 레이어로 동작합니다.<br>기존 시스템과 양방향으로 연동됩니다.</div></div>
-      <div class="faq-item"><div class="faq-q">어떤 언어를 지원하나요?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">인터페이스와 AI 에이전트의 답변은 <br class="mobile-br">현재 한국어로 제공됩니다.<br>영어 지원은 추후 확대할 예정입니다.</div></div>
-      <div class="faq-item"><div class="faq-q">클라우드와 온프레미스 중 선택할 수 있나요?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">클라우드, 온프레미스, 하이브리드 모두 지원합니다.<br>보안 정책에 따라 유연하게 선택 가능합니다.</div></div>
+      <div class="faq-item"><div class="faq-q">How is pricing determined?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">We'll share details as soon as our policy is finalized. <br class="mobile-br">For specifics, please contact our sales team.</div></div>
+      <div class="faq-item"><div class="faq-q">How long does adoption take?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">It depends on the scale of your field and the complexity <br class="mobile-br">of existing systems, from PoC to company-wide rollout.<br>We'll share an exact timeline through consultation.</div></div>
+      <div class="faq-item"><div class="faq-q">How is security guaranteed?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">Data in transit uses TLS 1.3 and data at rest is encrypted with AES-256,<br>with per-organization isolation (PostgreSQL RLS), RBAC, and audit logs.<br>An on-premises deployment option is also available, <br class="mobile-br">in which case data never leaves your premises.</div></div>
+      <div class="faq-item"><div class="faq-q">Do you use our field data to train AI?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">No. Customer data is never used to train AI models.<br>Each customer's data is kept fully isolated.</div></div>
+      <div class="faq-item"><div class="faq-q">What happens to our existing SCADA/MES/ERP?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">Refinery runs as a unified intelligence layer <br class="mobile-br">on top of your existing systems.<br>It integrates bidirectionally with them.</div></div>
+      <div class="faq-item"><div class="faq-q">Which languages do you support?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">The interface and the AI agent's responses <br class="mobile-br">are currently provided in Korean.<br>English support is planned to expand soon.</div></div>
+      <div class="faq-item"><div class="faq-q">Can we choose between cloud and on-premises?<i class="ph-bold ph-caret-down faq-icon"></i></div><div class="faq-a">We support cloud, on-premises, and hybrid.<br>Choose flexibly according to your security policy.</div></div>
       </div>
     </div>
   </div>
@@ -1010,9 +1010,9 @@ const jsonLd = {
 <section id="cta" style="position:relative;overflow:hidden;">
   <img src="img_login-bg.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:right bottom;pointer-events:none;user-select:none;">
   <div class="container" style="position:relative;z-index:1;">
-    <h2>지금 바로 Refinery를 통해<br>현장 운영의 새로운 기준을 <br class="mobile-br">경험해보세요.</h2>
+    <h2>Experience a new standard for<br>field operations <br class="mobile-br">with Refinery today.</h2>
     <div class="hero-actions" style="justify-content:flex-start;margin-top:40px;">
-      <a href="contact.html" class="btn-primary" onclick="if(window.openContactDrawer){openContactDrawer();return false;}">데모 신청하기</a>
+      <a href="contact.html" class="btn-primary" onclick="if(window.openContactDrawer){openContactDrawer();return false;}">Request a demo</a>
     </div>
   </div>
 </section>
@@ -1212,12 +1212,12 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 <script is:inline>
 var teamsTextMap = {
-  llm: ['질문하면\n온톨로지가 답을 찾습니다.', 'AI가 온톨로지에 축적된 자산 · 업무 · 이력 데이터를\n근거로 원인을 추론하고 대화형으로 답변합니다.\n근거가 된 데이터 출처도 함께 제시됩니다.', 'AI Agent'],
-  plate: ['현장의 지금 이 순간을\n숫자로 확인하세요.', '현장의 핵심 지표를 실시간으로 모니터링\n합니다. 부서 · 구간별 처리 현황과\n이상 신호까지 한 화면에서 확인할 수 있습니다.', 'Plate'],
-  tile: ['데이터를 보여주는\n20가지 방법', '숫자 카드, 게이지, 시계열 차트, 히트맵, 공간 맵 등\n다양한 위젯을 제공해 데이터 성격에 맞는\n표현 방식을 그대로 가져다 쓸 수 있습니다.', 'Tile'],
-  pipeline: ['데이터 구조가 바뀌어도\n흔적은 남습니다.', 'Git처럼 브랜치를 나누어 스키마를 실험하고,\n두 시점 간 스냅샷을 비교해\n변경 사항을 ERD로 시각화합니다.', 'Pipeline'],
-  ontology: ['현장의 언어를\n데이터의 언어로', '자산, 업무, 문서 등 현장 곳곳의 개념을 오브젝트와\n관계로 정의합니다. 이 구조가 플레이트의 시각화와\nAI 에이전트의 추론 근거로 함께 쓰입니다.', 'Ontology'],
-  calendar: ['일정과 운영을\n한 곳에서', '처리 일정, 점검 주기, 팀 업무를\n한 화면에서 관리하고\n운영 리듬을 놓치지 않도록 합니다.', 'Calendar']
+  llm: ['Ask a question,\nand the ontology finds the answer.', 'The AI reasons over asset, task, and history data stored in the ontology\nto infer causes and answer conversationally.\nIt also cites the data sources behind each answer.', 'AI Agent'],
+  plate: ['See this very moment on the field\nin numbers.', 'Monitor key field metrics in real time.\nCheck per-department and per-zone status\nand anomaly signals on a single screen.', 'Plate'],
+  tile: ['20 ways to\nvisualize your data', 'Number cards, gauges, time-series charts, heatmaps, spatial maps and more —\na rich set of widgets so you can pick the representation\nthat fits the nature of your data.', 'Tile'],
+  pipeline: ['Even when your data structure changes,\nthe trail remains.', 'Branch like Git to experiment with schemas,\ncompare snapshots between two points in time,\nand visualize changes as an ERD.', 'Pipeline'],
+  ontology: ['From the language of the field\nto the language of data', 'Define concepts across the field — assets, tasks, documents — as objects\nand relationships. This structure powers both Plate visualizations\nand the reasoning behind the AI agent.', 'Ontology'],
+  calendar: ['Schedules and operations,\nin one place', 'Manage processing schedules, inspection cycles, and team tasks\non a single screen\nso you never lose the operational rhythm.', 'Calendar']
 };
 
 var NO_SCROLL_KEYS = ['calendar']; // 원래 스크롤이 없는 화면 — 우측 크롭 적용 안 함
@@ -1305,7 +1305,7 @@ function switchDash(btn, src, key) {
 
 <!-- ============================================================
      CONTACT DRAWER — 로그인 페이지 우측 폼 패널과 동일한 비율(50% 폭, 전체 높이)의
-     흰 배경 슬라이드오버 패널. "문의하기" 클릭 시 랜딩페이지 위에 오버레이로 뜬다.
+     흰 배경 슬라이드오버 패널. "Contact" 클릭 시 랜딩페이지 위에 오버레이로 뜬다.
      ============================================================ -->
 <style is:global>
   #contactDrawerOverlay{
@@ -1425,39 +1425,39 @@ function switchDash(btn, src, key) {
 
 <div id="contactDrawerOverlay" onclick="closeContactDrawer()"></div>
 <aside id="contactDrawerPanel" aria-hidden="true">
-  <button type="button" class="cd-close" onclick="closeContactDrawer()" aria-label="닫기"><i class="ph ph-x"></i></button>
+  <button type="button" class="cd-close" onclick="closeContactDrawer()" aria-label="Close"><i class="ph ph-x"></i></button>
   <div class="cd-inner">
-    <h2 class="cd-title" id="cdTitle"><span class="cd-title-desktop-only">간단한 정보만 <br class="mobile-br">입력하시면<br></span>맞춤 데모를 <br class="mobile-br">안내해드립니다.</h2>
+    <h2 class="cd-title" id="cdTitle"><span class="cd-title-desktop-only">Share a few <br class="mobile-br">details and we will<br></span>guide you through <br class="mobile-br">a tailored demo.</h2>
     
 
     <form id="contactDrawerForm">
       <input type="hidden" name="access_key" value="c719bd17-006a-44c6-8982-7d281c1f03a7">
-      <input type="hidden" name="subject" value="Refinery 데모 신청">
-      <input type="hidden" name="from_name" value="Refinery 데모 신청하기">
+      <input type="hidden" name="subject" value="Refinery demo request">
+      <input type="hidden" name="from_name" value="Request a Refinery demo">
       <div class="cd-step" id="cdStep1">
         <div class="cd-form-row">
           <div class="cd-form-group">
-            <label>회사명<span class="req">*</span></label>
+            <label>Company<span class="req">*</span></label>
             <input type="text" name="company" required>
           </div>
           <div class="cd-form-group">
-            <label>성함<span class="req">*</span></label>
+            <label>Name<span class="req">*</span></label>
             <input type="text" name="name" required>
           </div>
         </div>
         <div class="cd-form-row">
           <div class="cd-form-group">
-            <label>이메일<span class="req">*</span></label>
+            <label>Email<span class="req">*</span></label>
             <input type="email" name="email" required>
           </div>
           <div class="cd-form-group">
-            <label>연락처<span class="req">*</span></label>
+            <label>Phone<span class="req">*</span></label>
             <input type="tel" name="phone" required>
           </div>
         </div>
         <div class="cd-step-actions">
           <div class="cd-step-buttons">
-            <button type="button" class="cd-submit" id="cdNextBtn" disabled>다음</button>
+            <button type="button" class="cd-submit" id="cdNextBtn" disabled>Next</button>
           </div>
           <div class="cd-progress-track"><div class="cd-progress-fill" style="width:50%;"></div></div>
         </div>
@@ -1465,39 +1465,39 @@ function switchDash(btn, src, key) {
       <div class="cd-step" id="cdStep2" style="display:none;">
         <div class="cd-form-row">
           <div class="cd-form-group">
-            <label>직책</label>
+            <label>Job title</label>
             <input type="text" name="position">
           </div>
           <div class="cd-form-group">
-            <label>산업 분야</label>
+            <label>Industry</label>
             <div class="cd-select-wrap">
               <select name="industry">
-                <option value="">선택해주세요</option>
-                <option>에너지 · 유틸리티</option>
-                <option>정유 · 가스</option>
-                <option>반도체</option>
-                <option>철강</option>
-                <option>화학 · 정밀화학</option>
-                <option>행정</option>
-                <option>물류</option>
-                <option>총무</option>
-                <option>환경</option>
-                <option>기타</option>
+                <option value="">Please select</option>
+                <option>Energy · Utilities</option>
+                <option>Oil · Gas</option>
+                <option>Semiconductor</option>
+                <option>Steel</option>
+                <option>Chemicals · Fine Chemicals</option>
+                <option>Public Administration</option>
+                <option>Logistics</option>
+                <option>General Affairs</option>
+                <option>Environment</option>
+                <option>Other</option>
               </select>
             </div>
           </div>
         </div>
         <div class="cd-form-group">
-          <label>문의 내용</label>
-          <textarea id="cdInquiryTextarea" name="message" placeholder="궁금하신 점이나 현재 겪고 계신 현장의 
-어려움을 자유롭게 남겨주세요."></textarea>
+          <label>Message</label>
+          <textarea id="cdInquiryTextarea" name="message" placeholder="Feel free to share your questions or the 
+challenges you are facing in the field."></textarea>
         </div>
         <script is:inline>
           (function() {
             var ta = document.getElementById('cdInquiryTextarea');
             if (!ta) return;
-            var mobileText = '궁금하신 점이나 현재 겪고 계신 현장의 ' + String.fromCharCode(10) + '어려움을 자유롭게 남겨주세요.';
-            var desktopText = '궁금하신 점이나 현재 겪고 계신 현장의 어려움을 자유롭게 남겨주세요.';
+            var mobileText = 'Feel free to share your questions or the ' + String.fromCharCode(10) + 'challenges you are facing in the field.';
+            var desktopText = 'Feel free to share your questions or the challenges you are facing in the field.';
             function updatePlaceholder() {
               ta.placeholder = window.innerWidth <= 900 ? mobileText : desktopText;
             }
@@ -1507,8 +1507,8 @@ function switchDash(btn, src, key) {
         </script>
         <div class="cd-step-actions">
           <div class="cd-step-buttons">
-            <button type="button" class="cd-back" id="cdBackBtn">이전</button>
-            <button type="submit" class="cd-submit" id="contactDrawerSubmitBtn">문의 보내기</button>
+            <button type="button" class="cd-back" id="cdBackBtn">Back</button>
+            <button type="submit" class="cd-submit" id="contactDrawerSubmitBtn">Send inquiry</button>
           </div>
           <div class="cd-progress-track"><div class="cd-progress-fill" style="width:100%;"></div></div>
         </div>
@@ -1516,8 +1516,8 @@ function switchDash(btn, src, key) {
     </form>
     <div class="cd-success" id="contactDrawerSuccess">
       <i class="ph ph-check-circle"></i>
-      <h3>문의가 접수되었습니다</h3>
-      <p>담당자가 확인 후 1~2 영업일 내 연락드리겠습니다.</p>
+      <h3>Your inquiry has been received</h3>
+      <p>Our team will review it and get back to you within 1–2 business days.</p>
     </div>
   </div>
 </aside>
@@ -1532,8 +1532,8 @@ function switchDash(btn, src, key) {
     var step2 = document.getElementById('cdStep2');
     var progressFillEls = Array.prototype.slice.call(document.querySelectorAll('.cd-progress-fill'));
     var titleEl = document.getElementById('cdTitle');
-    var STEP1_TITLE = '<span class="cd-title-desktop-only">간단한 정보만 <br class="mobile-br">입력하시면<br></span>맞춤 데모를 <br class="mobile-br">안내해드립니다.';
-    var STEP2_TITLE = '귀사의 현장에 맞는 답을<br>Refinery팀이<br class="mobile-br"> 함께 찾아드립니다.';
+    var STEP1_TITLE = '<span class="cd-title-desktop-only">Share a few <br class="mobile-br">details and we will<br></span>guide you through <br class="mobile-br">a tailored demo.';
+    var STEP2_TITLE = 'Answers tailored to your field,<br>found together with<br class="mobile-br"> the Refinery team.';
     var nextBtn = document.getElementById('cdNextBtn');
     var backBtn = document.getElementById('cdBackBtn');
     var submitBtn = document.getElementById('contactDrawerSubmitBtn');
@@ -1610,7 +1610,7 @@ function switchDash(btn, src, key) {
           successEl.classList.add('show');
         }).catch(function() {
           submitBtn.disabled = false;
-          alert('전송 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
+          alert('Something went wrong while sending. Please try again shortly.');
         });
       });
     }
