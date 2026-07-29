@@ -25,10 +25,10 @@ export default function middleware(request: Request) {
   }
 
   // 3) 쿠키 없으면 브라우저 최우선 언어로 판단. ko* 이면 한국어(그대로), 아니면 /en.
-  const primary = (request.headers.get('accept-language') || '')
-    .split(',')[0]
-    .trim()
-    .toLowerCase();
+  const al = request.headers.get('accept-language') || '';
+  // 언어 신호가 없으면(일부 크롤러/툴) 홈(KO) 유지 — 불확실할 땐 리다이렉트하지 않음.
+  if (!al.trim()) return next();
+  const primary = al.split(',')[0].trim().toLowerCase();
   const isKorean = primary.startsWith('ko');
   return isKorean ? next() : Response.redirect(new URL('/en', url), 302);
 }
