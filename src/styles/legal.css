@@ -1,0 +1,33 @@
+/* 법적 문서(개인정보처리방침·쿠키정책) 스타일 — 브랜드 토큰 */
+:root {
+  --bg: #ffffff; --bg-soft: #f6f8fa; --border: #e3e7ec;
+  --text: #16202c; --text-muted: #7e8a98; --accent: #76a6d7; --accent-ink: #4b86bf;
+}
+* , *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; -webkit-font-smoothing: antialiased; }
+a { color: inherit; }
+img { max-width: 100%; height: auto; }
+
+.legal-main { max-width: 800px; margin: 0 auto; padding: 110px 24px 96px; } /* 70px 고정 내비 + 여백 */
+.legal-crumb { font-size: 13px; color: var(--text-muted); margin-bottom: 18px; }
+.legal-crumb a:hover { color: var(--accent-ink); }
+.legal-main h1 { font-size: clamp(28px, 4vw, 40px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; }
+.legal-updated { margin-top: 12px; font-size: 14px; color: var(--text-muted); }
+
+.legal-draft { margin: 28px 0 8px; padding: 14px 18px; border-radius: 10px; background: rgba(183,121,31,0.1); border: 1px solid rgba(183,121,31,0.3); color: #8a5a12; font-size: 13.5px; line-height: 1.6; }
+
+.legal-body { margin-top: 32px; }
+.legal-body section { margin-top: 40px; }
+.legal-body h2 { font-size: 20px; font-weight: 650; letter-spacing: -0.01em; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+.legal-body h3 { font-size: 16px; font-weight: 650; margin: 22px 0 8px; }
+.legal-body p { color: #2b3644; margin-bottom: 12px; }
+.legal-body ul { padding-left: 20px; margin-bottom: 12px; }
+.legal-body li { margin: 6px 0; color: #2b3644; }
+.legal-body a { color: var(--accent-ink); text-decoration: underline; text-underline-offset: 2px; }
+.legal-ph { color: #b7791f; font-weight: 600; background: rgba(183,121,31,0.1); padding: 1px 6px; border-radius: 4px; }
+
+.legal-table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; margin: 12px 0; }
+.legal-table { border-collapse: collapse; width: 100%; min-width: 480px; font-size: 14px; }
+.legal-table th, .legal-table td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.legal-table th { background: var(--bg-soft); font-weight: 650; color: var(--text); }
+.legal-table tr:last-child td { border-bottom: none; }
