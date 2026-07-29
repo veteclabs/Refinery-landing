@@ -58,7 +58,12 @@ import '../styles/nav-footer.css';
 
     <div class="footer-bottom">
       <div class="footer-bottom-text">© <span id="footerYear">2026</span> VETEC. All rights reserved.</div>
-      <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:10px;"><a href="/privacy" style="font-size:13px;color:#7E8A98;text-decoration:none;">개인정보처리방침</a><a href="/cookie-policy" style="font-size:13px;color:#7E8A98;text-decoration:none;">쿠키 정책</a></div>
+      <nav class="footer-legal" aria-label="법적 고지">
+        <a href="/privacy">개인정보처리방침</a>
+        <a href="/terms">이용약관</a>
+        <a href="/cookie-policy">쿠키 정책</a>
+        <a href="#" onclick="if(window.openCookieSettings){openCookieSettings();}return false;">쿠키 설정</a>
+      </nav>
     <script is:inline>(function(){var y=document.getElementById('footerYear'); if(y) y.textContent = new Date().getFullYear();})();</script>
     </div>
   </div>
