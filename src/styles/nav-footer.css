@@ -121,3 +121,9 @@ nav .btn-primary:hover, nav .btn-primary:active { background: transparent; color
   .mm-menu { display: none; }
   .nav-hamburger { display: flex; }
 }
+
+/* 모바일: 상단 문의하기 버튼 숨김(모바일 패널에 CTA 있음) + 스위처 여백 정리 */
+@media (max-width: 980px) {
+  .nav-actions .btn-primary { display: none; }
+  .nav-actions { gap: 10px; }
+}

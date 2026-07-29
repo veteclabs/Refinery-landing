@@ -69,6 +69,17 @@ const strengths = [
       </div>
     </section>
 
+    <!-- STATS -->
+    <section class="ind-section ind-dark cmp-stats-sec">
+      <div class="ind-container">
+        <div class="cmp-stats">
+          <div class="cmp-stat"><div class="cmp-stat-num">30년+</div><div class="cmp-stat-label">산업 현장 경험</div></div>
+          <div class="cmp-stat"><div class="cmp-stat-num">9개 산업</div><div class="cmp-stat-label">에너지·제조·물류·공공 등</div></div>
+          <div class="cmp-stat"><div class="cmp-stat-num">기존 시스템 통합</div><div class="cmp-stat-label">SCADA·MES·ERP·PLC 연동</div></div>
+        </div>
+      </div>
+    </section>
+
     <!-- STRENGTHS -->
     <section class="ind-section ind-soft">
       <div class="ind-container">
@@ -111,6 +122,10 @@ const strengths = [
 </BaseLayout>
 
 <style>
+  .cmp-stats-sec { padding: 60px 0; }
+  .cmp-stats { display: flex; justify-content: center; gap: clamp(32px, 6vw, 80px); flex-wrap: wrap; text-align: center; }
+  .cmp-stat-num { font-size: clamp(26px, 3.6vw, 40px); font-weight: 700; color: #fff; letter-spacing: -0.02em; line-height: 1.1; }
+  .cmp-stat-label { margin-top: 10px; font-size: 14px; color: #9aa4b0; }
   .cmp-story { max-width: 760px; }
   .cmp-prose p { font-size: 17px; line-height: 1.75; color: #2b3644; }
   .cmp-prose p + p { margin-top: 18px; }
