@@ -5,7 +5,7 @@ const lang = (Astro.currentLocale ?? 'ko') as 'ko' | 'en';
 const t =
   lang === 'en'
     ? {
-        text: 'We use analytics cookies to improve our service. If you accept, Google Analytics and Mixpanel are enabled.',
+        text: 'We use cookies to analyze site usage and improve your experience. If you accept, analytics cookies are enabled.',
         more: 'Learn more:',
         accept: 'Accept',
         decline: 'Decline',
@@ -16,7 +16,7 @@ const t =
         aria: 'Cookie consent',
       }
     : {
-        text: '서비스 개선을 위해 분석 쿠키를 사용합니다. ‘동의’ 시 Google Analytics·Mixpanel 분석이 활성화됩니다.',
+        text: '저희는 웹사이트 이용 분석과 서비스 개선을 위해 쿠키를 사용합니다. ‘동의’ 시 분석 쿠키가 활성화됩니다.',
         more: '자세한 내용:',
         accept: '동의',
         decline: '거부',
