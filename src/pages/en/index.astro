@@ -169,6 +169,7 @@ const jsonLd = {
 </script>
 
 <!-- HERO -->
+<main id="main">
 <section id="hero">
   <div class="container">
     <div class="hero-row">
@@ -184,7 +185,7 @@ const jsonLd = {
       </div>
     </div>
     <div class="hero-motion-placeholder">
-      <iframe id="hero-agent-iframe" src="1-agent-demo-energy_260716.html" scrolling="no" tabindex="-1" style="display:block;border:none;position:absolute;top:0;left:0;transform-origin:top left;pointer-events:none;"></iframe>
+      <iframe id="hero-agent-iframe" data-src="1-agent-demo-energy_260716.html" loading="lazy" title="Refinery AI agent demo" scrolling="no" tabindex="-1" style="display:block;border:none;position:absolute;top:0;left:0;transform-origin:top left;pointer-events:none;"></iframe>
         </div>
 
   </div>
@@ -222,6 +223,19 @@ const jsonLd = {
       window.addEventListener('load', resizeHeroAgent);
       window.addEventListener('resize', resizeHeroAgent);
       document.addEventListener('DOMContentLoaded', resizeHeroAgent);
+
+      function loadHeroDemo() {
+        var f = document.getElementById('hero-agent-iframe');
+        if (f && !f.src && f.getAttribute('data-src')) {
+          f.addEventListener('load', resizeHeroAgent);
+          f.src = f.getAttribute('data-src');
+        }
+      }
+      if ('requestIdleCallback' in window) {
+        window.addEventListener('load', function () { requestIdleCallback(loadHeroDemo, { timeout: 1500 }); });
+      } else {
+        window.addEventListener('load', function () { setTimeout(loadHeroDemo, 200); });
+      }
 
       /* 히어로 데모가 재생 완료된 뒤 화면 밖으로 나갔다가 다시 들어오면
          재생을 처음부터 다시 시작한다 (멈춰있는 화면처럼 보이지 않도록). */
@@ -956,6 +970,7 @@ It also cites the data sources behind each answer.</p>
 
 <!-- SECURITY -->
 <section id="security" style="background:#F6F8FA;border-top:1px solid #E3E7EC;">
+  <style>.sec-card-body h3{font-size:16px;font-weight:700;line-height:1.4;}</style>
   <div class="container">
     <div class="section-header">
       <div class="section-header-row">
@@ -967,22 +982,22 @@ It also cites the data sources behind each answer.</p>
       <div class="sec-card">
         <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-1.svg" alt="Data encryption icon" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="sec-card-divider"></div>
-        <div class="sec-card-body"><h4>Data encryption</h4><p>Data in transit uses TLS 1.3; data at rest is <br class="mobile-br">encrypted with AES-256.<br>Keys are managed separately and securely with an HSM.</p></div>
+        <div class="sec-card-body"><h3>Data encryption</h3><p>Data in transit uses TLS 1.3; data at rest is <br class="mobile-br">encrypted with AES-256.<br>Keys are managed separately and securely with an HSM.</p></div>
       </div>
       <div class="sec-card">
         <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-2.svg" alt="Multitenancy isolation icon" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="sec-card-divider"></div>
-        <div class="sec-card-body"><h4>Multitenancy isolation</h4><p>Each organization's data is fully isolated.<br>PostgreSQL RLS and network-level separation block any cross-access.</p></div>
+        <div class="sec-card-body"><h3>Multitenancy isolation</h3><p>Each organization's data is fully isolated.<br>PostgreSQL RLS and network-level separation block any cross-access.</p></div>
       </div>
       <div class="sec-card">
         <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-3.svg" alt="OT/IT boundary security icon" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="sec-card-divider"></div>
-        <div class="sec-card-body"><div class="sec-card-title-row"><h4>OT/IT boundary security</h4><span class="ot-it-badge"><i class="ph ph-info"></i>Industrial control environments such as manufacturing and energy</span></div><p>One-way transfer between field edge (Silo/Agent) and cloud <br class="mobile-br">is supported.<br>Reverse intrusion into control systems is blocked <br class="mobile-br">at the source.</p></div>
+        <div class="sec-card-body"><div class="sec-card-title-row"><h3>OT/IT boundary security</h3><span class="ot-it-badge"><i class="ph ph-info"></i>Industrial control environments such as manufacturing and energy</span></div><p>One-way transfer between field edge (Silo/Agent) and cloud <br class="mobile-br">is supported.<br>Reverse intrusion into control systems is blocked <br class="mobile-br">at the source.</p></div>
       </div>
       <div class="sec-card">
         <div class="sec-card-img"><img loading="lazy" decoding="async" src="Security-4.svg" alt="Audit log and RBAC icon" class="sec-card-illust" style="width:100%;height:100%;object-fit:contain;"></div>
         <div class="sec-card-divider"></div>
-        <div class="sec-card-body"><h4>Audit Log &amp; RBAC</h4><p>Every API call and task history is recorded <br class="mobile-br">securely.<br>Role-based access control (RBAC) enforces <br class="mobile-br">the principle of least privilege.</p></div>
+        <div class="sec-card-body"><h3>Audit Log &amp; RBAC</h3><p>Every API call and task history is recorded <br class="mobile-br">securely.<br>Role-based access control (RBAC) enforces <br class="mobile-br">the principle of least privilege.</p></div>
       </div>
     </div>
   </div>
@@ -1016,6 +1031,8 @@ It also cites the data sources behind each answer.</p>
     </div>
   </div>
 </section>
+
+</main>
 
 <!-- FOOTER -->
 <footer>
@@ -1424,7 +1441,7 @@ function switchDash(btn, src, key) {
 </style>
 
 <div id="contactDrawerOverlay" onclick="closeContactDrawer()"></div>
-<aside id="contactDrawerPanel" aria-hidden="true">
+<aside id="contactDrawerPanel" aria-hidden="true" inert>
   <button type="button" class="cd-close" onclick="closeContactDrawer()" aria-label="Close"><i class="ph ph-x"></i></button>
   <div class="cd-inner">
     <h2 class="cd-title" id="cdTitle"><span class="cd-title-desktop-only">Share a few <br class="mobile-br">details and we will<br></span>guide you through <br class="mobile-br">a tailored demo.</h2>
@@ -1550,12 +1567,14 @@ challenges you are facing in the field."></textarea>
       overlay.classList.add('open');
       panel.classList.add('open');
       panel.setAttribute('aria-hidden', 'false');
+      panel.removeAttribute('inert');
       document.body.style.overflow = 'hidden';
     };
     window.closeContactDrawer = function() {
       overlay.classList.remove('open');
       panel.classList.remove('open');
       panel.setAttribute('aria-hidden', 'true');
+      panel.setAttribute('inert', '');
       document.body.style.overflow = '';
       document.body.style.paddingRight = '';
       var navEl = document.querySelector('nav');
