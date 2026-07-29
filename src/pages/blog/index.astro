@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import SiteHeader from '../../components/SiteHeader.astro';
-import SiteFooter from '../../components/SiteFooter.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
 import { getCollection } from 'astro:content';
 import '../../styles/blog.css';
 
@@ -17,7 +17,7 @@ const fmt = (d: Date) =>
   description="산업 데이터·AI 에이전트·현장 운영에 대한 Refinery의 인사이트와 제품 소식."
   canonical="/blog"
 >
-  <SiteHeader />
+  <Nav />
   <main class="blog-main">
     <header class="blog-hero">
       <p class="blog-eyebrow">BLOG</p>
@@ -41,5 +41,5 @@ const fmt = (d: Date) =>
       ))}
     </ul>
   </main>
-  <SiteFooter />
+  <Footer />
 </BaseLayout>

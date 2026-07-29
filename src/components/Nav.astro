@@ -1,0 +1,64 @@
+---
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import '../styles/nav-footer.css';
+---
+<nav>
+  <div class="nav-inner">
+    <div class="nav-left">
+      <a href="/" class="nav-logo"><img src="/logo_Refinery_symbol-text.svg" alt="Refinery" style="height:30px;"></a>
+      <div class="nav-links">
+        <a href="/#platform">Platform</a>
+        <a href="/#industries">Industries</a>
+        <a href="/#teams">Solutions</a>
+        <a href="/#integrations">Integrations</a>
+        <a href="/#security">Security</a>
+        <a href="/#faq">FAQ</a>
+        <a href="/blog">Blog</a>
+      </div>
+    </div>
+    <div class="nav-actions">
+      <LanguageSwitcher />
+      <a href="/contact" class="btn-primary">문의하기</a>
+      <button type="button" class="nav-hamburger" id="navHamburgerBtn" aria-label="메뉴 열기" aria-expanded="false">
+        <i class="ph ph-list"></i>
+      </button>
+    </div>
+  </div>
+  <div class="mobile-nav-panel" id="mobileNavPanel">
+    <a href="/#platform">Platform</a>
+    <a href="/#industries">Industries</a>
+    <a href="/#teams">Solutions</a>
+    <a href="/#integrations">Integrations</a>
+    <a href="/#security">Security</a>
+    <a href="/#faq">FAQ</a>
+    <a href="/blog">Blog</a>
+    <a href="/contact" class="mobile-nav-cta">문의하기</a>
+  </div>
+</nav>
+<script is:inline>
+  (function() {
+    var hamburgerBtn = document.getElementById('navHamburgerBtn');
+    var mobileNavPanel = document.getElementById('mobileNavPanel');
+    if (!hamburgerBtn || !mobileNavPanel) return;
+    function closeMobileNav() {
+      mobileNavPanel.classList.remove('open');
+      hamburgerBtn.setAttribute('aria-expanded', 'false');
+      hamburgerBtn.innerHTML = '<i class="ph ph-list"></i>';
+    }
+    function openMobileNav() {
+      mobileNavPanel.classList.add('open');
+      hamburgerBtn.setAttribute('aria-expanded', 'true');
+      hamburgerBtn.innerHTML = '<i class="ph ph-x"></i>';
+    }
+    hamburgerBtn.addEventListener('click', function() {
+      if (mobileNavPanel.classList.contains('open')) closeMobileNav();
+      else openMobileNav();
+    });
+    mobileNavPanel.querySelectorAll('a').forEach(function(a) {
+      a.addEventListener('click', closeMobileNav);
+    });
+    window.addEventListener('resize', function() {
+      if (window.innerWidth > 900) closeMobileNav();
+    });
+  })();
+</script>
