@@ -1,0 +1,148 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import '../../styles/industry.css';
+
+// ⚠️ 구조 템플릿(초안). 모든 수치는 [자리표시자] — 실제 데이터/출처 확정 전까지 게시 금지.
+// 확정 후: 수치 채우고 각 통계에 출처 명시, robots를 index로, draft 배너 제거.
+const findings = [
+  { stat: '[00]%', label: '데이터가 흩어져 있어 정작 판단이 필요한 순간에 쓰지 못한다고 답한 기업 비율' },
+  { stat: '[00]%', label: '기존 시스템을 걷어내지 않고 그 위에 얹는 방식을 선호한다고 답한 비율' },
+  { stat: '[0.0]배', label: '통합 지능 도입 후 이상 감지·대응까지 걸린 시간의 단축 폭' },
+  { stat: '[00]%', label: 'AI가 근거(출처)를 함께 제시할 때 현장 신뢰도가 높아진다고 응답한 비율' },
+];
+const toc = [
+  { n: '01', t: '산업 데이터의 현실', d: '왜 데이터는 많은데 쓰이지 못하는가' },
+  { n: '02', t: '통합 vs 신규 구축', d: '있으면 얹고, 없으면 세우는 두 경로' },
+  { n: '03', t: '온톨로지와 의미 부여', d: '시계열을 넘어 설비·문서·이력까지' },
+  { n: '04', t: 'AI 에이전트의 역할', d: '근거를 들어 판단을 돕는 방식' },
+  { n: '05', t: '산업별 활용 사례', d: '에너지·제조·물류·공공 등' },
+  { n: '06', t: '도입 체크리스트', d: '무엇부터 시작할 것인가' },
+];
+---
+<BaseLayout
+  title="2026 산업 데이터·AI 활용 리포트 — Refinery"
+  description="산업 현장의 데이터 활용 현황과 통합 지능·AI 에이전트 도입 흐름을 담은 리포트(준비중)."
+  canonical="/reports/2026-industrial-data"
+  robots="noindex, follow"
+>
+  <Nav />
+  <main class="ind">
+    <!-- HERO -->
+    <section class="ind-hero rp-hero">
+      <div class="ind-container rp-hero-grid">
+        <div>
+          <nav class="ind-crumb" aria-label="위치"><a href="/">Home</a><span>›</span><a href="/resources">자료실</a><span>›</span><span>2026 리포트</span></nav>
+          <p class="ind-eyebrow">REPORT · 2026</p>
+          <h1>2026 산업 데이터·<br>AI 활용 리포트</h1>
+          <p class="ind-lede">데이터는 넘치는데 왜 쓰이지 못하는가. 통합 지능과 AI 에이전트가 현장을 어떻게 바꾸는지, 도입 경로와 함께 정리했습니다.</p>
+          <div class="ind-hero-actions">
+            <a href="/contact" class="ind-btn-primary">리포트 요청하기</a>
+          </div>
+        </div>
+        <div class="rp-cover" aria-hidden="true">
+          <div class="rp-cover-inner">
+            <span class="rp-cover-year">2026</span>
+            <span class="rp-cover-title">산업 데이터·AI<br>활용 리포트</span>
+            <span class="rp-cover-brand">Refinery</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="ind-container">
+      <div class="rp-draft">
+        ⚠️ 본 리포트는 <strong>구조 초안</strong>입니다. 모든 수치는 <span class="rp-ph">[자리표시자]</span>이며, <strong>실제 데이터·출처 확정 후</strong> 각 통계에 출처를 명시해 정식 공개합니다.
+      </div>
+    </div>
+
+    <!-- KEY FINDINGS -->
+    <section class="ind-section">
+      <div class="ind-container">
+        <header class="ind-head">
+          <span class="ind-badge">KEY FINDINGS</span>
+          <h2>핵심 발견</h2>
+        </header>
+        <div class="rp-findings">
+          {findings.map((f) => (
+            <div class="rp-finding">
+              <div class="rp-stat">{f.stat}</div>
+              <p>{f.label}</p>
+            </div>
+          ))}
+        </div>
+        <p class="rp-source">* 출처: <span class="rp-ph">[데이터 출처 · 조사 방법 확정 필요]</span></p>
+      </div>
+    </section>
+
+    <!-- TOC -->
+    <section class="ind-section ind-soft">
+      <div class="ind-container">
+        <header class="ind-head">
+          <span class="ind-badge">INSIDE</span>
+          <h2>리포트 목차</h2>
+        </header>
+        <div class="rp-toc">
+          {toc.map((c) => (
+            <div class="rp-toc-item">
+              <span class="rp-toc-n">{c.n}</span>
+              <div>
+                <h3>{c.t}</h3>
+                <p>{c.d}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="ind-cta">
+      <div class="ind-container">
+        <h2>리포트가 준비되면<br>가장 먼저 보내드릴게요.</h2>
+        <a href="/contact" class="ind-btn-primary ind-btn-lg">리포트 요청하기</a>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .rp-hero-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 48px; align-items: center; }
+  .rp-cover { display: flex; justify-content: center; }
+  .rp-cover-inner {
+    width: 260px; aspect-ratio: 3 / 4; border-radius: 16px;
+    background: linear-gradient(160deg, #16202c 0%, #23405c 100%);
+    box-shadow: 0 24px 60px rgba(16,32,44,0.28);
+    display: flex; flex-direction: column; justify-content: space-between;
+    padding: 28px 26px; color: #fff;
+  }
+  .rp-cover-year { font-size: 40px; font-weight: 800; letter-spacing: -0.02em; opacity: 0.9; }
+  .rp-cover-title { font-size: 22px; font-weight: 700; line-height: 1.3; }
+  .rp-cover-brand { font-size: 14px; font-weight: 600; color: #76a6d7; }
+
+  .rp-draft {
+    margin: 28px 0 4px; background: #fff8e6; border: 1px solid #f0dca0; border-radius: 12px;
+    padding: 14px 18px; font-size: 14px; line-height: 1.6; color: #6b5b1e;
+  }
+  .rp-ph { background: #fdeaea; color: #b4453c; border-radius: 5px; padding: 1px 7px; font-weight: 600; font-size: 0.92em; }
+
+  .rp-findings { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+  .rp-finding { border: 1px solid var(--border); border-radius: 14px; padding: 26px 24px; background: #fff; }
+  .rp-stat { font-size: clamp(30px, 4vw, 42px); font-weight: 800; letter-spacing: -0.02em; color: #16202c; }
+  .rp-finding p { margin-top: 10px; font-size: 15px; line-height: 1.6; color: #47535f; }
+  .rp-source { margin-top: 18px; font-size: 13px; color: #7e8a98; }
+
+  .rp-toc { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .rp-toc-item { display: flex; gap: 16px; align-items: flex-start; background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 20px 22px; }
+  .rp-toc-n { font-size: 15px; font-weight: 800; color: #76a6d7; letter-spacing: .04em; }
+  .rp-toc-item h3 { font-size: 16.5px; font-weight: 700; }
+  .rp-toc-item p { margin-top: 4px; font-size: 14px; color: #47535f; }
+
+  @media (max-width: 860px) {
+    .rp-hero-grid { grid-template-columns: 1fr; gap: 32px; }
+    .rp-cover-inner { width: 220px; }
+    .rp-findings, .rp-toc { grid-template-columns: 1fr; }
+  }
+</style>
