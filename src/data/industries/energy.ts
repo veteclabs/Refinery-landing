@@ -82,7 +82,7 @@ export const energy: IndustryData = {
       { label: 'Refinery', detail: '온톨로지 · AI 에이전트 · 룰/자동화' },
       { label: '활용', detail: '통합 대시보드 · 알람 · ESG 리포트' },
     ],
-    note: '기존 SCADA/EMS를 걷어내지 않고, 그 위에 통합 지능 레이어로 올라가 양방향 연동합니다.',
+    note: '기존 SCADA/EMS가 있으면 걷어내지 않고 그 위에 얹어 양방향 연동하고, 없는 현장은 수집부터 새로 구축합니다.',
   },
   benefits: {
     title: '도입 효과',
@@ -109,8 +109,8 @@ export const energy: IndustryData = {
         description: '온프레미스 배포 시 데이터가 사내를 벗어나지 않고, OT/IT 경계를 보호합니다.',
       },
       {
-        title: '기존 시스템 연동',
-        description: '레거시 SCADA/EMS/ERP 위에 얹혀 양방향으로 자연스럽게 통합됩니다.',
+        title: '통합 또는 신규 구축',
+        description: '레거시 SCADA/EMS/ERP가 있으면 그 위에 얹어 양방향 통합하고, 없으면 처음부터 새로 구축합니다.',
       },
     ],
   },
