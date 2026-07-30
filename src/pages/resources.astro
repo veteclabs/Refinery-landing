@@ -7,10 +7,10 @@ import '../styles/industry.css';
 // ⚠️ 초안(준비중). 실제 자료가 준비되면 각 카드에 다운로드 링크(href)를 채우고 soon 상태를 해제한다.
 // 고객 사례는 실제 확인된 내용만 게시(가공/창작 금지).
 const resources = [
-  { icon: 'ph-file-text', label: '제품 소개서', desc: 'Refinery 플랫폼의 핵심 기능과 도입 효과를 한 문서로', kind: 'PDF' },
-  { icon: 'ph-book-open', label: '백서 · 산업 데이터 통합', desc: '흩어진 현장 데이터를 하나의 지식으로 잇는 방법론', kind: 'Whitepaper' },
-  { icon: 'ph-robot', label: '백서 · 산업 AI 에이전트', desc: '온톨로지 기반 AI가 근거를 들어 판단하는 구조', kind: 'Whitepaper' },
-  { icon: 'ph-presentation-chart', label: '도입 가이드', desc: '기존 위에 얹기 · 신규 구축, 두 방식의 도입 절차', kind: 'Guide' },
+  { icon: 'ph-file-text', label: '제품 소개', desc: '핵심 기능과 도입 효과, 산업별 활용을 한 페이지로', kind: 'Web', href: '/why-refinery' },
+  { icon: 'ph-chart-line-up', label: '2026 산업 데이터·AI 리포트', desc: '데이터 활용 현황과 통합 지능·AI 에이전트 도입 흐름', kind: 'Report', href: '/reports/2026-industrial-data', draft: true },
+  { icon: 'ph-book-open', label: '백서 · 산업 데이터 통합', desc: '흩어진 현장 데이터를 하나의 지식으로 잇는 방법론', kind: 'Whitepaper', href: '/whitepapers/data-integration' },
+  { icon: 'ph-robot', label: '백서 · 산업 AI 에이전트', desc: '온톨로지 기반 AI가 근거를 들어 판단하는 구조', kind: 'Whitepaper', href: '/whitepapers/ai-agent' },
   { icon: 'ph-projector-screen', label: '웨비나 · 데모 영상', desc: '제품 시연과 현장 적용 사례를 영상으로', kind: 'Video' },
   { icon: 'ph-buildings', label: '산업별 활용 자료', desc: '에너지·제조·물류·공공 등 산업별 적용 포인트', kind: 'Kit' },
 ];
@@ -40,15 +40,22 @@ const resources = [
     <section class="ind-section">
       <div class="ind-container">
         <div class="ind-grid ind-grid-3">
-          {resources.map((r) => (
-            <div class="ind-card res-card">
-              <div class="res-icon"><i class={`ph ${r.icon}`} aria-hidden="true"></i></div>
-              <span class="res-kind">{r.kind}</span>
-              <h3>{r.label}</h3>
-              <p>{r.desc}</p>
-              <span class="res-soon">준비중</span>
-            </div>
-          ))}
+          {resources.map((r) => {
+            const inner = (
+              <>
+                <div class="res-icon"><i class={`ph ${r.icon}`} aria-hidden="true"></i></div>
+                <span class="res-kind">{r.kind}</span>
+                <h3>{r.label}</h3>
+                <p>{r.desc}</p>
+                {r.href
+                  ? (r.draft ? <span class="res-tag">초안 미리보기</span> : <span class="res-go">보기 →</span>)
+                  : <span class="res-soon">준비중</span>}
+              </>
+            );
+            return r.href
+              ? <a class="ind-card res-card is-link" href={r.href}>{inner}</a>
+              : <div class="ind-card res-card">{inner}</div>;
+          })}
         </div>
       </div>
     </section>
@@ -72,6 +79,10 @@ const resources = [
   }
   .res-note a { color: #4b86bf; text-decoration: underline; text-underline-offset: 2px; font-weight: 600; }
   .res-card { position: relative; opacity: 0.85; }
+  .res-card.is-link { opacity: 1; text-decoration: none; display: block; transition: border-color .2s, box-shadow .2s, transform .2s; }
+  .res-card.is-link:hover { border-color: var(--accent, #76a6d7); box-shadow: 0 8px 24px rgba(16,32,44,0.07); transform: translateY(-2px); }
+  .res-go { display: inline-block; margin-top: 12px; font-size: 14px; font-weight: 600; color: #4b86bf; }
+  .res-tag { position: absolute; top: 18px; right: 18px; font-size: 11px; font-weight: 700; color: #b4863c; background: #fbf1dd; border-radius: 999px; padding: 3px 9px; }
   .res-icon {
     width: 42px; height: 42px; display: inline-flex; align-items: center; justify-content: center;
     border-radius: 10px; background: #eef2f6; color: #4b86bf; font-size: 22px; margin-bottom: 14px;
