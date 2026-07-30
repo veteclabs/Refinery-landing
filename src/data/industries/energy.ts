@@ -3,7 +3,7 @@ import type { IndustryData } from './types';
 export const energy: IndustryData = {
   slug: 'energy',
   name: '에너지 · 유틸리티',
-  pageTitle: '에너지·유틸리티를 위한 Refinery — 분산 설비 통합 관제·예지보전·ESG 자동화',
+  pageTitle: '에너지·유틸리티를 위한 Refinery: 분산 설비 통합 관제·예지보전·ESG 자동화',
   description:
     'SCADA·EMS·미터에 흩어진 에너지 데이터를 하나로 연결하고, AI 에이전트가 이상을 먼저 감지하며 ESG 리포트를 자동화합니다. 발전·송배전·유틸리티 현장을 위한 Refinery.',
   hero: {
