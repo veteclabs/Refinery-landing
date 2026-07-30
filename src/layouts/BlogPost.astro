@@ -4,6 +4,9 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/blog.css';
 
+type Heading = { depth: number; slug: string; text: string };
+type NavLink = { slug: string; title: string } | null;
+
 export interface Props {
   title: string;
   description: string;
@@ -13,9 +16,14 @@ export interface Props {
   tags?: string[];
   ogImage?: string;
   slug: string;
+  headings?: Heading[];
+  nav?: { newer: NavLink; older: NavLink };
 }
 
-const { title, description, pubDate, updatedDate, author = 'Refinery', tags = [], ogImage, slug } = Astro.props;
+const {
+  title, description, pubDate, updatedDate, author = 'Refinery', tags = [], ogImage, slug,
+  headings = [], nav = { newer: null, older: null },
+} = Astro.props;
 
 const fmt = (d: Date) =>
   new Intl.DateTimeFormat('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' }).format(d);
@@ -52,29 +60,94 @@ const jsonLd = {
   jsonLd={jsonLd}
 >
   <Nav />
-  <main class="blog-main">
-    <article class="post">
-      <nav class="post-breadcrumb" aria-label="위치">
-        <a href="/blog">← 블로그</a>
-      </nav>
-      <header class="post-header">
-        <div class="post-meta">
-          <time datetime={pubDate.toISOString()}>{fmt(pubDate)}</time>
-          <span class="post-dot">·</span>
-          <span>{author}</span>
+  <main class="blog-main blog-main--post">
+    <div class="post-shell">
+      {headings.length > 0 && (
+        <aside class="post-toc" aria-label="목차">
+          <div class="post-toc-inner">
+            <p class="post-toc-title">목차</p>
+            <nav>
+              <ul>
+                {headings.map((h) => (
+                  <li class={`toc-d${h.depth}`}><a href={`#${h.slug}`} data-toc={h.slug}>{h.text}</a></li>
+                ))}
+              </ul>
+            </nav>
+          </div>
+        </aside>
+      )}
+
+      <article class="post">
+        <nav class="post-breadcrumb" aria-label="위치">
+          <a href="/blog">← 블로그</a>
+        </nav>
+        <header class="post-header">
+          <div class="post-meta">
+            <time datetime={pubDate.toISOString()}>{fmt(pubDate)}</time>
+            <span class="post-dot">·</span>
+            <span>{author}</span>
+          </div>
+          <h1>{title}</h1>
+          <p class="post-desc">{description}</p>
+          {tags.length > 0 && (
+            <ul class="post-tags">
+              {tags.map((t) => <li>#{t}</li>)}
+            </ul>
+          )}
+        </header>
+        <div class="post-body">
+          <slot />
         </div>
-        <h1>{title}</h1>
-        <p class="post-desc">{description}</p>
-        {tags.length > 0 && (
-          <ul class="post-tags">
-            {tags.map((t) => <li>#{t}</li>)}
-          </ul>
+
+        {(nav.older || nav.newer) && (
+          <nav class="post-nav" aria-label="다른 글">
+            {nav.older
+              ? (
+                <a class="post-nav-item post-nav-prev" href={`/blog/${nav.older.slug}`}>
+                  <span class="post-nav-dir">← 이전 글</span>
+                  <strong class="post-nav-title">{nav.older.title}</strong>
+                </a>
+              )
+              : <span class="post-nav-item is-empty" aria-hidden="true"></span>}
+            {nav.newer
+              ? (
+                <a class="post-nav-item post-nav-next" href={`/blog/${nav.newer.slug}`}>
+                  <span class="post-nav-dir">다음 글 →</span>
+                  <strong class="post-nav-title">{nav.newer.title}</strong>
+                </a>
+              )
+              : <span class="post-nav-item is-empty" aria-hidden="true"></span>}
+          </nav>
         )}
-      </header>
-      <div class="post-body">
-        <slot />
-      </div>
-    </article>
+      </article>
+    </div>
   </main>
+
+  {headings.length > 0 && (
+    <script is:inline>
+      (function () {
+        var links = Array.prototype.slice.call(document.querySelectorAll('.post-toc a[data-toc]'));
+        if (!links.length) return;
+        var map = {};
+        links.forEach(function (a) { map[a.getAttribute('data-toc')] = a; });
+        var targets = links
+          .map(function (a) { return document.getElementById(a.getAttribute('data-toc')); })
+          .filter(Boolean);
+        var current = null;
+        function activate(id) {
+          if (current === id) return;
+          current = id;
+          links.forEach(function (a) { a.classList.remove('is-active'); });
+          if (map[id]) map[id].classList.add('is-active');
+        }
+        var obs = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) activate(e.target.id);
+          });
+        }, { rootMargin: '-88px 0px -70% 0px', threshold: 0 });
+        targets.forEach(function (t) { obs.observe(t); });
+      })();
+    </script>
+  )}
   <Footer />
 </BaseLayout>
