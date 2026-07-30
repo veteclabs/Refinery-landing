@@ -18,11 +18,12 @@ export interface Props {
   slug: string;
   headings?: Heading[];
   nav?: { newer: NavLink; older: NavLink };
+  readingTime?: number;
 }
 
 const {
   title, description, pubDate, updatedDate, author = 'Refinery', tags = [], ogImage, slug,
-  headings = [], nav = { newer: null, older: null },
+  headings = [], nav = { newer: null, older: null }, readingTime,
 } = Astro.props;
 
 const fmt = (d: Date) =>
@@ -86,6 +87,7 @@ const jsonLd = {
             <time datetime={pubDate.toISOString()}>{fmt(pubDate)}</time>
             <span class="post-dot">·</span>
             <span>{author}</span>
+            {readingTime && <><span class="post-dot">·</span><span>약 {readingTime}분 읽기</span></>}
           </div>
           <h1>{title}</h1>
           <p class="post-desc">{description}</p>

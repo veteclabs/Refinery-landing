@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 import { getCollection } from 'astro:content';
+import { readingMinutesForSlug } from '../../utils/readingTime';
 import '../../styles/blog.css';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
@@ -31,6 +32,8 @@ const fmt = (d: Date) =>
           <a href={`/blog/${post.id}`}>
             <div class="blog-card-meta">
               <time datetime={post.data.pubDate.toISOString()}>{fmt(post.data.pubDate)}</time>
+              <span class="blog-card-dot">·</span>
+              <span>약 {readingMinutesForSlug(post.id)}분 읽기</span>
               {post.data.tags[0] && <span class="blog-card-tag">#{post.data.tags[0]}</span>}
             </div>
             <h2>{post.data.title}</h2>

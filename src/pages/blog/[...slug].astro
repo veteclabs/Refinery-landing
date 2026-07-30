@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BlogPost from '../../layouts/BlogPost.astro';
+import { readingMinutesForSlug } from '../../utils/readingTime';
 
 export async function getStaticPaths() {
   const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
@@ -25,6 +26,6 @@ const nav = {
   older: older ? { slug: older.id, title: older.data.title } : null,
 };
 ---
-<BlogPost {...post.data} slug={post.id} headings={toc} nav={nav}>
+<BlogPost {...post.data} slug={post.id} headings={toc} nav={nav} readingTime={readingMinutesForSlug(post.id)}>
   <Content />
 </BlogPost>
