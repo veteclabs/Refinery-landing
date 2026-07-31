@@ -1,0 +1,52 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import '../../styles/industry.css';
+import { useCases } from '../../data/usecases';
+---
+<BaseLayout
+  title="유즈케이스 | Refinery"
+  description="예지보전·센서 모니터링·전력관리·전력품질·공장 에너지관리 등 Refinery가 현장에서 해결하는 유즈케이스."
+  canonical="/use-cases"
+>
+  <Nav />
+  <main class="ind">
+    <section class="ind-hero">
+      <div class="ind-container">
+        <nav class="ind-crumb" aria-label="위치"><a href="/">Home</a><span>›</span><span>유즈케이스</span></nav>
+        <p class="ind-eyebrow">USE CASES</p>
+        <h1>현장에서 푸는 문제들</h1>
+        <p class="ind-lede">예지보전부터 전력관리·전력품질, 공장 에너지관리까지. 흩어진 데이터를 하나로 잇고 AI가 판단을 돕는 방식을 유즈케이스로 정리했습니다.</p>
+      </div>
+    </section>
+
+    <section class="ind-section">
+      <div class="ind-container">
+        <div class="ind-grid ind-grid-3">
+          {useCases.map((u) => (
+            <a class="ind-card uc-link" href={`/use-cases/${u.slug}`}>
+              <h3>{u.name}</h3>
+              <p>{u.tagline}</p>
+              <span class="uc-go">자세히 →</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="ind-cta">
+      <div class="ind-container">
+        <h2>찾는 문제가 여기 없다면<br>직접 물어봐 주세요.</h2>
+        <a href="/contact" class="ind-btn-primary ind-btn-lg">문의하기</a>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .uc-link { display: block; text-decoration: none; transition: border-color .2s, box-shadow .2s, transform .2s; }
+  .uc-link:hover { border-color: var(--accent, #76a6d7); box-shadow: 0 8px 24px rgba(16,32,44,0.07); transform: translateY(-2px); }
+  .uc-go { display: inline-block; margin-top: 14px; font-size: 14px; font-weight: 600; color: #4b86bf; }
+</style>

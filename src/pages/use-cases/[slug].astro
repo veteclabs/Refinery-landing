@@ -1,0 +1,94 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import '../../styles/industry.css';
+import { useCases, findUseCase } from '../../data/usecases';
+
+export function getStaticPaths() {
+  return useCases.map((u) => ({ params: { slug: u.slug }, props: { slug: u.slug } }));
+}
+
+const { slug } = Astro.props;
+const uc = findUseCase(slug)!;
+const SITE = 'https://refinery-ai-platform.vercel.app';
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: uc.seo.title,
+  url: `${SITE}/use-cases/${uc.slug}`,
+  isPartOf: { '@type': 'WebSite', name: 'Refinery', url: `${SITE}/` },
+};
+---
+<BaseLayout title={uc.seo.title} description={uc.seo.description} canonical={`/use-cases/${uc.slug}`} jsonLd={jsonLd}>
+  <Nav />
+  <main class="ind">
+    <!-- HERO -->
+    <section class="ind-hero">
+      <div class="ind-container">
+        <nav class="ind-crumb" aria-label="위치"><a href="/">Home</a><span>›</span><a href="/use-cases">유즈케이스</a><span>›</span><span>{uc.name}</span></nav>
+        <p class="ind-eyebrow">{uc.eyebrow ?? 'USE CASE'}</p>
+        <h1>{uc.name}</h1>
+        <p class="ind-lede">{uc.tagline}</p>
+        <div class="ind-hero-actions">
+          <a href="/contact" class="ind-btn-primary">문의하기</a>
+          <a href="/why-refinery" class="ind-btn-ghost">플랫폼 개요 →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 문제 -->
+    <section class="ind-section">
+      <div class="ind-container uc-narrow">
+        <header class="ind-head"><span class="ind-badge">왜 필요한가</span></header>
+        <p class="uc-problem">{uc.problem}</p>
+      </div>
+    </section>
+
+    <!-- 어떻게 -->
+    <section class="ind-section ind-soft">
+      <div class="ind-container">
+        <header class="ind-head"><h2>Refinery는 이렇게 풉니다</h2></header>
+        <div class="ind-grid ind-grid-3">
+          {uc.how.map((h) => (
+            <div class="ind-card"><h3>{h.title}</h3><p>{h.desc}</p></div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- 다루는 신호 -->
+    <section class="ind-section">
+      <div class="ind-container uc-narrow">
+        <header class="ind-head"><h2>다루는 데이터·신호</h2></header>
+        <div class="uc-chips">
+          {uc.signals.map((s) => <span class="uc-chip">{s}</span>)}
+        </div>
+        {uc.related && (
+          <p class="uc-related">더 읽어보기: <a href={uc.related.href}>{uc.related.label}</a></p>
+        )}
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="ind-cta">
+      <div class="ind-container">
+        <h2>우리 현장에 어떻게 적용될지<br>함께 살펴봐요.</h2>
+        <a href="/contact" class="ind-btn-primary ind-btn-lg">문의하기</a>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .uc-narrow { max-width: 760px; }
+  .uc-problem { font-size: 18px; line-height: 1.8; color: #2b3644; }
+  .uc-chips { display: flex; flex-wrap: wrap; gap: 10px; }
+  .uc-chip {
+    font-size: 14px; color: #16202c; background: #fff; border: 1px solid var(--border);
+    border-radius: 999px; padding: 8px 16px;
+  }
+  .uc-related { margin-top: 26px; font-size: 15px; color: #47535f; }
+  .uc-related a { color: #4b86bf; text-decoration: underline; text-underline-offset: 2px; font-weight: 600; }
+</style>
