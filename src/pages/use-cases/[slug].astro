@@ -54,6 +54,14 @@ const jsonLd = {
             <div class="ind-card"><h3>{h.title}</h3><p>{h.desc}</p></div>
           ))}
         </div>
+
+        {uc.template && (
+          <div class="uc-template">
+            <span class="uc-template-badge"><i class="ph ph-blueprint" aria-hidden="true"></i> 템플릿으로 시작</span>
+            <h3>{uc.template.title}</h3>
+            <p>{uc.template.desc}</p>
+          </div>
+        )}
       </div>
     </section>
 
@@ -91,4 +99,17 @@ const jsonLd = {
   }
   .uc-related { margin-top: 26px; font-size: 15px; color: #47535f; }
   .uc-related a { color: #4b86bf; text-decoration: underline; text-underline-offset: 2px; font-weight: 600; }
+
+  /* 템플릿 강조 밴드 */
+  .uc-template {
+    margin-top: 24px; background: #eef5fc; border: 1px solid #cfe0f0; border-radius: 14px;
+    padding: 24px 26px;
+  }
+  .uc-template-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px; font-weight: 700; letter-spacing: .02em; color: #2f6ba3;
+    background: #fff; border: 1px solid #cfe0f0; border-radius: 999px; padding: 5px 12px;
+  }
+  .uc-template h3 { margin-top: 14px; font-size: 19px; font-weight: 700; letter-spacing: -0.02em; color: #16202c; }
+  .uc-template p { margin-top: 9px; font-size: 15.5px; line-height: 1.72; color: #3a4653; }
 </style>
