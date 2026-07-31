@@ -8,7 +8,7 @@ export type UseCase = {
   tagline: string;       // 히어로 리드
   problem: string;       // 왜 필요한가(배경/문제)
   how: HowPoint[];       // 어떻게 해결하나(3~4개)
-  template?: { title: string; desc: string }; // 시작용 템플릿(있는 경우 강조 밴드)
+  template?: { title: string; desc: string; includes?: string[] }; // 시작용 템플릿(있는 경우 강조 밴드)
   signals: string[];     // 다루는 데이터·신호(칩)
   related?: { label: string; href: string }; // 관련 글/페이지
   seo: { title: string; description: string };

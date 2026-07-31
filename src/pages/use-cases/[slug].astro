@@ -60,6 +60,11 @@ const jsonLd = {
             <span class="uc-template-badge"><i class="ph ph-blueprint" aria-hidden="true"></i> 템플릿으로 시작</span>
             <h3>{uc.template.title}</h3>
             <p>{uc.template.desc}</p>
+            {uc.template.includes && (
+              <ul class="uc-template-list">
+                {uc.template.includes.map((it) => <li><i class="ph ph-check" aria-hidden="true"></i>{it}</li>)}
+              </ul>
+            )}
           </div>
         )}
       </div>
@@ -112,4 +117,8 @@ const jsonLd = {
   }
   .uc-template h3 { margin-top: 14px; font-size: 19px; font-weight: 700; letter-spacing: -0.02em; color: #16202c; }
   .uc-template p { margin-top: 9px; font-size: 15.5px; line-height: 1.72; color: #3a4653; }
+  .uc-template-list { list-style: none; padding: 0; margin: 16px 0 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px 20px; }
+  .uc-template-list li { display: flex; align-items: center; gap: 8px; font-size: 14.5px; color: #16202c; }
+  .uc-template-list li i { color: #2f6ba3; font-size: 15px; flex: none; }
+  @media (max-width: 560px) { .uc-template-list { grid-template-columns: 1fr; } }
 </style>
