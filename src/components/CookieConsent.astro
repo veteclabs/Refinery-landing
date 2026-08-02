@@ -62,6 +62,8 @@ const t =
   .cc-ghost:hover { border-color: #16202c; color: #16202c; }
   @media (max-width: 560px) {
     .cc { flex-direction: column; align-items: stretch; }
+    /* 세로 배치에선 flex-basis(320px)가 '높이'로 잡혀 배너가 커지므로 콘텐츠 높이로 되돌린다 */
+    .cc-copy { flex: 0 1 auto; }
     .cc-actions { margin-left: 0; }
     .cc-btn { flex: 1; }
   }
