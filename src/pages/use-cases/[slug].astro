@@ -22,17 +22,37 @@ const jsonLd = {
 ---
 <BaseLayout title={uc.seo.title} description={uc.seo.description} canonical={`/use-cases/${uc.slug}`} jsonLd={jsonLd}>
   <Nav />
-  <main class="ind">
+  {/* slug 클래스로 페이지별 스타일 스코프를 연다. 공통 .ind-* 규칙은 건드리지 않으므로
+      이 클래스를 쓰지 않는 다른 유즈케이스는 기존 디자인 그대로다. */}
+  <main class={`ind uc-page uc-${uc.slug}`}>
     <!-- HERO -->
     <section class="ind-hero">
       <div class="ind-container">
-        <nav class="ind-crumb" aria-label="위치"><a href="/">Home</a><span>›</span><a href="/use-cases">유즈케이스</a><span>›</span><span>{uc.name}</span></nav>
-        <p class="ind-eyebrow">{uc.eyebrow ?? 'USE CASE'}</p>
-        <h1>{uc.name}</h1>
-        <p class="ind-lede">{uc.tagline}</p>
-        <div class="ind-hero-actions">
-          <a href="/contact" class="ind-btn-primary">문의하기</a>
-          <a href="/why-refinery" class="ind-btn-ghost">플랫폼 개요 →</a>
+        <div class={uc.heroImage ? 'uc-hero-row' : undefined}>
+          <div class="uc-hero-text">
+            <nav class="ind-crumb" aria-label="위치"><a href="/">Home</a><span>›</span><a href="/use-cases">유즈케이스</a><span>›</span><span>{uc.name}</span></nav>
+            <p class="ind-eyebrow">{uc.eyebrow ?? 'USE CASE'}</p>
+            <h1>{uc.name}</h1>
+            <p class="ind-lede">{uc.tagline}</p>
+            <div class="ind-hero-actions">
+              <a href="/contact" class="ind-btn-primary">문의하기</a>
+              <a href="/why-refinery" class="ind-btn-ghost">플랫폼 개요 →</a>
+            </div>
+          </div>
+          {uc.heroImage && (
+            <figure class="uc-hero-figure">
+              {/* 히어로 최상단 이미지 → LCP 대상이므로 lazy 금지 */}
+              <img
+                src={uc.heroImage.src}
+                alt={uc.heroImage.alt}
+                width={uc.heroImage.width}
+                height={uc.heroImage.height}
+                decoding="async"
+                fetchpriority="high"
+              />
+              {uc.heroImage.caption && <figcaption>{uc.heroImage.caption}</figcaption>}
+            </figure>
+          )}
         </div>
       </div>
     </section>
@@ -51,24 +71,67 @@ const jsonLd = {
         <header class="ind-head"><h2>Refinery는 이렇게 풉니다</h2></header>
         <div class="ind-grid ind-grid-3">
           {uc.how.map((h) => (
-            <div class="ind-card"><h3>{h.title}</h3><p>{h.desc}</p></div>
+            <div class="ind-card">
+              {h.icon && <span class="uc-card-icon" aria-hidden="true"><i class={`ph ${h.icon}`}></i></span>}
+              <h3>{h.title}</h3>
+              <p>{h.desc}</p>
+            </div>
           ))}
         </div>
 
         {uc.template && (
-          <div class="uc-template">
-            <span class="uc-template-badge"><i class="ph ph-blueprint" aria-hidden="true"></i> {uc.template.badge ?? '템플릿으로 시작'}</span>
-            <h3>{uc.template.title}</h3>
-            <p>{uc.template.desc}</p>
-            {uc.template.includes && (
-              <ul class="uc-template-list">
-                {uc.template.includes.map((it) => <li><i class="ph ph-check" aria-hidden="true"></i>{it}</li>)}
-              </ul>
+          <div class={uc.template.image ? 'uc-template uc-template--split' : 'uc-template'}>
+            <div class="uc-template-body">
+              <span class="uc-template-badge"><i class="ph ph-blueprint" aria-hidden="true"></i> {uc.template.badge ?? '템플릿으로 시작'}</span>
+              <h3>{uc.template.title}</h3>
+              <p>{uc.template.desc}</p>
+              {uc.template.includes && (
+                <ul class="uc-template-list">
+                  {uc.template.includes.map((it) => <li><i class="ph ph-check" aria-hidden="true"></i>{it}</li>)}
+                </ul>
+              )}
+            </div>
+            {uc.template.image && (
+              <figure class="uc-template-figure">
+                <img
+                  src={uc.template.image.src}
+                  alt={uc.template.image.alt}
+                  width={uc.template.image.width}
+                  height={uc.template.image.height}
+                  loading="lazy"
+                  decoding="async"
+                />
+                {uc.template.image.caption && <figcaption>{uc.template.image.caption}</figcaption>}
+              </figure>
             )}
           </div>
         )}
       </div>
     </section>
+
+    {/* 흐름(선택) — 산업 페이지 architecture와 같은 표현을 재사용한다 */}
+    {uc.flow && (
+      <section class="ind-section ind-dark">
+        <div class="ind-container">
+          <header class="ind-head ind-head-light">
+            <h2>{uc.flow.title}</h2>
+            {uc.flow.subtitle && <p>{uc.flow.subtitle}</p>}
+          </header>
+          <div class="ind-flow">
+            {uc.flow.steps.map((s, i) => (
+              <>
+                {i > 0 && <div class="ind-flow-arrow" aria-hidden="true">→</div>}
+                <div class="ind-flow-step">
+                  <div class="ind-flow-label">{s.label}</div>
+                  <div class="ind-flow-detail">{s.detail}</div>
+                </div>
+              </>
+            ))}
+          </div>
+          {uc.flow.note && <p class="ind-flow-note">{uc.flow.note}</p>}
+        </div>
+      </section>
+    )}
 
     <!-- 다루는 신호 -->
     <section class="ind-section">
@@ -121,4 +184,66 @@ const jsonLd = {
   .uc-template-list li { display: flex; align-items: center; gap: 8px; font-size: 14.5px; color: #16202c; }
   .uc-template-list li i { color: #2f6ba3; font-size: 15px; flex: none; }
   @media (max-width: 560px) { .uc-template-list { grid-template-columns: 1fr; } }
+
+  /* ───────────────────────────────────────────────────────────
+     아래는 데이터에 해당 필드(heroImage·icon·template.image·flow)를 넣은
+     유즈케이스에서만 렌더되는 요소들이다. 넣지 않은 페이지에는 마크업 자체가
+     생기지 않으므로 기존 6개 유즈케이스 디자인에는 영향이 없다.
+     ─────────────────────────────────────────────────────────── */
+
+  /* 히어로 2컬럼 (heroImage 있을 때만) */
+  .uc-hero-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: center; }
+  .uc-hero-figure { margin: 0; }
+  .uc-hero-figure img {
+    display: block; width: 100%; height: auto;
+    border: 1px solid var(--border); border-radius: 14px;
+    background: #fff; box-shadow: 0 18px 46px rgba(16, 32, 44, 0.10);
+  }
+  .uc-hero-figure figcaption,
+  .uc-template-figure figcaption { margin-top: 10px; font-size: 13px; color: var(--text-muted); }
+  @media (max-width: 900px) {
+    .uc-hero-row { grid-template-columns: 1fr; gap: 34px; }
+  }
+
+  /* 카드 아이콘 (icon 있을 때만) */
+  .uc-card-icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 40px; height: 40px; margin-bottom: 14px;
+    border-radius: 10px; background: var(--accent-soft); color: #2f6ba3;
+  }
+  .uc-card-icon i { font-size: 21px; }
+
+  /* 템플릿 밴드 2컬럼 (template.image 있을 때만) */
+  .uc-template--split { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 34px; align-items: center; }
+  .uc-template--split .uc-template-list { grid-template-columns: 1fr; }
+  .uc-template-figure { margin: 0; }
+  .uc-template-figure img {
+    display: block; width: 100%; height: auto;
+    border: 1px solid #cfe0f0; border-radius: 12px; background: #fff;
+  }
+  @media (max-width: 900px) {
+    .uc-template--split { grid-template-columns: 1fr; gap: 24px; }
+  }
+
+  /* ───────────────────────────────────────────────────────────
+     예지보전 전용 — 이 slug 클래스 아래에서만 적용된다.
+     ─────────────────────────────────────────────────────────── */
+
+  /* how가 4개라 3컬럼에서는 마지막 카드 하나가 혼자 떨어진다. 이 페이지만 2×2로 맞춘다. */
+  .uc-predictive-maintenance .ind-grid-3 { grid-template-columns: repeat(2, 1fr); }
+  @media (max-width: 860px) {
+    .uc-predictive-maintenance .ind-grid-3 { grid-template-columns: 1fr; }
+  }
+
+  /* '왜 필요한가' 본문을 리드 문단처럼 강조 */
+  .uc-predictive-maintenance .uc-problem {
+    font-size: 19px; line-height: 1.85; color: #2b3644;
+    padding-left: 22px; border-left: 3px solid var(--accent);
+  }
+  .uc-predictive-maintenance .uc-narrow { max-width: 820px; }
+
+  /* 신호 칩을 조금 더 또렷하게 */
+  .uc-predictive-maintenance .uc-chip {
+    font-weight: 550; background: var(--bg-soft); border-color: var(--border2);
+  }
 </style>
