@@ -64,7 +64,8 @@
 .mobile-nav-panel .mobile-nav-cta:hover, .mobile-nav-panel .mobile-nav-cta:active { background: transparent; color: #76A6D7; border-color: #76A6D7; }
 .btn-primary:hover, .btn-primary:active { background: #f4f4f5; }
 nav .btn-primary:hover, nav .btn-primary:active { background: transparent; color: #76A6D7; border-color: #76A6D7; }
-.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 24px; }
+/* 브랜드 + 4열(솔루션·리소스·회사·신뢰). 솔루션 열은 항목이 길어 조금 넓게. */
+.footer-grid { display: grid; grid-template-columns: 2fr 1.3fr 1fr 1fr 1fr; gap: 24px; }
 .footer-brand p { font-family: 'JetBrains Mono', monospace; font-size: 15px; color: #0b0e14; margin-top: 10px; line-height: 1.7; max-width: 220px; }
 .footer-col-title { font-size: 13px; font-weight: 600; margin-bottom: 14px; }
 .footer-links { display: flex; flex-direction: column; gap: 9px; }

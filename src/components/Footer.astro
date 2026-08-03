@@ -8,17 +8,32 @@ import '../styles/nav-footer.css';
         <img src="/logo_Refinery_symbol.svg" alt="Refinery" style="height:36px;">
         <p>Refining complexity<br>into pure insight</p>
       </div>
+      <!-- 열 구성·이름은 헤더(Nav.astro)와 같은 축으로 맞춘다.
+           헤더에 올리지 않은 보안·FAQ는 푸터에만 둔다. -->
       <div>
-        <div class="footer-col-title">Product</div>
-        <div class="footer-links"><a href="/#platform">Platform</a><a href="/#industries">Industries</a><a href="/#teams">Solutions</a><a href="/#integrations">Integrations</a></div>
+        <div class="footer-col-title">솔루션</div>
+        <div class="footer-links">
+          <a href="/industries/energy">에너지 · 유틸리티</a>
+          <a href="/use-cases/predictive-maintenance">예지보전</a>
+          <a href="/use-cases/sensor-monitoring">센서 모니터링(IoT)</a>
+          <a href="/use-cases/power-management">전력관리</a>
+          <a href="/use-cases/power-quality">전력품질</a>
+          <a href="/use-cases/factory-energy">공장 에너지관리</a>
+          <a href="/use-cases/energy-optimization">에너지 최적화</a>
+          <a href="/use-cases/quality-prediction">품질 예측</a>
+        </div>
       </div>
       <div>
-        <div class="footer-col-title">Trust</div>
-        <div class="footer-links"><a href="/#security">Security</a><a href="/#faq">FAQ</a></div>
+        <div class="footer-col-title">리소스</div>
+        <div class="footer-links"><a href="/blog">블로그</a><a href="/docs">문서</a><a href="/resources">자료실 · 백서</a></div>
       </div>
       <div>
-        <div class="footer-col-title">Company</div>
-        <div class="footer-links"><a href="/company">회사 소개</a><a href="/#cta">Contact Sales</a><a href="/blog">Blog</a></div>
+        <div class="footer-col-title">회사</div>
+        <div class="footer-links"><a href="/company">회사 소개</a><a href="/contact">문의하기</a></div>
+      </div>
+      <div>
+        <div class="footer-col-title">신뢰</div>
+        <div class="footer-links"><a href="/#security">보안</a><a href="/#faq">FAQ</a></div>
       </div>
     </div>
 
