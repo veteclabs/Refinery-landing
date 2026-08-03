@@ -27,11 +27,13 @@ const jsonLd = {
   <main class={`ind uc-page uc-${uc.slug}`}>
     <!-- HERO -->
     <section class="ind-hero">
-      <div class="ind-container">
+      <div class={uc.heroAlignsWithNav ? 'ind-container uc-container--nav' : 'ind-container'}>
         <div class={uc.heroImage ? 'uc-hero-row' : undefined}>
           <div class="uc-hero-text">
-            <nav class="ind-crumb" aria-label="위치"><a href="/">Home</a><span>›</span><a href="/use-cases">유즈케이스</a><span>›</span><span>{uc.name}</span></nav>
-            <p class="ind-eyebrow">{uc.eyebrow ?? 'USE CASE'}</p>
+            {(uc.showBreadcrumb ?? true) && (
+              <nav class="ind-crumb" aria-label="위치"><a href="/">Home</a><span>›</span><a href="/use-cases">유즈케이스</a><span>›</span><span>{uc.name}</span></nav>
+            )}
+            {(uc.showEyebrow ?? true) && <p class="ind-eyebrow">{uc.eyebrow ?? 'USE CASE'}</p>}
             <h1>{uc.name}</h1>
             <p class="ind-lede">{uc.tagline}</p>
             <div class="ind-hero-actions">
@@ -203,6 +205,19 @@ const jsonLd = {
   .uc-template-figure figcaption { margin-top: 10px; font-size: 13px; color: var(--text-muted); }
   @media (max-width: 900px) {
     .uc-hero-row { grid-template-columns: 1fr; gap: 34px; }
+  }
+
+  /* 헤더(.nav-inner)와 같은 박스 — 좌측이 로고 선에 정확히 맞는다.
+     nav-footer.css의 .nav-inner: max-width 1280 / padding 0 48px, 900px 이하에서 24px. */
+  .uc-container--nav { max-width: 1280px; padding: 0 48px; }
+  @media (max-width: 900px) {
+    .uc-container--nav { padding: 0 24px; }
+  }
+
+  /* 브레드크럼·eyebrow를 뺀 히어로는 위가 허전해지므로 여백을 조금 줄인다 */
+  .uc-predictive-maintenance .ind-hero { padding-top: 124px; }
+  @media (max-width: 560px) {
+    .uc-predictive-maintenance .ind-hero { padding-top: 108px; }
   }
 
   /* 카드 아이콘 (icon 있을 때만) */

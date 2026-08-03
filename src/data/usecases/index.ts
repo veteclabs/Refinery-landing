@@ -5,6 +5,10 @@ export const useCases: UseCase[] = [
   {
     slug: 'predictive-maintenance',
     name: '예지보전',
+    // 히어로를 제목 중심으로 정리 — 위치 표시·eyebrow를 빼고 좌측을 헤더 로고 선에 맞춘다.
+    showBreadcrumb: false,
+    showEyebrow: false,
+    heroAlignsWithNav: true,
     tagline: '무선 진동센서로 모터의 고장 전조를 읽어, 멈춤과 손실을 줄입니다.',
     problem:
       '달력에 맞춘 정비는 아직 멀쩡한 부품을 버리거나, 교체 주기 사이의 갑작스러운 고장을 놓칩니다. 시간이라는 기준은 설비의 실제 상태와 무관하기 때문입니다. 그렇다고 사람이 일일이 현장을 돌며 진동을 재는 것도, 유선 센서를 설비마다 배선하는 것도 부담이 큽니다.',
