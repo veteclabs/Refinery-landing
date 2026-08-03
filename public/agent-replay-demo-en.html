@@ -1,0 +1,1582 @@
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<title>Refinery AI Agent Demo</title>
+
+<style>
+*, *::before, *::after { box-sizing: border-box; }
+
+:root {
+  --sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
+          "Apple SD Gothic Neo", "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+  --mono: ui-monospace, SFMono-Regular, "JetBrains Mono", Menlo, Consolas, monospace;
+  --ease-out: cubic-bezier(.22, 1, .36, 1);
+  --ease-spring: cubic-bezier(.3, 1.12, .35, 1);
+  --spot-r: 12px;
+}
+
+.stage {
+  --brand: #76A6D7;
+  --brand-600: #5A8FC5;
+  --brand-700: #3F76AE;
+  --brand-50: rgba(118,166,215,.13);
+  --brand-100: rgba(118,166,215,.20);
+  --ink-900: #EDEEF0;
+  --ink-800: #C0C4CA;
+  --ink-700: #959CA5;
+  --ink-600: #878E97;
+  --ink-500: #757C85;
+  --ink-400: #424850;
+  --ink-300: #32373F;
+  --ink-200: #272B32;
+  --ink-100: #1E2228;
+  --ink-50: #17191E;
+  --white: #191D22;
+  --card: #1A1D23;
+  --bg: #131519;
+  --good: #3FB255;
+  --good-50: rgba(63,178,85,.12);
+  --warn: #F0A93A;
+  --warn-50: rgba(240,169,58,.14);
+  --bad: #E5484D;
+  --bad-50: rgba(229,72,77,.12);
+
+  --scrim: rgba(6, 8, 11, .76);
+  --cap-bg: #0E1116;
+  --cap-line: rgba(255,255,255,.11);
+  --cap-ink: #E8EAED;
+  --cap-ink-dim: #949AA3;
+  --cap-eyebrow: #6E757E;
+}
+
+.stage.is-light {
+  --brand: #76A6D7;
+  --brand-600: #5A8FC5;
+  --brand-700: #3F76AE;
+  --brand-50: #EEF4FB;
+  --brand-100: #DCE8F5;
+  --ink-900: #16202C;
+  --ink-800: #22303F;
+  --ink-700: #3A4856;
+  --ink-600: #5A6776;
+  --ink-500: #7E8A98;
+  --ink-400: #A4ADB8;
+  --ink-300: #C8CED5;
+  --ink-200: #E3E7EC;
+  --ink-100: #EFF2F5;
+  --ink-50: #F6F8FA;
+  --white: #FFFFFF;
+  --card: #FFFFFF;
+  --bg: #FAFBFC;
+  --good-50: rgba(63,178,85,.10);
+  --warn-50: rgba(240,169,58,.12);
+  --bad-50: rgba(229,72,77,.10);
+
+  --scrim: rgba(22, 32, 44, .55);
+  --cap-bg: #FFFFFF;
+  --cap-line: rgba(22,32,44,.12);
+  --cap-ink: #16202C;
+  --cap-ink-dim: #5A6776;
+  --cap-eyebrow: #8B95A1;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--sans);
+  background: #E9ECEF;
+  overflow: hidden;
+}
+
+.stagewrap { position: fixed; inset: 0; overflow: hidden; }
+.stage {
+  position: absolute; left: 50%; top: 50%;
+  width: 1320px; height: 840px;
+  transform: translate(-50%, -50%) scale(var(--k, 1));
+  transform-origin: center center;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--ink-900);
+  /* 한글은 기본값이 음절 단위로 끊겨 "에/이전트" 처럼 갈라진다. 어절 단위로 끊고,
+     끊을 곳이 없는 긴 토큰만 예외로 넘긴다. */
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  box-shadow: 0 40px 90px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.06);
+}
+.stage.is-light { box-shadow: 0 30px 70px rgba(20,30,45,.18), 0 0 0 1px rgba(20,30,45,.08); }
+
+.app {
+  position: absolute; inset: 0;
+  display: flex;
+  background:
+    radial-gradient(90% 46% at 50% 0%, rgba(118,166,215,.055) 0%, transparent 62%),
+    var(--white);
+}
+.app::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0;
+  background: radial-gradient(70% 40% at 78% 8%, rgba(118,166,215,.10) 0%, transparent 60%);
+  transition: opacity .8s ease;
+}
+.app[data-state="running"]::before { opacity: 1; animation: ambient 5.5s ease-in-out infinite; }
+.app[data-state="await"]::before {
+  opacity: 1; animation: none;
+  background: radial-gradient(70% 40% at 78% 8%, rgba(240,169,58,.10) 0%, transparent 60%);
+}
+@keyframes ambient { 0%,100% { opacity: .5; } 50% { opacity: 1; } }
+
+.rail {
+  flex: none; width: 252px; min-height: 0;
+  display: flex; flex-direction: column;
+  border-right: 1px solid var(--ink-100);
+  background: color-mix(in srgb, var(--white) 62%, transparent);
+}
+.stage:not(.is-light) .rail { border-right-color: var(--ink-200); }
+.rail-top { display: flex; align-items: center; gap: 8px; padding: 12px 10px 8px; flex: none; }
+.newbtn {
+  flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  height: 32px; border-radius: 9px; border: 0; cursor: pointer;
+  font-family: inherit; font-size: 12.5px; font-weight: 600; color: #FFFFFF;
+  background: linear-gradient(135deg, var(--brand), var(--brand-700));
+}
+.newbtn svg { color: #FFF; }
+.iconbtn {
+  width: 28px; height: 28px; flex: none; display: inline-flex; align-items: center; justify-content: center;
+  border: 0; border-radius: 7px; background: transparent; color: var(--ink-500); cursor: pointer;
+}
+.views { display: flex; flex-direction: column; gap: 1px; padding: 4px 8px 10px; flex: none; }
+.view {
+  position: relative; display: flex; align-items: center; gap: 9px;
+  font-family: inherit; font-size: 12.5px; font-weight: 500; color: var(--ink-600);
+  background: transparent; border: 0; border-radius: 8px; padding: 7px 10px;
+  cursor: pointer; text-align: left; transition: all .14s ease;
+}
+.view > svg { color: var(--ink-400); flex: none; }
+.view.is-active { background: var(--brand-50); color: var(--brand-700); font-weight: 600; }
+.stage:not(.is-light) .view.is-active { color: var(--brand); }
+.view.is-active > svg { color: currentColor; }
+.view.is-active::before {
+  content: ""; position: absolute; left: -8px; top: 8px; bottom: 8px; width: 2.5px;
+  border-radius: 0 3px 3px 0; background: var(--brand);
+}
+.searchbar { padding: 0 10px 8px; flex: none; }
+.search {
+  display: flex; align-items: center; gap: 7px;
+  border: 1px solid var(--ink-200); border-radius: 9px; padding: 6px 9px;
+  color: var(--ink-400); font-size: 12px;
+}
+.raillabel {
+  font-size: 10px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
+  color: var(--ink-500); padding: 10px 16px 5px;
+}
+.sessions { padding: 0 10px; display: flex; flex-direction: column; gap: 1px; }
+.session {
+  display: flex; align-items: center; gap: 8px; width: 100%;
+  border: 0; background: transparent; border-radius: 8px; padding: 7px 9px;
+  font-family: inherit; text-align: left; cursor: pointer;
+}
+.session.is-active { background: var(--ink-100); box-shadow: 0 1px 2px rgba(0,0,0,.2); }
+.stage.is-light .session.is-active { box-shadow: 0 1px 2px rgba(20,30,45,.06); }
+.dot { width: 6px; height: 6px; border-radius: 50%; flex: none; background: var(--ink-300); }
+.dot.is-running { background: var(--brand); animation: pulse 1.4s ease-in-out infinite; }
+.dot.is-await { background: var(--warn); }
+.dot.is-done { background: var(--good); }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
+.session-main { min-width: 0; flex: 1; }
+.session-title {
+  display: block; font-size: 12.5px; font-weight: 500; color: var(--ink-800);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.session.is-active .session-title { color: var(--ink-900); font-weight: 600; }
+.session-when { display: block; font-size: 10.5px; color: var(--ink-500); margin-top: 1px; }
+
+.main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.chatbar {
+  flex: none; display: flex; align-items: center; gap: 10px;
+  padding: 7px 16px; border-bottom: 1px solid var(--ink-100);
+  background: color-mix(in srgb, var(--white) 70%, transparent);
+}
+.stage:not(.is-light) .chatbar { border-bottom-color: var(--ink-200); }
+.chat-title {
+  font-size: 12.5px; font-weight: 600; color: var(--ink-900);
+  max-width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.chat-status { font-size: 11.5px; color: var(--ink-500); min-height: 18px; display: flex; align-items: center; }
+.chat-live { display: inline-flex; align-items: center; gap: 6px; color: var(--brand); font-weight: 600; }
+.stage.is-light .chat-live { color: var(--brand-700); }
+.live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--brand); animation: pulse 1.4s ease-in-out infinite; }
+.chat-await { color: var(--warn); font-weight: 600; }
+.chat-done { color: var(--good); font-weight: 600; }
+.bar-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.density { display: flex; gap: 2px; background: var(--ink-100); border-radius: 8px; padding: 2px; }
+.stage.is-light .density { background: var(--ink-50); }
+.density-btn {
+  font-family: inherit; font-size: 11px; font-weight: 500; color: var(--ink-500);
+  background: transparent; border: 0; border-radius: 6px; padding: 3px 9px; cursor: pointer;
+}
+.density-btn.is-active { color: var(--ink-900); background: var(--ink-200); font-weight: 600; }
+.stage.is-light .density-btn.is-active { background: var(--white); box-shadow: 0 1px 4px rgba(20,30,45,.1); }
+
+.canvas { flex: 1; min-height: 0; overflow-y: auto; scrollbar-width: thin; }
+.canvas::-webkit-scrollbar { width: 8px; }
+.canvas::-webkit-scrollbar-thumb { background: var(--ink-300); border-radius: 4px; }
+.thread { max-width: 768px; margin: 0 auto; padding: 16px 16px 28px; display: flex; flex-direction: column; gap: 10px; }
+
+.empty { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 0 40px; text-align: center; }
+.orb {
+  width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center;
+  color: #FFF; background: linear-gradient(135deg, var(--brand), var(--brand-700));
+  box-shadow: 0 8px 28px rgba(118,166,215,.34); margin-bottom: 16px;
+  animation: breathe 3.4s ease-in-out infinite;
+}
+@keyframes breathe { 0%,100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+.empty-title { font-size: 21px; font-weight: 700; color: var(--ink-900); margin: 0 0 6px; letter-spacing: -.01em; }
+.empty-sub { font-size: 12.5px; line-height: 1.6; color: var(--ink-500); margin: 0 0 20px; max-width: 480px; }
+.empty-cards { display: flex; flex-direction: column; gap: 7px; width: 100%; max-width: 470px; }
+.empty-card {
+  display: flex; align-items: center; gap: 11px; text-align: left;
+  font-family: inherit; font-size: 12.5px; color: var(--ink-800);
+  border: 1px solid var(--ink-200); border-radius: 11px; background: transparent;
+  padding: 11px 13px; cursor: pointer;
+}
+.empty-card-ic { color: var(--brand); display: flex; flex: none; }
+
+.row { display: flex; }
+.row--user { justify-content: flex-end; }
+.user-bubble {
+  max-width: 82%; font-size: 13.5px; line-height: 1.55; color: #FFFFFF;
+  background: linear-gradient(135deg, var(--brand), var(--brand-700));
+  border-radius: 15px 15px 4px 15px; padding: 9px 14px;
+  box-shadow: 0 4px 14px rgba(29,46,82,.18);
+  animation: userin .3s var(--ease-spring) both;
+}
+@keyframes userin { from { opacity: 0; transform: translateY(8px) scale(.97); } to { opacity: 1; transform: none; } }
+
+.text { font-size: 13.5px; line-height: 1.65; color: var(--ink-800); max-width: 74ch; }
+.text strong { color: var(--ink-900); font-weight: 650; }
+.word { animation: wordin .28s var(--ease-out) both; }
+@keyframes wordin { from { opacity: 0; filter: blur(4px); } to { opacity: 1; filter: none; } }
+
+.think { border-left: 2px solid var(--ink-200); padding-left: 11px; }
+.think.is-live { border-left-color: var(--brand-100); }
+.fold-head {
+  display: flex; align-items: center; gap: 7px; width: 100%;
+  font-family: inherit; font-size: 12px; font-weight: 500; color: var(--ink-500);
+  background: transparent; border: 0; padding: 3px 0; cursor: pointer;
+}
+.caret { transition: transform .18s var(--ease-out); color: var(--ink-400); }
+.caret.is-open { transform: rotate(90deg); }
+.fold { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .3s var(--ease-out); }
+.fold.is-open { grid-template-rows: 1fr; }
+.fold-clip { overflow: hidden; min-height: 0; }
+.think-body { font-size: 12px; line-height: 1.6; color: var(--ink-500); padding: 4px 0 6px; }
+
+.tools {
+  border: 1px solid var(--ink-200); border-radius: 12px;
+  background: color-mix(in srgb, var(--white) 55%, transparent);
+  padding: 7px 12px; animation: itemin .3s var(--ease-out) both;
+  transition: border-color .2s ease;
+}
+.tools.is-live { border-color: var(--brand-100); }
+@keyframes itemin { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: none; } }
+.tools-ic { display: flex; color: var(--ink-400); }
+.tools.is-live .tools-ic { color: var(--brand); }
+.tools-label { font-size: 12px; font-weight: 500; }
+.tools-count { margin-left: auto; font-family: var(--mono); font-size: 10.5px; color: var(--ink-400); font-variant-numeric: tabular-nums; }
+.tools-list { display: flex; flex-direction: column; gap: 2px; padding: 6px 0 3px; }
+.tool {
+  display: flex; align-items: baseline; gap: 7px; flex-wrap: wrap;
+  font-size: 11.5px; padding: 3px 0; animation: itemin .22s var(--ease-out) both;
+}
+.tool-ic { display: flex; align-self: center; color: var(--good); flex: none; }
+.tool.is-running .tool-ic { color: var(--brand); }
+.tool-name { font-weight: 600; color: var(--ink-800); flex: none; }
+.tool-args { color: var(--ink-400); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 46%; }
+.tool-sum { color: var(--ink-600); flex-basis: 100%; padding-left: 19px; }
+.verified {
+  display: inline-flex; align-items: center; gap: 3px; flex: none;
+  font-size: 9.5px; font-weight: 700; color: var(--good);
+  background: var(--good-50); border-radius: 999px; padding: 1px 7px;
+  animation: pop .3s var(--ease-spring) both;
+}
+@keyframes pop { from { opacity: 0; transform: scale(.8); } to { opacity: 1; transform: none; } }
+.spin { animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.plan {
+  border: 1px solid var(--ink-200); border-radius: 13px;
+  background: linear-gradient(180deg, var(--ink-100), transparent 75%);
+  padding: 11px 14px; animation: itemin .32s var(--ease-out) both;
+}
+.stage.is-light .plan {
+  border-color: var(--brand-100);
+  background: linear-gradient(180deg, var(--brand-50), color-mix(in srgb, var(--white) 40%, transparent) 70%);
+}
+.plan-head { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.plan-ring { width: 20px; height: 20px; transform: rotate(-90deg); flex: none; }
+.plan-ring-bg { fill: none; stroke: var(--ink-300); stroke-width: 2.5; }
+.plan-ring-fg { fill: none; stroke: var(--brand); stroke-width: 2.5; stroke-linecap: round; transition: stroke-dashoffset .6s var(--ease-out); }
+.plan-title { font-size: 12.5px; font-weight: 700; color: var(--ink-900); }
+.plan-count { font-family: var(--mono); font-size: 11px; color: var(--ink-500); font-variant-numeric: tabular-nums; }
+.plan-steps { display: flex; flex-direction: column; gap: 2px; }
+.plan-step { display: flex; align-items: center; gap: 9px; font-size: 12.5px; padding: 3.5px 0; }
+.plan-step-ic { display: flex; width: 16px; justify-content: center; color: var(--ink-300); flex: none; }
+.plan-step-title { color: var(--ink-500); transition: color .25s ease; }
+.plan-step.is-in_progress .plan-step-title { color: var(--ink-900); font-weight: 600; }
+.plan-step.is-completed .plan-step-title { color: var(--ink-600); }
+.plan-spin { color: var(--brand); }
+.check { width: 15px; height: 15px; }
+.check-circle { fill: var(--good-50); stroke: var(--good); stroke-width: 1.4; }
+.check-mark {
+  fill: none; stroke: var(--good); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+  stroke-dasharray: 1; animation: draw .45s var(--ease-out) both;
+}
+@keyframes draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+
+.artifact {
+  width: 100%; border: 1px solid var(--ink-200); border-radius: 13px;
+  background: var(--card); overflow: hidden;
+  box-shadow: 0 3px 14px rgba(0,0,0,.14);
+  animation: itemin .34s var(--ease-out) both;
+}
+.stage.is-light .artifact { border-color: var(--ink-100); box-shadow: 0 3px 14px rgba(20,30,45,.05); }
+.artifact-head { display: flex; align-items: center; gap: 8px; padding: 9px 12px; border-bottom: 1px solid var(--ink-200); }
+.stage.is-light .artifact-head { border-bottom-color: var(--ink-100); }
+.artifact-ic {
+  width: 24px; height: 24px; border-radius: 7px; flex: none; display: grid; place-items: center;
+  color: var(--brand); background: var(--ink-100);
+}
+.stage.is-light .artifact-ic { color: var(--brand-700); background: var(--brand-50); }
+.artifact-title { flex: 1; min-width: 0; font-size: 12.5px; font-weight: 600; color: var(--ink-900); }
+.artifact-meta { font-size: 10.5px; color: var(--ink-400); flex: none; }
+.artifact-body { padding: 10px 12px; }
+.chart { width: 100%; height: auto; display: block; }
+.chart-line { fill: none; stroke: var(--brand); stroke-width: 2; stroke-linecap: round; stroke-dasharray: 1; animation: draw .9s var(--ease-out) both; }
+.chart-area { fill: color-mix(in srgb, var(--brand) 12%, transparent); }
+.chart-dot { fill: var(--brand); }
+.chart-dot.is-anomaly { fill: var(--bad); }
+.chart-th { stroke: var(--warn); stroke-width: 1; stroke-dasharray: 4 4; }
+.chart-thlabel { font-size: 9px; fill: var(--warn); font-family: var(--mono); }
+.chart-grid { stroke: var(--ink-200); stroke-width: 1; }
+.chart-ax { font-size: 9px; fill: var(--ink-500); font-family: var(--mono); }
+.mtable { width: 100%; border-collapse: collapse; font-size: 12px; }
+.mtable th {
+  text-align: left; font-size: 10.5px; font-weight: 600; color: var(--ink-500);
+  padding: 4px 8px; border-bottom: 1px solid var(--ink-200); white-space: nowrap;
+}
+.mtable td { padding: 5.5px 8px; color: var(--ink-800); border-bottom: 1px solid var(--ink-100); }
+.mtable tr:last-child td { border-bottom: 0; }
+.mtable td.is-num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.pill { display: inline-flex; align-items: center; font-size: 10.5px; font-weight: 600; padding: 1px 7px; border-radius: 999px; }
+.pill.is-bad { color: var(--bad); background: var(--bad-50); }
+.pill.is-warn { color: var(--warn); background: var(--warn-50); }
+
+.approval {
+  border: 1px solid color-mix(in srgb, var(--warn) 45%, transparent);
+  border-radius: 14px; background: var(--warn-50); overflow: hidden;
+  animation: slideup .3s var(--ease-out) both;
+  transition: border-color .35s ease, background .35s ease;
+}
+@keyframes slideup { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+.approval.is-resolved { border-color: var(--ink-200); background: color-mix(in srgb, var(--white) 50%, transparent); }
+.approval-head {
+  display: flex; align-items: center; gap: 8px; padding: 10px 13px;
+  font-size: 12.5px; font-weight: 600; color: var(--warn);
+  border-bottom: 1px solid color-mix(in srgb, var(--warn) 20%, transparent);
+  transition: color .35s ease, border-color .35s ease;
+}
+.approval.is-resolved .approval-head { color: var(--ink-500); border-bottom-color: var(--ink-200); }
+.approval-tier {
+  margin-left: auto; font-size: 10px; font-weight: 700; letter-spacing: .03em;
+  padding: 1.5px 8px; border-radius: 999px; background: var(--warn); color: #FFFFFF;
+  transition: background .35s ease; white-space: nowrap;
+}
+.approval.is-resolved .approval-tier { background: var(--ink-300); }
+.approval-item { display: flex; align-items: flex-start; gap: 12px; padding: 11px 13px; transition: opacity .3s ease; }
+.approval-item + .approval-item { border-top: 1px dashed color-mix(in srgb, var(--warn) 22%, transparent); }
+.approval.is-resolved .approval-item + .approval-item { border-top-color: var(--ink-200); }
+.approval-item.is-denied { opacity: .62; }
+.approval-item-main { flex: 1; min-width: 0; }
+.approval-item-title { font-size: 13px; font-weight: 600; color: var(--ink-900); }
+.approval-params { display: flex; flex-wrap: wrap; gap: 4px 14px; margin-top: 5px; font-size: 12px; color: var(--ink-800); }
+.approval-k { color: var(--ink-500); margin-right: 6px; }
+.approval-impact { margin-top: 5px; font-size: 11.5px; color: var(--ink-500); }
+.approval-actions { display: flex; gap: 6px; flex: none; align-items: center; }
+.btn {
+  font-family: inherit; font-size: 12px; font-weight: 600; border-radius: 8px;
+  padding: 5px 13px; cursor: pointer; border: 1px solid transparent; white-space: nowrap;
+  transition: transform .14s ease, filter .14s ease;
+}
+.btn--primary { color: #FFFFFF; background: var(--brand-700); border-color: var(--brand-700); }
+.btn--ghost { color: var(--ink-600); background: var(--ink-100); border-color: var(--ink-200); }
+.btn.is-press { transform: scale(.93); filter: brightness(1.15); }
+.decision { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; white-space: nowrap; animation: pop .3s var(--ease-spring) both; }
+.decision.is-allowed { color: var(--good); }
+.decision.is-denied { color: var(--ink-500); }
+
+.turnend { padding-top: 2px; animation: itemin .4s var(--ease-out) both; }
+.turnend-meta { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--ink-400); font-variant-numeric: tabular-nums; }
+.turnend-meta svg { color: var(--brand); }
+.dotsep { width: 3px; height: 3px; border-radius: 50%; background: var(--ink-300); display: inline-block; }
+.followups { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.followup {
+  display: inline-flex; align-items: center; gap: 6px; font-family: inherit;
+  font-size: 12px; color: var(--ink-600); background: transparent;
+  border: 1px solid var(--ink-200); border-radius: 999px; padding: 5px 12px; cursor: pointer;
+  animation: itemin .4s var(--ease-out) both;
+}
+.followup svg { color: var(--brand); flex: none; }
+
+.composer {
+  flex: none; border-top: 1px solid var(--ink-200);
+  padding: 9px 16px 13px; background: color-mix(in srgb, var(--white) 82%, transparent);
+}
+.stage.is-light .composer { border-top-color: var(--ink-100); }
+.modes { display: flex; align-items: center; gap: 4px; max-width: 736px; margin: 0 auto 7px; }
+.mode {
+  font-family: inherit; font-size: 11px; font-weight: 600; color: var(--ink-500);
+  background: transparent; border: 1px solid var(--ink-200); border-radius: 999px;
+  padding: 2.5px 10px; cursor: pointer;
+}
+.mode.is-active { color: var(--brand); border-color: var(--brand-100); background: var(--ink-100); }
+.stage.is-light .mode.is-active { color: var(--brand-700); background: var(--brand-50); }
+.mode-hint { font-size: 11px; color: var(--ink-400); margin-left: 6px; }
+.modelpick {
+  margin-left: auto; display: inline-flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 500; color: var(--ink-600);
+  border: 1px solid var(--ink-200); border-radius: 999px; padding: 3px 10px; cursor: pointer;
+  white-space: nowrap;
+}
+.modelpick svg { color: var(--brand); flex: none; }
+.input {
+  display: flex; align-items: flex-end; gap: 8px; max-width: 736px; margin: 0 auto;
+  border: 1px solid var(--ink-200); border-radius: 14px;
+  background: var(--card); padding: 8px 8px 8px 10px;
+}
+.input-ph { flex: 1; font-size: 13px; line-height: 1.5; color: var(--ink-400); padding: 4px 0; }
+.attach-btn {
+  flex: none; width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center;
+  border: 1px solid var(--ink-200); background: transparent; color: var(--ink-500);
+}
+.send {
+  flex: none; width: 30px; height: 30px; border-radius: 9px; border: 0; display: grid; place-items: center;
+  color: #FFFFFF; background: linear-gradient(135deg, var(--brand), var(--brand-700));
+}
+.send.is-busy { background: var(--ink-300); }
+
+.side-sec { font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-500); }
+
+/* 온톨로지 맵 산출물. 타입 노드와 관계. 이번 작업이 실제로 탄 경로만 브랜드색으로 살린다. */
+.omap { width: 100%; height: auto; display: block; }
+.omap-edge { stroke: var(--ink-300); stroke-width: 1.2; }
+.omap-edge.is-path { stroke: var(--brand); stroke-width: 2; }
+.omap-box { fill: var(--card); stroke: var(--ink-200); stroke-width: 1; }
+.omap-box.is-path { stroke: var(--brand); }
+.omap-name { font-size: 11px; font-weight: 600; fill: var(--ink-900); }
+.omap-count { font-size: 9.5px; fill: var(--ink-500); font-family: var(--mono); }
+.omap-legend { display: flex; gap: 12px; margin-top: 6px; font-size: 10.5px; color: var(--ink-500); }
+.omap-legend i { display: inline-block; width: 14px; height: 2px; border-radius: 2px; vertical-align: 3px; margin-right: 5px; }
+
+/* 절감 리포트 산출물 */
+.report-hero { display: flex; align-items: baseline; gap: 8px; margin-bottom: 9px; }
+.report-num { font-size: 24px; font-weight: 700; color: var(--good); font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+.report-unit { font-size: 12px; color: var(--ink-500); }
+.report-rows { display: flex; flex-direction: column; gap: 5px; }
+.report-row { display: flex; align-items: baseline; font-size: 12px; gap: 10px; }
+.report-k { color: var(--ink-500); flex: 1; min-width: 0; }
+.report-v { font-family: var(--mono); font-variant-numeric: tabular-nums; color: var(--ink-900); font-weight: 600; }
+.report-v.is-cut { color: var(--good); }
+
+
+/* 강조 영역 둘레를 네 판으로 덮는다. clip-path 로 구멍을 뚫으면 배경색은 잘리지만
+   backdrop-filter 는 잘리지 않아 흐림이 구멍 안까지 새어 든다(무대에 transform 이
+   걸린 상태에서 실측 확인). 판의 경계가 곧 흐림의 경계여야 강조 영역이 선명하게 남는다.
+   네 판만으로는 모서리가 각지므로, 모서리에는 흐림 없이 색만 입힌 패치를 덧대
+   테두리와 같은 반경을 낸다. 위치는 트랜지션하지 않아 제자리에서 나타나고,
+   사라질 때는 아주 빠르게 뺀다. */
+.scrim, .scrim-b {
+  position: absolute; pointer-events: none; z-index: 39;
+  opacity: 0;
+  transition: opacity .3s ease;
+}
+/* 어둡게 까는 층. 색은 clip-path 로 잘리므로 한 장이면 되고, 모서리도 테두리와 같은 반경으로 둥글다. */
+.scrim { inset: 0; background: var(--scrim); }
+/* 흐리는 층. backdrop-filter 는 clip-path 로 잘리지 않아 강조 영역까지 번지므로,
+   판의 경계 자체를 흐림의 경계로 삼는다. 색이 없어 판 사이 이음새가 드러나지 않는다. */
+.scrim-b {
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+.scrim.is-on, .scrim-b.is-on { opacity: 1; }
+.scrim:not(.is-on), .scrim-b:not(.is-on) { transition: opacity .11s ease; }
+
+.spot {
+  position: absolute; pointer-events: none; border-radius: var(--spot-r);
+  opacity: 0;
+  transition: opacity .3s ease;
+  z-index: 40;
+}
+.spot:not(.is-on) { transition: opacity .11s ease; }
+.spot::after {
+  content: ""; position: absolute; inset: -1px; border-radius: inherit;
+  border: 1px solid rgba(118,166,215,.5);
+  box-shadow: 0 0 0 1px rgba(0,0,0,.25), 0 0 22px rgba(118,166,215,.22);
+}
+.spot.is-on { opacity: 1; }
+
+.cap {
+  position: absolute; z-index: 50; width: 348px;
+  background: var(--cap-bg); border: 1px solid var(--cap-line); border-radius: 13px;
+  padding: 15px 17px 16px;
+  box-shadow: 0 24px 60px rgba(0,0,0,.45);
+  opacity: 0; transform: translateY(6px);
+  transition: opacity .3s ease, transform .3s var(--ease-out);
+  pointer-events: none;
+}
+.cap:not(.is-on) { transition: opacity .11s ease; }
+.stage.is-light .cap { box-shadow: 0 24px 60px rgba(20,30,45,.22); }
+.cap.is-on { opacity: 1; transform: none; }
+.cap-eyebrow {
+  display: flex; align-items: center; gap: 7px;
+  font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--cap-eyebrow); margin-bottom: 8px;
+}
+.cap-eyebrow b { color: var(--cap-ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+.cap-rule { flex: 1; height: 1px; background: var(--cap-line); }
+.cap-title {
+  font-size: 16.5px; font-weight: 700; line-height: 1.35; letter-spacing: -.012em;
+  color: var(--cap-ink); margin: 0 0 7px; text-wrap: balance;
+}
+.cap-body { font-size: 13px; line-height: 1.72; color: var(--cap-ink-dim); margin: 0; max-width: 46ch; }
+.cap-body em { font-style: normal; color: var(--cap-ink); font-weight: 600; }
+
+.endcard {
+  position: absolute; left: 50%; bottom: 26px; transform: translate(-50%, 10px); z-index: 65;
+  display: flex; align-items: center; max-width: 640px;
+  background: var(--cap-bg); border: 1px solid var(--cap-line); border-radius: 14px;
+  padding: 14px 22px;
+  box-shadow: 0 22px 54px rgba(20,30,45,.22);
+  opacity: 0; visibility: hidden;
+  transition: opacity .35s ease, transform .35s var(--ease-out), visibility .35s;
+}
+.stage.is-light .endcard { box-shadow: 0 22px 54px rgba(20,30,45,.2); }
+.endcard.is-on { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+.endcard-txt { display: flex; flex-direction: column; gap: 3px; }
+.endcard-t { font-size: 13.5px; font-weight: 700; color: var(--cap-ink); letter-spacing: -.01em; }
+.endcard-s { font-size: 11.5px; line-height: 1.5; color: var(--cap-ink-dim); }
+
+.toast {
+  position: absolute; left: 50%; bottom: 30px; transform: translate(-50%, 8px); z-index: 55;
+  font-size: 12px; font-weight: 500; color: var(--cap-ink);
+  background: var(--cap-bg); border: 1px solid var(--cap-line); border-radius: 999px;
+  padding: 7px 16px; box-shadow: 0 12px 30px rgba(0,0,0,.35);
+  opacity: 0; transition: opacity .25s ease, transform .25s var(--ease-out); pointer-events: none;
+}
+.toast.is-on { opacity: 1; transform: translate(-50%, 0); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+}
+</style>
+
+<div class="stagewrap">
+  <div class="stage" id="stage">
+
+    <div class="app" id="app" data-state="idle">
+
+      <aside class="rail">
+        <div class="rail-top">
+          <button class="newbtn" type="button" tabindex="-1">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M8 3v10M3 8h10"/></svg>
+            <span data-t="newChat"></span>
+          </button>
+          <span class="iconbtn" aria-hidden="true">
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1.5" y="2.5" width="13" height="11" rx="2"/><path d="M6 2.5v11"/></svg>
+          </span>
+        </div>
+
+        <nav class="views" id="views">
+          <button class="view is-active" type="button" tabindex="-1">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="6.2"/><path d="M10.4 5.6 6.2 7.3 5.6 10.4l4.2-1.7z"/></svg>
+            <span data-t="vExplore"></span>
+          </button>
+          <button class="view" type="button" tabindex="-1">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="2" width="5" height="5" rx="1.2"/><rect x="9" y="2" width="5" height="5" rx="1.2"/><rect x="2" y="9" width="5" height="5" rx="1.2"/><rect x="9" y="9" width="5" height="5" rx="1.2"/></svg>
+            <span data-t="vLibrary"></span>
+          </button>
+          <button class="view" type="button" tabindex="-1">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 2.6a2.6 2.6 0 0 0-2.6 2.6A2.2 2.2 0 0 0 4 7.3c0 .9.5 1.6 1.3 2A2.3 2.3 0 0 0 8 13.4a2.3 2.3 0 0 0 2.7-4.1c.8-.4 1.3-1.1 1.3-2a2.2 2.2 0 0 0-1.4-2.1A2.6 2.6 0 0 0 8 2.6Z"/></svg>
+            <span data-t="vMemory"></span>
+          </button>
+          <button class="view" type="button" tabindex="-1">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="6"/><path d="M8 4.6V8l2.4 1.4"/></svg>
+            <span data-t="vAutomation"></span>
+          </button>
+        </nav>
+
+        <div class="searchbar">
+          <div class="search">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="4.6"/><path d="m10.5 10.5 3 3"/></svg>
+            <span data-t="search"></span>
+          </div>
+        </div>
+
+        <div class="raillabel" data-t="recent"></div>
+        <div class="sessions" id="sessions">
+          <button class="session is-active" type="button" tabindex="-1">
+            <span class="dot" id="activeDot"></span>
+            <span class="session-main">
+              <span class="session-title" id="activeSessionTitle"></span>
+              <span class="session-when" id="activeSessionWhen"></span>
+            </span>
+          </button>
+          <button class="session" type="button" tabindex="-1">
+            <span class="dot is-running"></span>
+            <span class="session-main">
+              <span class="session-title" data-t="s1t"></span>
+              <span class="session-when" data-t="s1w"></span>
+            </span>
+          </button>
+          <button class="session" type="button" tabindex="-1">
+            <span class="dot is-await"></span>
+            <span class="session-main">
+              <span class="session-title" data-t="s2t"></span>
+              <span class="session-when" data-t="s2w"></span>
+            </span>
+          </button>
+          <button class="session" type="button" tabindex="-1">
+            <span class="dot is-done"></span>
+            <span class="session-main">
+              <span class="session-title" data-t="s3t"></span>
+              <span class="session-when" data-t="s3w"></span>
+            </span>
+          </button>
+          <button class="session" type="button" tabindex="-1">
+            <span class="dot is-done"></span>
+            <span class="session-main">
+              <span class="session-title" data-t="s4t"></span>
+              <span class="session-when" data-t="s4w"></span>
+            </span>
+          </button>
+        </div>
+      </aside>
+
+      <main class="main">
+        <div id="chatView" style="display:flex;flex-direction:column;flex:1;min-height:0;">
+          <div class="chatbar">
+            <span class="chat-title" id="chatTitle" style="display:none;"></span>
+            <span class="chat-status" id="chatStatus"></span>
+            <div class="bar-right">
+              <div class="density">
+                <button class="density-btn" type="button" tabindex="-1" data-t="dCompact"></button>
+                <button class="density-btn is-active" type="button" tabindex="-1" data-t="dNormal"></button>
+                <button class="density-btn" type="button" tabindex="-1" data-t="dDetailed"></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="canvas" id="canvas">
+            <div class="empty" id="empty">
+              <span class="orb" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.6 9.4 5.5 13.4 6.9 9.4 8.3 8 12.2 6.6 8.3 2.6 6.9 6.6 5.5z"/></svg>
+              </span>
+              <h2 class="empty-title" data-t="emptyTitle"></h2>
+              <p class="empty-sub" data-t="emptySub"></p>
+              <div class="empty-cards" id="emptyCards">
+                <button class="empty-card" type="button" tabindex="-1">
+                  <span class="empty-card-ic"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="4" cy="4" r="2"/><circle cx="12" cy="4" r="2"/><circle cx="8" cy="12" r="2"/><path d="M5.4 5.4 7 10M10.6 5.4 9 10M6 4h4"/></svg></span>
+                  <span data-t="sug1"></span>
+                </button>
+                <button class="empty-card" type="button" tabindex="-1">
+                  <span class="empty-card-ic"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M2 11.5 6 7l3 2.6L14 4"/><path d="M10.5 4H14v3.5"/></svg></span>
+                  <span data-t="sug2"></span>
+                </button>
+                <button class="empty-card" type="button" tabindex="-1">
+                  <span class="empty-card-ic"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M8.6 1.8 3.4 8.8h3.6l-.6 5.4 5.2-7h-3.6z"/></svg></span>
+                  <span data-t="sug3"></span>
+                </button>
+              </div>
+            </div>
+            <div class="thread" id="thread" style="display:none;"></div>
+          </div>
+
+          <div class="composer">
+            <div class="modes" id="modes">
+              <button class="mode" type="button" tabindex="-1">Plan</button>
+              <button class="mode is-active" type="button" tabindex="-1">Auto</button>
+              <button class="mode" type="button" tabindex="-1">Manual</button>
+              <span class="mode-hint" data-t="modeHint"></span>
+              <span class="modelpick">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.6 9.4 5.5 13.4 6.9 9.4 8.3 8 12.2 6.6 8.3 2.6 6.9 6.6 5.5z"/></svg>
+                <span data-t="modelChip"></span>
+                <svg width="9" height="9" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m4 6 4 4 4-4"/></svg>
+              </span>
+            </div>
+            <div class="input">
+              <span class="attach-btn" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M10.8 5.2 5.9 10a1.8 1.8 0 0 0 2.5 2.5l5.1-5.1a3.2 3.2 0 0 0-4.5-4.5L3.6 8.3a4.6 4.6 0 0 0 6.5 6.5"/></svg>
+              </span>
+              <span class="input-ph" id="inputPh"></span>
+              <span class="send" id="sendBtn">
+                <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5"/></svg>
+              </span>
+            </div>
+          </div>
+        </div>
+
+
+      </main>
+
+    </div>
+
+    <div class="scrim" id="scrim" aria-hidden="true"></div>
+    <div class="scrim-b" id="blurT" aria-hidden="true"></div>
+    <div class="scrim-b" id="blurB" aria-hidden="true"></div>
+    <div class="scrim-b" id="blurL" aria-hidden="true"></div>
+    <div class="scrim-b" id="blurR" aria-hidden="true"></div>
+    <div class="spot" id="spot" aria-hidden="true"></div>
+
+    <div class="cap" id="cap" role="status" aria-live="polite">
+      <div class="cap-eyebrow"><b id="capNum">01</b> <span id="capKicker"></span> <span class="cap-rule"></span></div>
+      <h3 class="cap-title" id="capTitle"></h3>
+      <p class="cap-body" id="capBody"></p>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <div class="endcard" id="endcard">
+      <span class="endcard-txt">
+        <span class="endcard-t" data-t="endT"></span>
+        <span class="endcard-s" data-t="endS"></span>
+      </span>
+    </div>
+
+  </div>
+</div>
+
+<script>
+(() => {
+  "use strict";
+
+  /* ─────────────────────────── 문안 ─────────────────────────── */
+  const DICT = {
+    ko: {
+      docTitle: "Refinery AI 에이전트 재생 데모",
+      newChat: "새 대화", vExplore: "둘러보기", vLibrary: "라이브러리",
+      vMemory: "메모리", vAutomation: "자동화",
+      search: "대화 검색", recent: "최근",
+      s0idle: "새 대화", s0w: "방금",
+      s0t: "다음 분기 계약전력 낮추기", s0wActive: "방금 · 에너지",
+      s1t: "납기 위험 8건, 대체처 찾기", s1w: "12분 전 · 물류·유통",
+      s2t: "불량 3배 급증, 공통 원인", s2w: "1시간 전 · 제조",
+      s3t: "12개 사이트 공조 낭비 찾기", s3w: "어제 · 빌딩·시설",
+      s4t: "누수 의심 4구간 좁히기", s4w: "3일 전 · 공공 인프라",
+      dCompact: "간결", dNormal: "보통", dDetailed: "상세",
+      emptyTitle: "무엇을 분석할까요?",
+      emptySub: "최근 다룬 객체를 기반으로 제안합니다. 계획을 세우고, 근거를 남기고, 결과를 산출물로 남깁니다.",
+      sug1: "서로 연결된 데이터가 어떻게 흘러가는지 한눈에 보여줘",
+      sug2: "어떤 데이터가 실제로 쌓이고 있고 어디가 비어 있는지 알려줘",
+      sug3: "지금 내 데이터로 할 수 있는 작업에는 뭐가 있어?",
+      modeHint: "읽기 자동, 쓰기 승인", modelChip: "모델 선택",
+      phIdle: "무엇을 분석할까요?", phFollow: "이어서 질문하기",
+      endT: "데이터의 맥락을 아는 AI는 여기까지 합니다",
+      endS: "묻고 답하는 데서 끝나지 않습니다. 전수로 분석하고, 표와 차트와 보고서를 만들고, 고쳐 달라면 고치고, 승인받은 것은 실행합니다.",
+      stWorking: "작업 중", stAwait: "승인 대기", stDone: "완료",
+      planLabel: "플랜", thinkLive: "생각하는 중", thinkDone: (s) => s + "초 사고",
+      stepsRan: (n) => "단계 " + n + "개 실행", verified: "검증됨",
+      chatTitle: "다음 분기 계약전력 낮추기",
+      prompt: "다음 분기 계약전력 낮출 수 있는지 보고, 가능하면 조치까지 걸어줘",
+      think: [
+        "계약전력을 낮추려면 피크를 만드는 설비를 먼저 찾아야 한다. ",
+        "다만 부하를 옮길 수 있는지는 생산계획과 정비창까지 봐야 결정된다. ",
+        "스케줄 등록은 데이터를 바꾸는 작업이므로 승인을 받아야 한다."
+      ],
+      plan: ["대상 범위와 부하 이력 확보", "피크 기여 설비 분해", "이설 가능 여부 교차검증", "부하 조정 스케줄 등록"],
+      steps: [
+        ["대상 범위 확인", "전 사업장", "사업장 3곳 · 수배전 12 · 설비 347대"],
+        ["부하 이력 조회", "15분 단위 90일", "설비 347대 전수 · 약 3,000만 포인트"],
+        ["피크 기여도 분해", "상위 기여 순", "피크 시간대 기여 설비 24대 식별"],
+        ["이설 가능 여부 교차검증", "생산계획 · 정비창", "24대 중 7대만 조정 가능, 17대는 제약 충돌"]
+      ],
+      text1: "설비 <strong>347대</strong>를 전수로 확인해 피크에 기여하는 <strong>24대</strong>를 찾았습니다. 이 중 생산계획과 정비창에 걸리지 않는 것은 <strong>7대</strong>이고, 절감 기여가 큰 <strong>3건</strong>을 제안으로 정리했습니다.",
+      chartTitle: "전 사업장 부하 곡선 · 최근 90일 최대 피크일", chartTh: "계약전력 4,200 kW",
+      chartX: ["08시", "10시", "12시", "14시", "16시", "18시", "20시"],
+      tableTitle: "부하 조정 제안 3건",
+      tableCols: ["설비", "사업장", "피크 기여", "이설 시간대", "제약"],
+      tableRows: [
+        ["압축기 CMP-201", "1공장", "412 kW", "14시 → 02시", "없음", "is-good"],
+        ["도장 건조로 DRY-3", "3공장", "365 kW", "13시 → 23시", "야간 이설 불가", "is-warn"],
+        ["냉동기 CHL-108", "1공장", "298 kW", "15시 → 04시", "없음", "is-good"]
+      ],
+      revise: "3공장 건조로는 야간 이설이 어려워. 빼고 대체안으로 다시 잡아줘",
+      step2: ["대체 후보 재선정", "제약 통과 7대", "건조로 제외, 공조기 AHU-12로 대체"],
+      tableTitle2: "부하 조정 제안 3건 (수정본)",
+      tableRows2: [
+        ["압축기 CMP-201", "1공장", "412 kW", "14시 → 02시", "없음", "is-good"],
+        ["공조기 AHU-12", "2공장", "281 kW", "13시 → 21시", "없음", "is-good"],
+        ["냉동기 CHL-108", "1공장", "298 kW", "15시 → 04시", "없음", "is-good"]
+      ],
+      omapTitle: "설비, 공정, 계약 관계도",
+      omapNodes: [
+        ["사업장", "3", 58, 46, 1], ["전력계약", "3", 58, 152, 1],
+        ["수배전반", "12", 186, 46, 1], ["설비", "347", 314, 46, 1],
+        ["정비이력", "1,284", 314, 152, 1], ["공정", "26", 442, 46, 1],
+        ["생산계획", "90일", 442, 152, 1], ["제품", "41", 570, 46, 0]
+      ],
+      omapPath: "이번 판단이 탄 경로", omapRest: "그 밖의 관계",
+      text2: "수정본으로 <strong>3건</strong>을 준비했습니다. 스케줄에 등록하면 다음 분기 계약전력을 <strong>3,900 kW</strong>로 낮출 수 있습니다. 실행 전에 확인해 주세요.",
+      apHead: "실행 전 확인 3건, 각각 결정할 수 있습니다", apTier: "되돌리기 어려움",
+      apTitle: "부하 조정 스케줄 등록",
+      apKeys: ["대상", "이설", "적용"],
+      apTargets: ["압축기 CMP-201 · 1공장", "공조기 AHU-12 · 2공장", "냉동기 CHL-108 · 1공장"],
+      apShifts: ["14시 → 02시", "13시 → 21시", "15시 → 04시"],
+      apDue: "다음 분기 첫날부터",
+      apImpact: "설비 운전 스케줄이 바뀌고 생산팀에 통보됩니다. 되돌리기 어렵습니다.",
+      allow: "승인", deny: "거부", allowed: "승인됨", denied: "거부됨",
+      toastDecided: "승인 2건, 거부 1건",
+      step3: ["부하 조정 스케줄 등록", "승인 2건", "SCH-4471, SCH-4472 등록 · 생산팀 통보"],
+      reportTitle: "계약전력 절감 리포트",
+      reportNum: "4,140", reportUnit: "만원 / 연간 절감 추정",
+      reportRows: [
+        ["현재 계약전력", "4,200 kW", ""],
+        ["조정 후 예상 최대부하", "3,880 kW", ""],
+        ["권장 계약전력", "3,900 kW", "is-cut"],
+        ["기본요금 변화", "-300 kW", "is-cut"]
+      ],
+      text3: "승인하신 <strong>2건</strong>만 등록했습니다. 냉동기 CHL-108 은 거부하셔서 실행하지 않았고, 그만큼을 반영해 절감 추정을 다시 계산했습니다.",
+      footer: ["1분 12초", "단계 9개", "토큰 41.3k 사용"],
+      followups: ["거부한 냉동기를 넣으면 얼마나 더 절감되는지 보여줘", "다음 분기 계약 변경 신청서 초안 만들어줘", "같은 방식을 2공장에도 적용해줘"],
+      chapters: [
+        ["통제", "에이전트의 권한은 내가 정합니다",
+          "읽기만 시킬지, 조회는 맡기고 쓰기만 승인받게 할지, 전부 승인받게 할지를 <em>버튼 하나로</em> 정합니다."],
+        ["규모", "담당자가 세 대를 볼 때 에이전트는 347대를 봅니다",
+          "90일 부하를 전수로 훑어 피크 기여 <em>24대</em>를 뽑고, 생산계획과 정비창에 대조해 실행 가능한 <em>7대</em>만 남겼습니다."],
+        ["맥락", "표를 읽는 것이 아니라 관계를 읽습니다",
+          "설비가 공정과 제품, 정비이력과 계약에 어떻게 이어져 있는지 알기 때문에 <em>옮겨도 되는가</em>에 답할 수 있습니다."],
+        ["수정", "한 번 내놓고 끝이 아닙니다",
+          "빼야 할 설비를 말해주면 <em>제약을 통과한 나머지 후보</em>에서 대체안을 찾아 제안을 다시 씁니다."],
+        ["승인", "승인하지 않은 것은 실행되지 않습니다",
+          "무엇을 어떻게 바꾸는지 보여주고 <em>건별로</em> 결정받으며, 결과에도 승인한 만큼만 반영됩니다."],
+        ["산출물", "형식을 지정하지 않아도 알아서 고릅니다",
+          "추이는 <em>차트</em>로, 비교는 <em>표</em>로, 구조는 <em>관계도</em>로, 결론은 <em>보고서</em>로 만들어 파일로 남깁니다."],
+        ["확장", "도메인이 바뀌어도 제품은 그대로입니다",
+          "제조와 물류, 빌딩과 공공 인프라가 <em>각자의 온톨로지</em> 위에서 같은 에이전트를 그대로 씁니다."]
+      ]
+    },
+
+    en: {
+      docTitle: "Refinery AI Agent Demo",
+      newChat: "New chat", vExplore: "Explore", vLibrary: "Library",
+      vMemory: "Memory", vAutomation: "Automations",
+      search: "Search conversations", recent: "Recent",
+      s0idle: "New chat", s0w: "just now",
+      s0t: "Lowering next quarter's demand", s0wActive: "just now · Energy",
+      s1t: "8 at-risk orders, alternates", s1w: "12 min ago · Logistics",
+      s2t: "Defects up 3x, common cause", s2w: "1 hr ago · Manufacturing",
+      s3t: "HVAC waste across 12 sites", s3w: "yesterday · Buildings",
+      s4t: "4 suspected leak zones", s4w: "3 days ago · Public infrastructure",
+      dCompact: "Compact", dNormal: "Normal", dDetailed: "Detailed",
+      emptyTitle: "What should we look into?",
+      emptySub: "Suggestions come from objects you have worked with. It plans, keeps its evidence, and leaves results as files.",
+      sug1: "Show me how my connected data actually flows",
+      sug2: "Tell me what data is really accumulating and where the gaps are",
+      sug3: "What can I actually do with my data right now?",
+      modeHint: "Reads on its own, asks before writing", modelChip: "Model",
+      phIdle: "What should we look into?", phFollow: "Ask a follow-up",
+      endT: "This is how far an agent that knows your context can go",
+      endS: "It does not stop at answering. It analyses exhaustively, builds the tables, charts and reports, reworks them when you ask, and executes only what you approve.",
+      stWorking: "Working", stAwait: "Waiting for approval", stDone: "Done",
+      planLabel: "Plan", thinkLive: "Thinking", thinkDone: (s) => "thought for " + s + "s",
+      stepsRan: (n) => n + " steps run", verified: "verified",
+      chatTitle: "Lowering next quarter's contract demand",
+      prompt: "See if we can lower next quarter's contract demand, and put the changes in place if we can",
+      think: [
+        "To lower contract demand I first have to find what creates the peak. ",
+        "Whether a load can actually move depends on the production schedule and service windows. ",
+        "Registering a schedule changes data, so it needs approval."
+      ],
+      plan: ["Establish scope and load history", "Break down peak contributors", "Cross-check what can actually move", "Register load-shift schedule"],
+      steps: [
+        ["Establish scope", "all sites", "3 sites · 12 substations · 347 assets"],
+        ["Pull load history", "15-min interval, 90 days", "All 347 assets · about 30M points"],
+        ["Break down peak contribution", "ranked by share", "24 assets identified in the peak window"],
+        ["Cross-check what can move", "production plan · service windows", "Only 7 of 24 can move, 17 hit constraints"]
+      ],
+      text1: "I checked all <strong>347</strong> assets and found <strong>24</strong> contributing to the peak. Of those, <strong>7</strong> clear the production plan and service windows, and I have written up the <strong>3</strong> with the largest savings.",
+      chartTitle: "Site-wide load curve · peak day in the last 90 days", chartTh: "contract demand 4,200 kW",
+      chartX: ["08:00", "10:00", "12:00", "14:00", "16:00", "18:00", "20:00"],
+      tableTitle: "3 proposed load shifts",
+      tableCols: ["Asset", "Site", "Peak share", "Shift", "Constraint"],
+      tableRows: [
+        ["Compressor CMP-201", "Plant 1", "412 kW", "14:00 → 02:00", "none", "is-good"],
+        ["Paint oven DRY-3", "Plant 3", "365 kW", "13:00 → 23:00", "no night shift", "is-warn"],
+        ["Chiller CHL-108", "Plant 1", "298 kW", "15:00 → 04:00", "none", "is-good"]
+      ],
+      revise: "The Plant 3 oven can't run at night. Drop it and find an alternative",
+      step2: ["Reselect alternative", "7 that cleared", "Oven dropped, replaced with air handler AHU-12"],
+      tableTitle2: "3 proposed load shifts (revised)",
+      tableRows2: [
+        ["Compressor CMP-201", "Plant 1", "412 kW", "14:00 → 02:00", "none", "is-good"],
+        ["Air handler AHU-12", "Plant 2", "281 kW", "13:00 → 21:00", "none", "is-good"],
+        ["Chiller CHL-108", "Plant 1", "298 kW", "15:00 → 04:00", "none", "is-good"]
+      ],
+      omapTitle: "Assets, processes and contracts",
+      omapNodes: [
+        ["Site", "3", 58, 46, 1], ["Contract", "3", 58, 152, 1],
+        ["Substation", "12", 186, 46, 1], ["Asset", "347", 314, 46, 1],
+        ["Service log", "1,284", 314, 152, 1], ["Process", "26", 442, 46, 1],
+        ["Prod. plan", "90d", 442, 152, 1], ["Product", "41", 570, 46, 0]
+      ],
+      omapPath: "path this decision followed", omapRest: "other relationships",
+      text2: "The revised set has <strong>3</strong> items. Registering them brings next quarter's contract demand down to <strong>3,900 kW</strong>. Please review before they run.",
+      apHead: "3 items to confirm before running, decide each one", apTier: "Hard to undo",
+      apTitle: "Register load-shift schedule",
+      apKeys: ["Target", "Shift", "Effective"],
+      apTargets: ["Compressor CMP-201 · Plant 1", "Air handler AHU-12 · Plant 2", "Chiller CHL-108 · Plant 1"],
+      apShifts: ["14:00 → 02:00", "13:00 → 21:00", "15:00 → 04:00"],
+      apDue: "first day of next quarter",
+      apImpact: "The asset's operating schedule changes and production is notified. Hard to undo.",
+      allow: "Approve", deny: "Reject", allowed: "Approved", denied: "Rejected",
+      toastDecided: "2 approved, 1 rejected",
+      step3: ["Register load-shift schedule", "2 approved", "SCH-4471, SCH-4472 registered · production notified"],
+      reportTitle: "Contract demand savings report",
+      reportNum: "41.4", reportUnit: "M KRW / estimated annual saving",
+      reportRows: [
+        ["Current contract demand", "4,200 kW", ""],
+        ["Projected peak after shift", "3,880 kW", ""],
+        ["Recommended contract demand", "3,900 kW", "is-cut"],
+        ["Change in standing charge", "-300 kW", "is-cut"]
+      ],
+      text3: "I registered only the <strong>2</strong> you approved. Chiller CHL-108 was rejected, so nothing ran for it, and I recalculated the savings to match.",
+      footer: ["1 min 12 sec", "9 steps", "41.3k tokens used"],
+      followups: ["Show what the rejected chiller would have added", "Draft the contract change request", "Apply the same approach to Plant 2"],
+      chapters: [
+        ["Control", "You set what the agent may touch",
+          "<em>One control</em> decides whether it may only read, may look things up freely but ask before writing, or must ask for everything."],
+        ["Scale", "An engineer checks three assets. It checked 347",
+          "It read 90 days of load across every asset, pulled the <em>24</em> driving the peak, and kept the <em>7</em> that clear the production plan and service windows."],
+        ["Context", "It reads relationships, not tables",
+          "Because it knows how an asset connects to processes, products, service history and contracts, it can answer <em>whether a load may move at all</em>."],
+        ["Rework", "One answer is never the last answer",
+          "Name the asset to drop and it finds a replacement <em>among the others that cleared the constraints</em>, then rewrites the proposal."],
+        ["Approval", "What you do not approve never runs",
+          "It shows exactly what changes, takes your decision <em>item by item</em>, and the result reflects only what you allowed."],
+        ["Output", "You never have to name the format",
+          "Trends arrive as <em>charts</em>, comparisons as <em>tables</em>, structure as <em>maps</em> and conclusions as <em>reports</em>, each saved as a file."],
+        ["Reach", "New domain, same product",
+          "Manufacturing, logistics, buildings and public infrastructure all run <em>this same agent</em> on an ontology of their own."]
+      ]
+    }
+  };
+
+  let lang = new URLSearchParams(location.search).get("lang") === "ko" ? "ko" : "en";
+  let T = DICT[lang];
+
+  /* ─────────────────────────── 셋업 ─────────────────────────── */
+  const $ = (id) => document.getElementById(id);
+  const stage = $("stage"), app = $("app"), thread = $("thread"), canvas = $("canvas");
+  const spot = $("spot"), cap = $("cap"), toastEl = $("toast");
+  const SPOT_R = 12;
+  const scrim = $("scrim");
+  const blurT = $("blurT"), blurB = $("blurB"), blurL = $("blurL"), blurR = $("blurR");
+  const veil = [scrim, blurT, blurB, blurL, blurR];
+  /** 무대 전체에서 둥근 사각형 하나를 뺀 경로(evenodd). 어둡게 까는 층에만 쓴다. */
+  function holePath(x, y, w, h, r) {
+    r = Math.max(0, Math.min(r, w / 2, h / 2));
+    return "M0 0H" + STAGE_W + "V" + STAGE_H + "H0Z" +
+      "M" + (x + r) + " " + y + "H" + (x + w - r) +
+      "A" + r + " " + r + " 0 0 1 " + (x + w) + " " + (y + r) +
+      "V" + (y + h - r) +
+      "A" + r + " " + r + " 0 0 1 " + (x + w - r) + " " + (y + h) +
+      "H" + (x + r) +
+      "A" + r + " " + r + " 0 0 1 " + x + " " + (y + h - r) +
+      "V" + (y + r) +
+      "A" + r + " " + r + " 0 0 1 " + (x + r) + " " + y + "Z";
+  }
+  const place = (n, x, y, w, h) => {
+    n.style.left = x + "px"; n.style.top = y + "px";
+    n.style.width = Math.max(0, w) + "px"; n.style.height = Math.max(0, h) + "px";
+  };
+  const STAGE_W = 1320, STAGE_H = 840;
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  let K = 1;
+  function fit() {
+    K = Math.min(innerWidth / STAGE_W, innerHeight / STAGE_H, 1.6);
+    stage.style.setProperty("--k", K);
+  }
+  addEventListener("resize", fit); fit();
+
+  // 라이트 모드 고정. 뷰어 테마를 따라가지 않는다.
+  stage.classList.add("is-light");
+
+  function applyStatic() {
+    document.querySelectorAll("[data-t]").forEach((n) => {
+      const v = T[n.dataset.t];
+      if (typeof v === "string") n.textContent = v;
+    });
+    document.title = T.docTitle;
+    document.documentElement.lang = lang;
+  }
+
+  /* ─────────────────────────── 시계 ─────────────────────────── */
+  const ABORT = Symbol("abort");
+
+  /* 시나리오 재생 배속. 설명 카드가 머무는 시간은 읽는 시간이라 여기 곱하지 않는다
+     (3배로 줄이면 문장을 다 읽기 전에 사라진다). */
+  const SPEED = 3;
+  let epoch = 0;
+
+  function wait(ms) {
+    const my = epoch;
+    return new Promise((resolve, reject) => {
+      let remain = ms, last = performance.now();
+      const tick = (now) => {
+        if (my !== epoch) return reject(ABORT);
+        const dt = now - last; last = now;
+        remain -= dt * SPEED;
+        if (remain <= 0) return resolve();
+        requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    });
+  }
+
+  /* 설명 카드 체류. 실시간(1배)으로 흐른다. */
+  function dwell(ms) {
+    const my = epoch;
+    return new Promise((resolve, reject) => {
+      let remain = ms, last = performance.now();
+      const tick = (now) => {
+        if (my !== epoch) return reject(ABORT);
+        const dt = now - last; last = now;
+        remain -= dt;
+        if (remain <= 0) return resolve();
+        requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    });
+  }
+
+  const ic = {
+    brain: '<svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2.6a2.6 2.6 0 0 0-2.6 2.6A2.2 2.2 0 0 0 4 7.3c0 .9.5 1.6 1.3 2A2.3 2.3 0 0 0 8 13.4a2.3 2.3 0 0 0 2.7-4.1c.8-.4 1.3-1.1 1.3-2a2.2 2.2 0 0 0-1.4-2.1A2.6 2.6 0 0 0 8 2.6Z"/></svg>',
+    caret: '<svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 4 4 4-4 4"/></svg>',
+    notch: '<svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 1.8a6.2 6.2 0 1 0 6.2 6.2"/></svg>',
+    check: '<svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.4A6.6 6.6 0 1 0 14.6 8 6.6 6.6 0 0 0 8 1.4Zm3.3 4.9-4 4.4a.8.8 0 0 1-1.2 0L4.5 8.9a.8.8 0 1 1 1.2-1l1 1.1 3.4-3.8a.8.8 0 1 1 1.2 1.1Z"/></svg>',
+    seal: '<svg width="11" height="11" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.2 9.8 3l2.5-.2.4 2.5 2 1.6-1.4 2.1.7 2.4-2.4.7-1.3 2.2L8 13.2l-2.3 1.1-1.3-2.2-2.4-.7.7-2.4L1.3 6.9l2-1.6.4-2.5L6.2 3Zm2.9 4.5-3.6 3.9-1.4-1.5a.7.7 0 1 0-1 1l1.9 2a.7.7 0 0 0 1 0l4.1-4.4a.7.7 0 1 0-1-1Z"/></svg>',
+    circle: '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="5.6"/></svg>',
+    xcircle: '<svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.4A6.6 6.6 0 1 0 14.6 8 6.6 6.6 0 0 0 8 1.4Zm2.6 8.1a.8.8 0 0 1-1.1 1.1L8 9.1l-1.5 1.5a.8.8 0 0 1-1.1-1.1L6.9 8 5.4 6.5a.8.8 0 0 1 1.1-1.1L8 6.9l1.5-1.5a.8.8 0 0 1 1.1 1.1L9.1 8Z"/></svg>',
+    shield: '<svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M8 1.6 13.2 3.4v4.2c0 3.3-2.2 5.8-5.2 6.8-3-1-5.2-3.5-5.2-6.8V3.4z"/><path d="M8 5.6v3M8 10.6v.1"/></svg>',
+    sparkle: '<svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.6 9.4 5.5 13.4 6.9 9.4 8.3 8 12.2 6.6 8.3 2.6 6.9 6.6 5.5z"/></svg>',
+    list: '<svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M2.6 4.4 4 5.8l2.2-2.4M2.6 9.4 4 10.8l2.2-2.4M8.8 4.8h4.6M8.8 9.8h4.6"/></svg>',
+    chart: '<svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M2 13V3M2 13h12M4.8 10.6l2.6-3 2.2 1.8 3.2-4.2"/></svg>',
+    table: '<svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2.8" width="12" height="10.4" rx="1.6"/><path d="M2 6.4h12M6.4 6.4v6.8"/></svg>',
+    doc: '<svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M9 1.8H4.4a1.4 1.4 0 0 0-1.4 1.4v9.6a1.4 1.4 0 0 0 1.4 1.4h7.2a1.4 1.4 0 0 0 1.4-1.4V5.8z"/><path d="M9 1.8v4h4M5.6 9h4.8M5.6 11.4h3.2"/></svg>',
+    hex: '<svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 1.8 13.6 5v6L8 14.2 2.4 11V5z"/></svg>'
+  };
+
+  const el = (tag, cls, html) => { const n = document.createElement(tag); if (cls) n.className = cls; if (html != null) n.innerHTML = html; return n; };
+  function follow() { canvas.scrollTop = canvas.scrollHeight; }
+  new MutationObserver(follow).observe(thread, { childList: true, subtree: true, characterData: true });
+
+  /* ─────────────────────────── 상태 ─────────────────────────── */
+  let elapsed = 0, elapsedTimer = null;
+  function setPhase(phase) {
+    app.dataset.state = phase === "running" ? "running" : phase === "await" ? "await" : "idle";
+    const s = $("chatStatus"), dot = $("activeDot");
+    dot.className = "dot " + (phase === "running" ? "is-running" : phase === "await" ? "is-await" : phase === "done" ? "is-done" : "");
+    if (phase === "running") {
+      s.innerHTML = '<span class="chat-live"><span class="live-dot"></span><span>' + T.stWorking + ' · <span id="elapsed">' + elapsed + '</span>s</span></span>';
+    } else if (phase === "await") {
+      s.innerHTML = '<span class="chat-await">' + T.stAwait + '</span>';
+    } else if (phase === "done") {
+      s.innerHTML = '<span class="chat-done">' + T.stDone + '</span>';
+    } else { s.innerHTML = ""; }
+    $("sendBtn").classList.toggle("is-busy", phase === "running");
+  }
+  /* 경과 초는 시나리오와 같은 배속으로 흐른다. 실시간으로 두면 3배 재생에서 헤더는 13초를
+     세는데 턴 푸터는 47초라고 적어, 화면 안에서 두 숫자가 어긋난다. */
+  function startClock() {
+    stopClock();
+    elapsedTimer = setInterval(() => {
+      elapsed += 1;
+      const e = $("elapsed"); if (e) e.textContent = elapsed;
+    }, 1000 / SPEED);
+  }
+  function stopClock() { if (elapsedTimer) clearInterval(elapsedTimer); elapsedTimer = null; }
+
+  /* ─────────────────────────── 블록 ─────────────────────────── */
+  function addUser(text) {
+    $("empty").style.display = "none";
+    thread.style.display = "";
+    $("chatTitle").style.display = "";
+    $("chatTitle").textContent = T.chatTitle;
+    $("activeSessionTitle").textContent = T.s0t;
+    $("activeSessionWhen").textContent = T.s0wActive;
+    const row = el("div", "row row--user");
+    row.appendChild(el("div", "user-bubble", text));
+    thread.appendChild(row); follow();
+  }
+
+  function addThinking() {
+    const n = el("div", "think is-live");
+    n.innerHTML =
+      '<button class="fold-head" type="button" tabindex="-1">' + ic.brain +
+      '<span class="tlabel">' + T.thinkLive + '</span>' +
+      '<span class="caret is-open">' + ic.caret + '</span></button>' +
+      '<div class="fold is-open"><div class="fold-clip"><div class="think-body"></div></div></div>';
+    thread.appendChild(n); follow();
+    return n;
+  }
+  async function think(node, chunk, ms) {
+    node.querySelector(".think-body").textContent += chunk;
+    follow();
+    await wait(ms);
+  }
+  function thinkDone(node, sec) {
+    node.classList.remove("is-live");
+    node.querySelector(".tlabel").textContent = T.thinkDone(sec);
+    node.querySelector(".fold").classList.remove("is-open");
+    node.querySelector(".caret").classList.remove("is-open");
+  }
+
+  function addTools() {
+    const n = el("div", "tools is-live");
+    n.innerHTML =
+      '<button class="fold-head" type="button" tabindex="-1" style="width:100%;">' +
+      '<span class="tools-ic spin">' + ic.notch + '</span>' +
+      '<span class="tools-label"></span>' +
+      '<span class="tools-count">0/0</span>' +
+      '<span class="caret is-open">' + ic.caret + '</span></button>' +
+      '<div class="fold is-open"><div class="fold-clip"><div class="tools-list"></div></div></div>';
+    thread.appendChild(n); follow();
+    return n;
+  }
+  function toolStart(group, name, args) {
+    const row = el("div", "tool is-running");
+    row.innerHTML =
+      '<span class="tool-ic spin">' + ic.notch + '</span>' +
+      '<span class="tool-name">' + name + '</span>' +
+      '<span class="tool-args">' + args + '</span>';
+    group.querySelector(".tools-list").appendChild(row);
+    group.querySelector(".tools-label").textContent = name;
+    updCount(group); follow();
+    return row;
+  }
+  function toolEnd(group, row, summary, verified) {
+    row.classList.remove("is-running");
+    const icn = row.querySelector(".tool-ic");
+    icn.classList.remove("spin"); icn.innerHTML = ic.check;
+    if (verified) row.appendChild(el("span", "verified", ic.seal + " " + T.verified));
+    row.appendChild(el("span", "tool-sum", summary));
+    updCount(group); follow();
+  }
+  function updCount(g) {
+    const rows = g.querySelectorAll(".tool");
+    const done = g.querySelectorAll(".tool:not(.is-running)").length;
+    g.querySelector(".tools-count").textContent = done + "/" + rows.length;
+  }
+  function toolsDone(group) {
+    group.classList.remove("is-live");
+    const i = group.querySelector(".tools-ic");
+    i.classList.remove("spin"); i.innerHTML = ic.check;
+    group.querySelector(".tools-label").textContent = T.stepsRan(group.querySelectorAll(".tool").length);
+    group.querySelector(".fold").classList.remove("is-open");
+    group.querySelector(".caret").classList.remove("is-open");
+  }
+
+  async function addText(html) {
+    const row = el("div", "row");
+    const t = el("div", "text");
+    row.appendChild(t); thread.appendChild(row);
+    if (reduce) { t.innerHTML = html; follow(); return; }
+    const parts = html.split(/(\s+)/).filter(Boolean);
+    for (const p of parts) {
+      const s = el("span", "word");
+      s.innerHTML = p;
+      t.appendChild(s);
+      follow();
+      await wait(20);
+    }
+  }
+
+  const R = 8, C = 2 * Math.PI * R;
+  function planHTML(steps) {
+    const done = steps.filter((s) => s.st === "completed").length;
+    const pct = done / steps.length;
+    return '<div class="plan-head">' +
+      '<svg viewBox="0 0 22 22" class="plan-ring"><circle cx="11" cy="11" r="' + R + '" class="plan-ring-bg"/>' +
+      '<circle cx="11" cy="11" r="' + R + '" class="plan-ring-fg" stroke-dasharray="' + C + '" stroke-dashoffset="' + (C * (1 - pct)) + '"/></svg>' +
+      '<span class="plan-title">' + T.planLabel + '</span><span class="plan-count">' + done + '/' + steps.length + '</span></div>' +
+      '<div class="plan-steps">' + steps.map((s) =>
+        '<div class="plan-step is-' + s.st + '"><span class="plan-step-ic">' +
+        (s.st === "completed"
+          ? '<svg viewBox="0 0 16 16" class="check"><circle cx="8" cy="8" r="7" class="check-circle"/><path d="M4.5 8.2 7 10.6 11.5 5.6" class="check-mark" pathLength="1"/></svg>'
+          : s.st === "in_progress" ? '<span class="spin plan-spin" style="display:flex">' + ic.notch + '</span>' : ic.circle) +
+        '</span><span class="plan-step-title">' + s.t + '</span></div>').join("") + '</div>';
+  }
+  let planNode = null;
+  function setPlan(statuses) {
+    const steps = T.plan.map((t, i) => ({ t, st: statuses[i] }));
+    if (!planNode) { planNode = el("div", "plan"); thread.appendChild(planNode); }
+    planNode.innerHTML = planHTML(steps);
+    follow();
+  }
+
+  function chartSVG(vals, thIdx, thVal) {
+    const w = 660, h = 168, pad = 20;
+    // 임계값을 축 범위에 포함시킨다. 데이터 최대보다 큰 임계선이 플롯 밖으로 밀려나던 문제.
+    const lo = Math.min(...vals, thVal), hi = Math.max(...vals, thVal);
+    const pad10 = (hi - lo) * 0.12 || 1;
+    const min = lo - pad10, max = hi + pad10, span = (max - min) || 1;
+    const pts = vals.map((v, i) => [
+      pad + (i / (vals.length - 1)) * (w - pad * 2),
+      h - pad - ((v - min) / span) * (h - pad * 2)
+    ]);
+    const line = pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ");
+    const area = line + " L" + pts[pts.length - 1][0].toFixed(1) + " " + (h - pad) + " L" + pad + " " + (h - pad) + " Z";
+    const thY = h - pad - ((thVal - min) / span) * (h - pad * 2);
+    const grid = [0.25, 0.5, 0.75].map((f) => {
+      const y = pad + f * (h - pad * 2);
+      return '<line class="chart-grid" x1="' + pad + '" y1="' + y + '" x2="' + (w - pad) + '" y2="' + y + '"/>';
+    }).join("");
+    const dots = pts.map((p, i) =>
+      '<circle class="chart-dot' + (i >= thIdx ? " is-anomaly" : "") + '" cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="' + (i >= thIdx ? 3.6 : 2.2) + '"/>').join("");
+    const labels = pts.map((p, i) =>
+      '<text class="chart-ax" x="' + p[0].toFixed(1) + '" y="' + (h - 5) + '" text-anchor="middle">' + T.chartX[i] + '</text>').join("");
+    return '<svg class="chart" viewBox="0 0 ' + w + ' ' + h + '" role="img" aria-label="' + T.chartTitle + '">' +
+      grid + '<path class="chart-area" d="' + area + '"/><path class="chart-line" d="' + line + '" pathLength="1"/>' +
+      '<line class="chart-th" x1="' + pad + '" y1="' + thY.toFixed(1) + '" x2="' + (w - pad) + '" y2="' + thY.toFixed(1) + '"/>' +
+      '<text class="chart-thlabel" x="' + (w - pad) + '" y="' + (thY - 5).toFixed(1) + '" text-anchor="end">' + T.chartTh + '</text>' +
+      dots + labels + '</svg>';
+  }
+
+  function tableHTML(rows) {
+    return '<table class="mtable"><thead><tr>' + T.tableCols.map((c) => '<th>' + c + '</th>').join("") +
+      '</tr></thead><tbody>' + rows.map((r) =>
+        '<tr><td>' + r[0] + '</td><td>' + r[1] + '</td><td class="is-num">' + r[2] + '</td>' +
+        '<td class="is-num">' + r[3] + '</td><td><span class="pill ' + r[5] + '">' + r[4] + '</span></td></tr>').join("") +
+      '</tbody></table>';
+  }
+
+  /* 온톨로지 맵. 타입 노드와 관계. 이번 판단이 실제로 지나간 경로만 강조한다. */
+  const OMAP_EDGES = [[0, 2, 1], [0, 1, 0], [2, 3, 1], [3, 4, 1], [3, 5, 1], [5, 6, 1], [5, 7, 0]];
+  function omapSVG() {
+    const n = T.omapNodes, W = 92, H = 38;
+    const edges = OMAP_EDGES.map((e) => {
+      const a = n[e[0]], b = n[e[1]];
+      return '<line class="omap-edge' + (e[2] ? " is-path" : "") + '" x1="' + a[2] + '" y1="' + a[3] +
+        '" x2="' + b[2] + '" y2="' + b[3] + '"/>';
+    }).join("");
+    const boxes = n.map((d) =>
+      '<g><rect class="omap-box' + (d[4] ? " is-path" : "") + '" x="' + (d[2] - W / 2) + '" y="' + (d[3] - H / 2) +
+      '" width="' + W + '" height="' + H + '" rx="9"/>' +
+      '<text class="omap-name" x="' + d[2] + '" y="' + (d[3] - 1) + '" text-anchor="middle">' + d[0] + '</text>' +
+      '<text class="omap-count" x="' + d[2] + '" y="' + (d[3] + 12) + '" text-anchor="middle">' + d[1] + '</text></g>').join("");
+    return '<svg class="omap" viewBox="0 0 660 200" role="img" aria-label="' + T.omapTitle + '">' +
+      edges + boxes + '</svg>' +
+      '<div class="omap-legend"><span><i style="background:var(--brand)"></i>' + T.omapPath + '</span>' +
+      '<span><i style="background:var(--ink-300)"></i>' + T.omapRest + '</span></div>';
+  }
+
+  function reportHTML() {
+    return '<div class="report-hero"><span class="report-num">' + T.reportNum + '</span>' +
+      '<span class="report-unit">' + T.reportUnit + '</span></div>' +
+      '<div class="report-rows">' + T.reportRows.map((r) =>
+        '<div class="report-row"><span class="report-k">' + r[0] + '</span>' +
+        '<span class="report-v ' + r[2] + '">' + r[1] + '</span></div>').join("") + '</div>';
+  }
+
+  function addArtifact(kind, title, meta, bodyHTML) {
+    const icon = kind === "chart" ? ic.chart : kind === "table" ? ic.table : kind === "map" ? ic.hex : ic.doc;
+    const n = el("div", "artifact");
+    n.innerHTML =
+      '<div class="artifact-head"><span class="artifact-ic">' + icon + '</span>' +
+      '<span class="artifact-title">' + title + '</span>' +
+      '<span class="artifact-meta">' + meta + '</span></div>' +
+      '<div class="artifact-body">' + bodyHTML + '</div>';
+    const row = el("div", "row"); row.style.width = "100%";
+    row.appendChild(n);
+    thread.appendChild(row); follow();
+    return n;
+  }
+
+  function addApproval() {
+    const n = el("div", "approval");
+    n.innerHTML =
+      '<div class="approval-head">' + ic.shield + '<span>' + T.apHead + '</span>' +
+      '<span class="approval-tier">' + T.apTier + '</span></div>' +
+      T.apTargets.map((target, i) =>
+        '<div class="approval-item" data-id="a' + i + '">' +
+        '<div class="approval-item-main">' +
+        '<div class="approval-item-title">' + T.apTitle + '</div>' +
+        '<div class="approval-params">' +
+        [[T.apKeys[0], target], [T.apKeys[1], T.apShifts[i]], [T.apKeys[2], T.apDue]].map((p) =>
+          '<span><span class="approval-k">' + p[0] + '</span>' + p[1] + '</span>').join("") +
+        '</div><div class="approval-impact">' + T.apImpact + '</div></div>' +
+        '<div class="approval-actions">' +
+        '<button class="btn btn--ghost" type="button" tabindex="-1" data-act="deny">' + T.deny + '</button>' +
+        '<button class="btn btn--primary" type="button" tabindex="-1" data-act="allow">' + T.allow + '</button>' +
+        '</div></div>').join("");
+    thread.appendChild(n); follow();
+    return n;
+  }
+  async function decide(card, id, allow) {
+    const item = card.querySelector('[data-id="' + id + '"]');
+    item.querySelector('[data-act="' + (allow ? "allow" : "deny") + '"]').classList.add("is-press");
+    await wait(180);
+    item.querySelector(".approval-actions").innerHTML = allow
+      ? '<span class="decision is-allowed">' + ic.check + ' ' + T.allowed + '</span>'
+      : '<span class="decision is-denied">' + ic.xcircle + ' ' + T.denied + '</span>';
+    if (!allow) item.classList.add("is-denied");
+  }
+
+  function addTurnEnd() {
+    const n = el("div", "turnend");
+    n.innerHTML =
+      '<div class="turnend-meta">' + ic.sparkle +
+      T.footer.map((f, i) => (i ? '<span class="dotsep"></span>' : "") + '<span>' + f + '</span>').join("") +
+      '</div><div class="followups">' +
+      T.followups.map((f) => '<button class="followup" type="button" tabindex="-1">' + ic.list + f + '</button>').join("") +
+      '</div>';
+    thread.appendChild(n); follow();
+  }
+
+
+  /* ─────────────────────── 스포트라이트 ─────────────────────── */
+  const PAD = 10;
+  function rectOf(sel) {
+    // 선택자 또는 요소. 같은 클래스의 산출물이 여럿이라 선택자로는 특정할 수 없다.
+    const node = typeof sel === "string" ? document.querySelector(sel) : sel;
+    if (!node) return null;
+    const sr = stage.getBoundingClientRect(), r = node.getBoundingClientRect();
+    return { x: (r.left - sr.left) / K, y: (r.top - sr.top) / K, w: r.width / K, h: r.height / K };
+  }
+  function placeCap(box) {
+    const CW = 348, GAP = 22, M = 22;
+    const ch = cap.offsetHeight || 168;
+    let left, top;
+    if (box.x + box.w + GAP + CW + M <= STAGE_W) left = box.x + box.w + GAP;
+    else if (box.x - GAP - CW >= M) left = box.x - GAP - CW;
+    else left = Math.min(Math.max(box.x, M), STAGE_W - CW - M);
+    if (left >= box.x + box.w || left + CW <= box.x) {
+      top = Math.min(Math.max(box.y + box.h / 2 - ch / 2, M), STAGE_H - ch - M);
+    } else {
+      top = box.y + box.h + GAP;
+      if (top + ch + M > STAGE_H) top = Math.max(box.y - GAP - ch, M);
+    }
+    cap.style.left = left + "px";
+    cap.style.top = top + "px";
+  }
+  function showSpot(sel, num, kicker, title, body) {
+    const raw = rectOf(sel);
+    if (!raw) return;
+    const M = 9;
+    const x1 = Math.max(raw.x - PAD, M), y1 = Math.max(raw.y - PAD, M);
+    const x2 = Math.min(raw.x + raw.w + PAD, STAGE_W - M);
+    const y2 = Math.min(raw.y + raw.h + PAD, STAGE_H - M);
+    const box = { x: x1, y: y1, w: x2 - x1, h: y2 - y1 };
+    place(spot, box.x, box.y, box.w, box.h);
+    const p = "path(evenodd, '" + holePath(box.x, box.y, box.w, box.h, SPOT_R) + "')";
+    scrim.style.clipPath = p;
+    scrim.style.webkitClipPath = p;
+    place(blurT, 0, 0, STAGE_W, box.y);
+    place(blurB, 0, y2, STAGE_W, STAGE_H - y2);
+    place(blurL, 0, box.y, box.x, box.h);
+    place(blurR, x2, box.y, STAGE_W - x2, box.h);
+    spot.classList.add("is-on");
+    veil.forEach((n) => n.classList.add("is-on"));
+    $("capNum").textContent = String(num).padStart(2, "0");
+    $("capKicker").textContent = kicker;
+    $("capTitle").textContent = title;
+    $("capBody").innerHTML = body;
+    cap.classList.add("is-on");
+    placeCap(box);
+  }
+  function hideSpot() {
+    spot.classList.remove("is-on");
+    veil.forEach((n) => n.classList.remove("is-on"));
+    cap.classList.remove("is-on");
+  }
+
+  async function chapter(i, sel) {
+    await wait(reduce ? 60 : 260);
+    const c = T.chapters[i];
+    showSpot(sel, i + 1, c[0], c[1], c[2]);
+    const chars = c[2].replace(/<[^>]+>/g, "").length + c[1].length;
+    await dwell(Math.min(Math.max(1100 + chars * 17, 1900), 3800));
+    hideSpot();
+    await wait(reduce ? 60 : 320);
+  }
+
+  function toast(msg) {
+    toastEl.textContent = msg;
+    toastEl.classList.add("is-on");
+    setTimeout(() => toastEl.classList.remove("is-on"), 1500);
+  }
+
+  /* ─────────────────────────── 시나리오 ─────────────────────────── */
+  function resetStage() {
+    stopClock(); elapsed = 0; planNode = null;
+    thread.innerHTML = ""; thread.style.display = "none";
+    $("empty").style.display = "";
+    $("chatTitle").style.display = "none";
+    $("activeSessionTitle").textContent = T.s0idle;
+    $("activeSessionWhen").textContent = T.s0w;
+    $("chatView").style.display = "flex";
+    $("inputPh").textContent = T.phIdle;
+    $("endcard").classList.remove("is-on");
+    document.querySelectorAll("#views .view").forEach((v, k) => v.classList.toggle("is-active", k === 0));
+    setPhase("idle");
+    hideSpot();
+  }
+
+  async function run() {
+    resetStage();
+
+    /* 01 통제 */
+    await chapter(0, "#modes");
+
+    $("inputPh").textContent = T.prompt;
+    await wait(700);
+    addUser(T.prompt);
+    $("inputPh").textContent = T.phFollow;
+    setPhase("running"); startClock();
+    await wait(420);
+
+    const th = addThinking();
+    await think(th, T.think[0], 460);
+    await think(th, T.think[1], 500);
+    await think(th, T.think[2], 480);
+    thinkDone(th, 4);
+    await wait(240);
+
+    setPlan(["in_progress", "pending", "pending", "pending"]);
+    await wait(380);
+
+    /* 전수 탐색 + 제약 교차검증 */
+    const g1 = addTools();
+    const delays = [620, 900, 820, 980];
+    for (let i = 0; i < T.steps.length; i++) {
+      const s = T.steps[i];
+      const row = toolStart(g1, s[0], s[1]);
+      await wait(delays[i]);
+      toolEnd(g1, row, s[2], i === T.steps.length - 1);
+      if (i < T.steps.length - 1) await wait(190);
+    }
+    toolsDone(g1);
+    await wait(300);
+
+    /* 02 규모 */
+    await chapter(1, ".tools");
+
+    setPlan(["completed", "in_progress", "pending", "pending"]);
+    await wait(280);
+    await addText(T.text1);
+    await wait(240);
+
+    addArtifact("chart", T.chartTitle, "v1", chartSVG([3180, 3260, 3210, 3420, 3640, 4010, 4180], 6, 4200));
+    await wait(620);
+
+    /* 온톨로지 맵. 관계를 읽는다는 증거 */
+    const mapArt = addArtifact("map", T.omapTitle, "v1", omapSVG());
+    await wait(660);
+
+    /* 03 맥락 */
+    await chapter(2, mapArt);
+
+    setPlan(["completed", "completed", "in_progress", "pending"]);
+    await wait(280);
+    addArtifact("table", T.tableTitle, "v1", tableHTML(T.tableRows));
+    await wait(700);
+
+    /* 사용자 수정 요청 → 재작성 */
+    addUser(T.revise);
+    await wait(420);
+    const g2 = addTools();
+    const r2 = toolStart(g2, T.step2[0], T.step2[1]);
+    await wait(860);
+    toolEnd(g2, r2, T.step2[2], true);
+    toolsDone(g2);
+    await wait(260);
+    const tableV2 = addArtifact("table", T.tableTitle2, "v2", tableHTML(T.tableRows2));
+    await wait(680);
+
+    /* 04 수정 */
+    await chapter(3, tableV2);
+
+    setPlan(["completed", "completed", "completed", "in_progress"]);
+    await wait(300);
+    await addText(T.text2);
+    await wait(280);
+
+    const card = addApproval();
+    setPhase("await"); stopClock();
+    await wait(520);
+
+    /* 05 승인 */
+    await chapter(4, ".approval");
+
+    await decide(card, "a0", true);
+    await wait(440);
+    await decide(card, "a1", true);
+    await wait(440);
+    await decide(card, "a2", false);
+    card.classList.add("is-resolved");
+    await wait(380);
+    toast(T.toastDecided);
+
+    setPhase("running"); startClock();
+    await wait(300);
+
+    const g3 = addTools();
+    const r3 = toolStart(g3, T.step3[0], T.step3[1]);
+    await wait(840);
+    toolEnd(g3, r3, T.step3[2]);
+    toolsDone(g3);
+    await wait(260);
+
+    /* 절감 리포트 */
+    const reportArt = addArtifact("doc", T.reportTitle, "v1", reportHTML());
+    await wait(640);
+
+    /* 06 산출물 */
+    await chapter(5, reportArt);
+
+    await addText(T.text3);
+    await wait(240);
+    setPlan(["completed", "completed", "completed", "completed"]);
+    await wait(360);
+
+    setPhase("done"); stopClock();
+    addTurnEnd();
+    await wait(520);
+
+    /* 07 확장 */
+    await chapter(6, "#sessions");
+
+    await wait(500);
+    $("endcard").classList.add("is-on");
+    await dwell(3600);
+    $("endcard").classList.remove("is-on");
+    await wait(700);
+    start(); // 무한 반복
+  }
+
+  function start() {
+    epoch += 1;
+    $("endcard").classList.remove("is-on");
+    run().catch((e) => { if (e !== ABORT) throw e; });
+  }
+
+  applyStatic();
+  setPhase("idle");
+
+  /* 화면에 들어왔을 때 시작한다. 브라우저는 보이지 않는 요소의 프레임을 멈추므로,
+     페이지 하단에 끼워 넣고 로드 시점에 재생하면 방문자가 스크롤해 내려왔을 때
+     처음이 아니라 중간부터 보게 된다. */
+  const io = new IntersectionObserver((entries) => {
+    if (entries.some((e) => e.isIntersecting)) { io.disconnect(); start(); }
+  }, { threshold: 0.35 });
+  io.observe(stage);
+})();
+</script>
