@@ -32,8 +32,13 @@ import '../styles/nav-footer.css';
         <div class="footer-links"><a href="/company">회사 소개</a><a href="/contact">문의하기</a></div>
       </div>
       <div>
-        <div class="footer-col-title">신뢰</div>
-        <div class="footer-links"><a href="/#security">보안</a><a href="/#faq">FAQ</a></div>
+        <div class="footer-col-title">약관</div>
+        <div class="footer-links">
+          <a href="/privacy">개인정보처리방침</a>
+          <a href="/terms">이용약관</a>
+          <a href="/cookie-policy">쿠키 정책</a>
+          <button type="button" onclick="if(window.openCookieSettings){openCookieSettings();}">쿠키 설정</button>
+        </div>
       </div>
     </div>
 
@@ -73,12 +78,7 @@ import '../styles/nav-footer.css';
 
     <div class="footer-bottom">
       <div class="footer-bottom-text">© <span id="footerYear">2026</span> VETEC. All rights reserved.</div>
-      <div class="footer-legal" role="navigation" aria-label="법적 고지">
-        <a href="/privacy">개인정보처리방침</a>
-        <a href="/terms">이용약관</a>
-        <a href="/cookie-policy">쿠키 정책</a>
-        <button type="button" onclick="if(window.openCookieSettings){openCookieSettings();}">쿠키 설정</button>
-      </div>
+      <!-- 법적 고지 4종은 위 '약관' 열로 옮겼다(같은 화면에 두 번 나오지 않도록). -->
     <script is:inline>(function(){var y=document.getElementById('footerYear'); if(y) y.textContent = new Date().getFullYear();})();</script>
     </div>
   </div>

@@ -579,6 +579,13 @@
     .footer-links { display: flex; flex-direction: column; gap: 9px; }
     .footer-links a { font-size: 13px; color: var(--text-muted); transition: color .2s; }
     .footer-links a:hover { color: #76A6D7; }
+    /* '쿠키 설정'은 배너를 여는 동작이라 button이다. 링크와 같아 보이게 맞춘다. */
+    .footer-links button {
+      font-family: inherit; font-size: 13px; color: var(--text-muted);
+      background: none; border: none; padding: 0; text-align: left;
+      cursor: pointer; transition: color .2s;
+    }
+    .footer-links button:hover { color: #76A6D7; }
     .footer-bottom { margin-top: 0; padding-top: 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
     .footer-bottom-text { font-size: 13px; color: #C8CED5; }
     .footer-bottom-links { display: flex; gap: 22px; }
