@@ -194,8 +194,8 @@ const jsonLd = {
     (function() {
       var HERO_AGENT_W = 1440;
       var HERO_AGENT_H = 900;
-      var HERO_MOBILE_CROP_LEFT = 244;  /* 좌측 세션 레일(rail) 끝 지점 — 브랜드 로고는 살리고 레일만 잘라낸다 */
-      var HERO_MOBILE_CROP_RIGHT = 1260; /* 대화 스레드(최대 1225.5px) 우측 여백만 남기고 툴바 아이콘 쪽은 잘라낸다 */
+      var HERO_MOBILE_CROP_LEFT = 283;  /* 좌측 세션 레일(.rail) 끝 지점 = 283px (agent-replay-demo 기준). 레일을 잘라 대화 본문만 확대 */
+      var HERO_MOBILE_CROP_RIGHT = 1427; /* 대화 본문(.main) 우측 끝 = 1427px. 본문 전체를 보여준다 */
       function resizeHeroAgent() {
         var wrapper = document.querySelector('.hero-motion-placeholder');
         if (!wrapper) return;
