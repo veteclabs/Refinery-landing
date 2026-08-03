@@ -13,11 +13,17 @@ const menu: Menu[] = [
     href: '/#industries',
     groups: [
       {
+        // 랜딩 #industries 카드와 같은 목록·같은 순서를 유지한다.
+        // 실제 페이지가 있는 곳만 링크, 나머지는 준비중 배지.
         title: '산업별',
         items: [
           { label: '에너지 · 유틸리티', href: '/industries/energy' },
-          { label: '데이터센터', badge: '준비중' },
           { label: '정유 · 가스', badge: '준비중' },
+          { label: '데이터센터', badge: '준비중' },
+          { label: '철강', badge: '준비중' },
+          { label: '화학 · 정밀화학', badge: '준비중' },
+          { label: '물류', badge: '준비중' },
+          { label: '환경', badge: '준비중' },
           { label: '전체 산업 보기', href: '/#industries' },
         ],
       },
