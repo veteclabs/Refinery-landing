@@ -9,22 +9,6 @@ type Menu = { label: string; href: string; groups?: Group[] };
 
 const menu: Menu[] = [
   {
-    label: '플랫폼',
-    href: '/#platform',
-    groups: [
-      {
-        items: [
-          { label: '플랫폼 개요', href: '/#platform' },
-          { label: 'AI 에이전트', href: '/#teams' },
-          { label: '온톨로지', href: '/#platform' },
-          { label: '대시보드 · 분석', href: '/#teams' },
-          { label: '파이프라인', href: '/#teams' },
-          { label: '자동화', href: '/#platform' },
-        ],
-      },
-    ],
-  },
-  {
     label: '솔루션',
     href: '/#industries',
     groups: [
@@ -63,7 +47,6 @@ const menu: Menu[] = [
       },
     ],
   },
-  { label: '보안', href: '/#security' },
   {
     label: '회사',
     href: '/company',
