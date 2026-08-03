@@ -1,81 +1,18 @@
 ---
 import LanguageSwitcher from './LanguageSwitcher.astro';
+import { navMenu, navUi } from '../i18n/nav';
 import '../styles/nav-footer.css';
 
-// 메가메뉴 IA. 라이브 항목은 실제 페이지로, 예정 항목은 badge 표시.
-type Link = { label: string; href?: string; badge?: string };
-type Group = { title?: string; items: Link[] };
-type Menu = { label: string; href: string; groups?: Group[] };
-
-const menu: Menu[] = [
-  {
-    label: '솔루션',
-    href: '/#industries',
-    groups: [
-      {
-        // 랜딩 #industries 카드와 같은 목록·같은 순서를 유지한다.
-        // 실제 페이지가 있는 곳만 링크, 나머지는 준비중 배지.
-        title: '산업별',
-        items: [
-          { label: '에너지 · 유틸리티', href: '/industries/energy' },
-          { label: '정유 · 가스', badge: '준비중' },
-          { label: '데이터센터', badge: '준비중' },
-          { label: '철강', badge: '준비중' },
-          { label: '화학 · 정밀화학', badge: '준비중' },
-          { label: '물류', badge: '준비중' },
-          { label: '환경', badge: '준비중' },
-        ],
-      },
-      {
-        // '산업별'과 짝을 이루는 축 이름. 목적지는 /use-cases 그대로.
-        title: '과제별',
-        items: [
-          { label: '예지보전', href: '/use-cases/predictive-maintenance' },
-          { label: '센서 모니터링(IoT)', href: '/use-cases/sensor-monitoring' },
-          { label: '전력관리', href: '/use-cases/power-management' },
-          { label: '전력품질', href: '/use-cases/power-quality' },
-          { label: '공장 에너지관리', href: '/use-cases/factory-energy' },
-          { label: '에너지 최적화', href: '/use-cases/energy-optimization' },
-          { label: '품질 예측', href: '/use-cases/quality-prediction' },
-        ],
-      },
-    ],
-  },
-  {
-    label: '리소스',
-    href: '/blog',
-    groups: [
-      {
-        items: [
-          { label: '블로그', href: '/blog' },
-          { label: '문서', href: '/docs' },
-          { label: '자료실 · 백서', href: '/resources' },
-        ],
-      },
-    ],
-  },
-  {
-    label: '회사',
-    href: '/company',
-    groups: [
-      {
-        // 한 열이라 제목을 두지 않는다(리소스 메뉴와 같은 형태).
-        // 문의는 헤더 우측 상시 버튼이 담당하고, 약관류는 푸터에 둔다.
-        items: [
-          { label: '회사 소개', href: '/company' },
-          { label: '연혁 · 팀', badge: '준비중' },
-          { label: '채용', badge: '준비중' },
-          { label: '뉴스룸', badge: '준비중' },
-        ],
-      },
-    ],
-  },
-];
+// 메가메뉴 IA는 로케일별로 src/i18n/nav.ts에 있다. 라이브 항목은 실제 페이지로, 예정 항목은 badge 표시.
+const lang = (Astro.currentLocale === 'en' ? 'en' : 'ko') as 'ko' | 'en';
+const menu = navMenu[lang];
+const ui = navUi[lang];
+const home = lang === 'en' ? '/en' : '/';
 ---
 <nav class="mm-nav">
   <div class="nav-inner">
     <div class="nav-left">
-      <a href="/" class="nav-logo" aria-label="Refinery 홈"><img src="/logo_Refinery_symbol-text.svg" alt="Refinery" style="height:30px;"></a>
+      <a href={home} class="nav-logo" aria-label={ui.home}><img src="/logo_Refinery_symbol-text.svg" alt="Refinery" style="height:30px;"></a>
       <ul class="mm-menu">
         {menu.map((m) => (
           <li class={m.groups ? 'mm-item has-panel' : 'mm-item'}>
@@ -106,8 +43,8 @@ const menu: Menu[] = [
     </div>
     <div class="nav-actions">
       <LanguageSwitcher />
-      <a href="/contact" class="btn-primary">문의하기</a>
-      <button type="button" class="nav-hamburger" id="navHamburgerBtn" aria-label="메뉴 열기" aria-expanded="false">
+      <a href="/contact" class="btn-primary">{ui.cta}</a>
+      <button type="button" class="nav-hamburger" id="navHamburgerBtn" aria-label={ui.openMenu} aria-expanded="false">
         <i class="ph ph-list"></i>
       </button>
     </div>
@@ -128,7 +65,7 @@ const menu: Menu[] = [
         )}
       </div>
     ))}
-    <a href="/contact" class="mobile-nav-cta">문의하기</a>
+    <a href="/contact" class="mobile-nav-cta">{ui.cta}</a>
   </div>
 </nav>
 
