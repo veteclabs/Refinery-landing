@@ -111,29 +111,6 @@ const jsonLd = {
       </div>
     </section>
 
-    {/* 흐름(선택) — 산업 페이지 architecture와 같은 표현을 재사용한다 */}
-    {uc.flow && (
-      <section class="ind-section ind-dark">
-        <div class="ind-container">
-          <header class="ind-head ind-head-light">
-            <h2>{uc.flow.title}</h2>
-            {uc.flow.subtitle && <p>{uc.flow.subtitle}</p>}
-          </header>
-          <div class="ind-flow">
-            {uc.flow.steps.map((s, i) => (
-              <>
-                {i > 0 && <div class="ind-flow-arrow" aria-hidden="true">→</div>}
-                <div class="ind-flow-step">
-                  <div class="ind-flow-label">{s.label}</div>
-                  <div class="ind-flow-detail">{s.detail}</div>
-                </div>
-              </>
-            ))}
-          </div>
-          {uc.flow.note && <p class="ind-flow-note">{uc.flow.note}</p>}
-        </div>
-      </section>
-    )}
 
     <!-- 다루는 신호 -->
     <section class="ind-section">
@@ -188,7 +165,7 @@ const jsonLd = {
   @media (max-width: 560px) { .uc-template-list { grid-template-columns: 1fr; } }
 
   /* ───────────────────────────────────────────────────────────
-     아래는 데이터에 해당 필드(heroImage·icon·template.image·flow)를 넣은
+     아래는 데이터에 해당 필드(heroImage·icon·template.image)를 넣은
      유즈케이스에서만 렌더되는 요소들이다. 넣지 않은 페이지에는 마크업 자체가
      생기지 않으므로 기존 6개 유즈케이스 디자인에는 영향이 없다.
      ─────────────────────────────────────────────────────────── */
@@ -214,10 +191,16 @@ const jsonLd = {
     .uc-container--nav { padding: 0 24px; }
   }
 
-  /* 브레드크럼·eyebrow를 뺀 히어로는 위가 허전해지므로 여백을 조금 줄인다 */
-  .uc-predictive-maintenance .ind-hero { padding-top: 124px; }
-  @media (max-width: 560px) {
-    .uc-predictive-maintenance .ind-hero { padding-top: 108px; }
+  /* 히어로를 문의하기 페이지(#contact-hero)와 동일한 크기·위치로 맞춘다.
+     contact.css: .container = 1280/48(위 uc-container--nav와 동일),
+                  #contact-hero padding-top 180px,
+                  h2 = clamp(30px, 4.2vw, 48px) / 600 / -0.8px / 1.3 */
+  .uc-predictive-maintenance .ind-hero { padding-top: 180px; }
+  .uc-predictive-maintenance .ind-hero h1 {
+    font-size: clamp(30px, 4.2vw, 48px);
+    font-weight: 600;
+    letter-spacing: -0.8px;
+    line-height: 1.3;
   }
 
   /* 카드 아이콘 (icon 있을 때만) */
