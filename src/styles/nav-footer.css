@@ -80,8 +80,13 @@ nav .btn-primary:hover, nav .btn-primary:active { background: transparent; color
 .footer-links button:hover { color: #76A6D7; }
 .footer-bottom { margin-top: 0; padding-top: 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
 .footer-bottom-text { font-size: 13px; color: #C8CED5; }
-.footer-logo-big { margin-top: 40px; line-height: 0; width: 60%; margin-left: calc(40% - 14px); }
+/* 그리드 2번째 열부터 끝까지 차지 → 텍스트 열과 좌우가 자동으로 맞는다.
+   (예전엔 그리드 밖에서 width 60% / margin-left 40%로 맞춰, 열이 바뀌면 어긋났다) */
+.footer-logo-big { grid-column: 2 / -1; margin-top: 40px; line-height: 0; }
 .footer-logo-big svg { width: 100%; height: auto; display: block; opacity: 1; }
+@media (max-width: 900px) {
+  .footer-logo-big { grid-column: 1 / -1; }
+}
 @media (max-width: 900px) {
       .nav-hamburger { display: flex; }
     }

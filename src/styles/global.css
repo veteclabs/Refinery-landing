@@ -589,9 +589,11 @@
     .footer-bottom { margin-top: 0; padding-top: 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
     .footer-bottom-text { font-size: 13px; color: #C8CED5; }
     .footer-bottom-links { display: flex; gap: 22px; }
-    .footer-logo-big { margin-top: 40px; line-height: 0; width: 60%; margin-left: calc(40% - 14px); }
+    /* 그리드 2번째 열부터 끝까지 차지 → 텍스트 열과 좌우가 자동으로 맞는다.
+       (nav-footer.css의 같은 규칙과 값을 맞춘다) */
+    .footer-logo-big { grid-column: 2 / -1; margin-top: 40px; line-height: 0; }
     @media (max-width: 900px) {
-      .footer-logo-big { width: 100%; margin-left: 0; }
+      .footer-logo-big { grid-column: 1 / -1; }
     }
     .footer-logo-big svg { width: 100%; height: auto; display: block; opacity: 1; }
     .footer-bottom-links a { font-size: 13px; color: var(--text-dim); transition: color .2s; }
