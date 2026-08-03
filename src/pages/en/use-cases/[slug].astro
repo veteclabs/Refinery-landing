@@ -1,0 +1,13 @@
+---
+// 영어 유즈케이스 상세. 본문은 한국어와 같은 UseCasePage 컴포넌트를 쓰고 데이터만 영어다.
+import UseCasePage from '../../../components/UseCasePage.astro';
+import { useCasesEn, findUseCaseEn } from '../../../data/usecases/en';
+
+export function getStaticPaths() {
+  return useCasesEn.map((u) => ({ params: { slug: u.slug }, props: { slug: u.slug } }));
+}
+
+const { slug } = Astro.props;
+const uc = findUseCaseEn(slug)!;
+---
+<UseCasePage uc={uc} lang="en" />
