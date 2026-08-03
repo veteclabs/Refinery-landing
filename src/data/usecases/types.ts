@@ -27,6 +27,8 @@ export type UseCase = {
   showEyebrow?: boolean;    // 히어로 eyebrow(USE CASE) 노출. 기본 true
   /** 히어로 좌측을 헤더 로고 선에 맞춘다(nav와 동일한 1280/48 박스). 기본 false */
   heroAlignsWithNav?: boolean;
+  /** 히어로 보조 버튼. 기본값은 '플랫폼 개요 →' / /why-refinery */
+  heroSecondaryAction?: { label: string; href: string };
   tagline: string;       // 히어로 리드
   heroImage?: UseCaseImage; // 히어로 우측 시각 자료(선택). 있으면 히어로가 2컬럼이 된다.
   problem: string;       // 왜 필요한가(배경/문제)

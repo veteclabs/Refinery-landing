@@ -38,7 +38,7 @@ const jsonLd = {
             <p class="ind-lede">{uc.tagline}</p>
             <div class="ind-hero-actions">
               <a href="/contact" class="ind-btn-primary">문의하기</a>
-              <a href="/why-refinery" class="ind-btn-ghost">플랫폼 개요 →</a>
+              <a href={uc.heroSecondaryAction?.href ?? '/why-refinery'} class="ind-btn-ghost">{uc.heroSecondaryAction?.label ?? '플랫폼 개요 →'}</a>
             </div>
           </div>
           {uc.heroImage && (
@@ -252,6 +252,10 @@ const jsonLd = {
     border: 1px solid rgba(17, 17, 17, 0.6);
     border-radius: 6px;
     transition: all .2s;
+    /* 랜딩(global.css)에는 font-smoothing 선언이 없어 auto로 그려진다. 이 페이지는
+       industry.css가 body에 antialiased를 걸어 같은 400도 더 얇게 보이므로, CTA 버튼과
+       굵기를 맞추기 위해 해제한다(제목에 적용한 것과 같은 처리). */
+    -webkit-font-smoothing: auto;
   }
   .uc-predictive-maintenance .ind-hero-actions .ind-btn-primary:hover,
   .uc-predictive-maintenance .ind-hero-actions .ind-btn-ghost:hover {
