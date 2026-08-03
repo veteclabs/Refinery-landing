@@ -59,20 +59,13 @@ const menu: Menu[] = [
     href: '/company',
     groups: [
       {
-        title: '회사',
+        // 한 열이라 제목을 두지 않는다(리소스 메뉴와 같은 형태).
+        // 문의는 헤더 우측 상시 버튼이 담당하고, 약관류는 푸터에 둔다.
         items: [
           { label: '회사 소개', href: '/company' },
           { label: '연혁 · 팀', badge: '준비중' },
           { label: '채용', badge: '준비중' },
           { label: '뉴스룸', badge: '준비중' },
-        ],
-      },
-      {
-        title: '문의',
-        items: [
-          { label: '문의하기', href: '/contact' },
-          { label: '개인정보처리방침', href: '/privacy' },
-          { label: '쿠키 정책', href: '/cookie-policy' },
         ],
       },
     ],
