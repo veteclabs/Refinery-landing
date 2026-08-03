@@ -237,6 +237,30 @@ const jsonLd = {
     .uc-predictive-maintenance .ind-grid-3 { grid-template-columns: 1fr; }
   }
 
+  /* 히어로 버튼 2개를 메인 CTA의 '데모 신청하기'와 같은 형태로 통일한다.
+     global.css: .btn-primary(밝은 배경용) + #cta .btn-primary(어두운 배경 override).
+     CTA는 배경 이미지 위라 흰색 계열이지만 이 히어로는 밝은 배경(#f6f8fa)이므로,
+     형태(투명 배경·1px 테두리·radius 6px·9px 22px·15px/400)만 가져오고
+     색은 .btn-primary의 밝은 배경용 기본값을 쓴다. hover는 CTA와 동일. */
+  .uc-predictive-maintenance .ind-hero-actions .ind-btn-primary,
+  .uc-predictive-maintenance .ind-hero-actions .ind-btn-ghost {
+    padding: 9px 22px;
+    font-size: 15px;
+    font-weight: 400;
+    background: transparent;
+    color: #111111;
+    border: 1px solid rgba(17, 17, 17, 0.6);
+    border-radius: 6px;
+    transition: all .2s;
+  }
+  .uc-predictive-maintenance .ind-hero-actions .ind-btn-primary:hover,
+  .uc-predictive-maintenance .ind-hero-actions .ind-btn-ghost:hover {
+    background: #76a6d7;
+    border-color: #76a6d7;
+    color: #fff;
+    transform: none; /* .ind-btn-primary:hover의 translateY 상쇄 */
+  }
+
   /* '왜 필요한가' 본문을 리드 문단처럼 강조 */
   .uc-predictive-maintenance .uc-problem {
     font-size: 19px; line-height: 1.85; color: #2b3644;
