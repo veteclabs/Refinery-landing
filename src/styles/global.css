@@ -194,7 +194,7 @@
       border-radius: var(--radius);
     }
     @media (max-width: 900px) {
-      .hero-motion-placeholder { margin-top: 48px; aspect-ratio: 1016 / 900; }
+      .hero-motion-placeholder { margin-top: 48px; aspect-ratio: 1144 / 900; }
     }
     #hero .hero-actions { justify-content: flex-end; flex-shrink: 0; }
     #hero .hero-text p:last-child { margin-bottom: 0; }
