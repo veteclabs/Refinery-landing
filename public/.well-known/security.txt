@@ -1,0 +1,6 @@
+# Refinery (VETEC) 보안 취약점 신고 안내 (RFC 9116)
+Contact: mailto:hsyoon@vetec.co.kr
+Contact: https://refinery.kr/contact
+Expires: 2027-08-01T00:00:00.000Z
+Preferred-Languages: ko, en
+Canonical: https://refinery.kr/.well-known/security.txt
