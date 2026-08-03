@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://refinery-ai-platform.vercel.app',
+  site: 'https://refinery.kr',
   // 다국어: 한국어 기본(무접두사), 영어 /en/, 일본어 /ja/. 기존 한국어 URL 보존.
   i18n: {
     locales: ['ko', 'en', 'ja'],
