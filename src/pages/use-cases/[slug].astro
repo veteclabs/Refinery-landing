@@ -149,7 +149,6 @@ const jsonLd = {
                       ? <i class={`ph ${icon}`}></i>
                       : <SignalIcon name={icon} />)}
                   </span>
-                  <span class="uc-signal-divider" aria-hidden="true"></span>
                   <span class="uc-signal-label">{label}</span>
                 </div>
               );
@@ -420,22 +419,19 @@ const jsonLd = {
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 20px;
   }
-  /* 아이콘 구역(면색)과 라벨 구역(흰색)을 구분선으로 위아래로 나눈다.
-     각 구역이 카드 폭을 꽉 채워야 하므로 패딩은 카드가 아니라 구역이 가진다.
-     overflow:hidden — 면색이 라운드 모서리를 넘어가지 않도록. */
+  /* 카드 상자 없이 원형 아이콘과 라벨만 세로로 쌓는다. */
   .uc-signal {
-    display: flex; flex-direction: column; align-items: stretch; text-align: center;
-    gap: 0; padding: 0;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+    gap: 16px; padding: 0;
+    background: transparent; border: none;
   }
-  /* 아이콘 구역 — 카드 폭을 채우는 면색 위에 70px 아이콘을 가운데 둔다.
-     면색은 '다른 과제' 섹션(.ind-soft)과 같은 --bg-soft를 쓴다. */
+  /* 아이콘 배경 — 카드가 쓰던 면(--bg-soft)과 선(1px --border)을 그대로 원형에 입힌다.
+     120px 원 안에 70px 아이콘. */
   .uc-signal-icon {
-    padding: 32px 20px;
+    width: 120px; height: 120px; flex: none;
+    border-radius: 50%;
     background: var(--bg-soft);
+    border: 1px solid var(--border);
     display: flex; align-items: center; justify-content: center;
     color: #76a6d7;
   }
@@ -444,12 +440,7 @@ const jsonLd = {
   /* set:html로 주입된 SVG에는 Astro 스코프 속성이 붙지 않으므로 :global이 필요하다.
      (없으면 width/height 없는 SVG가 부모 크기로 늘어난다) */
   .uc-signal-icon :global(svg) { width: 70px; height: 70px; display: block; }
-  /* 두 구역을 가르는 구분선. 카드 폭을 끝까지 채워 확실히 나눈다. */
-  .uc-signal-divider { height: 1px; background: var(--border); flex: none; }
-  .uc-signal-label {
-    padding: 20px;
-    font-size: 16px; font-weight: 550; color: var(--text); line-height: 1.4;
-  }
+  .uc-signal-label { font-size: 16px; font-weight: 550; color: var(--text); line-height: 1.4; }
   @media (max-width: 860px) {
     .uc-signal-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
