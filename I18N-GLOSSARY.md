@@ -60,7 +60,7 @@
 |---|---|---|---|
 | 전력품질 | power quality | ✅ | |
 | 역률 | power factor | ✅ | |
-| 부하율 | load ratio | ⚠️ `load factor`가 더 일반적일 수 있음 |
+| 부하율 | load factor | ✅ | 검수 반영(2026-08-04). `load ratio`에서 변경 |
 | **계약전력** | **contracted demand** | ⚠️ | **가장 확인이 필요한 항목.** 미국은 `contracted capacity`·`demand charge`를 더 씀 |
 | 피크 | peak | ✅ | |
 | 유효/무효 전력 | active/reactive power | ✅ | 미국에서 `real/reactive power`도 씀 |

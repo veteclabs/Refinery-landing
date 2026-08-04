@@ -61,9 +61,9 @@ export const useCasesEn: UseCase[] = [
     template: {
       title: 'Start from a power management template',
       desc: 'If this is the first time you are looking at power closely, it is hard to know what to measure and how to read it. The power management template, built up across many sites, already contains how to structure metering per asset and what thresholds to apply to peaks and power factor. Fill in your own equipment list and contract terms, and you can start looking without designing the structure from scratch.',
-      includes: ['Metering structure by asset and area', 'Peak and contracted-demand thresholds', 'Power factor · load ratio dashboard', 'Abnormal-use alert rules'],
+      includes: ['Metering structure by asset and area', 'Peak and contracted-demand thresholds', 'Power factor · load factor dashboard', 'Abnormal-use alert rules'],
     },
-    signals: ['Active/reactive power', 'Power factor', 'Load ratio', 'Hourly consumption', 'Peak'],
+    signals: ['Active/reactive power', 'Power factor', 'Load factor', 'Hourly consumption', 'Peak'],
     related: { label: 'Where the waste hides: starting with energy optimization', href: '/en/blog/energy-optimization' },
     seo: {
       title: 'Power management | Refinery',
