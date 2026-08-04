@@ -425,15 +425,14 @@ const jsonLd = {
     gap: 16px; padding: 0;
     background: transparent; border: none;
   }
-  /* 아이콘 배경 — 카드가 쓰던 면(--bg-soft)과 선(1px --border)을 그대로 원형에 입힌다.
-     96px 원 안에 48px 아이콘(비율 0.5). */
+  /* 아이콘 배경 — 96px 원 안에 48px 아이콘(비율 0.5).
+     color가 아이콘 stroke(currentColor)로 내려간다. */
   .uc-signal-icon {
     width: 96px; height: 96px; flex: none;
     border-radius: 50%;
-    background: var(--bg-soft);
-    border: 1px solid var(--border);
+    background: #76a6d7;
     display: flex; align-items: center; justify-content: center;
-    color: #76a6d7;
+    color: #fff;
   }
   /* SVG는 stroke가 currentColor라 위 color만 바꾸면 색이 따라온다. */
   .uc-signal-icon i { font-size: 48px; line-height: 1; }
