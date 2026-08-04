@@ -149,6 +149,7 @@ const jsonLd = {
                       ? <i class={`ph ${icon}`}></i>
                       : <SignalIcon name={icon} />)}
                   </span>
+                  <span class="uc-signal-divider" aria-hidden="true"></span>
                   <span class="uc-signal-label">{label}</span>
                 </div>
               );
@@ -438,6 +439,9 @@ const jsonLd = {
   /* set:html로 주입된 SVG에는 Astro 스코프 속성이 붙지 않으므로 :global이 필요하다.
      (없으면 width/height 없는 SVG가 부모 크기로 늘어난다) */
   .uc-signal-icon :global(svg) { width: 70px; height: 70px; display: block; }
+  /* 아이콘과 라벨을 가르는 짧은 구분선. 카드 너비(281px)보다 훨씬 짧게 둬서
+     칸을 나누는 선이 아니라 강조용 악센트로 읽히게 한다. */
+  .uc-signal-divider { width: 48px; height: 1px; background: var(--border); flex: none; }
   .uc-signal-label { font-size: 16px; font-weight: 550; color: var(--text); line-height: 1.4; }
   @media (max-width: 860px) {
     .uc-signal-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
