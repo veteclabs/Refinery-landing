@@ -652,8 +652,11 @@ const jsonLd = {
 and the ontology finds the answer.</h3>
       </div>
       <div class="teams-preview-text" id="teamsPreviewTextBox" style="position:absolute;bottom:0;left:0;z-index:2;">
-        <p id="teamsPreviewBody">The AI reasons over asset, task, and history data stored in the ontology
-to infer causes and answer conversationally.
+        {/* 빌드 시 마크업 안의 개행이 공백으로 합쳐져 white-space:pre-line이 무력해진다.
+            초기 렌더에서도 줄바꿈이 유지되도록 <br>로 명시한다(한국어 index.astro와 동일).
+            줄 나눔 위치는 teamsTextMap.llm의 \n과 같다. */}
+        <p id="teamsPreviewBody">The AI reasons over asset, task, and history data stored in the ontology<br>
+to infer causes and answer conversationally.<br>
 It also cites the data sources behind each answer.</p>
       </div>
       <div id="iframe-wrapper" style="position:absolute;inset:0;overflow:hidden;">
