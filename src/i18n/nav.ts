@@ -182,7 +182,10 @@ export const footerCols: Record<Lang, FooterCol[]> = {
     },
     {
       title: 'Company',
-      items: [{ label: 'Contact', href: '/en/contact' }],
+      items: [
+        { label: 'About', href: '/en/company' },
+        { label: 'Contact', href: '/en/contact' },
+      ],
     },
     {
       // 약관은 법적 효력이 있어 전문 번역 전까지 영어판을 만들지 않는다. 한국어 페이지로 연결.

@@ -1,0 +1,217 @@
+---
+// 회사 소개 본문. 한국어(/company)와 영어(/en/company)가 이 컴포넌트를 공유한다.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from './Nav.astro';
+import Footer from './Footer.astro';
+import '../styles/industry.css';
+
+interface Props {
+  lang?: 'ko' | 'en';
+}
+const { lang = 'ko' } = Astro.props;
+
+const SITE = 'https://refinery.kr';
+
+// ⚠️ 회사 세부 사실(설립연도·조직 규모·수상 등)은 실제 정보로 확인·보완 필요.
+const T = {
+  ko: {
+    title: '회사 소개 · 현장을 아는 팀이 만든 산업 AI | Refinery',
+    description: 'Refinery는 VETEC이 30년 넘게 산업 현장에서 쌓은 경험을 토대로 만들었습니다. 개발자와 현장 엔지니어가 한 팀이 되어, 기존 시스템 위에 얹거나 없으면 새로 구축해 하나의 통합 지능으로 잇습니다.',
+    canonical: '/company',
+    jsonLdName: '회사 소개 | Refinery',
+    crumbAria: '위치', home: 'Home', crumb: '회사 소개',
+    eyebrow: 'OUR STORY',
+    h1: '현장을 아는 팀이<br>만든 산업 AI',
+    lede: 'Refinery는 <strong>VETEC</strong>이 30년 넘게 산업 현장에서 쌓아 온 경험을 토대로 만들었습니다. 개발자만이 아니라 현장을 직접 뛴 <strong>현장 엔지니어</strong>가 팀에 함께 있어, 데스크가 아닌 현장의 언어로 문제를 정의하고 풉니다.',
+    cta: '문의하기', contactHref: '/contact',
+    secondary: '플랫폼 살펴보기 →', secondaryHref: '/#platform',
+    storyBadge: '왜 Refinery인가',
+    storyTitle: '현장을 겪은 사람들이 만든 솔루션',
+    story: [
+      '산업 현장에는 데이터가 부족하지 않습니다. 오히려 SCADA·MES·ERP·센서·문서에 <strong>너무 흩어져</strong> 있어, 정작 판단이 필요한 순간에 쓰이지 못합니다. VETEC은 30년 넘게 발전·제조·에너지 현장에서 이 문제를 반복해서 목격했습니다.',
+      'Refinery를 만드는 팀에는 소프트웨어 엔지니어와 함께 <strong>현장 엔지니어</strong>가 있습니다. 발전소와 공장을 직접 누비며 설비가 어떻게 멈추는지, 운전자가 무엇을 보고 판단하는지 겪어 본 사람들입니다. 그래서 우리는 문제를 자료가 아니라 <strong>현장의 맥락</strong>에서 정의합니다.',
+      '여러 설비와 시스템을 이어 붙이고, 흩어진 데이터를 하나로 모아 왔습니다. 그 오랜 현장 노하우를 제품으로 녹여낸 것이 Refinery입니다. 기존 시스템이 있으면 걷어내지 않고 그 위에 <strong>통합 지능 레이어</strong>를 얹습니다. 시스템이 없는 현장이라면 데이터 수집부터 <strong>새로 구축</strong>합니다. 두 경우 모두 데이터에 의미를 부여하고, AI가 근거를 들어 판단을 돕습니다.',
+      '다루는 것도 센서 시계열에 그치지 않습니다. 설비·문서·이력까지 하나의 지식으로 엮기에, 예지보전부터 품질·에너지·안전·행정까지 <strong>산업을 가리지 않는 다양한 활용</strong>이 나옵니다.',
+      '우리는 화려한 기술 데모가 아니라, 현장에서 실제로 통하는 방식을 만듭니다.',
+    ],
+    stats: [
+      { num: '30년+', label: '산업 현장 경험' },
+      { num: '9개 산업', label: '에너지·제조·물류·공공 등' },
+      { num: '통합 · 신규 구축', label: '기존 위에 얹거나 처음부터' },
+    ],
+    strengthsTitle: '우리가 잘하는 것',
+    strengthsSub: '현장을 겪은 팀과 30년+ 경험이 제품의 세 가지 뿌리가 됩니다.',
+    strengths: [
+      { title: '현장을 겪은 사람들이 만듭니다', description: '개발자뿐 아니라 발전·제조·에너지 현장을 직접 뛴 현장 엔지니어가 한 팀입니다. 설비가 어떻게 멈추고 운전자가 무엇을 보고 판단하는지 아는 사람들이 제품을 설계합니다.' },
+      { title: '통합도, 신규 구축도', description: '기존 시스템 위에 통합 지능 레이어를 얹는 것도, 시스템이 없는 현장을 새로 구축하는 것도 가능합니다. 신규 구축도 30년 경험으로 만든 템플릿(예: 에너지경영시스템)에서 시작합니다.' },
+      { title: '시계열을 넘어, AI로 판단까지', description: '센서 시계열뿐 아니라 설비·문서·이력까지 온톨로지로 엮어 산업을 가리지 않는 다양한 활용을 만들고, 그 위에서 AI 에이전트가 근거를 들어 의사결정을 돕습니다.' },
+    ],
+    principlesTitle: '우리가 일하는 원칙',
+    principles: [
+      { title: '현장에서 출발합니다', description: '이론이 아니라 실제 산업 현장의 문제에서 시작합니다. 30년 넘게 현장에서 확인한 과제가 제품의 기준입니다.' },
+      { title: '얹거나, 템플릿으로 시작하거나', description: '이미 SCADA·MES·ERP를 쓰고 있으면 걷어내지 않고 그 위에 통합 지능 레이어를 얹습니다. 시스템이 없는 현장은 30년 경험으로 다져진 템플릿(예: 에너지경영시스템)에서 시작합니다. 어느 쪽이든 하나의 지능으로 이어집니다.' },
+      { title: '데이터에 의미를 부여합니다', description: '흩어진 숫자를 온톨로지로 연결해 맥락을 만들고, AI가 근거를 들어 설명하게 합니다.' },
+    ],
+    ctaTitle: '현장의 문제를<br>Refinery 팀과 함께 풀어보세요.',
+  },
+  en: {
+    title: 'About · Industrial AI built by people who know the field | Refinery',
+    description: 'Refinery is built on more than thirty years of VETEC’s experience on industrial sites. Software engineers and field engineers work as one team, layering onto existing systems or building from scratch where none exist.',
+    canonical: '/en/company',
+    jsonLdName: 'About | Refinery',
+    crumbAria: 'Breadcrumb', home: 'Home', crumb: 'About',
+    eyebrow: 'OUR STORY',
+    h1: 'Industrial AI built by<br>people who know the field',
+    lede: 'Refinery is built on more than thirty years of experience <strong>VETEC</strong> gathered on industrial sites. The team includes not only software engineers but <strong>field engineers</strong> who have worked the plants themselves, so problems get defined in the language of the site rather than the desk.',
+    cta: 'Contact', contactHref: '/en/contact',
+    secondary: 'Explore the platform →', secondaryHref: '/en#platform',
+    storyBadge: 'Why Refinery',
+    storyTitle: 'Built by people who have been on the floor',
+    story: [
+      'Industrial sites do not lack data. If anything it is <strong>too scattered</strong> — across SCADA, MES, ERP, sensors and documents — to be of use at the moment a decision has to be made. VETEC watched this same problem repeat across power, manufacturing and energy sites for over thirty years.',
+      'The team building Refinery includes <strong>field engineers</strong> alongside software engineers — people who have walked the plants and seen how equipment fails and what an operator actually looks at before deciding. So we define problems from the <strong>context of the site</strong>, not from a document.',
+      'We have spent years connecting equipment and systems and pulling scattered data together. Refinery is that field knowledge turned into a product. Where systems already exist, we layer an <strong>integrated intelligence layer</strong> on top rather than replacing them. Where none exist, we <strong>build from collection up</strong>. Either way, the data gains meaning and AI helps decide with the evidence in hand.',
+      'And it is not only sensor time series. Equipment, documents and history are woven into one body of knowledge, which is why the applications range across industries — from predictive maintenance to quality, energy, safety and administration.',
+      'We are not building an impressive demo. We are building what actually works on site.',
+    ],
+    stats: [
+      { num: '30+ years', label: 'on industrial sites' },
+      { num: '9 industries', label: 'energy, manufacturing, logistics, public sector' },
+      { num: 'Integrate or build', label: 'layer on top, or start from scratch' },
+    ],
+    strengthsTitle: 'What we do well',
+    strengthsSub: 'A team that has been on the floor, and thirty years of experience — the three roots of the product.',
+    strengths: [
+      { title: 'Built by people who have been there', description: 'Not just developers. Field engineers who have worked power, manufacturing and energy sites are part of the team. People who know how equipment fails and what an operator watches are the ones designing the product.' },
+      { title: 'Integrate, or build new', description: 'We can layer an integrated intelligence layer onto existing systems, or build from scratch where there are none. Even a new build starts from a template refined over thirty years, such as an energy management system.' },
+      { title: 'Beyond time series, through to judgement', description: 'Not only sensor time series but equipment, documents and history are woven together through an ontology, creating applications across industries — and on top of that, an AI agent helps decide with evidence.' },
+    ],
+    principlesTitle: 'How we work',
+    principles: [
+      { title: 'Start from the site', description: 'We start from real problems on industrial sites, not from theory. The challenges confirmed over thirty years in the field are the product’s benchmark.' },
+      { title: 'Layer on, or start from a template', description: 'Where SCADA, MES or ERP is already in use, we layer an integrated intelligence layer on top rather than removing it. Where no system exists, we start from a template refined over thirty years, such as an energy management system. Either path leads to one intelligence.' },
+      { title: 'Give the data meaning', description: 'Scattered numbers are connected through an ontology to create context, and AI explains with the evidence behind it.' },
+    ],
+    ctaTitle: 'Let’s solve what’s happening on your site,<br>together with the Refinery team.',
+  },
+}[lang];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  name: T.jsonLdName,
+  url: `${SITE}${T.canonical}`,
+  publisher: {
+    '@type': 'Organization',
+    name: 'Refinery',
+    url: `${SITE}/`,
+    logo: `${SITE}/logo_Refinery_symbol.svg`,
+  },
+};
+
+// ko/en 양쪽이 모두 존재하는 페이지라 hreflang을 출력한다.
+const alternates = [
+  { lang: 'ko', href: '/company' },
+  { lang: 'en', href: '/en/company' },
+];
+---
+
+<BaseLayout
+  title={T.title}
+  description={T.description}
+  canonical={T.canonical}
+  alternates={alternates}
+  jsonLd={jsonLd}
+>
+  <Nav />
+  <main class="ind">
+    <!-- HERO -->
+    <section class="ind-hero">
+      <div class="ind-container">
+        <nav class="ind-crumb" aria-label={T.crumbAria}><a href={lang === "en" ? "/en" : "/"}>{T.home}</a><span>›</span><span>{T.crumb}</span></nav>
+        <p class="ind-eyebrow">{T.eyebrow}</p>
+        <h1 set:html={T.h1}></h1>
+        <p class="ind-lede" set:html={T.lede}></p>
+        <div class="ind-hero-actions">
+          <a href={T.contactHref} class="ind-btn-primary">{T.cta}</a>
+          <a href={T.secondaryHref} class="ind-btn-ghost">{T.secondary}</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- STORY -->
+    <section class="ind-section">
+      <div class="ind-container">
+        <div class="cmp-story">
+          <header class="ind-head" style="margin-bottom:24px;">
+            <span class="ind-badge">{T.storyBadge}</span>
+            <h2>{T.storyTitle}</h2>
+          </header>
+          <div class="cmp-prose">
+            {T.story.map((p) => <p set:html={p}></p>)}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="ind-section ind-dark cmp-stats-sec">
+      <div class="ind-container">
+        <div class="cmp-stats">
+          {T.stats.map((st) => (
+            <div class="cmp-stat"><div class="cmp-stat-num">{st.num}</div><div class="cmp-stat-label">{st.label}</div></div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- STRENGTHS -->
+    <section class="ind-section ind-soft">
+      <div class="ind-container">
+        <header class="ind-head">
+          <h2>{T.strengthsTitle}</h2>
+          <p>{T.strengthsSub}</p>
+        </header>
+        <div class="ind-grid ind-grid-3">
+          {T.strengths.map((s) => (
+            <div class="ind-card"><h3>{s.title}</h3><p>{s.description}</p></div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- PRINCIPLES -->
+    <section class="ind-section">
+      <div class="ind-container">
+        <header class="ind-head">
+          <span class="ind-badge">PRINCIPLES</span>
+          <h2>{T.principlesTitle}</h2>
+        </header>
+        <div class="ind-grid ind-grid-3">
+          {T.principles.map((p) => (
+            <div class="ind-card"><h3>{p.title}</h3><p>{p.description}</p></div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="ind-cta">
+      <div class="ind-container">
+        <h2 set:html={T.ctaTitle}></h2>
+        <a href={T.contactHref} class="ind-btn-primary ind-btn-lg">{T.cta}</a>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .cmp-stats-sec { padding: 60px 0; }
+  .cmp-stats { display: flex; justify-content: center; gap: clamp(32px, 6vw, 80px); flex-wrap: wrap; text-align: center; }
+  .cmp-stat-label { margin-top: 10px; font-size: 14px; color: #9aa4b0; }
+  .cmp-story { max-width: 760px; }
+  .cmp-prose p { font-size: 17px; line-height: 1.75; color: #2b3644; }
+  .cmp-prose p + p { margin-top: 18px; }
+  .cmp-prose strong { color: var(--text); font-weight: 650; }
+</style>
