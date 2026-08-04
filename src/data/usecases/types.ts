@@ -31,6 +31,8 @@ export type UseCase = {
   heroSecondaryAction?: { label: string; href: string };
   tagline: string;       // 히어로 리드
   heroImage?: UseCaseImage; // 히어로 우측 시각 자료(선택). 있으면 히어로가 2컬럼이 된다.
+  /** heroImage를 우측 컬럼 대신 히어로 배경으로 꽉 채운다(어두운 스크림 + 흰 글씨). 기본 false */
+  heroImageAsBackground?: boolean;
   problem: string;       // 왜 필요한가(배경/문제)
   how: HowPoint[];       // 어떻게 해결하나(3~4개)
   template?: {           // 강조 밴드(템플릿/솔루션 하이라이트). badge 미지정 시 '템플릿으로 시작'
