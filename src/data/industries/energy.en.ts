@@ -58,7 +58,7 @@ export const energyEn: IndustryData = {
       {
         title: 'Energy efficiency and peak optimization',
         problem: 'Consumption patterns are invisible, so waste and peak charges build up.',
-        approach: 'Consumption is analysed by asset and segment, with adjustments proposed against tariff and demand signals.',
+        approach: 'Consumption is analyzed by asset and segment, with adjustments proposed against tariff and demand signals.',
         outcome: 'Lower peaks and better efficiency reduce operating cost.',
       },
       {
@@ -71,7 +71,7 @@ export const energyEn: IndustryData = {
         title: 'Real-time anomaly detection and alerts',
         problem: 'Anomalous signals are missed, or noticed too late.',
         approach: 'An AI agent detects anomalies in live data and proposes both the likely cause and the next action.',
-        outcome: 'Problems recognised early, with an evidence-backed next step already in hand.',
+        outcome: 'Problems recognized early, with an evidence-backed next step already in hand.',
       },
     ],
   },

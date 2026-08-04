@@ -84,7 +84,7 @@ export const useCasesEn: UseCase[] = [
     ],
     template: {
       title: 'Start from a power quality monitoring template',
-      desc: 'What to monitor and against which thresholds differs a little from site to site, but the outline is much the same. The power quality template used across several sites already sets out the key metrics, the judgement criteria, and the event types that commonly cause trouble. Connect your measurement points and assets, and you can skip the design stage and start monitoring.',
+      desc: 'What to monitor and against which thresholds differs a little from site to site, but the outline is much the same. The power quality template used across several sites already sets out the key metrics, the judgment criteria, and the event types that commonly cause trouble. Connect your measurement points and assets, and you can skip the design stage and start monitoring.',
       includes: ['Voltage · frequency · harmonic monitoring items', 'Sag/swell and interruption thresholds', 'Asset-history linked view', 'Quality event alert rules'],
     },
     signals: ['Voltage', 'Frequency', 'Harmonics (THD)', 'Imbalance', 'Sag/swell'],
@@ -102,7 +102,7 @@ export const useCasesEn: UseCase[] = [
       'A plant runs on several forms of energy at once — electricity, gas, steam, water. That consumption is recorded separately by department, by asset and by time of day, so where it goes, how much, and why is never visible at a glance. Without the whole picture it is hard to justify where to cut, and savings come down to instinct. Aggregating figures for ESG reporting turns into manual work, every time.',
     how: [
       { title: 'Meter everything together', desc: 'Electricity, gas, steam and water alongside per-asset consumption are brought into one structure, so the plant’s energy flow sits on a single screen.' },
-      { title: 'Analyse energy intensity', desc: 'Compare energy used against output to find the periods and areas that spend more for the same work.' },
+      { title: 'Analyze energy intensity', desc: 'Compare energy used against output to find the periods and areas that spend more for the same work.' },
       { title: 'Manage peak and load', desc: 'Identify when machines cluster and create a peak, spread the load, and bring down contracted demand and peak charges.' },
       { title: 'Aggregate ESG automatically', desc: 'Consumption and emissions are aggregated with their sources, so reports are produced without manual work and the figures stay traceable.' },
     ],
@@ -115,7 +115,7 @@ export const useCasesEn: UseCase[] = [
     related: { label: 'Where the waste hides: starting with energy optimization', href: '/en/blog/energy-optimization' },
     seo: {
       title: 'Factory energy management (FEMS) | Refinery',
-      description: 'Meter electricity, gas, steam and water across the plant, analyse energy intensity to find waste, and aggregate ESG reports automatically.',
+      description: 'Meter electricity, gas, steam and water across the plant, analyze energy intensity to find waste, and aggregate ESG reports automatically.',
     },
   },
   {

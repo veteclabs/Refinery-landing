@@ -13,7 +13,7 @@ MES, ERP, sensors and documents — to be of use at the moment a decision has to
 The problem is not volume. It is connection and trust.
 
 What we have seen repeat across many sites is that turning data into an asset does not
-start with some grand technology programme. It starts with holding to a few basics. The
+start with some grand technology program. It starts with holding to a few basics. The
 five principles below are a starting point for turning scattered data into something you
 can decide on.
 
@@ -40,7 +40,7 @@ When provenance is visible, that error can be traced back and corrected.
 ## 2. Give it meaning (the ontology)
 
 If only one person in the organization knows what `TAG_0421` means, that data is not an
-organizational asset — it is that person's memory. The moment they are away or leave the
+organizational asset — it is that person’s memory. The moment they are away or leave the
 company, years of accumulated data revert to an uninterpretable pile of numbers.
 
 Giving data meaning means defining things — equipment, lines, processes, documents — as
@@ -56,8 +56,8 @@ to what, is already in the head of someone who has worked there a long time. The
 to get that knowledge out into a structure.
 
 Trying to draw an enterprise-wide ontology from the start is exhausting. Pick the single
-judgement that repeats most often right now, and define only the entities and relationships
-that judgement needs. Starting small and widening as you confirm it is actually used lasts
+judgment that repeats most often right now, and define only the entities and relationships
+that judgment needs. Starting small and widening as you confirm it is actually used lasts
 much longer.
 
 ## 3. Look at real time and history together
@@ -69,7 +69,7 @@ range this machine usually moves within, and how fast the value is climbing now.
 So the real-time stream and past history have to be comparable on one screen. When the
 current value sits alongside the last few days, the pattern from the same period last
 season, and the curve leading into a past failure, you can tell whether what is happening
-now is a signal you have never seen or one you recognise.
+now is a signal you have never seen or one you recognize.
 
 Put a threshold on instantaneous values alone and the alarms never stop — until nobody
 looks at alarms at all. Alert fatigue mostly comes from thresholds without context. Seen
@@ -85,10 +85,10 @@ wrong". It does not answer what, why, or how.
 For data to lead to action, the last step has to come back into human language. "Vibration
 on pump 3, line B is trending upward in a pattern resembling the run-up to the last
 failure. Bearing wear is suspected; inspection recommended." When a likely cause and a
-next action arrive as a sentence, someone with less experience can reach the same judgement.
+next action arrive as a sentence, someone with less experience can reach the same judgment.
 
 This is where an AI agent earns its place. But the answer must come with its evidence.
-Presenting which data, which history and which documents the judgement was based on lets
+Presenting which data, which history and which documents the judgment was based on lets
 the user check the reasoning and decide, rather than simply believing the answer. An answer
 without evidence is convenient, and dangerous for an industrial decision.
 
@@ -113,7 +113,7 @@ whether the result comes together as one body of knowledge.
 ## In closing
 
 The five principles connect to one another. Provenance creates trust; meaning creates
-context; seeing the trend makes judgement possible; returning to human language makes it
+context; seeing the trend makes judgment possible; returning to human language makes it
 action. And all of it is complete only when — layered on or newly built — it gathers into
 one body of knowledge.
 

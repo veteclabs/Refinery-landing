@@ -44,7 +44,7 @@ We only write what has been confirmed. We do not inflate unverified results into
 and we do not invent case studies. If something is still in preparation, we say it is in
 preparation. Accuracy builds trust that lasts longer than exaggeration does.
 
-## What's next
+## What’s next
 
 We will be publishing regularly. For a first read, we would suggest
 [five principles for turning industrial data into an asset](/en/blog/industrial-data-best-practices).
