@@ -115,7 +115,15 @@ const jsonLd = {
     <!-- 다루는 신호 -->
     <section class="ind-section">
       <div class="ind-container uc-narrow">
-        <header class="ind-head"><h2>다루는 데이터·신호</h2></header>
+        <header class={uc.relatedAsHeaderLink && uc.related ? 'ind-head uc-head-row' : 'ind-head'}>
+          <h2>다루는 데이터·신호</h2>
+          {uc.relatedAsHeaderLink && uc.related && (
+            <a class="uc-more-link" href={uc.related.href}>
+              {uc.related.label}
+              <svg width="20" height="20" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-hidden="true"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg>
+            </a>
+          )}
+        </header>
         {uc.signalsAsCards ? (
           <div class="uc-signal-cards">
             {uc.signals.map((s) => (
@@ -131,7 +139,7 @@ const jsonLd = {
             {uc.signals.map((s) => <span class="uc-chip">{s}</span>)}
           </div>
         )}
-        {uc.related && (
+        {uc.related && !uc.relatedAsHeaderLink && (
           <p class="uc-related">더 읽어보기: <a href={uc.related.href}>{uc.related.label}</a></p>
         )}
       </div>
@@ -330,6 +338,23 @@ const jsonLd = {
     padding-left: 22px; border-left: 3px solid var(--accent);
   }
   .uc-predictive-maintenance .uc-narrow { max-width: 820px; }
+
+  /* 제목 행 — 홈 히어로(.hero-row)와 같은 구조: 좌측 제목, 우측 끝 링크, 하단 정렬.
+     .ind-head의 max-width(640px)를 풀어야 링크가 컨테이너 우측 끝까지 간다. */
+  .uc-head-row {
+    max-width: none;
+    display: flex; justify-content: space-between; align-items: flex-end;
+    gap: 32px; flex-wrap: wrap;
+  }
+  .uc-head-row h2 { margin-bottom: 0; }
+  /* global.css의 .hero-demo-link와 같은 표현(18px · accent · hover 시 화살표 이동) */
+  .uc-more-link {
+    display: inline-flex; align-items: center; gap: 8px; flex: none;
+    font-size: 18px; font-weight: 400; color: #76a6d7;
+    transition: color .2s ease;
+  }
+  .uc-more-link svg { transition: transform .2s ease; }
+  .uc-more-link:hover svg { transform: translateX(4px); }
 
   /* 신호 카드 — signalsAsCards를 켠 유즈케이스에만 렌더된다.
      테두리·면색 없이 아이콘 원과 텍스트만 세로로 쌓고 가운데 정렬한다. */

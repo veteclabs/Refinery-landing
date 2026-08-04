@@ -41,6 +41,8 @@ export type UseCase = {
     image?: UseCaseImage; // 있으면 밴드가 2컬럼(설명 + 이미지)이 된다.
   };
   signals: string[];     // 다루는 데이터·신호(칩)
+  /** related 링크를 신호 섹션 제목 오른쪽 끝에 배치한다(홈 히어로의 '데모 신청하기'와 같은 형태). 기본 false */
+  relatedAsHeaderLink?: boolean;
   /** 신호를 칩 대신 카드(원형 아이콘 자리 + 아래 텍스트)로 렌더한다. 기본 false */
   signalsAsCards?: boolean;
   /** '다른 과제' 목록을 신호 섹션과 CTA 사이에 노출한다(자기 자신 제외). 기본 false */
