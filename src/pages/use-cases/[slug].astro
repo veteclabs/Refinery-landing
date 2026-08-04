@@ -216,8 +216,13 @@ const jsonLd = {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 20px;
   }
+  /* 배경 이미지를 꽉 채울 예정이라 세로를 키우고 제목을 아래쪽에 둔다.
+     이미지가 들어와도 제목 위치가 그대로라 레이아웃이 흔들리지 않는다.
+     position/overflow는 나중에 넣을 이미지가 라운드 모서리 안에 잘리도록 미리 잡아둔 것. */
   .uc-case {
-    display: flex; align-items: center;
+    position: relative; overflow: hidden;
+    display: flex; align-items: flex-end;
+    min-height: 240px;
     font-size: 16px; font-weight: 600; color: #16202c;
     background: var(--bg); border: 1px solid var(--border);
     border-radius: var(--radius); padding: 24px;
