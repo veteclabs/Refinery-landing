@@ -12,6 +12,11 @@ export type UseCaseImage = {
   caption?: string;
 };
 
+/** 다루는 데이터·신호 항목.
+ *  문자열이면 아이콘 없이 라벨만, 객체면 Phosphor 아이콘을 함께 렌더한다.
+ *  (아이콘은 signalsAsCards를 켠 유즈케이스에서만 보인다 — 칩 형태에는 표시하지 않는다) */
+export type UseCaseSignal = string | { label: string; icon?: string };
+
 export type HowPoint = {
   title: string;
   desc: string;
@@ -42,7 +47,7 @@ export type UseCase = {
     badge?: string;
     image?: UseCaseImage; // 있으면 밴드가 2컬럼(설명 + 이미지)이 된다.
   };
-  signals: string[];     // 다루는 데이터·신호(칩)
+  signals: UseCaseSignal[];  // 다루는 데이터·신호
   /** related 링크를 신호 섹션 제목 오른쪽 끝에 배치한다(홈 히어로의 '데모 신청하기'와 같은 형태). 기본 false */
   relatedAsHeaderLink?: boolean;
   /** 신호를 칩 대신 카드(원형 아이콘 자리 + 아래 텍스트)로 렌더한다. 기본 false */

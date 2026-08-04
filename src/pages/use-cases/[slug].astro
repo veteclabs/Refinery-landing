@@ -138,17 +138,22 @@ const jsonLd = {
         </header>
         {uc.signalsAsCards ? (
           <div class="uc-signal-cards">
-            {uc.signals.map((s) => (
-              <div class="uc-signal">
-                {/* 아이콘 자리 — 실제 아이콘이 정해지면 이 원 안에 넣는다 */}
-                <span class="uc-signal-icon" aria-hidden="true"></span>
-                <span class="uc-signal-label">{s}</span>
-              </div>
-            ))}
+            {uc.signals.map((s) => {
+              const label = typeof s === 'string' ? s : s.label;
+              const icon = typeof s === 'string' ? undefined : s.icon;
+              return (
+                <div class="uc-signal">
+                  <span class="uc-signal-icon" aria-hidden="true">
+                    {icon && <i class={`ph ${icon}`}></i>}
+                  </span>
+                  <span class="uc-signal-label">{label}</span>
+                </div>
+              );
+            })}
           </div>
         ) : (
           <div class="uc-chips">
-            {uc.signals.map((s) => <span class="uc-chip">{s}</span>)}
+            {uc.signals.map((s) => <span class="uc-chip">{typeof s === 'string' ? s : s.label}</span>)}
           </div>
         )}
         {uc.related && !uc.relatedAsHeaderLink && (
@@ -419,7 +424,11 @@ const jsonLd = {
     width: 72px; height: 72px; border-radius: 50%;
     background: var(--accent-soft);
     flex: none;
+    display: flex; align-items: center; justify-content: center;
+    color: #2f6ba3;
   }
+  /* 원(72px) 대비 아이콘 32px. 아이콘이 없으면 빈 원으로 남는다. */
+  .uc-signal-icon i { font-size: 32px; line-height: 1; }
   .uc-signal-label { font-size: 16px; font-weight: 550; color: var(--text); line-height: 1.4; }
   @media (max-width: 860px) {
     .uc-signal-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }

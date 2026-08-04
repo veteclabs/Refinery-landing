@@ -27,7 +27,12 @@ export const useCases: UseCase[] = [
       { icon: 'ph-trend-up', title: '추세 기반 조기 감지', desc: '순간값이 아니라 추세에서 이상을 읽어, 오탐과 알람 피로를 줄이고 전조를 일찍 잡습니다.' },
       { icon: 'ph-lightbulb', title: '근거 있는 조치 제안', desc: 'AI가 원인 추정과 다음 조치를 근거 데이터·이력과 함께 제시합니다.' },
     ],
-    signals: ['3축 진동', '온도', '전류', '가동 이력'],
+    signals: [
+      { label: '3축 진동', icon: 'ph-waveform' },
+      { label: '온도', icon: 'ph-thermometer-simple' },
+      { label: '전류', icon: 'ph-lightning' },
+      { label: '가동 이력', icon: 'ph-clock-counter-clockwise' },
+    ],
     // 본문에서 형제 유즈케이스로 가는 링크가 없어 막다른 길이던 것을 보완한다.
     // 우선 예지보전에서만 시험하고, 괜찮으면 나머지 6개에도 켠다.
     relatedAsHeaderLink: true,
