@@ -444,6 +444,12 @@ const jsonLd = {
   /* set:html로 주입된 SVG에는 Astro 스코프 속성이 붙지 않으므로 :global이 필요하다.
      (없으면 width/height 없는 SVG가 부모 크기로 늘어난다) */
   .uc-signal-icon :global(svg) { width: 40px; height: 40px; display: block; }
+  /* 획을 화면 픽셀로 고정한다. 기본값이면 viewBox(50)를 40px로 줄여 그리면서
+     획도 함께 줄어(2 → 1.6px), 아이콘 크기를 조정할 때마다 굵기가 딸려 바뀐다.
+     non-scaling-stroke를 쓰면 stroke-width 2가 화면에서 그대로 2px이 되고,
+     이후 원·아이콘 크기를 바꿔도 획은 2px로 유지된다.
+     (상속되지 않는 속성이라 svg가 아니라 도형에 걸어야 한다) */
+  .uc-signal-icon :global(svg *) { vector-effect: non-scaling-stroke; }
   .uc-signal-label { font-size: 16px; font-weight: 550; color: var(--text); line-height: 1.4; }
   @media (max-width: 860px) {
     .uc-signal-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
