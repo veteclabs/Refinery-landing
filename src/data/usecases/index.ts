@@ -53,7 +53,7 @@ export const useCases: UseCase[] = [
   },
   {
     slug: 'sensor-monitoring',
-    name: '다양한 센서 모니터링',
+    name: '센서 모니터링(IoT)',
     tagline: '진동·온도·전력·환경까지, 흩어진 센서를 한 구조로 모아 감시합니다.',
     problem:
       '설비마다 다른 센서와 프로토콜이 섞여 있어, 데이터가 한곳에서 읽히지 않습니다. 신호가 흩어져 있으면 이상을 종합해 판단하기 어렵습니다.',
