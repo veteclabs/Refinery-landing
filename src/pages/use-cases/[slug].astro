@@ -425,20 +425,20 @@ const jsonLd = {
     gap: 16px; padding: 0;
     background: transparent; border: none;
   }
-  /* 아이콘 배경 — 96px 원 안에 48px 아이콘(비율 0.5).
+  /* 아이콘 배경 — 80px 원 안에 40px 아이콘(비율 0.5).
      color가 아이콘 stroke(currentColor)로 내려간다. */
   .uc-signal-icon {
-    width: 96px; height: 96px; flex: none;
+    width: 80px; height: 80px; flex: none;
     border-radius: 50%;
     background: #76a6d7;
     display: flex; align-items: center; justify-content: center;
     color: #fff;
   }
   /* SVG는 stroke가 currentColor라 위 color만 바꾸면 색이 따라온다. */
-  .uc-signal-icon i { font-size: 48px; line-height: 1; }
+  .uc-signal-icon i { font-size: 40px; line-height: 1; }
   /* set:html로 주입된 SVG에는 Astro 스코프 속성이 붙지 않으므로 :global이 필요하다.
      (없으면 width/height 없는 SVG가 부모 크기로 늘어난다) */
-  .uc-signal-icon :global(svg) { width: 48px; height: 48px; display: block; }
+  .uc-signal-icon :global(svg) { width: 40px; height: 40px; display: block; }
   .uc-signal-label { font-size: 16px; font-weight: 550; color: var(--text); line-height: 1.4; }
   @media (max-width: 860px) {
     .uc-signal-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
