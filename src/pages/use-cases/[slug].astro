@@ -406,11 +406,11 @@ const jsonLd = {
     transform: none; /* .ind-btn-primary:hover의 translateY 상쇄 */
   }
 
-  /* 섹션 대제목('Refinery는 이렇게 풉니다'·'다루는 데이터와 신호')을 히어로 제목과 같은
-     타이포 계열로 맞춘다. 크기(38px)는 위계를 위해 그대로 두고 굵기·자간·행간만 통일.
-     smoothing도 함께 맞추지 않으면 같은 600이어도 제목보다 얇게 보인다. */
+  /* 섹션 대제목을 랜딩 섹션 대제목과 같은 값으로 맞춘다(clamp 28~45px · 600).
+     smoothing도 함께 맞추지 않으면 같은 600이어도 얇게 보인다. */
   .uc-predictive-maintenance .ind-head h2,
   .uc-predictive-maintenance .ind-cta h2 {
+    font-size: clamp(28px, 4vw, 45px);
     font-weight: 600;
     letter-spacing: -0.8px;
     line-height: 1.3;
