@@ -188,8 +188,10 @@ const jsonLd = {
                 )}
                 <div class="uc-case-body">
                   <span class="uc-case-label">{u.name}</span>
-                  <p class="uc-case-desc">{u.tagline}</p>
-                  <span class="uc-case-go">더보기<i class="ph ph-plus" aria-hidden="true"></i></span>
+                  <p class="uc-case-desc" set:html={u.cardDesc ?? u.tagline}></p>
+                  <span class="uc-case-go" aria-hidden="true">
+                    <svg width="24" height="24" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg>
+                  </span>
                 </div>
               </a>
             ))}
@@ -252,13 +254,14 @@ const jsonLd = {
   /* 제목·설명 크기는 랜딩 산업 카드(.industry-name / .industry-desc)와 같은 값. */
   .uc-case-label { display: block; font-size: 20px; font-weight: 600; margin-bottom: 5px; }
   .uc-case-desc { font-size: 15px; line-height: 1.5; color: var(--text-muted); text-wrap: pretty; }
+  /* 글자 없이 화살표 아이콘만. 카드 전체가 링크라 이름은 제목이 맡고,
+     이 아이콘은 '넘어간다'는 신호만 준다(그래서 aria-hidden). */
   .uc-case-go {
-    display: inline-flex; align-items: center; gap: 6px;
-    margin-top: 14px; font-size: 14px; font-weight: 600; color: #4b86bf;
+    display: inline-flex; margin-top: 14px; color: #4b86bf;
+    transition: transform .2s ease;
   }
-  /* 텍스트(14px)보다 한 단계 작게 둬야 '+'가 글자보다 커 보이지 않는다. */
-  .uc-case-go i { font-size: 13px; line-height: 1; transition: transform .2s ease; }
-  .uc-case:hover .uc-case-go i { transform: rotate(90deg); }
+  .uc-case-go svg { display: block; }
+  .uc-case:hover .uc-case-go { transform: translateX(4px); }
   @media (max-width: 860px) {
     .uc-cases { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }

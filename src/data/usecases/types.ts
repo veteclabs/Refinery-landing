@@ -63,6 +63,11 @@ export type UseCase = {
   /** '다른 과제' 카드의 배경 이미지. 넣으면 카드를 꽉 채우고 제목이 흰색이 된다.
    *  없으면 기존 흰 카드 그대로. 표시 381x240이므로 854x480(2배) 권장. */
   cardImage?: UseCaseImage;
+  /** '다른 과제' 카드 설명. 카드 폭에 맞춰 <br>로 줄을 직접 끊은 판이다.
+   *  미지정 시 tagline을 그대로 쓰고 자동 줄바꿈된다.
+   *  tagline과 따로 두는 이유: tagline은 히어로(.ind-lede)와 유즈케이스 목록에도
+   *  쓰이는데, 그쪽은 폭이 달라 여기 줄바꿈을 그대로 넣으면 엉뚱하게 끊긴다. */
+  cardDesc?: string;
   related?: { label: string; href: string }; // 관련 글/페이지
   seo: { title: string; description: string };
 };
