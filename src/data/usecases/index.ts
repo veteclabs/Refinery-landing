@@ -131,6 +131,12 @@ export const useCases: UseCase[] = [
   },
   {
     slug: 'factory-energy',
+    cardImage: {
+      src: '/use-cases/cards/factory-energy.webp',
+      alt: '',
+      width: 854,
+      height: 480,
+    },
     name: '공장 에너지관리',
     tagline: '공장 전체의 에너지 흐름을 한곳에서 보고, 낭비와 배출을 함께 줄입니다.',
     problem:
@@ -155,6 +161,12 @@ export const useCases: UseCase[] = [
   },
   {
     slug: 'energy-optimization',
+    cardImage: {
+      src: '/use-cases/cards/energy-optimization.webp',
+      alt: '',
+      width: 854,
+      height: 480,
+    },
     name: '에너지 최적화',
     tagline: '숨은 낭비와 피크를 데이터로 찾아, 같은 일을 더 적은 비용으로 합니다.',
     problem:
