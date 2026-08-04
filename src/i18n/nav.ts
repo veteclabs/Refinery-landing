@@ -78,10 +78,38 @@ export const navMenu: Record<Lang, NavMenu[]> = {
     },
   ],
 
-  // 영어는 아직 /en 랜딩만 존재한다. 랜딩 섹션 앵커와, 기존부터 한국어로 연결돼 있던
-  // Blog만 노출한다. 한국어와 같은 축(Solutions·Resources)은 유지한다.
+  // 영어 페이지가 있는 항목만 올린다. Blog는 영어판이 없어 기존대로 한국어로 연결된다.
   en: [
-    { label: 'Solutions', href: '/en#industries' },
+    {
+      label: 'Solutions',
+      href: '/en#industries',
+      groups: [
+        {
+          title: 'By industry',
+          items: [
+            { label: 'Energy & Utilities', href: '/en/industries/energy' },
+            { label: 'Oil & Gas', badge: 'Soon' },
+            { label: 'Data centers', badge: 'Soon' },
+            { label: 'Steel', badge: 'Soon' },
+            { label: 'Chemicals', badge: 'Soon' },
+            { label: 'Logistics', badge: 'Soon' },
+            { label: 'Environment', badge: 'Soon' },
+          ],
+        },
+        {
+          title: 'By challenge',
+          items: [
+            { label: 'Predictive maintenance', href: '/en/use-cases/predictive-maintenance' },
+            { label: 'Multi-sensor monitoring', href: '/en/use-cases/sensor-monitoring' },
+            { label: 'Power management', href: '/en/use-cases/power-management' },
+            { label: 'Power quality', href: '/en/use-cases/power-quality' },
+            { label: 'Factory energy management', href: '/en/use-cases/factory-energy' },
+            { label: 'Energy optimization', href: '/en/use-cases/energy-optimization' },
+            { label: 'Quality prediction', href: '/en/use-cases/quality-prediction' },
+          ],
+        },
+      ],
+    },
     { label: 'Platform', href: '/en#teams' },
     { label: 'Integrations', href: '/en#integrations' },
     { label: 'Resources', href: '/blog' },
@@ -134,22 +162,27 @@ export const footerCols: Record<Lang, FooterCol[]> = {
     {
       title: 'Solutions',
       items: [
-        { label: 'Platform', href: '/en#teams' },
-        { label: 'Industries', href: '/en#industries' },
-        { label: 'Integrations', href: '/en#integrations' },
-        { label: 'Security', href: '/en#security' },
+        { label: 'Energy & Utilities', href: '/en/industries/energy' },
+        { label: 'Predictive maintenance', href: '/en/use-cases/predictive-maintenance' },
+        { label: 'Multi-sensor monitoring', href: '/en/use-cases/sensor-monitoring' },
+        { label: 'Power management', href: '/en/use-cases/power-management' },
+        { label: 'Power quality', href: '/en/use-cases/power-quality' },
+        { label: 'Factory energy management', href: '/en/use-cases/factory-energy' },
+        { label: 'Energy optimization', href: '/en/use-cases/energy-optimization' },
+        { label: 'Quality prediction', href: '/en/use-cases/quality-prediction' },
       ],
     },
     {
       title: 'Resources',
       items: [
         { label: 'Blog', href: '/blog' },
+        { label: 'Security', href: '/en#security' },
         { label: 'FAQ', href: '/en#faq' },
       ],
     },
     {
       title: 'Company',
-      items: [{ label: 'Contact', href: '/contact' }],
+      items: [{ label: 'Contact', href: '/en/contact' }],
     },
     {
       // 약관은 법적 효력이 있어 전문 번역 전까지 영어판을 만들지 않는다. 한국어 페이지로 연결.
@@ -165,7 +198,7 @@ export const footerCols: Record<Lang, FooterCol[]> = {
 };
 
 /** 헤더 우측 상시 CTA·접근성 라벨 */
-export const navUi: Record<Lang, { cta: string; home: string; openMenu: string; tagline: string }> = {
-  ko: { cta: '문의하기', home: 'Refinery 홈', openMenu: '메뉴 열기', tagline: 'Refining complexity<br>into pure insight' },
-  en: { cta: 'Contact', home: 'Refinery home', openMenu: 'Open menu', tagline: 'Refining complexity<br>into pure insight' },
+export const navUi: Record<Lang, { cta: string; ctaHref: string; home: string; openMenu: string; tagline: string }> = {
+  ko: { cta: '문의하기', ctaHref: '/contact', home: 'Refinery 홈', openMenu: '메뉴 열기', tagline: 'Refining complexity<br>into pure insight' },
+  en: { cta: 'Contact', ctaHref: '/en/contact', home: 'Refinery home', openMenu: 'Open menu', tagline: 'Refining complexity<br>into pure insight' },
 };

@@ -43,7 +43,7 @@ const home = lang === 'en' ? '/en' : '/';
     </div>
     <div class="nav-actions">
       <LanguageSwitcher />
-      <a href="/contact" class="btn-primary">{ui.cta}</a>
+      <a href={ui.ctaHref} class="btn-primary">{ui.cta}</a>
       <button type="button" class="nav-hamburger" id="navHamburgerBtn" aria-label={ui.openMenu} aria-expanded="false">
         <i class="ph ph-list"></i>
       </button>
@@ -65,7 +65,7 @@ const home = lang === 'en' ? '/en' : '/';
         )}
       </div>
     ))}
-    <a href="/contact" class="mobile-nav-cta">{ui.cta}</a>
+    <a href={ui.ctaHref} class="mobile-nav-cta">{ui.cta}</a>
   </div>
 </nav>
 
