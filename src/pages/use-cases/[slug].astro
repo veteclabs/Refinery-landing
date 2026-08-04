@@ -368,6 +368,12 @@ const jsonLd = {
     max-width: 1280px;
     padding: 0 48px;
   }
+  /* 섹션 위아래 여백을 랜딩 본문 섹션과 같은 130px으로. (공통값은 84px)
+     CTA는 랜딩 #cta와 같은 95px이라 여기서 제외된다(.ind-section이 아님). */
+  .uc-predictive-maintenance .ind-section { padding: 130px 0; }
+  @media (max-width: 900px) {
+    .uc-predictive-maintenance .ind-section { padding: 60px 0; }
+  }
   @media (max-width: 900px) {
     .uc-predictive-maintenance .ind-section .ind-container { padding: 0 24px; }
   }
