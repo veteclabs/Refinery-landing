@@ -307,14 +307,21 @@ const jsonLd = {
     -webkit-font-smoothing: auto;
   }
 
-  /* 카드 아이콘 (icon 있을 때만) — 배경 없이 아이콘만 둔다.
-     40px 상자는 남겨 아래 제목과의 간격·정렬을 그대로 유지한다. */
+  /* 'Refinery는 이렇게 풉니다' 카드를 랜딩 'From Data to Intelligence' 섹션의
+     .series-card와 같은 규격으로 맞춘다(색은 이 페이지 것을 유지).
+     아이콘을 상자 없이 위에 두고 제목까지 크게 띄우는 것이 그 카드의 특징이다. */
   .uc-card-icon {
     display: inline-flex; align-items: center; justify-content: center;
-    width: 40px; height: 40px; margin-bottom: 14px;
+    width: fit-content; height: auto;
+    margin-bottom: 80px;
     color: #2f6ba3;
   }
-  .uc-card-icon i { font-size: 21px; }
+  .uc-card-icon i { font-size: 26px; line-height: 1; }
+  .uc-predictive-maintenance .ind-card { padding: 24px; }
+  .uc-predictive-maintenance .ind-card h3 {
+    font-size: 16px; font-weight: 600; line-height: 1.4; margin: 0 0 10px;
+  }
+  .uc-predictive-maintenance .ind-card p { font-size: 13px; line-height: 1.65; margin: 0; }
 
   /* 템플릿 밴드 2컬럼 (template.image 있을 때만) */
   .uc-template--split { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 34px; align-items: center; }
