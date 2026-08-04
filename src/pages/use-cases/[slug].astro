@@ -444,7 +444,13 @@ const jsonLd = {
   .uc-signal-icon i { font-size: 40px; line-height: 1; }
   /* set:html로 주입된 SVG에는 Astro 스코프 속성이 붙지 않으므로 :global이 필요하다.
      (없으면 width/height 없는 SVG가 부모 크기로 늘어난다) */
-  .uc-signal-icon :global(svg) { width: 40px; height: 40px; display: block; }
+  /* 획 굵기는 여기서 정한다. SVG 파일의 stroke-width 속성(디자인 원본값 2)보다
+     CSS가 우선하고, stroke-width는 상속되므로 도형까지 내려간다.
+     → 원본 파일을 고치지 않아도 되고, 다시 내보내 받아도 이 값이 유지된다. */
+  .uc-signal-icon :global(svg) {
+    width: 40px; height: 40px; display: block;
+    stroke-width: 2.5;
+  }
   /* 획을 화면 픽셀로 고정한다. 기본값이면 viewBox(50)를 40px로 줄여 그리면서
      획도 함께 줄어(2 → 1.6px), 아이콘 크기를 조정할 때마다 굵기가 딸려 바뀐다.
      non-scaling-stroke를 쓰면 stroke-width 2가 화면에서 그대로 2px이 되고,
