@@ -256,6 +256,17 @@ const jsonLd = {
      예지보전 전용 — 이 slug 클래스 아래에서만 적용된다.
      ─────────────────────────────────────────────────────────── */
 
+  /* 본문 섹션의 좌우 끝을 헤더(.nav-inner)와 같은 선에 맞춘다 — 로고 왼쪽 = 문의하기 버튼 오른쪽.
+     .ind-section만 대상이라 히어로(.ind-hero, 이미 uc-container--nav)와 CTA(.ind-cta)는 제외된다.
+     선택자가 .uc-narrow(2개)보다 구체적(3개)이라 좁은 폭 제약도 함께 풀린다. */
+  .uc-predictive-maintenance .ind-section .ind-container {
+    max-width: 1280px;
+    padding: 0 48px;
+  }
+  @media (max-width: 900px) {
+    .uc-predictive-maintenance .ind-section .ind-container { padding: 0 24px; }
+  }
+
   /* how가 4개라 3컬럼에서는 마지막 카드 하나가 혼자 떨어진다. 이 페이지만 2×2로 맞춘다. */
   .uc-predictive-maintenance .ind-grid-3 { grid-template-columns: repeat(2, 1fr); }
   @media (max-width: 860px) {
