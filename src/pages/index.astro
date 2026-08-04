@@ -537,12 +537,16 @@ const jsonLd = [orgSchema, faqSchema];
       <div class="teams-preview-decor" style="position:absolute;top:0;right:0;bottom:0;width:15%;z-index:1;background:linear-gradient(to left, #F6F8FA 0%, rgba(246,248,250,0) 100%);pointer-events:none;"></div>
       <div class="teams-preview-title-wrap" style="position:absolute;top:0;left:0;z-index:2;padding:28px 32px 0;">
         <div class="teams-preview-tagline" id="teamsPreviewTagline">AI Agent</div>
-        <h3 id="teamsPreviewTitle">질문하면
+        {/* 본문과 같은 이유로 <br> 명시 — 개행이 빌드 시 합쳐져 초기 렌더만 1줄이 됐다. */}
+        <h3 id="teamsPreviewTitle">질문하면<br>
 온톨로지가 답을 찾습니다.</h3>
       </div>
       <div class="teams-preview-text" id="teamsPreviewTextBox" style="position:absolute;bottom:0;left:0;z-index:2;">
-        <p id="teamsPreviewBody">AI가 온톨로지에 축적된 자산 · 업무 · 이력 데이터를
-근거로 원인을 추론하고 대화형으로 답변합니다.
+        {/* 빌드 시 마크업 안의 개행이 공백으로 합쳐져 white-space:pre-line이 무력해진다.
+            초기 렌더에서도 줄바꿈이 유지되도록 <br>로 명시한다.
+            (탭 전환 시에는 switchDash가 \n 포함 문자열을 textContent로 넣어 pre-line이 처리한다) */}
+        <p id="teamsPreviewBody">AI가 온톨로지에 축적된 자산 · 업무 · 이력 데이터를<br>
+근거로 원인을 추론하고 대화형으로 답변합니다.<br>
 근거가 된 데이터 출처도 함께 제시됩니다.</p>
       </div>
       <div id="iframe-wrapper" style="position:absolute;inset:0;overflow:hidden;">

@@ -648,12 +648,16 @@ const jsonLd = {
       <div class="teams-preview-decor" style="position:absolute;top:0;right:0;bottom:0;width:15%;z-index:1;background:linear-gradient(to left, #F6F8FA 0%, rgba(246,248,250,0) 100%);pointer-events:none;"></div>
       <div class="teams-preview-title-wrap" style="position:absolute;top:0;left:0;z-index:2;padding:28px 32px 0;">
         <div class="teams-preview-tagline" id="teamsPreviewTagline">AI Agent</div>
-        <h3 id="teamsPreviewTitle">Ask a question,
+        {/* 본문과 같은 이유로 <br> 명시 — 개행이 빌드 시 합쳐져 초기 렌더만 1줄이 됐다. */}
+        <h3 id="teamsPreviewTitle">Ask a question,<br>
 and the ontology finds the answer.</h3>
       </div>
       <div class="teams-preview-text" id="teamsPreviewTextBox" style="position:absolute;bottom:0;left:0;z-index:2;">
-        <p id="teamsPreviewBody">The AI reasons over asset, task, and history data stored in the ontology
-to infer causes and answer conversationally.
+        {/* 빌드 시 마크업 안의 개행이 공백으로 합쳐져 white-space:pre-line이 무력해진다.
+            초기 렌더에서도 줄바꿈이 유지되도록 <br>로 명시한다(한국어 index.astro와 동일).
+            줄 나눔 위치는 teamsTextMap.llm의 \n과 같다. */}
+        <p id="teamsPreviewBody">The AI reasons over asset, task, and history data stored in the ontology<br>
+to infer causes and answer conversationally.<br>
 It also cites the data sources behind each answer.</p>
       </div>
       <div id="iframe-wrapper" style="position:absolute;inset:0;overflow:hidden;">
