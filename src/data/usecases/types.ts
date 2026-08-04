@@ -57,6 +57,9 @@ export type UseCase = {
   signalsAsCards?: boolean;
   /** '다른 과제' 목록을 신호 섹션과 CTA 사이에 노출한다(자기 자신 제외). 기본 false */
   showRelatedUseCases?: boolean;
+  /** CTA 배경 이미지(public 기준 절대 경로). 지정하면 랜딩 CTA와 같은 형태
+   *  (이미지 위 흰 글자 · 좌측 정렬)가 된다. 미지정 시 기존 흰 배경 CTA. */
+  ctaBackgroundImage?: string;
   related?: { label: string; href: string }; // 관련 글/페이지
   seo: { title: string; description: string };
 };

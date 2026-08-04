@@ -181,7 +181,17 @@ const jsonLd = {
     )}
 
     <!-- CTA -->
-    <section class="ind-cta">
+    <section class={uc.ctaBackgroundImage ? 'ind-cta uc-cta-bg' : 'ind-cta'}>
+      {uc.ctaBackgroundImage && (
+        <img
+          class="uc-cta-bg-img"
+          src={uc.ctaBackgroundImage}
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          decoding="async"
+        />
+      )}
       <div class="ind-container">
         <h2>우리 현장에 어떻게 적용될지<br>함께 살펴봐요.</h2>
         <a href="/contact" class="ind-btn-primary ind-btn-lg">문의하기</a>
@@ -471,5 +481,55 @@ const jsonLd = {
   }
   @media (max-width: 480px) {
     .uc-signal-cards { grid-template-columns: 1fr; }
+  }
+
+  /* ───────────────────────────────────────────────────────────
+     CTA — 랜딩 #cta와 같은 형태(배경 이미지 위 흰 글자·좌측 정렬).
+     데이터에 ctaBackgroundImage를 넣은 유즈케이스에만 적용된다.
+     h2에 .uc-page를 덧붙인 이유: Astro가 컴파운드마다 [data-astro-cid]를 붙이므로
+     앞의 `.uc-predictive-maintenance .ind-cta h2`가 속성 3개(0,5,1)가 되어
+     `.ind-cta.uc-cta-bg h2`(0,4,1)를 이긴다. 한 단계 더 올려 확실히 덮는다.
+     ─────────────────────────────────────────────────────────── */
+  .uc-cta-bg {
+    position: relative; overflow: hidden;
+    padding: 95px 0;
+    text-align: left;
+    /* 글자가 흰색이라 배경은 어둡게 깔아둔다. 이미지가 lazy라 도착 전
+       흰 배경이면 글자가 잠깐 보이지 않는다(이미지의 글자 자리 색과 같은 톤). */
+    background: #0c1015;
+  }
+  .uc-cta-bg-img {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover; object-position: right bottom;
+    pointer-events: none; user-select: none;
+  }
+  .uc-cta-bg .ind-container { position: relative; z-index: 1; }
+  .uc-page .ind-cta.uc-cta-bg h2 {
+    font-size: clamp(28px, 4vw, 45px);
+    font-weight: 500;
+    letter-spacing: -0.8px;
+    line-height: 1.35;
+    color: #fff;
+    margin-bottom: 0;
+    text-wrap: initial;
+  }
+  .ind-cta.uc-cta-bg .ind-btn-primary {
+    margin-top: 40px;
+    padding: 9px 22px;
+    font-size: 15px; font-weight: 400;
+    background: transparent; color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.6); border-radius: 6px;
+    transition: all .2s;
+  }
+  .ind-cta.uc-cta-bg .ind-btn-primary:hover {
+    background: #76A6D7; border-color: #76A6D7; transform: none;
+  }
+  /* 본문 섹션과 같은 선(헤더 로고~버튼)에 맞춘다. */
+  .uc-predictive-maintenance .uc-cta-bg .ind-container {
+    max-width: 1280px;
+    padding: 0 48px;
+  }
+  @media (max-width: 900px) {
+    .uc-predictive-maintenance .uc-cta-bg .ind-container { padding: 0 24px; }
   }
 </style>
