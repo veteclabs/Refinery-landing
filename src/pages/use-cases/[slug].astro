@@ -173,7 +173,21 @@ const jsonLd = {
           <header class="ind-head"><h2>다른 과제 더 살펴보기</h2></header>
           <div class="uc-cases">
             {useCases.filter((u) => u.slug !== uc.slug).map((u) => (
-              <a class="uc-case" href={`/use-cases/${u.slug}`}>{u.name}</a>
+              <a class={u.cardImage ? 'uc-case uc-case--img' : 'uc-case'} href={`/use-cases/${u.slug}`}>
+                {u.cardImage && (
+                  <img
+                    class="uc-case-img"
+                    src={u.cardImage.src}
+                    alt=""
+                    aria-hidden="true"
+                    width={u.cardImage.width}
+                    height={u.cardImage.height}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )}
+                <span class="uc-case-label">{u.name}</span>
+              </a>
             ))}
           </div>
         </div>
@@ -235,6 +249,27 @@ const jsonLd = {
     .uc-cases { grid-template-columns: 1fr; }
   }
   .uc-case:hover { border-color: var(--accent); color: #4b86bf; box-shadow: 0 4px 14px rgba(16,32,44,.06); }
+
+  /* 배경 이미지가 있는 카드(데이터에 cardImage를 넣은 것만).
+     이미지 → 스크림 → 제목 순으로 쌓아 사진 위에서도 글자가 읽히게 한다.
+     테두리를 없애야 이미지가 카드를 끝까지 채운다. 테두리를 두면
+     inset:0이 패딩 박스 기준이라 사방 1px씩 흰 테가 남는다. */
+  .uc-case-img {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; pointer-events: none; user-select: none;
+    transition: transform .3s ease;
+  }
+  /* 아래로 갈수록 짙어지는 스크림 — 제목이 아래쪽에 있어서 그쪽만 확실히 덮는다. */
+  .uc-case--img::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(11,14,20,.10) 0%, rgba(11,14,20,.32) 45%, rgba(11,14,20,.82) 100%);
+  }
+  .uc-case--img { border: none; }
+  .uc-case-label { position: relative; z-index: 1; }
+  .uc-case--img .uc-case-label { color: #fff; }
+  /* 사진 위에서는 글자색을 바꾸지 않고 이미지를 살짝 확대해 반응을 준다. */
+  .uc-case--img:hover .uc-case-label { color: #fff; }
+  .uc-case--img:hover .uc-case-img { transform: scale(1.04); }
 
   .uc-related { margin-top: 26px; font-size: 15px; color: #47535f; }
   .uc-related a { color: #4b86bf; text-decoration: underline; text-underline-offset: 2px; font-weight: 600; }

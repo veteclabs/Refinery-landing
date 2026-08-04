@@ -60,6 +60,9 @@ export type UseCase = {
   /** CTA 배경 이미지(public 기준 절대 경로). 지정하면 랜딩 CTA와 같은 형태
    *  (이미지 위 흰 글자 · 좌측 정렬)가 된다. 미지정 시 기존 흰 배경 CTA. */
   ctaBackgroundImage?: string;
+  /** '다른 과제' 카드의 배경 이미지. 넣으면 카드를 꽉 채우고 제목이 흰색이 된다.
+   *  없으면 기존 흰 카드 그대로. 표시 381x240이므로 854x480(2배) 권장. */
+  cardImage?: UseCaseImage;
   related?: { label: string; href: string }; // 관련 글/페이지
   seo: { title: string; description: string };
 };

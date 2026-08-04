@@ -96,6 +96,12 @@ export const useCases: UseCase[] = [
   {
     slug: 'power-quality',
     name: '전력품질',
+    cardImage: {
+      src: '/use-cases/cards/power-quality.webp',
+      alt: '',
+      width: 854,
+      height: 480,
+    },
     tagline: '전압 변동·고조파·순간 정전 같은 품질 이상을 실시간으로 감시합니다.',
     problem:
       '설비가 이유 없이 멈추거나 멀쩡하던 라인에서 불량이 늘 때가 있습니다. 원인을 한참 찾다 보면 전력품질이 범인인 경우가 적지 않습니다. 순간적인 전압 강하나 고조파는 눈에 보이지도 오래 남지도 않아서, 상시로 지켜보지 않으면 지나간 뒤엔 흔적을 잡기 어렵습니다. 그래서 "왜 하필 그때 멈췄는지"가 끝내 미제로 남곤 합니다.',
