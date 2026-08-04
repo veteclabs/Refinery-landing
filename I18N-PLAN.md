@@ -6,6 +6,8 @@
 - **URL**: 한국어 무접두사 유지(`/`, `/contact.html`), 영어 `/en/`, 일본어 `/ja/`.
   - 기존 한국어 URL·SEO 보존. Astro `i18n.routing.prefixDefaultLocale: false`.
 - **번역 조달**: 내가 ko→en/ja 초안 작성 → Vercel Preview에서 검토 → **원어민/전문 검수 후 게시**.
+  - 검수는 [`I18N-GLOSSARY.md`](I18N-GLOSSARY.md)부터 본다. 용어 대응표·표기 규칙과
+    확인이 필요한 지점(⚠️ 표시)이 정리돼 있어, 전체를 정독하는 대신 결정 지점만 볼 수 있다.
   - 게시 전 초안 상태에서는 프로덕션 머지 금지(검수 완료분만 머지).
 - 히어로 데모 iframe(한국어 앱)은 우선 한국어 유지, 이후 별도 로컬라이즈.
 
