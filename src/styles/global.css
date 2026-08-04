@@ -466,6 +466,13 @@
     #integrations > * { position: relative; z-index: 1; }
     #integrations .section-header h2 { color: #EDEEF0; }
     #integrations .section-header p { color: #959CA5; }
+    /* 소제목을 <br> 기준 2줄로 유지한다. 공통값 360px에서는 각 줄이 다시 감겨 4줄이 됐다.
+       각 줄 필요 폭은 ko 429·390px, en 463·470px. 480px이면 양쪽 다 2줄로 들어가고,
+       ko는 제목 옆 여유(602px) 안이라 나란한 배치도 유지된다. */
+    #integrations .section-header-row p { max-width: 480px; }
+    @media (max-width: 900px) {
+      #integrations .section-header-row p { max-width: none; }
+    }
     
     
     #integrations > * { position: relative; z-index: 1; }

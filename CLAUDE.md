@@ -22,6 +22,11 @@ public/        경로 고정 자산(이미지·favicon·og-image·robots·데모
 - **공유 head·추적은 `BaseLayout`+`Analytics`+`Seo` 1곳**에서 관리한다. 페이지마다 복붙 금지.
 - 포팅된 랜딩/문의 본문은 전역 CSS·인라인 JS 보존을 위해 `<style is:global>`·`<script is:inline>` 사용.
   - 특히 GA `gtag`처럼 인라인 `onclick`이 참조하는 전역 함수는 `define:vars`(IIFE 래핑) 쓰지 말 것.
+- **줄바꿈은 `<br>`로 명시한다.** 마크업 안의 개행은 빌드 시 공백으로 합쳐지므로,
+  `white-space: pre-line`에 기대어 개행으로 줄을 나누면 화면에서 한 줄로 이어 붙는다.
+  (JS가 `textContent`로 넣는 `\n`은 정상 동작 → 초기 렌더와 상호작용 후가 달라지는 함정)
+  - 줄 수가 의도대로 안 나오면 `max-width`도 함께 볼 것. `<br>`가 있어도 폭이 좁으면 각 줄이 다시 감긴다.
+    예: `.section-header-row p`의 공통값 360px 때문에 `#integrations` 소제목이 2줄 대신 4줄이 됐다.
 
 ## 이미지 규칙
 - **래스터 이미지는 WebP로 커밋**한다. 표시 크기로 리사이즈(`cwebp -q 82 -resize <폭> 0 원본 -o 결과.webp`).
