@@ -173,6 +173,12 @@ export const useCases: UseCase[] = [
   },
   {
     slug: 'quality-prediction',
+    cardImage: {
+      src: '/use-cases/cards/quality-prediction.webp',
+      alt: '',
+      width: 854,
+      height: 480,
+    },
     name: '품질 예측',
     tagline: '공정 데이터에서 불량의 전조를 읽어, 완성 전에 잡습니다.',
     problem:
