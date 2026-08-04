@@ -372,9 +372,12 @@ const jsonLd = {
     .uc-predictive-maintenance .ind-section .ind-container { padding: 0 24px; }
   }
 
-  /* how가 4개라 3컬럼에서는 마지막 카드 하나가 혼자 떨어진다. 이 페이지만 2×2로 맞춘다. */
-  .uc-predictive-maintenance .ind-grid-3 { grid-template-columns: repeat(2, 1fr); }
-  @media (max-width: 860px) {
+  /* how가 4개라 한 줄에 4개로 둔다(3컬럼이면 마지막 하나가 혼자 떨어진다). */
+  .uc-predictive-maintenance .ind-grid-3 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  @media (max-width: 1080px) {
+    .uc-predictive-maintenance .ind-grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 560px) {
     .uc-predictive-maintenance .ind-grid-3 { grid-template-columns: 1fr; }
   }
 
