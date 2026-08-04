@@ -72,6 +72,12 @@ export const useCases: UseCase[] = [
   {
     slug: 'power-management',
     name: '전력관리',
+    cardImage: {
+      src: '/use-cases/cards/power-management.webp',
+      alt: '',
+      width: 854,
+      height: 480,
+    },
     tagline: '언제 어디서 얼마나 쓰는지 데이터로 파악해, 전력 비용과 리스크를 줄입니다.',
     problem:
       '전기 요금 고지서에는 총액과 피크 몇 가지만 찍혀 나옵니다. 정작 그 전력을 어느 설비가, 어느 시간대에, 왜 그만큼 썼는지는 거기 없습니다. 설비마다 계량이 따로 놀고 기록도 흩어져 있으니, 요금이 오르면 원인을 찾기보다 그냥 아껴 쓰라는 지시로 끝나기 쉽습니다. 계약전력을 넘겨 피크 요금을 무는 일도 지나고 나서야 고지서를 보고 아는 경우가 많습니다.',
