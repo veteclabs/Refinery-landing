@@ -41,6 +41,8 @@ export type UseCase = {
     image?: UseCaseImage; // 있으면 밴드가 2컬럼(설명 + 이미지)이 된다.
   };
   signals: string[];     // 다루는 데이터·신호(칩)
+  /** 신호를 칩 대신 카드(원형 아이콘 자리 + 아래 텍스트)로 렌더한다. 기본 false */
+  signalsAsCards?: boolean;
   /** '다른 과제' 목록을 신호 섹션과 CTA 사이에 노출한다(자기 자신 제외). 기본 false */
   showRelatedUseCases?: boolean;
   related?: { label: string; href: string }; // 관련 글/페이지
