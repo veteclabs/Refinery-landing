@@ -13,7 +13,10 @@ export type UseCaseImage = {
 };
 
 /** 다루는 데이터·신호 항목.
- *  문자열이면 아이콘 없이 라벨만, 객체면 Phosphor 아이콘을 함께 렌더한다.
+ *  문자열이면 아이콘 없이 라벨만, 객체면 아이콘을 함께 렌더한다.
+ *  icon 값:
+ *   - 'ph-'로 시작하면 Phosphor 아이콘 폰트(예: 'ph-waveform')
+ *   - 그 외에는 src/icons/signals/<name>.svg (예: 'vibration')
  *  (아이콘은 signalsAsCards를 켠 유즈케이스에서만 보인다 — 칩 형태에는 표시하지 않는다) */
 export type UseCaseSignal = string | { label: string; icon?: string };
 

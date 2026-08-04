@@ -1,0 +1,33 @@
+---
+// 신호 카드용 커스텀 SVG 아이콘.
+// src/icons/signals/*.svg를 빌드 시 인라인으로 박아 넣는다.
+// <img>가 아니라 인라인이라서 (1) 요청이 늘지 않고 (2) stroke가 currentColor라
+// 원의 color만 바꾸면 아이콘 색이 따라온다.
+//
+// 아이콘 추가: src/icons/signals/에 SVG를 넣고 데이터의 icon에 파일명(확장자 제외)을 쓴다.
+// SVG 규격 — viewBox 정사각형 / fill="none" / stroke="currentColor" / stroke-width 3(50 기준).
+const icons = import.meta.glob<string>('../icons/signals/*.svg', {
+  query: '?raw',
+  import: 'default',
+  eager: true,
+});
+
+interface Props {
+  /** 파일명(확장자 제외). 예: 'vibration' */
+  name: string;
+}
+
+const { name } = Astro.props;
+const svg = icons[`../icons/signals/${name}.svg`];
+
+if (!svg) {
+  throw new Error(
+    `[SignalIcon] '${name}' 아이콘이 없습니다. src/icons/signals/${name}.svg 를 확인하세요. ` +
+      `사용 가능: ${Object.keys(icons)
+        .map((p) => p.split('/').pop()!.replace('.svg', ''))
+        .join(', ')}`
+  );
+}
+---
+
+<Fragment set:html={svg} />

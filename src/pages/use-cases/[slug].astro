@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
+import SignalIcon from '../../components/SignalIcon.astro';
 import '../../styles/industry.css';
 import { useCases, findUseCase } from '../../data/usecases';
 
@@ -144,7 +145,9 @@ const jsonLd = {
               return (
                 <div class="uc-signal">
                   <span class="uc-signal-icon" aria-hidden="true">
-                    {icon && <i class={`ph ${icon}`}></i>}
+                    {icon && (icon.startsWith('ph-')
+                      ? <i class={`ph ${icon}`}></i>
+                      : <SignalIcon name={icon} />)}
                   </span>
                   <span class="uc-signal-label">{label}</span>
                 </div>
@@ -425,10 +428,14 @@ const jsonLd = {
     background: var(--accent-soft);
     flex: none;
     display: flex; align-items: center; justify-content: center;
-    color: #2f6ba3;
+    color: #76a6d7;
   }
-  /* 원(72px) 대비 아이콘 32px. 아이콘이 없으면 빈 원으로 남는다. */
+  /* 원(72px) 대비 아이콘 32px. 아이콘이 없으면 빈 원으로 남는다.
+     SVG는 stroke가 currentColor라 위 color만 바꾸면 색이 따라온다. */
   .uc-signal-icon i { font-size: 32px; line-height: 1; }
+  /* set:html로 주입된 SVG에는 Astro 스코프 속성이 붙지 않으므로 :global이 필요하다.
+     (없으면 width/height 없는 SVG가 원 전체 72px로 늘어난다) */
+  .uc-signal-icon :global(svg) { width: 32px; height: 32px; display: block; }
   .uc-signal-label { font-size: 16px; font-weight: 550; color: var(--text); line-height: 1.4; }
   @media (max-width: 860px) {
     .uc-signal-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
