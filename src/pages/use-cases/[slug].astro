@@ -387,6 +387,11 @@ const jsonLd = {
     -webkit-font-smoothing: auto;
   }
 
+  /* 대제목과 그 아래 내용 사이 간격. 공통값(.ind-head 44px)보다 넓혀
+     섹션이 시작되는 지점을 또렷하게 한다. 페이지 안 세 섹션에 같이 적용해
+     간격 리듬이 어긋나지 않게 한다. */
+  .uc-predictive-maintenance .ind-head { margin-bottom: 64px; }
+
   /* '왜 필요한가' 본문을 리드 문단처럼 강조 */
   .uc-predictive-maintenance .uc-problem {
     font-size: 19px; line-height: 1.85; color: #2b3644;
