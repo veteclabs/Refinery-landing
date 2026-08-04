@@ -61,7 +61,7 @@ sensor to the machine you want to watch.
 
 ## In a form a person can act on
 
-A risk score alone does not move anyone. More than "this pump is at 0.87 risk", it is a
+A risk score alone does not move anyone. More than "this pump is at 0.87 risk," it is a
 sentence like "vibration is rising in a pattern similar to the run-up to the last failure;
 bearing wear is suspected; inspection recommended" that produces action. An AI agent turns
 the analysis back into human language like this, and presents the data and history the

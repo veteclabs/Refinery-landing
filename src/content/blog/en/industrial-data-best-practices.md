@@ -80,7 +80,7 @@ from ordinary noise.
 
 If the result of an analysis stays as a number on a dashboard, interpreting it and turning
 it into action falls entirely on a person. A red gauge only signals that "something is
-wrong". It does not answer what, why, or how.
+wrong." It does not answer what, why, or how.
 
 For data to lead to action, the last step has to come back into human language. "Vibration
 on pump 3, line B is trending upward in a pattern resembling the run-up to the last

@@ -14,7 +14,7 @@ AI agents.
 
 We are a team that has spent a long time in power, manufacturing and energy. Not only
 developers — field engineers who have handled the equipment and the process themselves
-build the product alongside them. So this blog leans towards what actually works on site
+build the product alongside them. So this blog leans toward what actually works on site
 rather than what sounds good in theory.
 
 ## What we will write about

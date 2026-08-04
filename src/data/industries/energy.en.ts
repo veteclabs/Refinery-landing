@@ -35,7 +35,7 @@ export const energyEn: IndustryData = {
       {
         title: 'Real-time response lags',
         description:
-          'Adjusting consumption to demand, tariffs and weather requires several screens and several judgements, so the response arrives late.',
+          'Adjusting consumption to demand, tariffs and weather requires several screens and several judgments, so the response arrives late.',
       },
     ],
   },
