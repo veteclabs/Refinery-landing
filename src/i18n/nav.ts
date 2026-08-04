@@ -2,7 +2,7 @@
 //
 // ko와 en은 같은 축·같은 구조를 쓴다(솔루션·리소스·회사 / Solutions·Resources·Company).
 // 영어 페이지가 아직 없는 항목만 Soon 배지로 두고, 페이지가 생기면 href를 채운다.
-// 예외: Blog는 영어판이 없어 한국어 /blog로 연결된다.
+// 영어 페이지가 없는 항목만 Soon 배지다.
 
 export type NavLink = { label: string; href?: string; badge?: string };
 export type NavGroup = { title?: string; items: NavLink[] };
@@ -112,12 +112,11 @@ export const navMenu: Record<Lang, NavMenu[]> = {
     },
     {
       label: 'Resources',
-      href: '/blog',
+      href: '/en/blog',
       groups: [
         {
           items: [
-            // 영어 블로그가 없어 Blog만 한국어로 연결된다.
-            { label: 'Blog', href: '/blog' },
+            { label: 'Blog', href: '/en/blog' },
             { label: 'Docs', href: '/en/docs' },
             { label: 'Resources & whitepapers', href: '/en/resources' },
           ],
@@ -200,7 +199,7 @@ export const footerCols: Record<Lang, FooterCol[]> = {
     {
       title: 'Resources',
       items: [
-        { label: 'Blog', href: '/blog' },
+        { label: 'Blog', href: '/en/blog' },
         { label: 'Docs', href: '/en/docs' },
         { label: 'Resources & whitepapers', href: '/en/resources' },
       ],

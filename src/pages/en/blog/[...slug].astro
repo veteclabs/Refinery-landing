@@ -1,0 +1,34 @@
+---
+// 영어 글 상세. 컬렉션 id가 'en/<slug>'라 접두사를 떼고 /en/blog/<slug>로 서빙한다.
+import { getCollection, render } from 'astro:content';
+import BlogPost from '../../../layouts/BlogPost.astro';
+import { readingMinutesForSlug } from '../../../utils/readingTime';
+
+const strip = (id: string) => id.replace(/^en\//, '');
+
+export async function getStaticPaths() {
+  const posts = (await getCollection('blog', ({ data }) => !data.draft && data.lang === 'en')).sort(
+    (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
+  );
+  return posts.map((post, i) => ({
+    params: { slug: post.id.replace(/^en\//, '') },
+    props: {
+      post,
+      // 최신순 정렬: 앞쪽이 더 최신. 다음 글=더 최신, 이전 글=더 오래된 글.
+      newer: i > 0 ? posts[i - 1] : null,
+      older: i < posts.length - 1 ? posts[i + 1] : null,
+    },
+  }));
+}
+
+const { post, newer, older } = Astro.props;
+const { Content, headings } = await render(post);
+const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
+const nav = {
+  newer: newer ? { slug: strip(newer.id), title: newer.data.title } : null,
+  older: older ? { slug: strip(older.id), title: older.data.title } : null,
+};
+---
+<BlogPost {...post.data} lang="en" slug={strip(post.id)} headings={toc} nav={nav} readingTime={readingMinutesForSlug(post.id)}>
+  <Content />
+</BlogPost>

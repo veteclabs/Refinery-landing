@@ -4,7 +4,7 @@ import BlogPost from '../../layouts/BlogPost.astro';
 import { readingMinutesForSlug } from '../../utils/readingTime';
 
 export async function getStaticPaths() {
-  const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  const posts = (await getCollection('blog', ({ data }) => !data.draft && data.lang === 'ko')).sort(
     (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
   );
   return posts.map((post, i) => ({

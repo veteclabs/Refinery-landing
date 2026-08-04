@@ -6,7 +6,7 @@ import { getCollection } from 'astro:content';
 import { readingMinutesForSlug } from '../../utils/readingTime';
 import '../../styles/blog.css';
 
-const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+const posts = (await getCollection('blog', ({ data }) => !data.draft && data.lang === 'ko')).sort(
   (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
 );
 

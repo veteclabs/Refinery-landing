@@ -1,7 +1,7 @@
 import type { UseCase } from './types';
 
 // 영어 유즈케이스 데이터. slug와 순서는 한국어(index.ts)와 1:1로 맞춘다.
-// ⚠️ 초안(원어민 검수 전). related 링크는 영어 블로그가 아직 없어 비워 둔다.
+// ⚠️ 초안(원어민 검수 전). related는 영어 블로그 글로 연결한다.
 export const useCasesEn: UseCase[] = [
   {
     slug: 'predictive-maintenance',
@@ -22,6 +22,7 @@ export const useCasesEn: UseCase[] = [
       desc: 'Mounting is all it takes. The Advantech WISE-2410 wireless vibration sensor measures 3-axis vibration and temperature, and the WISE-6610 gateway collects it over LoRaWAN. With no wiring work, installation stays simple, the battery lasts, and the hardware holds up in harsh industrial conditions.',
       includes: ['No wiring · mount-on install', 'LoRaWAN wireless · up to 5 km', 'Up to 2-year battery life', 'Built-in 3-axis accelerometer + temperature', 'ISO 20816 vibration assessment', 'IP66 · −20 to 85°C'],
     },
+    related: { label: 'What predictive maintenance actually predicts', href: '/en/blog/predictive-maintenance' },
     seo: {
       title: 'Predictive maintenance · wireless vibration monitoring (WISE-2410) | Refinery',
       description: 'Measure 3-axis vibration without wiring using WISE-2410 wireless sensors (LoRaWAN), and assess motor condition against ISO 20816. Catch early signs sooner and reduce downtime.',
@@ -39,6 +40,7 @@ export const useCasesEn: UseCase[] = [
       { title: 'Watch in real time', desc: 'See multiple signals on one screen and catch combinations that differ from the norm.' },
     ],
     signals: ['Vibration', 'Temperature', 'Humidity', 'Power', 'Pressure', 'Flow'],
+    related: { label: 'Five principles for turning industrial data into an asset', href: '/en/blog/industrial-data-best-practices' },
     seo: {
       title: 'Multi-sensor monitoring (IoT) | Refinery',
       description: 'Standardize and gather scattered sensors — from IoT devices to existing instrumentation — and connect them through an ontology for real-time monitoring.',
@@ -62,6 +64,7 @@ export const useCasesEn: UseCase[] = [
       includes: ['Metering structure by asset and area', 'Peak and contracted-demand thresholds', 'Power factor · load ratio dashboard', 'Abnormal-use alert rules'],
     },
     signals: ['Active/reactive power', 'Power factor', 'Load ratio', 'Hourly consumption', 'Peak'],
+    related: { label: 'Where the waste hides: starting with energy optimization', href: '/en/blog/energy-optimization' },
     seo: {
       title: 'Power management | Refinery',
       description: 'Make power use visible by asset, area and time of day, manage peaks, and detect abnormal consumption early to reduce electricity cost and risk.',
@@ -85,6 +88,7 @@ export const useCasesEn: UseCase[] = [
       includes: ['Voltage · frequency · harmonic monitoring items', 'Sag/swell and interruption thresholds', 'Asset-history linked view', 'Quality event alert rules'],
     },
     signals: ['Voltage', 'Frequency', 'Harmonics (THD)', 'Imbalance', 'Sag/swell'],
+    related: { label: 'Five principles for turning industrial data into an asset', href: '/en/blog/industrial-data-best-practices' },
     seo: {
       title: 'Power quality monitoring | Refinery',
       description: 'Monitor voltage, frequency, harmonics and imbalance in real time, and record momentary events automatically to uncover the hidden cause of failures and defects.',
@@ -108,6 +112,7 @@ export const useCasesEn: UseCase[] = [
       includes: ['Metering structure by energy source and asset', 'Energy intensity KPIs · dashboard', 'ESG report formats', 'Abnormal consumption · peak alert rules'],
     },
     signals: ['Electricity · gas · steam · water', 'Output', 'Emissions', 'Energy intensity', 'Peak'],
+    related: { label: 'Where the waste hides: starting with energy optimization', href: '/en/blog/energy-optimization' },
     seo: {
       title: 'Factory energy management (FEMS) | Refinery',
       description: 'Meter electricity, gas, steam and water across the plant, analyse energy intensity to find waste, and aggregate ESG reports automatically.',
@@ -125,6 +130,7 @@ export const useCasesEn: UseCase[] = [
       { title: 'Keep it from returning', desc: 'Track the effect of each improvement so savings do not leak back.' },
     ],
     signals: ['Hourly consumption', 'Peak', 'Energy intensity'],
+    related: { label: 'Where the waste hides: starting with energy optimization', href: '/en/blog/energy-optimization' },
     seo: {
       title: 'Energy optimization | Refinery',
       description: 'Find hidden waste and peaks in the data to reduce energy cost — overlaying consumption patterns on work context to uncover inefficiency.',
@@ -142,6 +148,7 @@ export const useCasesEn: UseCase[] = [
       { title: 'Warn in advance', desc: 'When a run enters a risky range, the alert comes with the evidence and a recommended action.' },
     ],
     signals: ['Temperature', 'Pressure', 'Material lot', 'Process conditions', 'Inspection results'],
+    related: { label: 'Before the defect appears: what quality prediction really looks like', href: '/en/blog/quality-prediction' },
     seo: {
       title: 'Quality prediction | Refinery',
       description: 'Read the early signs of a defect in process data and catch it before the part is finished, connecting process conditions with inspection results.',
