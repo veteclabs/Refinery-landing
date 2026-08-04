@@ -1,8 +1,8 @@
 // 헤더·푸터 IA를 로케일별로 정의한다. Nav.astro·Footer.astro가 현재 로케일로 골라 렌더한다.
 //
-// ⚠️ ko와 en의 항목이 다른 것은 의도다. 영어 페이지가 아직 /en 하나뿐이라,
-//    존재하지 않는 영어 페이지를 메뉴에 올리면 눌렀을 때 한국어 페이지가 열린다.
-//    영어 페이지를 추가할 때마다 아래 en 배열에 항목을 옮겨 담는다.
+// ko와 en은 같은 축·같은 구조를 쓴다(솔루션·리소스·회사 / Solutions·Resources·Company).
+// 영어 페이지가 아직 없는 항목만 Soon 배지로 두고, 페이지가 생기면 href를 채운다.
+// 예외: Blog는 영어판이 없어 한국어 /blog로 연결된다.
 
 export type NavLink = { label: string; href?: string; badge?: string };
 export type NavGroup = { title?: string; items: NavLink[] };
@@ -78,7 +78,7 @@ export const navMenu: Record<Lang, NavMenu[]> = {
     },
   ],
 
-  // 영어 페이지가 있는 항목만 올린다. Blog는 영어판이 없어 기존대로 한국어로 연결된다.
+  // 한국어와 같은 3축 구조(솔루션·리소스·회사). 영어 페이지가 없는 항목만 Soon 배지다.
   en: [
     {
       label: 'Solutions',
@@ -110,9 +110,34 @@ export const navMenu: Record<Lang, NavMenu[]> = {
         },
       ],
     },
-    { label: 'Platform', href: '/en#teams' },
-    { label: 'Integrations', href: '/en#integrations' },
-    { label: 'Resources', href: '/blog' },
+    {
+      label: 'Resources',
+      href: '/blog',
+      groups: [
+        {
+          items: [
+            // 영어 블로그가 없어 Blog만 한국어로 연결된다.
+            { label: 'Blog', href: '/blog' },
+            { label: 'Docs', href: '/en/docs' },
+            { label: 'Resources & whitepapers', href: '/en/resources' },
+          ],
+        },
+      ],
+    },
+    {
+      label: 'Company',
+      href: '/en/company',
+      groups: [
+        {
+          items: [
+            { label: 'About', href: '/en/company' },
+            { label: 'History & team', badge: 'Soon' },
+            { label: 'Careers', badge: 'Soon' },
+            { label: 'Newsroom', badge: 'Soon' },
+          ],
+        },
+      ],
+    },
   ],
 };
 
@@ -176,8 +201,8 @@ export const footerCols: Record<Lang, FooterCol[]> = {
       title: 'Resources',
       items: [
         { label: 'Blog', href: '/blog' },
-        { label: 'Security', href: '/en#security' },
-        { label: 'FAQ', href: '/en#faq' },
+        { label: 'Docs', href: '/en/docs' },
+        { label: 'Resources & whitepapers', href: '/en/resources' },
       ],
     },
     {

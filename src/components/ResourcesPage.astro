@@ -1,0 +1,150 @@
+---
+// 자료실 페이지. 한국어(/resources)와 영어(/en/resources)가 이 컴포넌트를 공유한다.
+// ⚠️ 초안(준비중). 실제 자료가 준비되면 각 카드에 다운로드 링크(href)를 채우고 soon 상태를 해제한다.
+// 고객 사례는 실제 확인된 내용만 게시(가공/창작 금지).
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from './Nav.astro';
+import Footer from './Footer.astro';
+import '../styles/industry.css';
+
+interface Props {
+  lang?: 'ko' | 'en';
+}
+const { lang = 'ko' } = Astro.props;
+
+type ResItem = { icon: string; label: string; desc: string; kind: string; href?: string; draft?: boolean };
+
+const T = {
+  ko: {
+    title: '자료실 · 백서 | Refinery',
+    description: 'Refinery 제품 소개서·백서·도입 가이드·웨비나 등 자료를 준비하고 있습니다. 필요한 자료는 문의로 요청해 주세요.',
+    canonical: '/resources',
+    crumbAria: '위치', home: 'Home', crumb: '자료실 · 백서',
+    eyebrow: 'RESOURCES',
+    h1: '자료실 · 백서',
+    lede: '제품 소개부터 백서, 도입 가이드, 웨비나까지. Refinery를 더 깊이 이해할 수 있는 자료를 준비하고 있습니다.',
+    noteBefore: '자료를 정리하는 중입니다. 지금 필요한 자료가 있으시면 ',
+    noteAfter: '로 요청해 주세요. 준비되는 대로 우선 보내드립니다.',
+    contactLabel: '문의하기', contactHref: '/contact',
+    draftTag: '초안 미리보기', view: '보기 →', soon: '준비중',
+    ctaTitle: '필요한 자료를<br>바로 요청하세요.',
+    ctaBtn: '자료 요청하기',
+    resources: [
+      { icon: 'ph-file-text', label: '제품 소개', desc: '핵심 기능과 도입 효과, 산업별 활용을 한 페이지로', kind: 'Web', href: '/why-refinery' },
+      { icon: 'ph-chart-line-up', label: '2026 산업 데이터·AI 리포트', desc: '데이터 활용 현황과 통합 지능·AI 에이전트 도입 흐름', kind: 'Report', href: '/reports/2026-industrial-data', draft: true },
+      { icon: 'ph-book-open', label: '백서 · 산업 데이터 통합', desc: '흩어진 현장 데이터를 하나의 지식으로 잇는 방법론', kind: 'Whitepaper', href: '/whitepapers/data-integration' },
+      { icon: 'ph-robot', label: '백서 · 산업 AI 에이전트', desc: '온톨로지 기반 AI가 근거를 들어 판단하는 구조', kind: 'Whitepaper', href: '/whitepapers/ai-agent' },
+      { icon: 'ph-projector-screen', label: '웨비나 · 데모 영상', desc: '제품 시연과 현장 적용 사례를 영상으로', kind: 'Video' },
+      { icon: 'ph-buildings', label: '산업별 활용 자료', desc: '에너지·제조·물류·공공 등 산업별 적용 포인트', kind: 'Kit' },
+    ] as ResItem[],
+  },
+  en: {
+    title: 'Resources & whitepapers | Refinery',
+    description: 'Product overviews, whitepapers, adoption guides and webinars are in preparation. Ask us for anything you need in the meantime.',
+    canonical: '/en/resources',
+    crumbAria: 'Breadcrumb', home: 'Home', crumb: 'Resources',
+    eyebrow: 'RESOURCES',
+    h1: 'Resources & whitepapers',
+    lede: 'From product overviews to whitepapers, adoption guides and webinars — material to understand Refinery more deeply is in preparation.',
+    noteBefore: 'Material is being put together. If there is something you need right now, ask us through ',
+    noteAfter: ' and we will send it to you first.',
+    contactLabel: 'Contact', contactHref: '/en/contact',
+    draftTag: 'Draft preview', view: 'View →', soon: 'Soon',
+    ctaTitle: 'Need something?<br>Just ask.',
+    ctaBtn: 'Request material',
+    // 영어판 자료가 아직 없어 링크 없이 Soon으로 둔다.
+    // (한국어 백서·리포트로 보내면 영어 방문자가 한국어 문서를 받게 된다)
+    resources: [
+      { icon: 'ph-file-text', label: 'Product overview', desc: 'Core capabilities, what you gain, and use by industry — on one page', kind: 'Web' },
+      { icon: 'ph-chart-line-up', label: '2026 Industrial Data & AI Report', desc: 'How data is being used, and where integrated intelligence and AI agents are heading', kind: 'Report' },
+      { icon: 'ph-book-open', label: 'Whitepaper · Industrial data integration', desc: 'A method for connecting scattered site data into one body of knowledge', kind: 'Whitepaper' },
+      { icon: 'ph-robot', label: 'Whitepaper · Industrial AI agents', desc: 'How ontology-based AI reasons with the evidence behind it', kind: 'Whitepaper' },
+      { icon: 'ph-projector-screen', label: 'Webinars & demo videos', desc: 'Product walkthroughs and field applications on video', kind: 'Video' },
+      { icon: 'ph-buildings', label: 'Industry kits', desc: 'Application points for energy, manufacturing, logistics, public sector and more', kind: 'Kit' },
+    ] as ResItem[],
+  },
+}[lang];
+---
+
+<BaseLayout
+  title={T.title}
+  description={T.description}
+  canonical={T.canonical}
+  robots="noindex, follow"
+>
+  <Nav />
+  <main class="ind">
+    <!-- HERO -->
+    <section class="ind-hero">
+      <div class="ind-container">
+        <nav class="ind-crumb" aria-label={T.crumbAria}><a href={lang === "en" ? "/en" : "/"}>{T.home}</a><span>›</span><span>{T.crumb}</span></nav>
+        <p class="ind-eyebrow">{T.eyebrow}</p>
+        <h1>{T.h1}</h1>
+        <p class="ind-lede">{T.lede}</p>
+        <div class="res-note">
+          📄 {T.noteBefore}<a href={T.contactHref}>{T.contactLabel}</a>{T.noteAfter}
+        </div>
+      </div>
+    </section>
+
+    <!-- GRID -->
+    <section class="ind-section">
+      <div class="ind-container">
+        <div class="ind-grid ind-grid-3">
+          {T.resources.map((r) => {
+            const inner = (
+              <>
+                <div class="res-icon"><i class={`ph ${r.icon}`} aria-hidden="true"></i></div>
+                <span class="res-kind">{r.kind}</span>
+                <h3>{r.label}</h3>
+                <p>{r.desc}</p>
+                {r.href
+                  ? (r.draft ? <span class="res-tag">{T.draftTag}</span> : <span class="res-go">{T.view}</span>)
+                  : <span class="res-soon">{T.soon}</span>}
+              </>
+            );
+            return r.href
+              ? <a class="ind-card res-card is-link" href={r.href}>{inner}</a>
+              : <div class="ind-card res-card">{inner}</div>;
+          })}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="ind-cta">
+      <div class="ind-container">
+        <h2 set:html={T.ctaTitle}></h2>
+        <a href={T.contactHref} class="ind-btn-primary ind-btn-lg">{T.ctaBtn}</a>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .res-note {
+    margin-top: 22px; max-width: 640px;
+    background: #f4f7fa; border: 1px solid #e3e7ec; border-radius: 12px;
+    padding: 14px 18px; font-size: 14.5px; line-height: 1.6; color: #47535f;
+  }
+  .res-note a { color: #4b86bf; text-decoration: underline; text-underline-offset: 2px; font-weight: 600; }
+  .res-card { position: relative; opacity: 0.85; }
+  .res-card.is-link { opacity: 1; text-decoration: none; display: block; transition: border-color .2s, box-shadow .2s, transform .2s; }
+  .res-card.is-link:hover { border-color: var(--accent, #76a6d7); box-shadow: 0 8px 24px rgba(16,32,44,0.07); transform: translateY(-2px); }
+  .res-go { display: inline-block; margin-top: 12px; font-size: 14px; font-weight: 600; color: #4b86bf; }
+  .res-tag { position: absolute; top: 18px; right: 18px; font-size: 11px; font-weight: 700; color: #b4863c; background: #fbf1dd; border-radius: 999px; padding: 3px 9px; }
+  .res-icon {
+    width: 42px; height: 42px; display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 10px; background: #eef2f6; color: #4b86bf; font-size: 22px; margin-bottom: 14px;
+  }
+  .res-kind {
+    display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .04em;
+    color: #7e8a98; margin-bottom: 6px;
+  }
+  .res-soon {
+    position: absolute; top: 18px; right: 18px;
+    font-size: 11px; font-weight: 700; color: #7e8a98;
+    background: #eef1f4; border-radius: 999px; padding: 3px 9px;
+  }
+</style>
