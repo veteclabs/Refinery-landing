@@ -125,6 +125,21 @@ const jsonLd = {
       </div>
     </section>
 
+    {/* 다른 과제 — 데이터에서 showRelatedUseCases를 켠 유즈케이스에만 렌더된다.
+        신호 섹션(흰색)과 CTA(흰색) 사이라 회색 배경으로 한 구역처럼 구분한다. */}
+    {uc.showRelatedUseCases && (
+      <section class="ind-section ind-soft">
+        <div class="ind-container uc-narrow">
+          <header class="ind-head"><h2>다른 과제</h2></header>
+          <div class="uc-cases">
+            {useCases.filter((u) => u.slug !== uc.slug).map((u) => (
+              <a class="uc-case" href={`/use-cases/${u.slug}`}>{u.name}</a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
     <!-- CTA -->
     <section class="ind-cta">
       <div class="ind-container">
@@ -144,6 +159,16 @@ const jsonLd = {
     font-size: 14px; color: #16202c; background: #fff; border: 1px solid var(--border);
     border-radius: 999px; padding: 8px 16px;
   }
+  /* 다른 과제 — 신호 칩과 같은 톤이되 링크라 hover를 준다.
+     위 how 카드와 경쟁하지 않도록 카드가 아닌 칩 형태로 둔다. */
+  .uc-cases { display: flex; flex-wrap: wrap; gap: 10px; }
+  .uc-case {
+    font-size: 14px; color: #16202c; background: #fff; border: 1px solid var(--border);
+    border-radius: 999px; padding: 8px 16px;
+    transition: border-color .2s, color .2s, box-shadow .2s;
+  }
+  .uc-case:hover { border-color: var(--accent); color: #4b86bf; box-shadow: 0 4px 14px rgba(16,32,44,.06); }
+
   .uc-related { margin-top: 26px; font-size: 15px; color: #47535f; }
   .uc-related a { color: #4b86bf; text-decoration: underline; text-underline-offset: 2px; font-weight: 600; }
 

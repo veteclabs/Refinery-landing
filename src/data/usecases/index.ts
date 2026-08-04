@@ -21,6 +21,9 @@ export const useCases: UseCase[] = [
       { icon: 'ph-lightbulb', title: '근거 있는 조치 제안', desc: 'AI가 원인 추정과 다음 조치를 근거 데이터·이력과 함께 제시합니다.' },
     ],
     signals: ['3축 진동', '온도', '전류', '가동 이력'],
+    // 본문에서 형제 유즈케이스로 가는 링크가 없어 막다른 길이던 것을 보완한다.
+    // 우선 예지보전에서만 시험하고, 괜찮으면 나머지 6개에도 켠다.
+    showRelatedUseCases: true,
     template: {
       badge: '무선 진동센서 · LoRaWAN',
       title: 'WISE-2410 무선 센서로 배선 없이 시작',
