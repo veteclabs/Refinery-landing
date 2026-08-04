@@ -180,7 +180,8 @@
     }
 
     /* FOOTER (index.html과 동일) */
-    footer { padding: 60px 0 20px; overflow: hidden; border-top: 1px solid var(--border); }
+    /* 여백은 nav-footer.css 공통값을 쓰고, 문의 페이지에만 있는 윗선만 여기서 더한다. */
+    footer { border-top: 1px solid var(--border); }
     .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 24px; }
     .footer-brand p { font-family: 'JetBrains Mono', monospace; font-size: 15px; color: #0b0e14; margin-top: 10px; line-height: 1.7; max-width: 220px; }
     .footer-col-title { font-size: 13px; font-weight: 600; margin-bottom: 14px; }
