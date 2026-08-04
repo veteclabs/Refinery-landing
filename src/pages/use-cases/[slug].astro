@@ -423,19 +423,18 @@ const jsonLd = {
     gap: 16px; padding: 24px 12px;
     background: transparent; border: none;
   }
+  /* 배경 원 없이 아이콘만 70px로 보여준다. */
   .uc-signal-icon {
-    width: 72px; height: 72px; border-radius: 50%;
-    background: var(--accent-soft);
+    width: 70px; height: 70px;
     flex: none;
     display: flex; align-items: center; justify-content: center;
     color: #76a6d7;
   }
-  /* 원(72px) 대비 아이콘 32px. 아이콘이 없으면 빈 원으로 남는다.
-     SVG는 stroke가 currentColor라 위 color만 바꾸면 색이 따라온다. */
-  .uc-signal-icon i { font-size: 32px; line-height: 1; }
+  /* SVG는 stroke가 currentColor라 위 color만 바꾸면 색이 따라온다. */
+  .uc-signal-icon i { font-size: 70px; line-height: 1; }
   /* set:html로 주입된 SVG에는 Astro 스코프 속성이 붙지 않으므로 :global이 필요하다.
-     (없으면 width/height 없는 SVG가 원 전체 72px로 늘어난다) */
-  .uc-signal-icon :global(svg) { width: 32px; height: 32px; display: block; }
+     (없으면 width/height 없는 SVG가 부모 크기로 늘어난다) */
+  .uc-signal-icon :global(svg) { width: 70px; height: 70px; display: block; }
   .uc-signal-label { font-size: 16px; font-weight: 550; color: var(--text); line-height: 1.4; }
   @media (max-width: 860px) {
     .uc-signal-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
