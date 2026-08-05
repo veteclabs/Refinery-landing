@@ -89,7 +89,7 @@ const jsonLd = {
             <div class="ind-card">
               {h.icon && <span class="uc-card-icon" aria-hidden="true"><i class={`ph ${h.icon}`}></i></span>}
               <h3>{h.title}</h3>
-              <p>{h.desc}</p>
+              <p set:html={h.desc}></p>
             </div>
           ))}
         </div>
