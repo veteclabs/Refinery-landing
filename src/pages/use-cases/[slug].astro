@@ -527,16 +527,29 @@ const jsonLd = {
   /* CTA만 500 — 랜딩 #cta가 섹션 대제목(600)과 다르게 500을 쓰는 것을 따른다. */
   .uc-predictive-maintenance .ind-cta h2 { font-weight: 500; }
 
-  /* WISE 밴드를 랜딩 'From Data to Intelligence' 섹션 배경(#111316)과 같은 면으로.
-     어두운 면이라 글자를 흰색으로 뒤집는다. 배지는 흰 알약이라 그대로 두면 또렷하다.
-     이 페이지에만 적용 — .uc-template은 전력관리·전력품질·공장 에너지관리도 함께 쓴다. */
-  .uc-predictive-maintenance .uc-template {
-    background: #111316; border: none;
+  /* ───────────────────────────────────────────────────────────
+     'Refinery는 이렇게 풉니다' 섹션을 랜딩 'From Data to Intelligence'(#platform)와
+     같은 구성으로. 실측값: 섹션·카드 면 #111316, 카드 테두리 #272B32,
+     제목 #EDEEF0, 설명 #959CA5, 아이콘 accent.
+     카드 면이 섹션 면과 같아서 테두리만으로 구분되는 것이 그 섹션의 특징이다.
+     이 페이지에만 적용 — .ind-soft/.ind-card/.uc-template은 다른 유즈케이스도 함께 쓴다.
+     ─────────────────────────────────────────────────────────── */
+  .uc-predictive-maintenance .ind-soft { background: #111316; }
+  .uc-predictive-maintenance .ind-soft .ind-head h2 { color: #edeef0; }
+  .uc-predictive-maintenance .ind-soft .ind-card {
+    background: #111316; border: 1px solid #272b32;
   }
-  .uc-predictive-maintenance .uc-template h3 { color: #fff; }
-  .uc-predictive-maintenance .uc-template p { color: rgba(255, 255, 255, .82); }
-  .uc-predictive-maintenance .uc-template-list li { color: #fff; }
-  .uc-predictive-maintenance .uc-template-list li i { color: #9cc4e8; }
+  .uc-predictive-maintenance .ind-soft .ind-card h3 { color: #edeef0; }
+  .uc-predictive-maintenance .ind-soft .ind-card p { color: #959ca5; }
+
+  /* WISE 밴드도 같은 계열 — 면이 섹션과 같으므로 테두리로 구분한다. */
+  .uc-predictive-maintenance .uc-template {
+    background: #111316; border: 1px solid #272b32;
+  }
+  .uc-predictive-maintenance .uc-template h3 { color: #edeef0; }
+  .uc-predictive-maintenance .uc-template p { color: #959ca5; }
+  .uc-predictive-maintenance .uc-template-list li { color: #edeef0; }
+  .uc-predictive-maintenance .uc-template-list li i { color: #76a6d7; }
 
   /* 대제목과 그 아래 내용 사이 간격. 공통값(.ind-head 44px)보다 넓혀
      섹션이 시작되는 지점을 또렷하게 한다. 페이지 안 세 섹션에 같이 적용해
