@@ -34,7 +34,7 @@ export const useCases: UseCase[] = [
       { label: '3축 진동', icon: 'vibration' },
       { label: '온도', icon: 'temperature' },
       { label: '전류', icon: 'current' },
-      { label: '가동 이력', icon: 'runtime', iconBare: true },
+      { label: '가동 이력', icon: 'runtime' },
     ],
     // 본문에서 형제 유즈케이스로 가는 링크가 없어 막다른 길이던 것을 보완한다.
     // 우선 예지보전에서만 시험하고, 괜찮으면 나머지 6개에도 켠다.
