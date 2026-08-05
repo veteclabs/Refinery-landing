@@ -59,7 +59,7 @@ export const useCases: UseCase[] = [
   {
     slug: 'sensor-monitoring',
     ctaTitle: '센서 모니터링, 우리 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
-    cardDesc: '진동·온도·전력·환경까지 흩어진 센서를<br>한 구조로 모아 감시합니다.',
+    cardDesc: '진동 · 온도 · 전력 · 환경까지 흩어진 센서를<br>한 구조로 모아 감시합니다.',
     name: '센서 모니터링(IoT)',
     cardImage: {
       src: '/use-cases/cards/sensor-monitoring.webp',
@@ -117,7 +117,7 @@ export const useCases: UseCase[] = [
   {
     slug: 'power-quality',
     ctaTitle: '전력품질, 우리 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
-    cardDesc: '전압 변동·고조파·순간 정전 같은 품질 이상을<br>실시간으로 감시합니다.',
+    cardDesc: '전압 변동 · 고조파 · 순간 정전 같은 품질 이상을<br>실시간으로 감시합니다.',
     name: '전력품질',
     cardImage: {
       src: '/use-cases/cards/power-quality.webp',
