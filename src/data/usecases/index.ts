@@ -59,7 +59,7 @@ export const useCases: UseCase[] = [
   {
     slug: 'sensor-monitoring',
     ctaTitle: '센서 모니터링, 우리 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
-    cardDesc: '진동·온도·전력·환경까지, 흩어진 센서를<br>한 구조로 모아 감시합니다.',
+    cardDesc: '진동·온도·전력·환경까지 흩어진 센서를<br>한 구조로 모아 감시합니다.',
     name: '센서 모니터링(IoT)',
     cardImage: {
       src: '/use-cases/cards/sensor-monitoring.webp',
@@ -85,7 +85,7 @@ export const useCases: UseCase[] = [
   {
     slug: 'power-management',
     ctaTitle: '전력관리, 우리 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
-    cardDesc: '언제 어디서 얼마나 쓰는지 데이터로 파악해,<br>전력 비용과 리스크를 줄입니다.',
+    cardDesc: '언제 어디서 얼마나 쓰는지 데이터로 파악해<br>전력 비용과 리스크를 줄입니다.',
     name: '전력관리',
     cardImage: {
       src: '/use-cases/cards/power-management.webp',
@@ -149,7 +149,7 @@ export const useCases: UseCase[] = [
   {
     slug: 'factory-energy',
     ctaTitle: '공장 에너지관리, 우리 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
-    cardDesc: '공장 전체의 에너지 흐름을 한곳에서 보고,<br>낭비와 배출을 함께 줄입니다.',
+    cardDesc: '공장 전체의 에너지 흐름을 한곳에서 보고<br>낭비와 배출을 함께 줄입니다.',
     cardImage: {
       src: '/use-cases/cards/factory-energy.webp',
       alt: '',
@@ -181,7 +181,7 @@ export const useCases: UseCase[] = [
   {
     slug: 'energy-optimization',
     ctaTitle: '에너지 최적화, 우리 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
-    cardDesc: '숨은 낭비와 피크를 데이터로 찾아, 같은 일을<br>더 적은 비용으로 합니다.',
+    cardDesc: '숨은 낭비와 피크를 데이터로 찾아 같은 일을<br>더 적은 비용으로 합니다.',
     cardImage: {
       src: '/use-cases/cards/energy-optimization.webp',
       alt: '',
@@ -207,7 +207,7 @@ export const useCases: UseCase[] = [
   {
     slug: 'quality-prediction',
     ctaTitle: '품질 예측, 우리 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
-    cardDesc: '공정 데이터에서 불량의 전조를 읽어,<br>완성 전에 잡습니다.',
+    cardDesc: '공정 데이터에서 불량의 전조를 읽어<br>완성 전에 잡습니다.',
     cardImage: {
       src: '/use-cases/cards/quality-prediction.webp',
       alt: '',
