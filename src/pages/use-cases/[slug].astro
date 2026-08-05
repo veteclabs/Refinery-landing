@@ -51,7 +51,7 @@ const jsonLd = {
                 {/* 위계를 뒤집은 형태 — 과제명이 태그라인, tagline 문장이 대제목이다.
                     설명 문단은 그 문장과 겹치므로 렌더하지 않는다. */}
                 <p class="uc-hero-tag">{uc.name}</p>
-                <h1>{uc.tagline}</h1>
+                <h1 set:html={uc.heroTitle ?? uc.tagline}></h1>
               </Fragment>
             ) : (
               <Fragment>

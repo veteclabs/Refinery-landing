@@ -67,6 +67,10 @@ export type UseCase = {
    *  tagline 문장이 h1(대제목)이 된다. 아래 설명 문단은 중복이라 렌더하지 않는다.
    *  기본 false — 과제명이 h1, tagline이 설명 문단. */
   heroTaglineAsTitle?: boolean;
+  /** 히어로 대제목. heroTaglineAsTitle을 켠 경우 tagline 대신 이 문구를 쓴다.
+   *  히어로 폭에 맞춰 <br>로 줄을 직접 끊은 판이다(tagline은 유즈케이스 목록·
+   *  다른 과제 카드에도 쓰여 폭이 달라, 거기에 <br>이 들어가면 엉뚱하게 끊긴다). */
+  heroTitle?: string;
   /** '다른 과제' 카드의 배경 이미지. 넣으면 카드를 꽉 채우고 제목이 흰색이 된다.
    *  없으면 기존 흰 카드 그대로. 표시 381x240이므로 854x480(2배) 권장. */
   cardImage?: UseCaseImage;
