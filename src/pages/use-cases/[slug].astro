@@ -596,12 +596,14 @@ const jsonLd = {
     gap: 32px; flex-wrap: wrap;
   }
   .uc-head-row h2 { margin-bottom: 0; }
-  /* global.css의 .hero-demo-link와 같은 표현(18px · accent · hover 시 화살표 이동) */
+  /* global.css의 .hero-demo-link와 같은 표현(18px · hover 시 화살표 이동).
+     기본은 옆 대제목과 같은 색이라 한 줄로 붙어 읽히고, 하늘색은 hover에만 쓴다. */
   .uc-more-link {
     display: inline-flex; align-items: center; gap: 8px; flex: none;
-    font-size: 18px; font-weight: 400; color: #76a6d7;
+    font-size: 18px; font-weight: 400; color: var(--text);
     transition: color .2s ease;
   }
+  .uc-more-link:hover { color: #76a6d7; }
   .uc-more-link svg { transition: transform .2s ease; }
   .uc-more-link:hover svg { transform: translateX(4px); }
 
