@@ -23,12 +23,18 @@ Refinery Landing의 브랜치 전략과 배포 흐름을 정의한다. 모든 �
 
 Vercel은 **프로덕션 브랜치를 하나만** 프로덕션 도메인에 배포한다. 이 프로젝트는 저장소 기본 브랜치인 `main`이 프로덕션 브랜치다.
 
-- **main** → Production → `https://refinery.kr`
-- **develop** → Preview(스테이징). 브랜치 고정 Preview URL로 리뷰/QA.
+- **main** → Production → `https://refinery.kr` (커스텀 도메인, 공개)
+- **develop** → Preview(스테이징) → `https://refinery-landing-git-develop-vetec.vercel.app` (브랜치 고정 별칭, 항상 최신 develop)
 - **작업 브랜치 / PR** → 브랜치별 Preview 자동 생성.
 
-> 확인: Vercel → 프로젝트 → **Settings → Git → Production Branch = `main`**.
-> (선택) Vercel → **Domains** 에서 `staging.refinery.kr` 를 `develop` 브랜치에 매핑하면 고정 스테이징 주소가 생긴다.
+> 확인됨(2026-08): Production Branch = **`main`**. Deployment Protection은 **`ssoProtection: all_except_custom_domains`** — 즉 **커스텀 도메인(refinery.kr)만 공개, 모든 프리뷰는 Vercel 로그인(팀 vetec) 필요**. 스테이징 프리뷰는 팀원이 Vercel에 로그인한 상태에서만 열린다(비로그인 시 302 → SSO). 스테이징엔 적절한 기본값이다.
+
+### 스테이징 고정 주소 붙이기 (선택) — `staging.refinery.kr`
+프리뷰 별칭 대신 사람이 기억하기 쉬운 고정 주소를 원하면:
+
+1. **Vercel → 프로젝트 → Settings → Domains → Add** `staging.refinery.kr` → **Git Branch = `develop`** 로 지정.
+2. **DNS(Cloudflare, refinery.kr 관리처)**: `staging` **CNAME → `cname.vercel-dns.com`** (Vercel이 안내하는 값 그대로). 프록시(주황 구름)는 Vercel 안내에 따름(대개 DNS only).
+3. `staging.refinery.kr`는 **커스텀 도메인**이라 위 SSO 예외에 걸려 **공개 접근**이 된다. 외부 노출을 막으려면 Vercel Deployment Protection에서 이 도메인만 별도 보호하거나, Password Protection을 건다.
 
 ## 워크플로우
 
@@ -59,6 +65,12 @@ git switch -c hotfix/<짧은-설명>          # main에서 분기
 
 - 수정 → **PR (base: `main`)** → 머지(즉시 프로덕션)
 - **반드시 `develop`에도 반영** (`main` → `develop` 머지 또는 동일 변경 재-PR). 안 하면 다음 릴리스에서 되돌아간다.
+
+## 릴리스 게이팅 — 초안·미검수 콘텐츠
+
+- 원어민 검수 전 번역, `준비중`/`Soon` 배지, `[자리표시자]` 수치 등 **미완성·미검수 콘텐츠는 `develop`(스테이징)까지만** 올려 검토한다.
+- **검수·승인 전에는 `main`(프로덕션)으로 릴리스하지 않는다.** 릴리스 PR(develop→main)에 그런 콘텐츠가 섞여 있으면, 완성분만 먼저 릴리스하고 미검수분은 검수 후 릴리스한다.
+- 대표 예: **영어 i18n은 원어민 검수 완료 후에만 프로덕션 릴리스**한다(그 전에는 develop 스테이징에서만 확인).
 
 ## 브랜치 네이밍
 
