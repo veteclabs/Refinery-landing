@@ -365,6 +365,10 @@ const jsonLd = {
   .uc-page .uc-hero-bg .ind-hero-actions .ind-btn-ghost {
     color: #fff; border-color: rgba(255,255,255,.6); background: transparent;
   }
+  /* 제목이 문장이 되면서 히어로가 빽빽해져 위·사이 여백을 넓힌다
+     (공통값은 margin-top 32px · gap 10px). */
+  .uc-predictive-maintenance .ind-hero-actions { margin-top: 48px; gap: 16px; }
+
   /* 주 버튼(문의하기)은 accent 면으로 채워 사진 위에서 먼저 눈에 들어오게 한다. */
   .uc-page .uc-hero-bg .ind-hero-actions .ind-btn-primary {
     background: #76a6d7; color: #fff; border-color: #76a6d7;
@@ -372,10 +376,11 @@ const jsonLd = {
   /* 기본이 이미 accent 면이라 hover는 한 단계 어둡게 간다
      (흰 면으로 뒤집으면 보조 버튼 hover와 겹쳐 구분이 사라진다). */
   .uc-page .uc-hero-bg .ind-hero-actions .ind-btn-primary:hover {
-    background: #5f93c9; border-color: #5f93c9; color: #fff;
+    background: #5a8fc5; border-color: #5a8fc5; color: #fff;
   }
+  /* 보조 버튼은 흰 면으로 뒤집는다 — 주 버튼(accent 면)과 상태가 겹치지 않는다. */
   .uc-page .uc-hero-bg .ind-hero-actions .ind-btn-ghost:hover {
-    background: #76a6d7; border-color: #76a6d7; color: #fff;
+    background: #fff; border-color: #fff; color: #76a6d7;
   }
 
   /* 히어로 2컬럼 (heroImage 있을 때만) */
