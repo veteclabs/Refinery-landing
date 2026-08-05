@@ -411,14 +411,8 @@ const jsonLd = {
   /* 위 여백 180px은 문의하기 페이지 제목 위치에 맞춘 값이라 건드리지 않는다.
      세로를 키울 땐 아래 여백만 늘려야 제목 위치가 그대로 유지된다. */
   .uc-predictive-maintenance .ind-hero { padding-top: 180px; padding-bottom: 100px; }
-  .uc-predictive-maintenance .ind-hero h1 {
-    font-size: clamp(30px, 4.2vw, 48px);
-    font-weight: 600;
-    letter-spacing: -0.8px;
-    line-height: 1.3;
-    /* 제목이 문장이 되면서 어절이 잘린다('전조 / 를 읽어'). 띄어쓰기에서만 끊는다. */
-    word-break: keep-all;
-  }
+  /* 제목이 문장이 되면서 어절이 잘린다('전조 / 를 읽어'). 띄어쓰기에서만 끊는다. */
+  .uc-predictive-maintenance .ind-hero h1 { word-break: keep-all; }
   /* 태그라인 — 히어로의 과제명과 '왜 필요한가?' 배지가 같은 형태를 쓴다.
      ind-eyebrow/ind-badge처럼 대문자·자간 확대·알약 배경을 쓰지 않고
      한글 그대로 읽히게 둔다. */
@@ -516,7 +510,9 @@ const jsonLd = {
     transform: none; /* .ind-btn-primary:hover의 translateY 상쇄 */
   }
 
-  /* 섹션 대제목을 랜딩 섹션 대제목과 같은 값으로 맞춘다(clamp 28~45px · 600). */
+  /* 히어로 제목과 섹션 대제목을 한 값으로 묶는다(랜딩 섹션 대제목과 같은 clamp 28~45px · 600).
+     따로 두면 한쪽만 바뀌어 어긋나므로 선택자를 합쳐 관리한다. */
+  .uc-predictive-maintenance .ind-hero h1,
   .uc-predictive-maintenance .ind-head h2,
   .uc-predictive-maintenance .ind-cta h2 {
     font-size: clamp(28px, 4vw, 45px);
