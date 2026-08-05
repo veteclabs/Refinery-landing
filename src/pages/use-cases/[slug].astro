@@ -398,11 +398,13 @@ const jsonLd = {
   /* 'Refinery는 이렇게 풉니다' 카드를 랜딩 'From Data to Intelligence' 섹션의
      .series-card와 같은 규격으로 맞춘다(색은 이 페이지 것을 유지).
      아이콘을 상자 없이 위에 두고 제목까지 크게 띄우는 것이 그 카드의 특징이다. */
-  /* 아이콘~제목 간격 — 랜딩 .series-icon과 같은 80px. */
+  /* 아이콘~제목 간격. 랜딩 .series-icon은 80px이지만 그 카드는 배경이 거의 검정
+     (rgb 17,19,22)이라 빈 공간이 뒤로 물러난다. 이 카드는 흰 배경이라 같은 80px이
+     더 넓게 보이므로 65px로 낮춰 보이는 인상을 맞춘다. */
   .uc-card-icon {
     display: inline-flex; align-items: center; justify-content: center;
     width: fit-content; height: auto;
-    margin-bottom: 80px;
+    margin-bottom: 65px;
     color: #2f6ba3;
   }
   .uc-card-icon i { font-size: 26px; line-height: 1; }
