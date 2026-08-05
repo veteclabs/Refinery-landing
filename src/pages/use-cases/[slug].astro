@@ -626,10 +626,12 @@ const jsonLd = {
   .uc-signal-icon {
     width: 80px; height: 80px; flex: none;
     border-radius: 50%;
-    background: #eef4fb;
+    /* 왼쪽 위가 밝고 오른쪽 아래로 짙어지는 대각 그라데이션 —
+       평면 채움보다 원이 살짝 떠 보인다. */
+    background: linear-gradient(135deg, #9cc4e8 0%, #76a6d7 55%, #5f93c9 100%);
     border: none;
     display: flex; align-items: center; justify-content: center;
-    color: #76a6d7;
+    color: #fff;
   }
   /* SVG는 stroke가 currentColor라 위 color만 바꾸면 색이 따라온다. */
   .uc-signal-icon i { font-size: 40px; line-height: 1; }
