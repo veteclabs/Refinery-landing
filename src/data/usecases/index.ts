@@ -12,6 +12,7 @@ export const useCases: UseCase[] = [
     heroAlignsWithNav: true,
     // 버튼 형태가 되면서 화살표가 어색해져 뺀다
     heroSecondaryAction: { label: '플랫폼 개요', href: '/why-refinery' },
+    heroTaglineAsTitle: true,
     tagline: '무선 진동센서로 모터의 고장 전조를 읽어, 멈춤과 손실을 줄입니다.',
     heroImageAsBackground: true,
     heroImage: {
