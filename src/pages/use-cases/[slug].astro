@@ -519,11 +519,11 @@ const jsonLd = {
     letter-spacing: -0.8px;
     line-height: 1.3;
   }
-  /* 밝은 배경의 어두운 글자는 획이 조여 보여 600. */
-  .uc-predictive-maintenance .ind-head h2 { font-weight: 600; }
-  /* 어두운 배경의 흰 글자는 획이 번져 보여 한 단계 낮춘 500.
-     같은 600을 쓰면 섹션 제목보다 굵게 읽힌다. */
+  /* 히어로는 페이지의 첫 제목이라 섹션 제목과 같은 600으로 둔다.
+     어두운 배경 위 흰 글자라 실제보다 굵게 보이지만, 그만큼 무게가 실리는 것을 택했다. */
   .uc-predictive-maintenance .ind-hero h1,
+  .uc-predictive-maintenance .ind-head h2 { font-weight: 600; }
+  /* CTA만 500 — 랜딩 #cta가 섹션 대제목(600)과 다르게 500을 쓰는 것을 따른다. */
   .uc-predictive-maintenance .ind-cta h2 { font-weight: 500; }
 
   /* 대제목과 그 아래 내용 사이 간격. 공통값(.ind-head 44px)보다 넓혀
