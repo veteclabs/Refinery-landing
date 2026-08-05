@@ -312,9 +312,11 @@ const jsonLd = {
   .uc-related { margin-top: 26px; font-size: 15px; color: #47535f; }
   .uc-related a { color: #4b86bf; text-decoration: underline; text-underline-offset: 2px; font-weight: 600; }
 
-  /* 템플릿 강조 밴드 */
+  /* 템플릿 강조 밴드 — accent 면으로 채운다.
+     글자는 흰색이 아니라 어두운 색을 쓴다. #76A6D7은 밝은 편이라
+     흰 글자는 대비 2.6:1로 기준(4.5:1) 미달이고, 어두운 글자는 5~6:1로 통과한다. */
   .uc-template {
-    margin-top: 24px; background: #eef5fc; border: 1px solid #cfe0f0; border-radius: 14px;
+    margin-top: 24px; background: #76a6d7; border: none; border-radius: 14px;
     padding: 24px 26px;
   }
   .uc-template-badge {
@@ -326,10 +328,11 @@ const jsonLd = {
      위 '이렇게 풉니다' 카드, 아래 '다른 과제' 카드와 한 규격으로 맞춘다.
      목록도 설명과 같은 15px으로 올려 밴드 안에서 글자 크기가 두 종류만 남게 한다. */
   .uc-template h3 { margin-top: 14px; font-size: 20px; font-weight: 600; line-height: 1.6; color: #16202c; }
-  .uc-template p { margin-top: 5px; font-size: 15px; line-height: 1.5; color: var(--text-muted); }
+  /* 회색(--text-muted)은 파란 면 위에서 대비 1.4:1로 읽히지 않아 어두운 남색으로 바꾼다. */
+  .uc-template p { margin-top: 5px; font-size: 15px; line-height: 1.5; color: #1f3346; }
   .uc-template-list { list-style: none; padding: 0; margin: 16px 0 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px 20px; }
   .uc-template-list li { display: flex; align-items: center; gap: 8px; font-size: 15px; color: #16202c; }
-  .uc-template-list li i { color: #2f6ba3; font-size: 15px; flex: none; }
+  .uc-template-list li i { color: #1f3346; font-size: 15px; flex: none; }
   @media (max-width: 560px) { .uc-template-list { grid-template-columns: 1fr; } }
 
   /* ───────────────────────────────────────────────────────────
