@@ -565,10 +565,13 @@ const jsonLd = {
     gap: 20px;
   }
   /* 카드 상자 없이 원형 아이콘과 라벨만 세로로 쌓는다. */
+  /* 카드 면색은 'Refinery는 이렇게 풉니다' 섹션 배경(.ind-soft)과 같은 --bg-soft.
+     이 섹션은 흰 배경이라 별도 테두리 없이 면색만으로 카드가 구분된다. */
   .uc-signal {
     display: flex; flex-direction: column; align-items: center; text-align: center;
-    gap: 16px; padding: 0;
-    background: transparent; border: none;
+    gap: 16px; padding: 32px 20px;
+    background: var(--bg-soft); border: none;
+    border-radius: var(--radius);
   }
   /* 아이콘 배경 — 80px 원 안에 40px 아이콘(비율 0.5).
      color가 아이콘 stroke(currentColor)로 내려간다. */
