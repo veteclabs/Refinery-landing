@@ -49,9 +49,6 @@ export type UseCase = {
     includes?: string[];
     badge?: string;
     image?: UseCaseImage; // 있으면 밴드가 2컬럼(설명 + 이미지)이 된다.
-    /** 밴드를 꽉 채우는 배경 이미지(public 기준 절대 경로).
-     *  지정하면 어두운 사진 위 흰 글자 구성이 된다. */
-    backgroundImage?: string;
   };
   signals: UseCaseSignal[];  // 다루는 데이터·신호
   /** related 링크를 신호 섹션 제목 오른쪽 끝에 배치한다(홈 히어로의 '데모 신청하기'와 같은 형태). 기본 false */
