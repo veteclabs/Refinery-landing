@@ -679,7 +679,9 @@ const jsonLd = {
   }
   .uc-cta-bg-img {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    object-fit: cover; object-position: left top;
+    /* 두 번째 값이 커질수록 이미지가 위로 올라간다(더 아래쪽 띠가 보인다).
+       0%면 맨 윗줄, 100%면 맨 아랫줄. */
+    object-fit: cover; object-position: left 15%;
     pointer-events: none; user-select: none;
   }
   .uc-cta-bg .ind-container { position: relative; z-index: 1; }
