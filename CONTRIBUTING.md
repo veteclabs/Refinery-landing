@@ -29,12 +29,12 @@ Vercel은 **프로덕션 브랜치를 하나만** 프로덕션 도메인에 배�
 
 > 확인됨(2026-08): Production Branch = **`main`**. Deployment Protection은 **`ssoProtection: all_except_custom_domains`** — 즉 **커스텀 도메인(refinery.kr)만 공개, 모든 프리뷰는 Vercel 로그인(팀 vetec) 필요**. 스테이징 프리뷰는 팀원이 Vercel에 로그인한 상태에서만 열린다(비로그인 시 302 → SSO). 스테이징엔 적절한 기본값이다.
 
-### 스테이징 고정 주소 붙이기 (선택) — `staging.refinery.kr`
+### 스테이징 고정 주소 붙이기 (선택) — `stg.refinery.kr`
 프리뷰 별칭 대신 사람이 기억하기 쉬운 고정 주소를 원하면:
 
-1. **Vercel → 프로젝트 → Settings → Domains → Add** `staging.refinery.kr` → **Git Branch = `develop`** 로 지정.
-2. **DNS(Cloudflare, refinery.kr 관리처)**: `staging` **CNAME → `cname.vercel-dns.com`** (Vercel이 안내하는 값 그대로). 프록시(주황 구름)는 Vercel 안내에 따름(대개 DNS only).
-3. `staging.refinery.kr`는 **커스텀 도메인**이라 위 SSO 예외에 걸려 **공개 접근**이 된다. 외부 노출을 막으려면 Vercel Deployment Protection에서 이 도메인만 별도 보호하거나, Password Protection을 건다.
+1. **Vercel → 프로젝트 → Settings → Domains → Add** `stg.refinery.kr` → **Git Branch = `develop`** 로 지정.
+2. **DNS(Cloudflare, refinery.kr 관리처)**: `stg` **CNAME → `cname.vercel-dns.com`** (Vercel이 안내하는 값 그대로). 프록시(주황 구름)는 Vercel 안내에 따름(대개 DNS only).
+3. `stg.refinery.kr`는 **커스텀 도메인**이라 위 SSO 예외에 걸려 **공개 접근**이 된다. 외부 노출을 막으려면 Vercel Deployment Protection에서 이 도메인만 별도 보호하거나, Password Protection을 건다.
 
 ## 워크플로우
 
@@ -101,5 +101,5 @@ npm run build && npm run preview   # http://localhost:4321
 
 - [ ] **GitHub → Settings → Branches**: `main` 보호 규칙 — 직접 푸시 금지, PR 필수, 리뷰 승인 필수(가능하면 상태체크 통과 필수). `develop`도 선택적으로 PR 필수 보호.
 - [ ] **Vercel → Settings → Git → Production Branch = `main`** 확인.
-- [ ] (선택) **Vercel → Domains**: `staging.refinery.kr` → `develop` 브랜치 매핑(고정 스테이징 주소).
+- [ ] (선택) **Vercel → Domains**: `stg.refinery.kr` → `develop` 브랜치 매핑(고정 스테이징 주소).
 - [ ] (선택) 병합 완료된 오래된 원격 브랜치 정리(`git push origin --delete <branch>`).
