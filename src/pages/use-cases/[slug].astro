@@ -87,7 +87,7 @@ const jsonLd = {
     <section class="ind-section uc-problem-section">
       <div class="ind-container uc-narrow">
         <header class="ind-head"><p class="uc-tag">왜 필요한가요?</p></header>
-        <p class="uc-problem">{uc.problem}</p>
+        <p class="uc-problem" set:html={uc.problemHtml ?? uc.problem}></p>
       </div>
     </section>
 
@@ -234,7 +234,8 @@ const jsonLd = {
 
 <style>
   .uc-narrow { max-width: 760px; }
-  .uc-problem { font-size: 18px; line-height: 1.8; color: #2b3644; }
+  /* keep-all — 없으면 좁은 화면에서 한국어가 어절 중간에서 잘린다. */
+  .uc-problem { font-size: 18px; line-height: 1.8; color: #2b3644; word-break: keep-all; }
   .uc-chips { display: flex; flex-wrap: wrap; gap: 10px; }
   .uc-chip {
     font-size: 14px; color: #16202c; background: #fff; border: 1px solid var(--border);

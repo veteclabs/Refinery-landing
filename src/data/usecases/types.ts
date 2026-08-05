@@ -42,6 +42,11 @@ export type UseCase = {
   /** heroImage를 우측 컬럼 대신 히어로 배경으로 꽉 채운다(어두운 스크림 + 흰 글씨). 기본 false */
   heroImageAsBackground?: boolean;
   problem: string;       // 왜 필요한가(배경/문제)
+  /** 위 problem을 유즈케이스 페이지 폭에 맞춰 <br>로 줄을 끊은 판.
+   *  미지정 시 problem을 그대로 쓰고 자동 줄바꿈된다.
+   *  problem과 따로 두는 이유: 산업별 페이지(/industries/[slug])에서도 쓰이는데
+   *  거기는 폭이 좁아 여기 줄바꿈을 그대로 넣으면 엉뚱하게 끊긴다. */
+  problemHtml?: string;
   how: HowPoint[];       // 어떻게 해결하나(3~4개)
   template?: {           // 강조 밴드(템플릿/솔루션 하이라이트). badge 미지정 시 '템플릿으로 시작'
     title: string;
