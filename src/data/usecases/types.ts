@@ -18,7 +18,15 @@ export type UseCaseImage = {
  *   - 'ph-'로 시작하면 Phosphor 아이콘 폰트(예: 'ph-waveform')
  *   - 그 외에는 src/icons/signals/<name>.svg (예: 'vibration')
  *  (아이콘은 signalsAsCards를 켠 유즈케이스에서만 보인다 — 칩 형태에는 표시하지 않는다) */
-export type UseCaseSignal = string | { label: string; icon?: string };
+export type UseCaseSignal =
+  | string
+  | {
+      label: string;
+      icon?: string;
+      /** 배경 원 없이 아이콘만 원 크기로 키워 보여준다.
+       *  아이콘 자체에 원이 들어 있는 도안일 때 쓴다(원이 두 번 겹치지 않도록). */
+      iconBare?: boolean;
+    };
 
 export type HowPoint = {
   title: string;

@@ -153,9 +153,10 @@ const jsonLd = {
             {uc.signals.map((s) => {
               const label = typeof s === 'string' ? s : s.label;
               const icon = typeof s === 'string' ? undefined : s.icon;
+              const bare = typeof s === 'string' ? false : s.iconBare;
               return (
                 <div class="uc-signal">
-                  <span class="uc-signal-icon" aria-hidden="true">
+                  <span class={bare ? 'uc-signal-icon uc-signal-icon--bare' : 'uc-signal-icon'} aria-hidden="true">
                     {icon && (icon.startsWith('ph-')
                       ? <i class={`ph ${icon}`}></i>
                       : <SignalIcon name={icon} />)}
@@ -591,6 +592,9 @@ const jsonLd = {
     width: 40px; height: 40px; display: block;
     stroke-width: 2.5;
   }
+  /* 아이콘 자체에 원이 들어 있는 도안 — 배경 원을 빼고 원 크기(80px)만큼 키운다. */
+  .uc-signal-icon--bare { background: none; border: none; }
+  .uc-signal-icon--bare :global(svg) { width: 80px; height: 80px; }
   /* 획을 화면 픽셀로 고정한다. 기본값이면 viewBox(50)를 40px로 줄여 그리면서
      획도 함께 줄어(2 → 1.6px), 아이콘 크기를 조정할 때마다 굵기가 딸려 바뀐다.
      non-scaling-stroke를 쓰면 stroke-width 2가 화면에서 그대로 2px이 되고,
