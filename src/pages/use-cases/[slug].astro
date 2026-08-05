@@ -686,7 +686,10 @@ const jsonLd = {
   }
   .uc-cta-bg .ind-container { position: relative; z-index: 1; }
   .uc-page .ind-cta.uc-cta-bg h2 {
-    font-size: clamp(28px, 4vw, 45px);
+    /* 랜딩 CTA(45px)보다 한 단계 작다. 유즈케이스는 하위 페이지라 위계가 낮고,
+       문구가 더 길며, 버튼이 옆에 붙으면서 제목 폭이 781px로 좁아졌다.
+       값은 industry.css의 .ind-cta 기본값과 같다(새 규격을 만들지 않는다). */
+    font-size: clamp(26px, 3.6vw, 40px);
     font-weight: 500;
     letter-spacing: -0.8px;
     line-height: 1.35;
