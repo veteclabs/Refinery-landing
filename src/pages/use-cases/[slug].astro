@@ -531,9 +531,15 @@ const jsonLd = {
   .uc-predictive-maintenance .ind-head { margin-bottom: 64px; }
 
   /* '왜 필요한가' 본문을 리드 문단처럼 강조 */
+  /* 면색·라운드는 아래 WISE 밴드(.uc-template)와 같은 값을 쓴다.
+     왼쪽 accent 선은 남겨 '문제 제기' 구간임을 표시한다. */
   .uc-predictive-maintenance .uc-problem {
     font-size: 19px; line-height: 1.85; color: #2b3644;
-    padding-left: 22px; border-left: 3px solid var(--accent);
+    background: #eef5fc;
+    border: 1px solid #cfe0f0;
+    border-left: 3px solid var(--accent);
+    border-radius: 14px;
+    padding: 24px 26px;
   }
   .uc-predictive-maintenance .uc-narrow { max-width: 820px; }
 
