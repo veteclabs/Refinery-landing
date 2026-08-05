@@ -19,7 +19,9 @@ html { scroll-behavior: smooth; }
 body {
   font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
   background: var(--bg); color: var(--text); line-height: 1.65;
-  -webkit-font-smoothing: antialiased;
+  /* -webkit-font-smoothing은 지정하지 않는다(=auto).
+     랜딩(global.css)에 이 선언이 없어 auto로 그려지는데, 여기만 antialiased를 걸면
+     macOS에서 같은 600이어도 눈에 띄게 얇아져 두 페이지의 글자 굵기가 어긋난다. */
 }
 a { color: inherit; text-decoration: none; }
 img { max-width: 100%; height: auto; }
