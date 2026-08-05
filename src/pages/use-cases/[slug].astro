@@ -262,7 +262,8 @@ const jsonLd = {
   }
   /* keep-all — 없으면 한국어가 어절 중간에서 잘린다('흩어/진', '데/이터').
      띄어쓰기에서만 줄을 바꿔 읽는 단위가 유지된다. */
-  .uc-case-body { position: relative; z-index: 1; word-break: keep-all; }
+  /* 층 순서: 사진(0) → 어두운 막(1) → 하단 그라데이션(2) → 글(3) */
+  .uc-case-body { position: relative; z-index: 3; word-break: keep-all; }
   /* 제목·설명 크기는 랜딩 산업 카드(.industry-name / .industry-desc)와 같은 값. */
   .uc-case-label { display: block; font-size: 20px; font-weight: 600; margin-bottom: 5px; }
   .uc-case-desc { font-size: 15px; line-height: 1.5; color: var(--text-muted); text-wrap: pretty; }
@@ -300,15 +301,17 @@ const jsonLd = {
     transition: transform .3s ease;
   }
   /* 1층 — 사진 전체를 고르게 덮는 어두운 막. 카드마다 밝기가 제각각인
-     사진들의 톤을 한 단계 내려 6장이 같은 계열로 묶이게 한다. */
+     사진들의 톤을 한 단계 내려 6장이 같은 계열로 묶이게 한다.
+     z-index 필수: ::before는 생성 순서상 .uc-case-img보다 앞이라
+     지정하지 않으면 사진이 이 막을 덮어버린다(그리는 순서가 DOM 순서). */
   .uc-case--img::before {
-    content: ''; position: absolute; inset: 0;
+    content: ''; position: absolute; inset: 0; z-index: 1;
     background: rgba(17,19,22,.38);
   }
   /* 2층 — 하단 그라데이션. 글 묶음이 카드의 52~93% 구간에 놓이므로,
      위쪽 절반은 1층 막만 걸리고 그 구간부터 빠르게 짙어지게 한다. */
   .uc-case--img::after {
-    content: ''; position: absolute; inset: 0;
+    content: ''; position: absolute; inset: 0; z-index: 2;
     background: linear-gradient(180deg,
       rgba(17,19,22,0) 0%,
       rgba(17,19,22,.12) 28%,
