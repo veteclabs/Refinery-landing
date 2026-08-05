@@ -19,18 +19,29 @@ export interface Props {
   headings?: Heading[];
   nav?: { newer: NavLink; older: NavLink };
   readingTime?: number;
+  lang?: 'ko' | 'en';
 }
 
 const {
   title, description, pubDate, updatedDate, author = 'Refinery', tags = [], ogImage, slug,
-  headings = [], nav = { newer: null, older: null }, readingTime,
+  headings = [], nav = { newer: null, older: null }, readingTime, lang = 'ko',
 } = Astro.props;
 
+// 글 UI 문구·날짜 형식·경로를 로케일별로.
+const T = {
+  ko: { locale: 'ko-KR', base: '/blog', suffix: 'Refinery 블로그', toc: '목차', back: '← 블로그',
+        reading: (m: number) => `약 ${m}분 읽기`, crumbAria: '위치', navAria: '다른 글',
+        older: '← 이전 글', newer: '다음 글 →' },
+  en: { locale: 'en-US', base: '/en/blog', suffix: 'Refinery Blog', toc: 'Contents', back: '← Blog',
+        reading: (m: number) => `${m} min read`, crumbAria: 'Breadcrumb', navAria: 'More posts',
+        older: '← Previous', newer: 'Next →' },
+}[lang];
+
 const fmt = (d: Date) =>
-  new Intl.DateTimeFormat('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' }).format(d);
+  new Intl.DateTimeFormat(T.locale, { year: 'numeric', month: 'long', day: 'numeric' }).format(d);
 
 // canonical/sitemap 정합: 클린 URL 사용(Vercel이 .html도 동일 경로로 서빙)
-const canonical = `/blog/${slug}`;
+const canonical = `${T.base}/${slug}`;
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'BlogPosting',
@@ -52,7 +63,7 @@ const jsonLd = {
 };
 ---
 <BaseLayout
-  title={`${title} | Refinery 블로그`}
+  title={`${title} | ${T.suffix}`}
   ogTitle={title}
   description={description}
   canonical={canonical}
@@ -64,9 +75,9 @@ const jsonLd = {
   <main class="blog-main blog-main--post">
     <div class="post-shell">
       {headings.length > 0 && (
-        <aside class="post-toc" aria-label="목차">
+        <aside class="post-toc" aria-label={T.toc}>
           <div class="post-toc-inner">
-            <p class="post-toc-title">목차</p>
+            <p class="post-toc-title">{T.toc}</p>
             <nav>
               <ul>
                 {headings.map((h) => (
@@ -79,15 +90,15 @@ const jsonLd = {
       )}
 
       <article class="post">
-        <nav class="post-breadcrumb" aria-label="위치">
-          <a href="/blog">← 블로그</a>
+        <nav class="post-breadcrumb" aria-label={T.crumbAria}>
+          <a href={T.base}>{T.back}</a>
         </nav>
         <header class="post-header">
           <div class="post-meta">
             <time datetime={pubDate.toISOString()}>{fmt(pubDate)}</time>
             <span class="post-dot">·</span>
             <span>{author}</span>
-            {readingTime && <><span class="post-dot">·</span><span>약 {readingTime}분 읽기</span></>}
+            {readingTime && <><span class="post-dot">·</span><span>{T.reading(readingTime)}</span></>}
           </div>
           <h1>{title}</h1>
           <p class="post-desc">{description}</p>
@@ -102,19 +113,19 @@ const jsonLd = {
         </div>
 
         {(nav.older || nav.newer) && (
-          <nav class="post-nav" aria-label="다른 글">
+          <nav class="post-nav" aria-label={T.navAria}>
             {nav.older
               ? (
-                <a class="post-nav-item post-nav-prev" href={`/blog/${nav.older.slug}`}>
-                  <span class="post-nav-dir">← 이전 글</span>
+                <a class="post-nav-item post-nav-prev" href={`${T.base}/${nav.older.slug}`}>
+                  <span class="post-nav-dir">{T.older}</span>
                   <strong class="post-nav-title">{nav.older.title}</strong>
                 </a>
               )
               : <span class="post-nav-item is-empty" aria-hidden="true"></span>}
             {nav.newer
               ? (
-                <a class="post-nav-item post-nav-next" href={`/blog/${nav.newer.slug}`}>
-                  <span class="post-nav-dir">다음 글 →</span>
+                <a class="post-nav-item post-nav-next" href={`${T.base}/${nav.newer.slug}`}>
+                  <span class="post-nav-dir">{T.newer}</span>
                   <strong class="post-nav-title">{nav.newer.title}</strong>
                 </a>
               )

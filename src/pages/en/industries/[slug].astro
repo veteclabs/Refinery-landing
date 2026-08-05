@@ -1,0 +1,12 @@
+---
+// 영어 산업 상세. 본문은 한국어와 같은 IndustryPage 컴포넌트를 쓰고 데이터만 영어다.
+import IndustryPage from '../../../components/IndustryPage.astro';
+import { industriesEn } from '../../../data/industries/en';
+
+export function getStaticPaths() {
+  return industriesEn.map((ind) => ({ params: { slug: ind.slug }, props: { ind } }));
+}
+
+const { ind } = Astro.props;
+---
+<IndustryPage ind={ind} lang="en" />

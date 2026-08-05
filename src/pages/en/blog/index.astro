@@ -1,0 +1,49 @@
+---
+// 영어 블로그 목록. 한국어 /blog와 같은 마크업이고 데이터·문구만 영어다.
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Nav from '../../../components/Nav.astro';
+import Footer from '../../../components/Footer.astro';
+import { getCollection } from 'astro:content';
+import { readingMinutesForSlug } from '../../../utils/readingTime';
+import '../../../styles/blog.css';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft && data.lang === 'en')).sort(
+  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
+);
+
+const fmt = (d: Date) =>
+  new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(d);
+---
+<BaseLayout
+  title="Blog | Refinery"
+  description="Refinery’s insight and product news on industrial data, AI agents and field operations."
+  canonical="/en/blog"
+>
+  <Nav />
+  <main class="blog-main">
+    <header class="blog-hero">
+      <p class="blog-eyebrow">BLOG</p>
+      <h1>Insight &amp; news</h1>
+      <p class="blog-lede">How industrial data gets refined into decisions — and the story of the product.</p>
+    </header>
+
+    <ul class="blog-grid">
+      {posts.map((post) => (
+        <li class="blog-card">
+          <a href={`/en/blog/${post.id.replace(/^en\//, '')}`}>
+            <div class="blog-card-meta">
+              <time datetime={post.data.pubDate.toISOString()}>{fmt(post.data.pubDate)}</time>
+              <span class="blog-card-dot">·</span>
+              <span>{readingMinutesForSlug(post.id)} min read</span>
+              {post.data.tags[0] && <span class="blog-card-tag">#{post.data.tags[0]}</span>}
+            </div>
+            <h2>{post.data.title}</h2>
+            <p>{post.data.description}</p>
+            <span class="blog-card-more">Read →</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </main>
+  <Footer />
+</BaseLayout>

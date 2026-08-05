@@ -11,8 +11,10 @@ const t =
         decline: 'Reject all',
         cookie: 'Cookie Policy',
         privacy: 'Privacy Policy',
-        cookieHref: '/en/cookie-policy',
-        privacyHref: '/en/privacy',
+        // 약관류는 법적 효력이 있어 전문 번역 전까지 영어판을 만들지 않는다.
+        // 영어 로케일에서도 한국어 원문으로 연결한다(없는 /en/* 경로는 404가 된다).
+        cookieHref: '/cookie-policy',
+        privacyHref: '/privacy',
         aria: 'Cookie consent',
       }
     : {
