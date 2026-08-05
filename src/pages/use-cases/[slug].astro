@@ -531,6 +531,24 @@ const jsonLd = {
      히어로(사진) → 문제(연회색) → 해법(어두움)으로 면이 이어지게 한다. */
   .uc-predictive-maintenance .uc-problem-section { background: #f6f8fa; }
 
+  /* 태그라인을 왼쪽, 본문을 그 오른쪽에 두고 윗선을 맞춘다.
+     align-items: start — 두 칸의 높이가 달라도 첫 줄끼리 정렬된다.
+     .ind-head의 아래 여백(64px)은 2열에서는 필요 없어 없앤다. */
+  .uc-predictive-maintenance .uc-problem-section .ind-container {
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr);
+    gap: 40px;
+    align-items: start;
+  }
+  .uc-predictive-maintenance .uc-problem-section .ind-head { margin-bottom: 0; }
+  /* margin: 0 — .ind-head p가 margin-top 12px를 걸어 태그라인만 12px 내려간다. */
+  .uc-predictive-maintenance .uc-problem-section .uc-tag { margin: 0; }
+  @media (max-width: 860px) {
+    .uc-predictive-maintenance .uc-problem-section .ind-container {
+      grid-template-columns: 1fr; gap: 16px;
+    }
+  }
+
   /* ───────────────────────────────────────────────────────────
      'Refinery는 이렇게 풉니다' 섹션을 랜딩 'From Data to Intelligence'(#platform)와
      같은 구성으로. 실측값: 섹션·카드 면 #111316, 카드 테두리 #272B32,
