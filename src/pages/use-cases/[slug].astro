@@ -279,11 +279,16 @@ const jsonLd = {
     object-fit: cover; pointer-events: none; user-select: none;
     transition: transform .3s ease;
   }
-  /* 아래로 갈수록 짙어지는 스크림 — 글 묶음이 아래쪽에 있어서 그쪽을 확실히 덮는다.
-     제목만 있을 때보다 글이 길어져 중간부터 짙어지게 잡았다. */
+  /* 하단 그라데이션 — 글 묶음이 카드의 52~93% 구간에 놓이므로,
+     위쪽 절반은 사진을 거의 그대로 두고 그 구간부터 빠르게 짙어지게 한다.
+     (전체에 고르게 깔면 글자 자리가 중간 톤이 되어 사진도 흐려지고 글도 덜 읽힌다) */
   .uc-case--img::after {
     content: ''; position: absolute; inset: 0;
-    background: linear-gradient(180deg, rgba(11,14,20,.06) 0%, rgba(11,14,20,.34) 40%, rgba(11,14,20,.86) 100%);
+    background: linear-gradient(180deg,
+      rgba(11,14,20,0) 0%,
+      rgba(11,14,20,.05) 30%,
+      rgba(11,14,20,.66) 52%,
+      rgba(11,14,20,.95) 100%);
   }
   .uc-case--img { border: none; }
   .uc-case--img .uc-case-label { color: #fff; }
