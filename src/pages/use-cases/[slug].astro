@@ -201,7 +201,7 @@ const jsonLd = {
                   <span class="uc-case-label">{u.name}</span>
                   <p class="uc-case-desc" set:html={u.cardDesc ?? u.tagline}></p>
                   <span class="uc-case-go" aria-hidden="true">
-                    <svg width="12" height="12" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg>
+                    <svg width="13" height="13" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m553.85-253.85-42.16-43.38L664.46-450H180v-60h484.46L511.69-662.77l42.16-43.38L780-480 553.85-253.85Z"/></svg>
                   </span>
                 </div>
               </a>
@@ -270,10 +270,10 @@ const jsonLd = {
      이 아이콘은 '넘어간다'는 신호만 준다(그래서 aria-hidden). */
   .uc-case-go {
     display: inline-flex; align-items: center; justify-content: center;
-    /* 24px — WCAG 2.2 최소 타깃 크기(2.5.8)의 하한선.
+    /* 26px — WCAG 2.2 최소 타깃 크기(2.5.8) 하한 24px보다 한 단계 위.
        카드 전체가 링크라 이 아이콘 자체가 타깃은 아니지만,
-       그 아래로 내려가면 원과 화살촉이 뭉개져 여기를 바닥으로 잡는다. */
-    width: 24px; height: 24px; margin-top: 14px;
+       더 줄이면 1px 테두리와 화살촉 사이 여백이 없어 뭉개진다. */
+    width: 26px; height: 26px; margin-top: 14px;
     border: 1px solid currentColor; border-radius: 50%;
     color: #4b86bf;
     transition: transform .2s ease, background-color .2s ease, color .2s ease;
