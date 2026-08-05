@@ -579,18 +579,28 @@
 
     /* FOOTER */
     footer { padding: 60px 0 20px; overflow: hidden; }
-    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 24px; }
+    /* 브랜드 + 4열(솔루션·리소스·회사·신뢰). nav-footer.css의 같은 규칙과 값을 맞춘다. */
+    .footer-grid { display: grid; grid-template-columns: 2fr 1.3fr 1fr 1fr 1fr; gap: 24px; }
     .footer-brand p { font-family: 'JetBrains Mono', monospace; font-size: 15px; color: #0b0e14; margin-top: 10px; line-height: 1.7; max-width: 220px; }
     .footer-col-title { font-size: 13px; font-weight: 600; margin-bottom: 14px; }
     .footer-links { display: flex; flex-direction: column; gap: 9px; }
     .footer-links a { font-size: 13px; color: var(--text-muted); transition: color .2s; }
     .footer-links a:hover { color: #76A6D7; }
+    /* '쿠키 설정'은 배너를 여는 동작이라 button이다. 링크와 같아 보이게 맞춘다. */
+    .footer-links button {
+      font-family: inherit; font-size: 13px; color: var(--text-muted);
+      background: none; border: none; padding: 0; text-align: left;
+      cursor: pointer; transition: color .2s;
+    }
+    .footer-links button:hover { color: #76A6D7; }
     .footer-bottom { margin-top: 0; padding-top: 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
     .footer-bottom-text { font-size: 13px; color: #C8CED5; }
     .footer-bottom-links { display: flex; gap: 22px; }
-    .footer-logo-big { margin-top: 40px; line-height: 0; width: 60%; margin-left: calc(40% - 14px); }
+    /* 그리드 2번째 열부터 끝까지 차지 → 텍스트 열과 좌우가 자동으로 맞는다.
+       (nav-footer.css의 같은 규칙과 값을 맞춘다) */
+    .footer-logo-big { grid-column: 2 / -1; margin-top: 40px; line-height: 0; }
     @media (max-width: 900px) {
-      .footer-logo-big { width: 100%; margin-left: 0; }
+      .footer-logo-big { grid-column: 1 / -1; }
     }
     .footer-logo-big svg { width: 100%; height: auto; display: block; opacity: 1; }
     .footer-bottom-links a { font-size: 13px; color: var(--text-dim); transition: color .2s; }
