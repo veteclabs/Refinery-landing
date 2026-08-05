@@ -43,7 +43,7 @@ export const useCases: UseCase[] = [
     relatedAsHeaderLink: true,
     signalsAsCards: true,
     showRelatedUseCases: true,
-    ctaBackgroundImage: '/img_login-bg.webp',
+    ctaBackgroundImage: '/use-cases/predictive-cta.webp',
     template: {
       badge: '무선 진동센서 · LoRaWAN',
       title: 'WISE-2410 무선 센서로 배선 없이 시작',
