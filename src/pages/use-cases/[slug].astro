@@ -407,10 +407,12 @@ const jsonLd = {
   }
   .uc-card-icon i { font-size: 26px; line-height: 1; }
   .uc-predictive-maintenance .ind-card { padding: 24px; }
+  /* 제목·설명 크기는 랜딩 산업 카드(.industry-name / .industry-desc)와 같은 값.
+     아래 '다른 과제' 카드도 같은 값을 쓰므로 페이지 안 카드 두 묶음이 한 규격이 된다. */
   .uc-predictive-maintenance .ind-card h3 {
-    font-size: 16px; font-weight: 600; line-height: 1.4; margin: 0 0 10px;
+    font-size: 20px; font-weight: 600; line-height: 1.6; margin: 0 0 5px;
   }
-  .uc-predictive-maintenance .ind-card p { font-size: 13px; line-height: 1.65; margin: 0; }
+  .uc-predictive-maintenance .ind-card p { font-size: 15px; line-height: 1.5; margin: 0; }
 
   /* 템플릿 밴드 2컬럼 (template.image 있을 때만) */
   .uc-template--split { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 34px; align-items: center; }
