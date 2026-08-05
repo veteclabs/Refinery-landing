@@ -299,9 +299,14 @@ const jsonLd = {
     object-fit: cover; pointer-events: none; user-select: none;
     transition: transform .3s ease;
   }
-  /* 하단 그라데이션 — 글 묶음이 카드의 52~93% 구간에 놓이므로,
-     위쪽 절반은 사진을 거의 그대로 두고 그 구간부터 빠르게 짙어지게 한다.
-     (전체에 고르게 깔면 글자 자리가 중간 톤이 되어 사진도 흐려지고 글도 덜 읽힌다) */
+  /* 1층 — 사진 전체를 고르게 덮는 어두운 막. 카드마다 밝기가 제각각인
+     사진들의 톤을 한 단계 내려 6장이 같은 계열로 묶이게 한다. */
+  .uc-case--img::before {
+    content: ''; position: absolute; inset: 0;
+    background: rgba(17,19,22,.38);
+  }
+  /* 2층 — 하단 그라데이션. 글 묶음이 카드의 52~93% 구간에 놓이므로,
+     위쪽 절반은 1층 막만 걸리고 그 구간부터 빠르게 짙어지게 한다. */
   .uc-case--img::after {
     content: ''; position: absolute; inset: 0;
     background: linear-gradient(180deg,
