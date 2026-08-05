@@ -420,9 +420,10 @@ const jsonLd = {
      한글 그대로 읽히게 둔다. */
   .uc-tag {
     font-size: 18px; font-weight: 600; letter-spacing: -0.2px;
-    color: var(--accent-ink); margin-bottom: 14px;
+    /* 하늘색은 배경 밝기와 무관하게 브랜드 값 #76A6D7 하나로 통일한다.
+       밝은 배경용 --accent-ink(#4B86BF)·어두운 배경용 #9CC4E8을 쓰지 않는다. */
+    color: #76a6d7; margin-bottom: 14px;
   }
-  .uc-hero-bg .uc-tag { color: #9cc4e8; }
 
   /* 'Refinery는 이렇게 풉니다' 카드를 랜딩 'From Data to Intelligence' 섹션의
      .series-card와 같은 규격으로 맞춘다(색은 이 페이지 것을 유지).
