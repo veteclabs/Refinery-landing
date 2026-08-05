@@ -692,6 +692,16 @@ const jsonLd = {
     margin-bottom: 0;
     text-wrap: initial;
   }
+  /* 제목 좌측 · 버튼 우측으로 한 줄에 나눈다. 버튼이 제목 아래에 쌓이지 않아
+     시선이 왼쪽 문장에서 오른쪽 행동으로 바로 건너간다.
+     align-items:center — 제목이 2줄이라 버튼을 두 줄의 시각 중심에 둔다. */
+  .uc-predictive-maintenance .uc-cta-bg .ind-container {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 48px; flex-wrap: wrap;
+  }
+  .uc-predictive-maintenance .uc-cta-bg .ind-container > * { flex: none; }
+  /* 한 줄로 나란히 서므로 제목 아래 여백은 필요 없다(줄바꿈되면 아래에서 되돌린다). */
+  .uc-predictive-maintenance .uc-cta-bg .ind-btn-primary { margin-top: 0; }
   .ind-cta.uc-cta-bg .ind-btn-primary {
     margin-top: 40px;
     padding: 9px 22px;
@@ -710,5 +720,10 @@ const jsonLd = {
   }
   @media (max-width: 900px) {
     .uc-predictive-maintenance .uc-cta-bg .ind-container { padding: 0 24px; }
+  }
+  /* 좁아지면 버튼이 아래로 내려온다. 제목과 붙지 않게 여백을 되살린다. */
+  @media (max-width: 780px) {
+    .uc-predictive-maintenance .uc-cta-bg .ind-container { gap: 0; }
+    .uc-predictive-maintenance .uc-cta-bg .ind-btn-primary { margin-top: 32px; }
   }
 </style>
