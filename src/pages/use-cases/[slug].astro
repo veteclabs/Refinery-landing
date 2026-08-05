@@ -106,7 +106,21 @@ const jsonLd = {
         </div>
 
         {uc.template && (
-          <div class={uc.template.image ? 'uc-template uc-template--split' : 'uc-template'}>
+          <div class={[
+            'uc-template',
+            uc.template.image ? 'uc-template--split' : '',
+            uc.template.backgroundImage ? 'uc-template--img' : '',
+          ].filter(Boolean).join(' ')}>
+            {uc.template.backgroundImage && (
+              <img
+                class="uc-template-bg"
+                src={uc.template.backgroundImage}
+                alt=""
+                aria-hidden="true"
+                loading="lazy"
+                decoding="async"
+              />
+            )}
             <div class="uc-template-body">
               <span class="uc-template-badge"><i class="ph ph-blueprint" aria-hidden="true"></i> {uc.template.badge ?? '템플릿으로 시작'}</span>
               <h3>{uc.template.title}</h3>
@@ -333,6 +347,19 @@ const jsonLd = {
   .uc-template-list { list-style: none; padding: 0; margin: 16px 0 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px 20px; }
   .uc-template-list li { display: flex; align-items: center; gap: 8px; font-size: 15px; color: #16202c; }
   .uc-template-list li i { color: #1f3346; font-size: 15px; flex: none; }
+
+  /* 배경 이미지를 넣은 밴드 — 어두운 사진이라 글자를 흰색으로 뒤집는다.
+     배지는 흰 알약이라 그대로 두면 사진 위에서 오히려 또렷하다. */
+  .uc-template--img { position: relative; overflow: hidden; background: #0f1c2e; }
+  .uc-template-bg {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; pointer-events: none; user-select: none;
+  }
+  .uc-template--img .uc-template-body { position: relative; z-index: 1; }
+  .uc-template--img h3 { color: #fff; }
+  .uc-template--img p { color: rgba(255, 255, 255, .82); }
+  .uc-template--img .uc-template-list li { color: #fff; }
+  .uc-template--img .uc-template-list li i { color: #9cc4e8; }
   @media (max-width: 560px) { .uc-template-list { grid-template-columns: 1fr; } }
 
   /* ───────────────────────────────────────────────────────────
