@@ -50,7 +50,7 @@ const jsonLd = {
               <Fragment>
                 {/* 위계를 뒤집은 형태 — 과제명이 태그라인, tagline 문장이 대제목이다.
                     설명 문단은 그 문장과 겹치므로 렌더하지 않는다. */}
-                <p class="uc-hero-tag">{uc.name}</p>
+                <p class="uc-tag">{uc.name}</p>
                 <h1 set:html={uc.heroTitle ?? uc.tagline}></h1>
               </Fragment>
             ) : (
@@ -86,7 +86,7 @@ const jsonLd = {
     <!-- 문제 -->
     <section class="ind-section">
       <div class="ind-container uc-narrow">
-        <header class="ind-head"><span class="ind-badge">왜 필요한가</span></header>
+        <header class="ind-head"><p class="uc-tag">왜 필요한가?</p></header>
         <p class="uc-problem">{uc.problem}</p>
       </div>
     </section>
@@ -419,13 +419,14 @@ const jsonLd = {
     /* 제목이 문장이 되면서 어절이 잘린다('전조 / 를 읽어'). 띄어쓰기에서만 끊는다. */
     word-break: keep-all;
   }
-  /* 제목 위 태그라인(과제명). ind-eyebrow처럼 대문자·자간을 벌리지 않고
+  /* 태그라인 — 히어로의 과제명과 '왜 필요한가?' 배지가 같은 형태를 쓴다.
+     ind-eyebrow/ind-badge처럼 대문자·자간 확대·알약 배경을 쓰지 않고
      한글 그대로 읽히게 둔다. */
-  .uc-hero-tag {
+  .uc-tag {
     font-size: 18px; font-weight: 600; letter-spacing: -0.2px;
     color: var(--accent-ink); margin-bottom: 14px;
   }
-  .uc-hero-bg .uc-hero-tag { color: #9cc4e8; }
+  .uc-hero-bg .uc-tag { color: #9cc4e8; }
 
   /* 'Refinery는 이렇게 풉니다' 카드를 랜딩 'From Data to Intelligence' 섹션의
      .series-card와 같은 규격으로 맞춘다(색은 이 페이지 것을 유지).
