@@ -8,22 +8,45 @@ import '../styles/nav-footer.css';
         <img src="/logo_Refinery_symbol.svg" alt="Refinery" style="height:36px;">
         <p>Refining complexity<br>into pure insight</p>
       </div>
+      <!-- 열 구성·이름은 헤더(Nav.astro)와 같은 축으로 맞춘다.
+           헤더에 올리지 않은 보안·FAQ는 푸터에만 둔다. -->
       <div>
-        <div class="footer-col-title">Product</div>
-        <div class="footer-links"><a href="/#platform">Platform</a><a href="/#industries">Industries</a><a href="/#teams">Solutions</a><a href="/#integrations">Integrations</a></div>
+        <div class="footer-col-title">솔루션</div>
+        <div class="footer-links">
+          <a href="/industries/energy">에너지 · 유틸리티</a>
+          <a href="/use-cases/predictive-maintenance">예지보전</a>
+          <a href="/use-cases/sensor-monitoring">센서 모니터링(IoT)</a>
+          <a href="/use-cases/power-management">전력관리</a>
+          <a href="/use-cases/power-quality">전력품질</a>
+          <a href="/use-cases/factory-energy">공장 에너지관리</a>
+          <a href="/use-cases/energy-optimization">에너지 최적화</a>
+          <a href="/use-cases/quality-prediction">품질 예측</a>
+        </div>
       </div>
       <div>
-        <div class="footer-col-title">Trust</div>
-        <div class="footer-links"><a href="/#security">Security</a><a href="/#faq">FAQ</a></div>
+        <div class="footer-col-title">리소스</div>
+        <div class="footer-links"><a href="/blog">블로그</a><a href="/docs">문서</a><a href="/resources">자료실 · 백서</a></div>
       </div>
       <div>
-        <div class="footer-col-title">Company</div>
-        <div class="footer-links"><a href="/company">회사 소개</a><a href="/#cta">Contact Sales</a><a href="/blog">Blog</a></div>
+        <div class="footer-col-title">회사</div>
+        <div class="footer-links"><a href="/company">회사 소개</a><a href="/contact">문의하기</a></div>
       </div>
-    </div>
+      <div>
+        <div class="footer-col-title">약관</div>
+        <div class="footer-links">
+          <a href="/privacy">개인정보처리방침</a>
+          <a href="/terms">이용약관</a>
+          <a href="/cookie-policy">쿠키 정책</a>
+          <button type="button" onclick="if(window.openCookieSettings){openCookieSettings();}">쿠키 설정</button>
+        </div>
+      </div>
 
+    <!-- 큰 로고는 그리드 안에 두고 grid-column으로 2번째 열~끝을 차지하게 한다.
+         밖에 두고 퍼센트로 맞추면 열 구성이 바뀔 때마다 어긋난다. -->
     <div class="footer-logo-big">
-    <svg viewBox="0 0 3407.35 784" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">
+    <!-- viewBox 가로를 실제 글자 범위(x 80~3327.35)로 잘라낸다.
+         원본 0~3407.35에는 좌우로 빈 여백이 있어, 박스를 열에 맞춰도 글자가 안쪽으로 들어가 보였다. -->
+    <svg viewBox="80 0 3247.35 784" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">
       <defs>
         <style is:global>
           .flogo-cls-1 { fill: none; }
@@ -54,16 +77,12 @@ import '../styles/nav-footer.css';
         </g>
       </g>
     </svg>
-  </div>
+    </div>
+    </div>
 
     <div class="footer-bottom">
       <div class="footer-bottom-text">© <span id="footerYear">2026</span> VETEC. All rights reserved.</div>
-      <div class="footer-legal" role="navigation" aria-label="법적 고지">
-        <a href="/privacy">개인정보처리방침</a>
-        <a href="/terms">이용약관</a>
-        <a href="/cookie-policy">쿠키 정책</a>
-        <button type="button" onclick="if(window.openCookieSettings){openCookieSettings();}">쿠키 설정</button>
-      </div>
+      <!-- 법적 고지 4종은 위 '약관' 열로 옮겼다(같은 화면에 두 번 나오지 않도록). -->
     <script is:inline>(function(){var y=document.getElementById('footerYear'); if(y) y.textContent = new Date().getFullYear();})();</script>
     </div>
   </div>
