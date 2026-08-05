@@ -558,7 +558,8 @@ const jsonLd = {
      이후 원·아이콘 크기를 바꿔도 획은 2px로 유지된다.
      (상속되지 않는 속성이라 svg가 아니라 도형에 걸어야 한다) */
   .uc-signal-icon :global(svg *) { vector-effect: non-scaling-stroke; }
-  .uc-signal-label { font-size: 16px; font-weight: 550; color: var(--text); line-height: 1.4; }
+  /* 카드 대제목(.ind-card h3 / .uc-case-label)과 같은 20px·600. */
+  .uc-signal-label { font-size: 20px; font-weight: 600; color: var(--text); line-height: 1.6; }
   @media (max-width: 860px) {
     .uc-signal-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
