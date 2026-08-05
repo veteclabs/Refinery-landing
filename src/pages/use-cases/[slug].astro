@@ -362,11 +362,16 @@ const jsonLd = {
   /* 어두운 배경용 버튼 — global.css의 #cta .btn-primary와 같은 처리.
      페이지 전용 버튼 규칙(.uc-predictive-maintenance …, 선택자 3개)이 뒤에 선언돼 있어
      같은 우선순위면 그쪽이 이긴다. .uc-page를 붙여 4개로 올린다. */
-  .uc-page .uc-hero-bg .ind-hero-actions .ind-btn-primary,
   .uc-page .uc-hero-bg .ind-hero-actions .ind-btn-ghost {
     color: #fff; border-color: rgba(255,255,255,.6); background: transparent;
   }
-  .uc-page .uc-hero-bg .ind-hero-actions .ind-btn-primary:hover,
+  /* 주 버튼(문의하기)은 흰 면으로 채워 사진 위에서 먼저 눈에 들어오게 한다. */
+  .uc-page .uc-hero-bg .ind-hero-actions .ind-btn-primary {
+    background: #fff; color: #76a6d7; border-color: #fff;
+  }
+  .uc-page .uc-hero-bg .ind-hero-actions .ind-btn-primary:hover {
+    background: #76a6d7; border-color: #76a6d7; color: #fff;
+  }
   .uc-page .uc-hero-bg .ind-hero-actions .ind-btn-ghost:hover {
     background: #76a6d7; border-color: #76a6d7; color: #fff;
   }
