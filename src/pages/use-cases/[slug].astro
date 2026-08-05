@@ -365,15 +365,14 @@ const jsonLd = {
   .uc-page .uc-hero-bg .ind-hero-actions .ind-btn-ghost {
     color: #fff; border-color: rgba(255,255,255,.6); background: transparent;
   }
-  /* 주 버튼(문의하기)은 흰 면으로 채워 사진 위에서 먼저 눈에 들어오게 한다.
-     굵기만 500 — 밝은 면 위 어두운 글자는 400이어도 옆의 흰 글자(플랫폼 개요)보다
-     얇아 보인다. 한 단계 올려야 두 버튼이 같은 무게로 읽힌다. */
+  /* 주 버튼(문의하기)은 accent 면으로 채워 사진 위에서 먼저 눈에 들어오게 한다. */
   .uc-page .uc-hero-bg .ind-hero-actions .ind-btn-primary {
-    background: #fff; color: #76a6d7; border-color: #fff;
-    font-weight: 500;
+    background: #76a6d7; color: #fff; border-color: #76a6d7;
   }
+  /* 기본이 이미 accent 면이라 hover는 한 단계 어둡게 간다
+     (흰 면으로 뒤집으면 보조 버튼 hover와 겹쳐 구분이 사라진다). */
   .uc-page .uc-hero-bg .ind-hero-actions .ind-btn-primary:hover {
-    background: #76a6d7; border-color: #76a6d7; color: #fff;
+    background: #5f93c9; border-color: #5f93c9; color: #fff;
   }
   .uc-page .uc-hero-bg .ind-hero-actions .ind-btn-ghost:hover {
     background: #76a6d7; border-color: #76a6d7; color: #fff;
