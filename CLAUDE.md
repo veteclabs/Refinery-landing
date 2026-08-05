@@ -60,9 +60,12 @@ Vercel 두 종은 **대시보드에서 각각 Enable** 해야 수집되며, loca
 
 ## Git / 협업 · 배포 흐름
 - **`main` 직접 커밋·푸시 금지.** 모든 변경은 작업 브랜치에서 진행한다.
-- 흐름: 작업 브랜치 → 커밋 → 푸시 → **PR 생성** → 리뷰 → `main` 머지. PR 없이 `main`에 반영하지 않는다.
-- 브랜치 네이밍: `feat/`, `fix/`, `chore/`, `docs/` + 짧은 설명.
-- **`main` 머지 = 프로덕션 릴리스**(자동 배포). 머지 전 반드시 **Preview 배포 URL**에서 검증한다.
+- **2단계 흐름**: 작업 브랜치 → **`develop`(통합·스테이징)** → **`main`(프로덕션)**. 상세 전략은 [CONTRIBUTING.md](CONTRIBUTING.md).
+  - 작업 브랜치는 **`develop`에서 분기**하고 **`develop`으로 PR**한다 (base=develop).
+  - 릴리스는 **`develop` → `main` PR**로 한다. **`main` 머지 = 프로덕션 자동 배포(refinery.kr).**
+  - 긴급 수정은 `hotfix/*` (main에서 분기 → main·develop 둘 다 반영).
+- 브랜치 네이밍: `feat/`, `fix/`, `chore/`, `docs/`, `content/` + 짧은 설명.
+- 머지 전 반드시 **Preview 배포 URL**에서 검증한다(스테이징 = `develop` Preview). 상태코드만 믿지 말고 히어로 iframe 등 실제 표시를 육안 확인.
 - 커밋 메시지는 한국어 요약 + 변경 근거. 이미지 변환은 before/after 용량을 남긴다.
 - PR 본문에는 변경 요약 · 검증 방법 · 영향 범위를 적는다.
 - 커밋·PR 메시지에 **AI 공동작성/생성 표기를 넣지 않는다** (`Co-Authored-By`, `Generated with ...` 등 금지).
