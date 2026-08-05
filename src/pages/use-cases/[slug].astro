@@ -510,16 +510,21 @@ const jsonLd = {
     transform: none; /* .ind-btn-primary:hover의 translateY 상쇄 */
   }
 
-  /* 히어로 제목과 섹션 대제목을 한 값으로 묶는다(랜딩 섹션 대제목과 같은 clamp 28~45px · 600).
-     따로 두면 한쪽만 바뀌어 어긋나므로 선택자를 합쳐 관리한다. */
+  /* 큰 제목 3종(히어로·섹션·CTA)의 공통값. 랜딩 섹션 대제목과 같은 clamp 28~45px.
+     굵기는 배경에 따라 갈리므로 여기서 정하지 않는다(아래 두 규칙). */
   .uc-predictive-maintenance .ind-hero h1,
   .uc-predictive-maintenance .ind-head h2,
   .uc-predictive-maintenance .ind-cta h2 {
     font-size: clamp(28px, 4vw, 45px);
-    font-weight: 600;
     letter-spacing: -0.8px;
     line-height: 1.3;
   }
+  /* 밝은 배경의 어두운 글자는 획이 조여 보여 600. */
+  .uc-predictive-maintenance .ind-head h2 { font-weight: 600; }
+  /* 어두운 배경의 흰 글자는 획이 번져 보여 한 단계 낮춘 500.
+     같은 600을 쓰면 섹션 제목보다 굵게 읽힌다. */
+  .uc-predictive-maintenance .ind-hero h1,
+  .uc-predictive-maintenance .ind-cta h2 { font-weight: 500; }
 
   /* 대제목과 그 아래 내용 사이 간격. 공통값(.ind-head 44px)보다 넓혀
      섹션이 시작되는 지점을 또렷하게 한다. 페이지 안 세 섹션에 같이 적용해
