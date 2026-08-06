@@ -150,7 +150,7 @@ const jsonLd = {
             <div class="uc-template-body">
               <span class="uc-template-badge"><i class="ph ph-blueprint" aria-hidden="true"></i> {uc.template.badge ?? '템플릿으로 시작'}</span>
               <h3>{uc.template.title}</h3>
-              <p>{uc.template.desc}</p>
+              <p set:html={uc.template.desc}></p>
               {uc.template.includes && (
                 <ul class="uc-template-list">
                   {uc.template.includes.map((it) => <li><i class="ph ph-check" aria-hidden="true"></i>{it}</li>)}
