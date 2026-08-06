@@ -47,7 +47,7 @@ export const useCases: UseCase[] = [
     template: {
       badge: '무선 진동센서 · LoRaWAN',
       title: 'WISE-2410 무선 센서로 배선 없이 시작',
-      desc: '배선 공사 없이, 모터에 부착만 하면 시작됩니다. Advantech WISE-2410 무선 진동센서가 3축 진동과 온도를 재고, WISE-6610 게이트웨이가 LoRaWAN으로<br>데이터를 모읍니다. 배터리로 오래 돌고 거친 산업 환경에서도 견딥니다.',
+      desc: '배선 공사 없이, 모터에 부착만 하면 시작됩니다. Advantech WISE-2410 무선 진동센서가 3축 진동과 온도를 재고, WISE-6610 게이트웨이가 LoRaWAN으로 데이터를 모읍니다.<br>배터리로 오래 돌고 거친 산업 환경에서도 견딥니다.',
       includes: ['배선 불필요 · 부착식 설치', 'LoRaWAN 무선 · 최대 5km', '배터리 최장 2년 저전력', '내장 3축 가속도계 + 온도', 'ISO-20816 기준 진동 판정', 'IP66 · 동작온도 -20~85℃'],
     },
     related: { label: '예지보전은 무엇을 예측하는가', href: '/blog/predictive-maintenance' },
