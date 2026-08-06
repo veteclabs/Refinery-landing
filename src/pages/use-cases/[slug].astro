@@ -608,15 +608,14 @@ const jsonLd = {
      그림 바탕이 검정이라 mix-blend-mode: screen으로 어두운 픽셀을 날려
      밴드 배경에 녹인다. 사각 모서리가 드러나지 않는다. */
   .uc-template-deco {
-    /* 링의 중심(이미지의 45% 48% 지점)이 밴드 안에 들어오도록 잡는다.
-       중심이 잘리면 바깥 호만 남아 무엇의 일부인지 읽히지 않는다. */
-    position: absolute; top: -100px; right: -40px;
-    width: 640px; height: auto;
-    mix-blend-mode: screen; opacity: .25;
-    /* 마스크 기준점도 링 중심에 맞춘다. 바깥으로 갈수록 고르게 옅어져
-       밴드 경계에 닿을 때는 이미 사라진 상태라 직선 절단이 보이지 않는다. */
-    -webkit-mask-image: radial-gradient(62% 62% at 45% 48%, #000 35%, transparent 100%);
-    mask-image: radial-gradient(62% 62% at 45% 48%, #000 35%, transparent 100%);
+    /* 링 중심을 밴드 밖(우상단)에 두고 바깥 호만 밴드에 걸치게 한다.
+       크기와 오프셋을 같은 비율로 묶어 두면 구도는 그대로 두고 스케일만 바뀐다. */
+    position: absolute; top: -212px; right: -148px;
+    width: 700px; height: auto;
+    mix-blend-mode: screen; opacity: .2;
+    /* 우상단에서 멀어질수록 사라진다 — 밴드 좌하단 쪽으로 빛이 옅어진다. */
+    -webkit-mask-image: radial-gradient(140% 140% at 100% 0%, #000 55%, transparent 95%);
+    mask-image: radial-gradient(140% 140% at 100% 0%, #000 55%, transparent 95%);
     pointer-events: none; user-select: none;
   }
   .uc-template-body { position: relative; z-index: 1; }
