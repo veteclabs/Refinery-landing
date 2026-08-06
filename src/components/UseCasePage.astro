@@ -64,7 +64,7 @@ const jsonLd = {
   <Nav />
   {/* slug 클래스로 페이지별 스타일 스코프를 연다. 공통 .ind-* 규칙은 건드리지 않으므로
       이 클래스를 쓰지 않는 다른 유즈케이스는 기존 디자인 그대로다. */}
-  <main class={`ind uc-page uc-${uc.slug}`}>
+  <main class={`ind uc-page uc-${uc.slug}${uc.redesigned ? ' uc-redesigned' : ''}`}>
     <!-- HERO -->
     <section class={uc.heroImageAsBackground && uc.heroImage ? 'ind-hero uc-hero-bg' : 'ind-hero'}>
       {uc.heroImageAsBackground && uc.heroImage && (
@@ -185,7 +185,7 @@ const jsonLd = {
     <section class="ind-section ind-soft">
       <div class="ind-container">
         <header class="ind-head"><h2>{T.how}</h2></header>
-        <div class="ind-grid ind-grid-3">
+        <div class="ind-grid ind-grid-3" style={uc.redesigned ? `--uc-cols:${Math.min(uc.how.length, 4)}` : undefined}>
           {uc.how.map((h) => (
             <div class="ind-card">
               {h.icon && <span class="uc-card-icon" aria-hidden="true"><i class={`ph ${h.icon}`}></i></span>}
@@ -424,7 +424,7 @@ const jsonLd = {
   .uc-related a { color: #4b86bf; text-decoration: underline; text-underline-offset: 2px; font-weight: 600; }
 
   /* 템플릿 강조 밴드 — 전력관리·전력품질·공장 에너지관리도 같이 쓰는 공용 스타일이다.
-     페이지별로 바꿀 땐 아래 .uc-predictive-maintenance 스코프에서 덮을 것. */
+     페이지별로 바꿀 땐 아래 .uc-redesigned 스코프에서 덮을 것. */
   .uc-template {
     margin-top: 24px; background: #eef5fc; border: 1px solid #cfe0f0; border-radius: 14px;
     padding: 24px 26px;
@@ -452,9 +452,9 @@ const jsonLd = {
   /* 예지보전만 항목이 6개라 3열 2행이 딱 떨어진다.
      나머지(전력관리·전력품질·공장 에너지관리)는 4개여서 3열이면 3+1로 남으므로
      공용 2열 규칙을 그대로 둔다. */
-  .uc-predictive-maintenance .uc-template-list { grid-template-columns: repeat(3, 1fr); }
+  .uc-redesigned .uc-template-list { grid-template-columns: repeat(3, 1fr); }
   @media (max-width: 860px) {
-    .uc-predictive-maintenance .uc-template-list { grid-template-columns: repeat(2, 1fr); }
+    .uc-redesigned .uc-template-list { grid-template-columns: repeat(2, 1fr); }
   }
   @media (max-width: 560px) { .uc-template-list { grid-template-columns: 1fr; } }
 
@@ -488,14 +488,14 @@ const jsonLd = {
   .uc-hero-bg .ind-crumb, .uc-hero-bg .ind-crumb a { color: rgba(255,255,255,.7); }
   .uc-hero-bg .ind-eyebrow { color: #9cc4e8; }
   /* 어두운 배경용 버튼 — global.css의 #cta .btn-primary와 같은 처리.
-     페이지 전용 버튼 규칙(.uc-predictive-maintenance …, 선택자 3개)이 뒤에 선언돼 있어
+     페이지 전용 버튼 규칙(.uc-redesigned …, 선택자 3개)이 뒤에 선언돼 있어
      같은 우선순위면 그쪽이 이긴다. .uc-page를 붙여 4개로 올린다. */
   .uc-page .uc-hero-bg .ind-hero-actions .ind-btn-ghost {
     color: #fff; border-color: rgba(255,255,255,.6); background: transparent;
   }
   /* 제목이 문장이 되면서 히어로가 빽빽해져 위·사이 여백을 넓힌다
      (공통값은 margin-top 32px · gap 10px). */
-  .uc-predictive-maintenance .ind-hero-actions { margin-top: 48px; gap: 16px; }
+  .uc-redesigned .ind-hero-actions { margin-top: 48px; gap: 16px; }
 
   /* 주 버튼(문의하기)은 accent 면으로 채워 사진 위에서 먼저 눈에 들어오게 한다. */
   .uc-page .uc-hero-bg .ind-hero-actions .ind-btn-primary {
@@ -538,9 +538,9 @@ const jsonLd = {
                   h2 = clamp(30px, 4.2vw, 48px) / 600 / -0.8px / 1.3 */
   /* 위 여백 180px은 문의하기 페이지 제목 위치에 맞춘 값이라 건드리지 않는다.
      세로를 키울 땐 아래 여백만 늘려야 제목 위치가 그대로 유지된다. */
-  .uc-predictive-maintenance .ind-hero { padding-top: 180px; padding-bottom: 100px; }
+  .uc-redesigned .ind-hero { padding-top: 180px; padding-bottom: 100px; }
   /* 제목이 문장이 되면서 어절이 잘린다('전조 / 를 읽어'). 띄어쓰기에서만 끊는다. */
-  .uc-predictive-maintenance .ind-hero h1 { word-break: keep-all; }
+  .uc-redesigned .ind-hero h1 { word-break: keep-all; }
   /* 태그라인 — 히어로의 과제명과 '왜 필요한가?' 배지가 같은 형태를 쓴다.
      ind-eyebrow/ind-badge처럼 대문자·자간 확대·알약 배경을 쓰지 않고
      한글 그대로 읽히게 둔다. */
@@ -565,13 +565,13 @@ const jsonLd = {
   }
   /* 제목을 16 → 20px으로 올린 만큼 아이콘도 키운다(랜딩은 26 / 16). */
   .uc-card-icon i { font-size: 30px; line-height: 1; }
-  .uc-predictive-maintenance .ind-card { padding: 24px; }
+  .uc-redesigned .ind-card { padding: 24px; }
   /* 제목·설명 크기는 랜딩 산업 카드(.industry-name / .industry-desc)와 같은 값.
      아래 '다른 과제' 카드도 같은 값을 쓰므로 페이지 안 카드 두 묶음이 한 규격이 된다. */
-  .uc-predictive-maintenance .ind-card h3 {
+  .uc-redesigned .ind-card h3 {
     font-size: 20px; font-weight: 600; line-height: 1.6; margin: 0 0 5px;
   }
-  .uc-predictive-maintenance .ind-card p { font-size: 15px; line-height: 1.5; margin: 0; }
+  .uc-redesigned .ind-card p { font-size: 15px; line-height: 1.5; margin: 0; }
 
   /* 템플릿 밴드 2컬럼 (template.image 있을 때만) */
   .uc-template--split { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 34px; align-items: center; }
@@ -592,27 +592,29 @@ const jsonLd = {
   /* 본문 섹션의 좌우 끝을 헤더(.nav-inner)와 같은 선에 맞춘다 — 로고 왼쪽 = 문의하기 버튼 오른쪽.
      .ind-section만 대상이라 히어로(.ind-hero, 이미 uc-container--nav)와 CTA(.ind-cta)는 제외된다.
      선택자가 .uc-narrow(2개)보다 구체적(3개)이라 좁은 폭 제약도 함께 풀린다. */
-  .uc-predictive-maintenance .ind-section .ind-container {
+  .uc-redesigned .ind-section .ind-container {
     max-width: 1280px;
     padding: 0 48px;
   }
   /* 섹션 위아래 여백을 랜딩 본문 섹션과 같은 130px으로. (공통값은 84px)
      CTA는 랜딩 #cta와 같은 95px이라 여기서 제외된다(.ind-section이 아님). */
-  .uc-predictive-maintenance .ind-section { padding: 130px 0; }
+  .uc-redesigned .ind-section { padding: 130px 0; }
   @media (max-width: 900px) {
-    .uc-predictive-maintenance .ind-section { padding: 60px 0; }
+    .uc-redesigned .ind-section { padding: 60px 0; }
   }
   @media (max-width: 900px) {
-    .uc-predictive-maintenance .ind-section .ind-container { padding: 0 24px; }
+    .uc-redesigned .ind-section .ind-container { padding: 0 24px; }
   }
 
-  /* how가 4개라 한 줄에 4개로 둔다(3컬럼이면 마지막 하나가 혼자 떨어진다). */
-  .uc-predictive-maintenance .ind-grid-3 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  /* 카드 수만큼 한 줄에 둔다 — 3개면 3열, 4개면 4열. 고정 3컬럼이면 카드가
+     4개일 때 마지막 하나가 혼자 떨어지고, 4컬럼이면 3개일 때 한 칸이 빈다.
+     --uc-cols는 마크업에서 uc.how.length로 넣는다. */
+  .uc-redesigned .ind-grid-3 { grid-template-columns: repeat(var(--uc-cols, 3), minmax(0, 1fr)); }
   @media (max-width: 1080px) {
-    .uc-predictive-maintenance .ind-grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .uc-redesigned .ind-grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media (max-width: 560px) {
-    .uc-predictive-maintenance .ind-grid-3 { grid-template-columns: 1fr; }
+    .uc-redesigned .ind-grid-3 { grid-template-columns: 1fr; }
   }
 
   /* 히어로 버튼 2개를 메인 CTA의 '데모 신청하기'와 같은 형태로 통일한다.
@@ -620,8 +622,8 @@ const jsonLd = {
      CTA는 배경 이미지 위라 흰색 계열이지만 이 히어로는 밝은 배경(#f6f8fa)이므로,
      형태(투명 배경·1px 테두리·radius 6px·9px 22px·15px/400)만 가져오고
      색은 .btn-primary의 밝은 배경용 기본값을 쓴다. hover는 CTA와 동일. */
-  .uc-predictive-maintenance .ind-hero-actions .ind-btn-primary,
-  .uc-predictive-maintenance .ind-hero-actions .ind-btn-ghost {
+  .uc-redesigned .ind-hero-actions .ind-btn-primary,
+  .uc-redesigned .ind-hero-actions .ind-btn-ghost {
     padding: 9px 22px;
     font-size: 15px;
     font-weight: 400;
@@ -631,8 +633,8 @@ const jsonLd = {
     border-radius: 6px;
     transition: all .2s;
   }
-  .uc-predictive-maintenance .ind-hero-actions .ind-btn-primary:hover,
-  .uc-predictive-maintenance .ind-hero-actions .ind-btn-ghost:hover {
+  .uc-redesigned .ind-hero-actions .ind-btn-primary:hover,
+  .uc-redesigned .ind-hero-actions .ind-btn-ghost:hover {
     background: #76a6d7;
     border-color: #76a6d7;
     color: #fff;
@@ -641,9 +643,9 @@ const jsonLd = {
 
   /* 큰 제목 3종(히어로·섹션·CTA)의 공통값. 랜딩 섹션 대제목과 같은 clamp 28~45px.
      굵기는 배경에 따라 갈리므로 여기서 정하지 않는다(아래 두 규칙). */
-  .uc-predictive-maintenance .ind-hero h1,
-  .uc-predictive-maintenance .ind-head h2,
-  .uc-predictive-maintenance .ind-cta h2 {
+  .uc-redesigned .ind-hero h1,
+  .uc-redesigned .ind-head h2,
+  .uc-redesigned .ind-cta h2 {
     font-size: clamp(28px, 4vw, 45px);
     letter-spacing: -0.8px;
     line-height: 1.3;
@@ -654,29 +656,29 @@ const jsonLd = {
      히어로가 조금 더 굵게 읽히지만, 500으로 내리면 한 단계가 통째로 빠져
      최상위 제목이 가벼워진다. Pretendard가 100 단위 정적 웨이트라
      그 사이값(550)은 600으로 스냅돼 쓸 수 없다. */
-  .uc-predictive-maintenance .ind-hero h1,
-  .uc-predictive-maintenance .ind-head h2 { font-weight: 600; }
+  .uc-redesigned .ind-hero h1,
+  .uc-redesigned .ind-head h2 { font-weight: 600; }
   /* CTA만 500 — 랜딩 #cta가 섹션 대제목(600)과 다르게 500을 쓰는 것을 따른다. */
-  .uc-predictive-maintenance .ind-cta h2 { font-weight: 500; }
+  .uc-redesigned .ind-cta h2 { font-weight: 500; }
 
   /* '왜 필요한가요?' 섹션 배경. 흰색이던 것을 연회색으로 둬,
      히어로(사진) → 문제(연회색) → 해법(어두움)으로 면이 이어지게 한다. */
-  .uc-predictive-maintenance .uc-problem-section { background: #f6f8fa; }
+  .uc-redesigned .uc-problem-section { background: #f6f8fa; }
 
   /* 태그라인을 왼쪽, 본문을 그 오른쪽에 두고 윗선을 맞춘다.
      align-items: start — 두 칸의 높이가 달라도 첫 줄끼리 정렬된다.
      .ind-head의 아래 여백(64px)은 2열에서는 필요 없어 없앤다. */
-  .uc-predictive-maintenance .uc-problem-section .ind-container {
+  .uc-redesigned .uc-problem-section .ind-container {
     display: grid;
     grid-template-columns: 220px minmax(0, 1fr);
     gap: 40px;
     align-items: start;
   }
-  .uc-predictive-maintenance .uc-problem-section .ind-head { margin-bottom: 0; }
+  .uc-redesigned .uc-problem-section .ind-head { margin-bottom: 0; }
   /* margin: 0 — .ind-head p가 margin-top 12px를 걸어 태그라인만 12px 내려간다. */
-  .uc-predictive-maintenance .uc-problem-section .uc-tag { margin: 0; }
+  .uc-redesigned .uc-problem-section .uc-tag { margin: 0; }
   @media (max-width: 860px) {
-    .uc-predictive-maintenance .uc-problem-section .ind-container {
+    .uc-redesigned .uc-problem-section .ind-container {
       grid-template-columns: 1fr; gap: 16px;
     }
   }
@@ -688,25 +690,25 @@ const jsonLd = {
      카드 면이 섹션 면과 같아서 테두리만으로 구분되는 것이 그 섹션의 특징이다.
      이 페이지에만 적용 — .ind-soft/.ind-card/.uc-template은 다른 유즈케이스도 함께 쓴다.
      ─────────────────────────────────────────────────────────── */
-  .uc-predictive-maintenance .ind-soft { background: #111316; }
-  .uc-predictive-maintenance .ind-soft .ind-head h2 { color: #edeef0; }
-  .uc-predictive-maintenance .ind-soft .ind-card {
+  .uc-redesigned .ind-soft { background: #111316; }
+  .uc-redesigned .ind-soft .ind-head h2 { color: #edeef0; }
+  .uc-redesigned .ind-soft .ind-card {
     background: #111316; border: 1px solid #272b32;
   }
   /* hover는 랜딩 #integrations의 .rfn-node와 같은 방식 —
      테두리 색을 바꾸지 않고 box-shadow로 2px 링을 덧대고 그림자를 한 단계 키운다.
      레이아웃이 흔들리지 않고, 링크가 아닌 카드에 '누를 수 있다'는 신호도 주지 않는다. */
-  .uc-predictive-maintenance .ind-soft .ind-card,
-  .uc-predictive-maintenance .uc-template {
+  .uc-redesigned .ind-soft .ind-card,
+  .uc-redesigned .uc-template {
     box-shadow: 0 1px 2px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
     transition: box-shadow .15s;
   }
-  .uc-predictive-maintenance .ind-soft .ind-card:hover,
-  .uc-predictive-maintenance .uc-template:hover {
+  .uc-redesigned .ind-soft .ind-card:hover,
+  .uc-redesigned .uc-template:hover {
     box-shadow: 0 0 0 2px #272b32, 0 2px 4px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
   }
-  .uc-predictive-maintenance .ind-soft .ind-card h3 { color: #edeef0; }
-  .uc-predictive-maintenance .ind-soft .ind-card p { color: #959ca5; }
+  .uc-redesigned .ind-soft .ind-card h3 { color: #edeef0; }
+  .uc-redesigned .ind-soft .ind-card p { color: #959ca5; }
 
   /* WISE 밴드도 같은 계열 — 면이 섹션과 같으므로 테두리로 구분한다. */
   /* 밴드가 섹션 배경(#111316)과 같은 색이라 1px 테두리로만 구분됐다.
@@ -734,34 +736,34 @@ const jsonLd = {
 
   /* 위 여백은 4개 카드(.ind-card, 24px)와 같게 둔다 — 배지가 카드의 아이콘과
      같은 자리에서 시작하므로 두 블록의 윗선이 맞는다. */
-  .uc-predictive-maintenance .uc-template { padding-top: 24px; }
+  .uc-redesigned .uc-template { padding-top: 24px; }
   /* 배지→제목 간격을 위 4개 카드의 아이콘→제목(65px)과 같게 맞춘다.
      배지가 카드의 아이콘과 같은 자리(묶음 맨 위)에 놓이므로 리듬이 이어진다. */
-  .uc-predictive-maintenance .uc-template h3 { margin-top: 65px; }
-  .uc-predictive-maintenance .uc-template {
+  .uc-redesigned .uc-template h3 { margin-top: 65px; }
+  .uc-redesigned .uc-template {
     position: relative; overflow: hidden;
     background:
       linear-gradient(270deg, rgba(118,166,215,.2) 0%, rgba(118,166,215,0) 55%),
       #111316;
     border: 1px solid #272b32;
   }
-  .uc-predictive-maintenance .uc-template h3 { color: #edeef0; }
-  .uc-predictive-maintenance .uc-template p { color: #959ca5; }
-  .uc-predictive-maintenance .uc-template-list li { color: #edeef0; }
-  .uc-predictive-maintenance .uc-template-list li i { color: #76a6d7; }
+  .uc-redesigned .uc-template h3 { color: #edeef0; }
+  .uc-redesigned .uc-template p { color: #959ca5; }
+  .uc-redesigned .uc-template-list li { color: #edeef0; }
+  .uc-redesigned .uc-template-list li i { color: #76a6d7; }
 
   /* 대제목과 그 아래 내용 사이 간격. 공통값(.ind-head 44px)보다 넓혀
      섹션이 시작되는 지점을 또렷하게 한다. 페이지 안 세 섹션에 같이 적용해
      간격 리듬이 어긋나지 않게 한다. */
-  .uc-predictive-maintenance .ind-head { margin-bottom: 64px; }
+  .uc-redesigned .ind-head { margin-bottom: 64px; }
 
   /* '왜 필요한가' 본문을 리드 문단처럼 강조 */
   /* 제목(h2)이 생기면서 상자·왼쪽 선이 없어도 구간이 구분된다. 글만 둔다.
      크기·색은 랜딩 섹션 소제목(.section-header p)과 같은 값. */
-  .uc-predictive-maintenance .uc-problem {
+  .uc-redesigned .uc-problem {
     font-size: 18px; line-height: 1.7; color: var(--text-muted);
   }
-  .uc-predictive-maintenance .uc-narrow { max-width: 820px; }
+  .uc-redesigned .uc-narrow { max-width: 820px; }
 
   /* 제목 행 — 홈 히어로(.hero-row)와 같은 구조: 좌측 제목, 우측 끝 링크, 하단 정렬.
      .ind-head의 max-width(640px)를 풀어야 링크가 컨테이너 우측 끝까지 간다. */
@@ -841,7 +843,7 @@ const jsonLd = {
      CTA — 랜딩 #cta와 같은 형태(배경 이미지 위 흰 글자·좌측 정렬).
      데이터에 ctaBackgroundImage를 넣은 유즈케이스에만 적용된다.
      h2에 .uc-page를 덧붙인 이유: Astro가 컴파운드마다 [data-astro-cid]를 붙이므로
-     앞의 `.uc-predictive-maintenance .ind-cta h2`가 속성 3개(0,5,1)가 되어
+     앞의 `.uc-redesigned .ind-cta h2`가 속성 3개(0,5,1)가 되어
      `.ind-cta.uc-cta-bg h2`(0,4,1)를 이긴다. 한 단계 더 올려 확실히 덮는다.
      ─────────────────────────────────────────────────────────── */
   .uc-cta-bg {
@@ -879,13 +881,13 @@ const jsonLd = {
      시선이 왼쪽 문장에서 오른쪽 행동으로 바로 건너간다.
      가로 위치는 space-between이 잡고(버튼은 오른쪽 끝),
      align-items:center가 세로만 제목 두 줄의 가운데로 맞춘다. */
-  .uc-predictive-maintenance .uc-cta-bg .ind-container {
+  .uc-redesigned .uc-cta-bg .ind-container {
     display: flex; align-items: center; justify-content: space-between;
     gap: 48px; flex-wrap: wrap;
   }
-  .uc-predictive-maintenance .uc-cta-bg .ind-container > * { flex: none; }
+  .uc-redesigned .uc-cta-bg .ind-container > * { flex: none; }
   /* 한 줄로 나란히 서므로 제목 아래 여백은 필요 없다(줄바꿈되면 아래에서 되돌린다). */
-  .uc-predictive-maintenance .uc-cta-bg .ind-btn-primary { margin-top: 0; }
+  .uc-redesigned .uc-cta-bg .ind-btn-primary { margin-top: 0; }
   /* 히어로 '문의하기'와 같은 색 — 투명 면 + 흰 테두리에서 accent 면으로 바꾼다.
      같은 문구·같은 행동이므로 페이지 위아래에서 같은 모습이어야 한다. */
   .ind-cta.uc-cta-bg .ind-btn-primary {
@@ -900,16 +902,16 @@ const jsonLd = {
     background: #5a8fc5; border-color: #5a8fc5; color: #fff; transform: none;
   }
   /* 본문 섹션과 같은 선(헤더 로고~버튼)에 맞춘다. */
-  .uc-predictive-maintenance .uc-cta-bg .ind-container {
+  .uc-redesigned .uc-cta-bg .ind-container {
     max-width: 1280px;
     padding: 0 48px;
   }
   @media (max-width: 900px) {
-    .uc-predictive-maintenance .uc-cta-bg .ind-container { padding: 0 24px; }
+    .uc-redesigned .uc-cta-bg .ind-container { padding: 0 24px; }
   }
   /* 좁아지면 버튼이 아래로 내려온다. 제목과 붙지 않게 여백을 되살린다. */
   @media (max-width: 780px) {
-    .uc-predictive-maintenance .uc-cta-bg .ind-container { gap: 0; }
-    .uc-predictive-maintenance .uc-cta-bg .ind-btn-primary { margin-top: 32px; }
+    .uc-redesigned .uc-cta-bg .ind-container { gap: 0; }
+    .uc-redesigned .uc-cta-bg .ind-btn-primary { margin-top: 32px; }
   }
 </style>

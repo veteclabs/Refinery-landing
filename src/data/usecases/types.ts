@@ -30,6 +30,11 @@ export type HowPoint = {
 export type UseCase = {
   slug: string;
   name: string;          // 예: 예지보전
+  /** 2026-08 개편 디자인을 적용한다(어두운 해법 섹션·큰 제목·넉넉한 섹션 여백 등).
+   *  켜면 <main>에 uc-redesigned 클래스가 붙고 그 스코프의 스타일이 전부 걸린다.
+   *  끄면(기본) 기존 유즈케이스 디자인 그대로다.
+   *  히어로 배경·신호 카드·다른 과제 목록 같은 개별 요소는 아래 각 필드로 따로 켠다. */
+  redesigned?: boolean;
   eyebrow?: string;      // 상단 소제목(기본 USE CASE)
   showBreadcrumb?: boolean; // 히어로 상단 위치 표시(Home › 유즈케이스 › ...). 기본 true
   showEyebrow?: boolean;    // 히어로 eyebrow(USE CASE) 노출. 기본 true

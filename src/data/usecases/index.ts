@@ -4,6 +4,7 @@ import type { UseCase } from './types';
 export const useCases: UseCase[] = [
   {
     slug: 'predictive-maintenance',
+    redesigned: true,
     ctaTitle: '예지보전, 우리 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
     name: '예지보전',
     // 히어로를 제목 중심으로 정리 — 위치 표시·eyebrow를 빼고 좌측을 헤더 로고 선에 맞춘다.
