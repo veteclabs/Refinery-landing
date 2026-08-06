@@ -157,7 +157,7 @@ export const useCases: UseCase[] = [
       includes: ['설비 · 구역별 전력 계량 구조', '피크 · 계약전력 관리 기준', '역률 · 부하율 대시보드', '이상 사용 알람 규칙'],
     },
     signals: ['유효/무효 전력', '역률', '부하율', '시간대별 소비', '피크'],
-    related: { label: '낭비는 어디에 숨어 있나: 에너지 최적화의 시작', href: '/blog/energy-optimization' },
+    related: { label: '낭비는 어디에 숨어 있나', href: '/blog/energy-optimization' },
     seo: {
       title: '전력관리 | Refinery',
       description: '설비·구역·시간대별 전력 사용을 가시화하고, 피크를 관리하며, 이상 사용을 조기에 감지해 전력 비용과 리스크를 줄입니다.',
@@ -261,7 +261,7 @@ export const useCases: UseCase[] = [
       includes: ['에너지원 · 설비 계량 구조', '원단위 KPI · 대시보드', 'ESG 리포트 양식', '이상 소비 · 피크 알람 규칙'],
     },
     signals: ['전기·가스·스팀·용수', '생산량', '배출량', '원단위', '피크'],
-    related: { label: '낭비는 어디에 숨어 있나: 에너지 최적화의 시작', href: '/blog/energy-optimization' },
+    related: { label: '낭비는 어디에 숨어 있나', href: '/blog/energy-optimization' },
     seo: {
       title: '공장 에너지관리(FEMS) | Refinery',
       description: '공장 전체의 전기·가스·스팀·용수 흐름을 통합 계량하고 원단위로 분석해 낭비를 찾고, ESG 리포트를 자동으로 집계합니다.',
@@ -306,7 +306,7 @@ export const useCases: UseCase[] = [
       { icon: 'ph-arrows-clockwise', title: '지속 관리', desc: '개선 효과를 추적해 다시 새지 않게 관리합니다.' },
     ],
     signals: ['시간대별 소비', '피크', '원단위'],
-    related: { label: '낭비는 어디에 숨어 있나: 에너지 최적화의 시작', href: '/blog/energy-optimization' },
+    related: { label: '낭비는 어디에 숨어 있나', href: '/blog/energy-optimization' },
     seo: {
       title: '에너지 최적화 | Refinery',
       description: '숨은 낭비와 피크를 데이터로 찾아 에너지 비용을 줄입니다. 소비 패턴을 작업 맥락과 겹쳐 비효율을 발굴하는 유즈케이스.',

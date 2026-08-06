@@ -64,7 +64,7 @@ export const useCasesEn: UseCase[] = [
       includes: ['Metering structure by asset and area', 'Peak and contracted-demand thresholds', 'Power factor · load factor dashboard', 'Abnormal-use alert rules'],
     },
     signals: ['Active/reactive power', 'Power factor', 'Load factor', 'Hourly consumption', 'Peak'],
-    related: { label: 'Where the waste hides: starting with energy optimization', href: '/en/blog/energy-optimization' },
+    related: { label: 'Where the waste hides', href: '/en/blog/energy-optimization' },
     seo: {
       title: 'Power management | Refinery',
       description: 'Make power use visible by asset, area and time of day, manage peaks, and detect abnormal consumption early to reduce electricity cost and risk.',
@@ -112,7 +112,7 @@ export const useCasesEn: UseCase[] = [
       includes: ['Metering structure by energy source and asset', 'Energy intensity KPIs · dashboard', 'ESG report formats', 'Abnormal consumption · peak alert rules'],
     },
     signals: ['Electricity · gas · steam · water', 'Output', 'Emissions', 'Energy intensity', 'Peak'],
-    related: { label: 'Where the waste hides: starting with energy optimization', href: '/en/blog/energy-optimization' },
+    related: { label: 'Where the waste hides', href: '/en/blog/energy-optimization' },
     seo: {
       title: 'Factory energy management (FEMS) | Refinery',
       description: 'Meter electricity, gas, steam and water across the plant, analyze energy intensity to find waste, and aggregate ESG reports automatically.',
@@ -130,7 +130,7 @@ export const useCasesEn: UseCase[] = [
       { title: 'Keep it from returning', desc: 'Track the effect of each improvement so savings do not leak back.' },
     ],
     signals: ['Hourly consumption', 'Peak', 'Energy intensity'],
-    related: { label: 'Where the waste hides: starting with energy optimization', href: '/en/blog/energy-optimization' },
+    related: { label: 'Where the waste hides', href: '/en/blog/energy-optimization' },
     seo: {
       title: 'Energy optimization | Refinery',
       description: 'Find hidden waste and peaks in the data to reduce energy cost — overlaying consumption patterns on work context to uncover inefficiency.',
