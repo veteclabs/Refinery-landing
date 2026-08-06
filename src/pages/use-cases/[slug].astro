@@ -735,16 +735,18 @@ const jsonLd = {
   .uc-predictive-maintenance .uc-cta-bg .ind-container > * { flex: none; }
   /* 한 줄로 나란히 서므로 제목 아래 여백은 필요 없다(줄바꿈되면 아래에서 되돌린다). */
   .uc-predictive-maintenance .uc-cta-bg .ind-btn-primary { margin-top: 0; }
+  /* 히어로 '문의하기'와 같은 색 — 투명 면 + 흰 테두리에서 accent 면으로 바꾼다.
+     같은 문구·같은 행동이므로 페이지 위아래에서 같은 모습이어야 한다. */
   .ind-cta.uc-cta-bg .ind-btn-primary {
     margin-top: 40px;
     padding: 9px 22px;
     font-size: 15px; font-weight: 400;
-    background: transparent; color: #fff;
-    border: 1px solid rgba(255, 255, 255, 0.6); border-radius: 6px;
+    background: #76a6d7; color: #fff;
+    border: 1px solid #76a6d7; border-radius: 6px;
     transition: all .2s;
   }
   .ind-cta.uc-cta-bg .ind-btn-primary:hover {
-    background: #76A6D7; border-color: #76A6D7; transform: none;
+    background: #5a8fc5; border-color: #5a8fc5; color: #fff; transform: none;
   }
   /* 본문 섹션과 같은 선(헤더 로고~버튼)에 맞춘다. */
   .uc-predictive-maintenance .uc-cta-bg .ind-container {
