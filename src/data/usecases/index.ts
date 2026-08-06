@@ -146,7 +146,7 @@ export const useCases: UseCase[] = [
     how: [
       { icon: 'ph-chart-bar', title: '사용 가시화', desc: '설비와 구역, 시간대를 함께 놓고<br>봅니다. 어느 설비가 언제 얼마나<br>쓰는지 한 화면에 모이면 막연하던<br>소비가 눈에 잡힙니다.' },
       { icon: 'ph-chart-line', title: '피크 관리', desc: '여러 설비가 동시에 돌아 피크를 만드는<br>순간을 찾습니다. 가동 시점을 옮기거나<br>부하를 나누면 계약전력과 피크 요금이<br>내려갑니다.' },
-      { icon: 'ph-warning-circle', title: '이상 사용 감지', desc: '평소 패턴에서 벗어난 소비를 잡아<br>냅니다. 꺼져 있어야 할 시간에 도는<br>설비나 슬그머니 늘어난 대기 전력이<br>드러납니다.' },
+      { icon: 'ph-warning-circle', title: '이상 사용 감지', desc: '평소 패턴에서 벗어난 소비를 잡습니다.<br>꺼져 있어야 할 시간에 도는 설비나<br>슬그머니 늘어난 대기 전력이<br>드러납니다.' },
       { icon: 'ph-gauge', title: '역률 · 부하 점검', desc: '역률이 떨어지거나 부하가 한쪽으로<br>쏠리면 요금과 설비 수명에 영향을<br>줍니다. 그 지점을 짚어 개선할 여지를<br>알려줍니다.' },
     ],
     template: {
