@@ -99,9 +99,9 @@ export const useCases: UseCase[] = [
     problemHtml:
       '설비마다 다른 센서와 프로토콜이 섞여 있어 데이터가 한곳에서 읽히지 않습니다. 필요할 때마다 하나씩 붙이다 보니<br>규격도 수집 방식도 제각각이 된 탓입니다. 신호가 흩어져 있으면 이상을 종합해 판단하기 어렵습니다.',
     how: [
-      { icon: 'ph-arrows-in', title: '다중 센서 수집', desc: 'IoT 센서부터 기존 계측기까지 다양한 소스를 표준화해 한곳에 모읍니다.' },
-      { icon: 'ph-graph', title: '온톨로지로 연결', desc: '각 신호가 어느 설비의 무엇인지 의미를 부여해 함께 해석합니다.' },
-      { icon: 'ph-pulse', title: '실시간 이상 감시', desc: '여러 신호를 한 화면에서 보고, 평소와 다른 조합을 잡아냅니다.' },
+      { icon: 'ph-arrows-in', title: '다중 센서 수집', desc: 'IoT 센서부터 기존 계측기까지 다양한 소스를<br>표준화해 한곳에 모읍니다.' },
+      { icon: 'ph-graph', title: '온톨로지로 연결', desc: '각 신호가 어느 설비의 무엇인지 의미를 부여해<br>함께 해석합니다.' },
+      { icon: 'ph-pulse', title: '실시간 이상 감시', desc: '여러 신호를 한 화면에서 보고 평소와 다른<br>조합을 잡아냅니다.' },
     ],
     signals: ['진동', '온도', '습도', '전력', '압력', '유량'],
     related: { label: '산업 데이터를 자산으로 만드는 5가지 원칙', href: '/blog/industrial-data-best-practices' },
