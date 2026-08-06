@@ -340,7 +340,10 @@ const jsonLd = {
   }
   /* 알약 없이 아이콘 + 글자만. 면·테두리를 걷어내 밴드 위에 얹힌 라벨로 둔다. */
   .uc-template-badge {
-    display: inline-flex; align-items: center; gap: 6px;
+    /* inline-flex면 부모 줄상자(16px·1.65)의 여유 공간이 배지 아래에 붙어
+       h3의 margin-top이 화면 간격과 달라진다. flex + fit-content로 줄상자를
+       벗어나게 해 선언한 값이 그대로 간격이 되게 한다. */
+    display: flex; width: fit-content; align-items: center; gap: 6px;
     /* 크기는 아래 설명(.uc-template p)과 같은 15px. 아이콘도 font-size를 따라 커진다. */
     font-size: 15px; font-weight: 700; letter-spacing: .02em; color: #76a6d7;
     background: none; border: none; border-radius: 0; padding: 0;
@@ -622,6 +625,9 @@ const jsonLd = {
   /* 위 여백을 크게 두어 글 묶음을 아래쪽으로 몰고, 비워진 윗부분을
      장식 이미지와 글로우가 채우게 한다. 좌우·아래는 공용값(24px 26px) 유지. */
   .uc-predictive-maintenance .uc-template { padding-top: 110px; }
+  /* 배지→제목 간격을 위 4개 카드의 아이콘→제목(65px)과 같게 맞춘다.
+     배지가 카드의 아이콘과 같은 자리(묶음 맨 위)에 놓이므로 리듬이 이어진다. */
+  .uc-predictive-maintenance .uc-template h3 { margin-top: 65px; }
   .uc-predictive-maintenance .uc-template {
     position: relative; overflow: hidden;
     background:
