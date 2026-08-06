@@ -607,7 +607,11 @@ const jsonLd = {
   .uc-template-deco {
     position: absolute; top: -120px; right: -40px;
     width: 480px; height: auto;
-    mix-blend-mode: screen; opacity: .8;
+    mix-blend-mode: screen; opacity: .7;
+    /* 우상단에서 멀어질수록 사라진다 — overflow로 잘린 직선 경계 대신
+       빛이 옅어지는 형태로 끝나 밴드 배경에 이어진다. */
+    -webkit-mask-image: radial-gradient(120% 120% at 100% 0%, #000 30%, transparent 78%);
+    mask-image: radial-gradient(120% 120% at 100% 0%, #000 30%, transparent 78%);
     pointer-events: none; user-select: none;
   }
   .uc-template-body { position: relative; z-index: 1; }
