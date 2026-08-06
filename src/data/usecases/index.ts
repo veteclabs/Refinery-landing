@@ -127,7 +127,7 @@ export const useCases: UseCase[] = [
     signalsAsCards: true,
     relatedAsHeaderLink: true,
     heroTaglineAsTitle: true,
-    heroTitle: '언제 어디서 얼마나 쓰는지 데이터로 파악해,<br>전력 비용과 리스크를 줄입니다',
+    heroTitle: '언제 어디서 얼마나 쓰는지 파악해<br>전력 비용과 리스크를 줄입니다',
     showRelatedUseCases: true,
     ctaTitle: '전력관리, 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
     cardDesc: '언제 어디서 얼마나 쓰는지 데이터로 파악해<br>전력 비용과 리스크를 줄입니다.',
