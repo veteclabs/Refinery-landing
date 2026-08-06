@@ -303,9 +303,9 @@ export const useCases: UseCase[] = [
     problemHtml:
       '낭비는 큰 설비보다 눈에 잘 띄지 않는 곳에 흩어져 있습니다. 대기 상태로 계속 도는 설비나 필요 없는 시간대의 가동처럼<br>하나씩은 작아 보이는 것들입니다. 총량만 봐서는 어디를 손봐야 할지 보이지 않아 절감은 감에 기대게 됩니다.',
     how: [
-      { icon: 'ph-magnifying-glass', title: '낭비 발굴', desc: '소비 패턴을 작업 맥락에 겹쳐 비효율을 찾습니다.' },
-      { icon: 'ph-trend-down', title: '피크 저감', desc: '피크가 생기는 시점을 파악해 부하를 분산합니다.' },
-      { icon: 'ph-arrows-clockwise', title: '지속 관리', desc: '개선 효과를 추적해 다시 새지 않게 관리합니다.' },
+      { icon: 'ph-magnifying-glass', title: '낭비 발굴', desc: '소비 패턴을 작업 맥락에 겹쳐 비효율을 찾습니다.<br>같은 작업인데 유독 많이 쓴 구간이 드러납니다.' },
+      { icon: 'ph-trend-down', title: '피크 저감', desc: '피크가 생기는 시점을 파악해 부하를 분산합니다.<br>계약전력과 요금 피크가 함께 내려갑니다.' },
+      { icon: 'ph-arrows-clockwise', title: '지속 관리', desc: '개선 효과를 추적해 다시 새지 않게 관리합니다.<br>예전으로 돌아가는 구간을 바로 잡아냅니다.' },
     ],
     signals: ['시간대별 소비', '피크', '원단위'],
     related: { label: '낭비는 어디에 숨어 있나', href: '/blog/energy-optimization' },
