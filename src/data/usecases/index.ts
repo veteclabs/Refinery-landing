@@ -286,7 +286,7 @@ export const useCases: UseCase[] = [
     signalsAsCards: true,
     relatedAsHeaderLink: true,
     heroTaglineAsTitle: true,
-    heroTitle: '숨은 낭비와 피크를 찾아<br>같은 일을 더 적은 비용으로 합니다',
+    heroTitle: '숨은 낭비와 피크를 찾아 같은 일을<br>더 적은 비용으로 합니다',
     showRelatedUseCases: true,
     ctaTitle: '에너지 최적화, 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
     cardDesc: '숨은 낭비와 피크를 데이터로 찾아 같은 일을<br>더 적은 비용으로 합니다.',
