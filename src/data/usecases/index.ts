@@ -82,7 +82,7 @@ export const useCases: UseCase[] = [
 signalsAsCards: true,
     relatedAsHeaderLink: true,
     heroTaglineAsTitle: true,
-    heroTitle: '진동·온도·전력·환경까지, 흩어진 센서를<br>한 구조로 모아 감시합니다.',
+    heroTitle: '흩어진 센서를 한 구조로 모아<br>이상을 놓치지 않고 함께 읽습니다.',
     showRelatedUseCases: true,
     ctaTitle: '센서 모니터링, 우리 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
     cardDesc: '진동 · 온도 · 전력 · 환경까지 흩어진 센서를<br>한 구조로 모아 감시합니다.',
