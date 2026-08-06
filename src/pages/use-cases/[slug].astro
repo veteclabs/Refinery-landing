@@ -559,10 +559,12 @@ const jsonLd = {
   }
   /* 히어로는 페이지의 첫 제목이라 섹션 제목과 같은 600으로 둔다.
      어두운 배경 위 흰 글자라 실제보다 굵게 보이지만, 그만큼 무게가 실리는 것을 택했다. */
-  /* Pretendard가 100 단위 정적 웨이트로만 로드돼 있어 550은 600으로 스냅된다
-     (실측: 550과 600의 렌더 폭이 610.89px로 동일). 반 단계는 쓸 수 없다. */
-  .uc-predictive-maintenance .ind-hero h1,
   .uc-predictive-maintenance .ind-head h2 { font-weight: 600; }
+  /* 히어로만 500 — 흰 글자가 어두운 사진 위에서 번져 보여 같은 600이어도
+     어두운 글자/밝은 배경인 섹션 제목보다 굵게 읽힌다.
+     Pretendard가 100 단위 정적 웨이트라 550은 600으로 스냅되므로
+     실제로 내려갈 수 있는 단계는 500뿐이다. 크기는 45px로 CTA(40px)보다 크다. */
+  .uc-predictive-maintenance .ind-hero h1 { font-weight: 500; }
   /* CTA만 500 — 랜딩 #cta가 섹션 대제목(600)과 다르게 500을 쓰는 것을 따른다. */
   .uc-predictive-maintenance .ind-cta h2 { font-weight: 500; }
 
