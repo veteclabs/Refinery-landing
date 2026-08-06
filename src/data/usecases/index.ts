@@ -61,7 +61,7 @@ export const useCases: UseCase[] = [
     slug: 'sensor-monitoring',
     ctaTitle: '센서 모니터링, 우리 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
     cardDesc: '진동 · 온도 · 전력 · 환경까지 흩어진 센서를<br>한 구조로 모아 감시합니다.',
-    name: '센서 모니터링(IoT)',
+    name: '센서 모니터링',
     cardImage: {
       src: '/use-cases/cards/sensor-monitoring.webp',
       alt: '',
@@ -79,7 +79,7 @@ export const useCases: UseCase[] = [
     signals: ['진동', '온도', '습도', '전력', '압력', '유량'],
     related: { label: '산업 데이터를 자산으로 만드는 5가지 원칙', href: '/blog/industrial-data-best-practices' },
     seo: {
-      title: '다양한 센서 모니터링(IoT) | Refinery',
+      title: '센서 모니터링(IoT) | Refinery',
       description: 'IoT 센서부터 기존 계측기까지 흩어진 다중 센서를 표준화해 모으고, 온톨로지로 연결해 실시간으로 감시합니다.',
     },
   },

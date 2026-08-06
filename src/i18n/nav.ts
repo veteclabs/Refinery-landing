@@ -37,7 +37,7 @@ export const navMenu: Record<Lang, NavMenu[]> = {
           title: '과제별',
           items: [
             { label: '예지보전', href: '/use-cases/predictive-maintenance' },
-            { label: '센서 모니터링(IoT)', href: '/use-cases/sensor-monitoring' },
+            { label: '센서 모니터링', href: '/use-cases/sensor-monitoring' },
             { label: '전력관리', href: '/use-cases/power-management' },
             { label: '전력품질', href: '/use-cases/power-quality' },
             { label: '공장 에너지관리', href: '/use-cases/factory-energy' },
@@ -148,7 +148,7 @@ export const footerCols: Record<Lang, FooterCol[]> = {
       items: [
         { label: '에너지 · 유틸리티', href: '/industries/energy' },
         { label: '예지보전', href: '/use-cases/predictive-maintenance' },
-        { label: '센서 모니터링(IoT)', href: '/use-cases/sensor-monitoring' },
+        { label: '센서 모니터링', href: '/use-cases/sensor-monitoring' },
         { label: '전력관리', href: '/use-cases/power-management' },
         { label: '전력품질', href: '/use-cases/power-quality' },
         { label: '공장 에너지관리', href: '/use-cases/factory-energy' },
