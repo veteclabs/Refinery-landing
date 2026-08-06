@@ -4,6 +4,13 @@ import type { UseCase } from './types';
 export const useCases: UseCase[] = [
   {
     slug: 'predictive-maintenance',
+    cardDesc: '무선 진동센서로 모터의 고장 전조를 읽어<br>멈춤과 손실을 줄입니다.',
+    cardImage: {
+      src: '/use-cases/cards/predictive-maintenance.webp',
+      alt: '',
+      width: 854,
+      height: 480,
+    },
     redesigned: true,
     ctaTitle: '예지보전, 우리 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
     name: '예지보전',
@@ -139,6 +146,7 @@ heroTaglineAsTitle: true,
       { icon: 'ph-gauge', title: '역률 · 부하 점검', desc: '역률이 떨어지거나 부하가 한쪽으로 쏠리면 요금과 설비 수명에 영향을 줍니다. 그런 부분을 짚어 개선할 여지를 알려줍니다.' },
     ],
     template: {
+      decoImage: '/use-cases/template-deco.webp',
       title: '전력관리 템플릿으로 시작',
       desc: '전력을 처음 들여다보는 현장이라면 무엇부터 재고 어떻게 봐야 할지 막막합니다. 그동안 여러 현장을 거치며 정리해 둔 전력관리 템플릿에는 설비별 계량을 어떻게 잡고 피크와 역률을 어떤 기준으로 볼지가 이미 담겨 있습니다. 우리 설비 목록과 계약 조건만 맞춰 넣으면 구조를 처음부터 짤 필요 없이 바로 보기 시작할 수 있습니다.',
       includes: ['설비·구역별 전력 계량 구조', '피크 · 계약전력 관리 기준', '역률 · 부하율 대시보드', '이상 사용 알람 규칙'],
@@ -188,6 +196,7 @@ heroTaglineAsTitle: true,
       { icon: 'ph-funnel', title: '영향 구분', desc: '어느 이상이 실제로 문제를 일으켰고 어느 것은 그냥 지나갔는지 나눠, 먼저 손봐야 할 순서를 정합니다.' },
     ],
     template: {
+      decoImage: '/use-cases/template-deco.webp',
       title: '전력품질 감시 템플릿으로 시작',
       desc: '무엇을 어느 기준으로 감시할지는 현장마다 조금씩 다르지만 큰 틀은 비슷합니다. 여러 현장에서 쓰던 전력품질 감시 템플릿에는 주요 지표와 판단 기준, 자주 문제가 되는 이벤트 유형이 미리 정리돼 있습니다. 계측 지점과 설비만 연결하면, 어디를 어떻게 볼지 고민하는 단계를 건너뛰고 감시부터 시작할 수 있습니다.',
       includes: ['전압·주파수·고조파 감시 항목', 'sag/swell · 정전 이벤트 기준', '설비 이력 연계 뷰', '품질 이상 알람 규칙'],
@@ -237,6 +246,7 @@ heroTaglineAsTitle: true,
       { icon: 'ph-leaf', title: 'ESG 자동 집계', desc: '소비와 배출을 출처와 함께 자동 집계해, 리포트를 수작업 없이 만들고 근거를 추적합니다.' },
     ],
     template: {
+      decoImage: '/use-cases/template-deco.webp',
       title: '에너지경영시스템 템플릿으로 빠르게 시작',
       desc: '새로 시작하는 현장도 구조를 처음부터 설계할 필요가 없습니다. 30년간 여러 현장에서 다져 온 에너지경영시스템(EnMS) 템플릿에는 계량 구조부터 원단위 KPI, ESG 리포트 양식, 이상·피크 알람 규칙까지 이미 들어 있습니다. 현장의 설비와 목표에 맞게 조정만 하면, 검증된 구조 위에서 곧바로 운영을 시작할 수 있습니다.',
       includes: ['에너지원·설비 계량 구조', '원단위 KPI · 대시보드', 'ESG 리포트 양식', '이상 소비 · 피크 알람 규칙'],

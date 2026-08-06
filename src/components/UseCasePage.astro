@@ -206,7 +206,7 @@ const jsonLd = {
               <h3>{uc.template.title}</h3>
               <p set:html={uc.template.desc}></p>
               {uc.template.includes && (
-                <ul class="uc-template-list">
+                <ul class="uc-template-list" style={uc.redesigned ? `--uc-tmpl-cols:${uc.template.includes.length % 3 === 0 ? 3 : 2}` : undefined}>
                   {uc.template.includes.map((it) => <li><i class="ph ph-check-circle" aria-hidden="true"></i>{it}</li>)}
                 </ul>
               )}
@@ -453,7 +453,10 @@ const jsonLd = {
   /* 예지보전만 항목이 6개라 3열 2행이 딱 떨어진다.
      나머지(전력관리·전력품질·공장 에너지관리)는 4개여서 3열이면 3+1로 남으므로
      공용 2열 규칙을 그대로 둔다. */
-  .uc-redesigned .uc-template-list { grid-template-columns: repeat(3, 1fr); }
+  /* 항목 수로 열을 정한다 — 3의 배수면 3열, 아니면 2열. 6개는 3×2, 4개는 2×2로
+     행이 고르게 차고, 4개를 3열에 두면 3+1로 한 칸이 남는다.
+     --uc-tmpl-cols는 마크업에서 includes.length로 넣는다. */
+  .uc-redesigned .uc-template-list { grid-template-columns: repeat(var(--uc-tmpl-cols, 2), 1fr); }
   @media (max-width: 860px) {
     .uc-redesigned .uc-template-list { grid-template-columns: repeat(2, 1fr); }
   }
