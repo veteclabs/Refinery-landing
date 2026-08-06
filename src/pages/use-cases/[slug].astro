@@ -613,6 +613,9 @@ const jsonLd = {
   .uc-template-body { position: relative; z-index: 1; }
   @media (max-width: 860px) { .uc-template-deco { display: none; } }
 
+  /* 위 여백을 크게 두어 글 묶음을 아래쪽으로 몰고, 비워진 윗부분을
+     장식 이미지와 글로우가 채우게 한다. 좌우·아래는 공용값(24px 26px) 유지. */
+  .uc-predictive-maintenance .uc-template { padding-top: 110px; }
   .uc-predictive-maintenance .uc-template {
     position: relative; overflow: hidden;
     background:
