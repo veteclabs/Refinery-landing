@@ -29,7 +29,7 @@ export const useCases: UseCase[] = [
     how: [
       { icon: 'ph-broadcast', title: '무선 진동센서 부착', desc: '배선 공사 없이 모터에 센서를 붙이면<br>LoRaWAN 무선으로 3축 진동과<br>온도를 실시간으로 보냅니다.' },
       { icon: 'ph-gauge', title: 'ISO-20816 기준 판정', desc: '3축 진동을 국제 표준(ISO-20816)<br>기준으로 판정해 지금 상태가 정상인지<br>주의인지 한눈에 보여줍니다.' },
-      { icon: 'ph-trend-up', title: '추세 기반 조기 감지', desc: '순간값이 아니라 추세에서 이상을 읽어<br>오탐과 알람 피로를 줄이고<br>전조를 일찍 잡습니다.' },
+      { icon: 'ph-trend-up', title: '추세 기반 조기 감지', desc: '순간값이 아니라 추세에서 이상을 읽어<br>오탐과 알람 피로를 줄이고 전조를<br>일찍 잡습니다.' },
       { icon: 'ph-lightbulb', title: '근거 있는 조치 제안', desc: 'AI가 원인 추정과 다음 조치를<br>근거 데이터 · 이력과 함께 제시합니다.' },
     ],
     signals: [
