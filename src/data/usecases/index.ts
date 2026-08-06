@@ -280,7 +280,7 @@ export const useCases: UseCase[] = [
       src: '/use-cases/heroes/energy-optimization.webp',
       alt: '',
       width: 2880,
-      height: 1440,
+      height: 968,
     },
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     signalsAsCards: true,
