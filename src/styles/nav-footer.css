@@ -64,6 +64,11 @@
 .mobile-nav-panel .mobile-nav-cta:hover, .mobile-nav-panel .mobile-nav-cta:active { background: transparent; color: #76A6D7; border-color: #76A6D7; }
 .btn-primary:hover, .btn-primary:active { background: #f4f4f5; }
 nav .btn-primary:hover, nav .btn-primary:active { background: transparent; color: #76A6D7; border-color: #76A6D7; }
+/* 푸터 자체 여백. Footer.astro가 이 파일을 import하므로 푸터를 쓰는 모든 페이지에 적용된다.
+   (예전에는 랜딩 global.css·문의 contact.css에만 있어서 나머지 25개 페이지는
+    상단 여백 없이 앞 섹션에 바로 붙어 있었다.)
+   overflow:hidden — .footer-logo-big이 넘칠 수 있어 필요하다. */
+footer { padding: 60px 0 20px; overflow: hidden; }
 /* 브랜드 + 4열(솔루션·리소스·회사·신뢰). 솔루션 열은 항목이 길어 조금 넓게. */
 .footer-grid { display: grid; grid-template-columns: 2fr 1.3fr 1fr 1fr 1fr; gap: 24px; }
 .footer-brand p { font-family: 'JetBrains Mono', monospace; font-size: 15px; color: #0b0e14; margin-top: 10px; line-height: 1.7; max-width: 220px; }

@@ -16,3 +16,6 @@ dist/
 # Editor / OS
 Thumbs.db
 *.log
+
+# 이미지 원본(변환 전). 사이트가 참조하는 건 public/의 WebP다.
+이미지/

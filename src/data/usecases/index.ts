@@ -4,6 +4,7 @@ import type { UseCase } from './types';
 export const useCases: UseCase[] = [
   {
     slug: 'predictive-maintenance',
+    ctaTitle: '예지보전, 우리 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
     name: '예지보전',
     // 히어로를 제목 중심으로 정리 — 위치 표시·eyebrow를 빼고 좌측을 헤더 로고 선에 맞춘다.
     showBreadcrumb: false,
@@ -11,21 +12,44 @@ export const useCases: UseCase[] = [
     heroAlignsWithNav: true,
     // 버튼 형태가 되면서 화살표가 어색해져 뺀다
     heroSecondaryAction: { label: '플랫폼 개요', href: '/why-refinery' },
-    tagline: '무선 진동센서로 모터의 고장 전조를 읽어, 멈춤과 손실을 줄입니다.',
+    heroTaglineAsTitle: true,
+    heroTitle: '무선 진동센서로 모터의 고장 전조를<br>읽어 멈춤과 손실을 줄입니다',
+    tagline: '무선 진동센서로 모터의 고장 전조를 읽어 멈춤과 손실을 줄입니다.',
+    heroImageAsBackground: true,
+    heroImage: {
+      src: '/use-cases/predictive-hero.webp',
+      alt: '펌프와 배관이 늘어선 공장 기계실. 예지보전으로 상태를 감시하는 대상 설비다.',
+      width: 1920,
+      height: 1206,
+    },
     problem:
-      '달력에 맞춘 정비는 아직 멀쩡한 부품을 버리거나, 교체 주기 사이의 갑작스러운 고장을 놓칩니다. 시간이라는 기준은 설비의 실제 상태와 무관하기 때문입니다. 그렇다고 사람이 일일이 현장을 돌며 진동을 재는 것도, 유선 센서를 설비마다 배선하는 것도 부담이 큽니다.',
+      '달력에 맞춘 정비는 아직 쓸 수 있는 부품을 버리거나 교체 주기 사이에 발생하는 갑작스러운 고장을 놓칩니다. 시간은 설비의 실제 상태를 반영하지 못하는 기준이기 때문입니다. 그렇다고 사람이 직접 현장을 돌며 진동을 측정하거나 설비마다 유선 센서를 배선하는 것도 현실적으로 부담이 큽니다.',
+    problemHtml:
+      '달력에 맞춘 정비는 아직 쓸 수 있는 부품을 버리거나 교체 주기 사이에 발생하는 갑작스러운 고장을 놓칩니다.<br>시간은 설비의 실제 상태를 반영하지 못하는 기준이기 때문입니다.<br>그렇다고 사람이 직접 현장을 돌며 진동을 측정하거나 설비마다 유선 센서를 배선하는 것도 현실적으로 부담이 큽니다.',
     how: [
-      { icon: 'ph-broadcast', title: '무선 진동센서 부착', desc: '배선 공사 없이 모터에 센서를 붙이면, LoRaWAN 무선으로 3축 진동과 온도를 실시간으로 보냅니다. 설치가 간편해 돌아가는 설비에도 바로 적용할 수 있습니다.' },
-      { icon: 'ph-gauge', title: 'ISO-20816 기준 판정', desc: '3축 진동을 국제 표준(ISO-20816) 기준으로 판정해, 지금 상태가 정상인지 주의인지 한눈에 보여줍니다.' },
-      { icon: 'ph-trend-up', title: '추세 기반 조기 감지', desc: '순간값이 아니라 추세에서 이상을 읽어, 오탐과 알람 피로를 줄이고 전조를 일찍 잡습니다.' },
-      { icon: 'ph-lightbulb', title: '근거 있는 조치 제안', desc: 'AI가 원인 추정과 다음 조치를 근거 데이터·이력과 함께 제시합니다.' },
+      { icon: 'ph-broadcast', title: '무선 진동센서 부착', desc: '배선 공사 없이 모터에 센서를 붙이면<br>LoRaWAN 무선으로 3축 진동과<br>온도를 실시간으로 보냅니다.' },
+      { icon: 'ph-gauge', title: 'ISO-20816 기준 판정', desc: '3축 진동을 국제 표준(ISO-20816)<br>기준으로 판정해 지금 상태가 정상인지<br>주의인지 한눈에 보여줍니다.' },
+      { icon: 'ph-trend-up', title: '추세 기반 조기 감지', desc: '순간값이 아니라 추세에서 이상을 읽어<br>오탐과 알람 피로를 줄이고 전조를<br>일찍 잡습니다.' },
+      { icon: 'ph-lightbulb', title: '근거 있는 조치 제안', desc: 'AI가 원인 추정과 다음 조치를<br>근거 데이터 · 이력과 함께 제시합니다.' },
     ],
-    signals: ['3축 진동', '온도', '전류', '가동 이력'],
+    signals: [
+      { label: '3축 진동', icon: 'vibration' },
+      { label: '온도', icon: 'temperature' },
+      { label: '전류', icon: 'current' },
+      { label: '가동 이력', icon: 'runtime' },
+    ],
+    // 본문에서 형제 유즈케이스로 가는 링크가 없어 막다른 길이던 것을 보완한다.
+    // 우선 예지보전에서만 시험하고, 괜찮으면 나머지 6개에도 켠다.
+    relatedAsHeaderLink: true,
+    signalsAsCards: true,
+    showRelatedUseCases: true,
+    ctaBackgroundImage: '/use-cases/predictive-cta.webp',
     template: {
       badge: '무선 진동센서 · LoRaWAN',
+      decoImage: '/use-cases/template-deco.webp',
       title: 'WISE-2410 무선 센서로 배선 없이 시작',
-      desc: '모터에 부착만 하면 됩니다. Advantech WISE-2410 무선 진동센서가 3축 진동과 온도를 재고, WISE-6610 게이트웨이가 LoRaWAN으로 데이터를 모읍니다. 배선 공사가 없어 설치가 간편하고, 배터리로 오래 돌며, 거친 산업 환경에서도 견딥니다.',
-      includes: ['배선 불필요 · 부착식 설치', 'LoRaWAN 무선 · 최대 5km', '배터리 최장 2년 저전력', '내장 3축 가속도계 + 온도', 'ISO-20816 기준 진동 판정', 'IP66 · -20~85℃ 내구성'],
+      desc: '배선 공사 없이, 모터에 부착만 하면 시작됩니다. Advantech WISE-2410 무선 진동센서가 3축 진동과 온도를 재고, WISE-6610 게이트웨이가 LoRaWAN으로 데이터를 모읍니다.<br>배터리로 오래 돌고 거친 산업 환경에서도 견딥니다.',
+      includes: ['배선 불필요 · 부착식 설치', 'LoRaWAN 무선 · 최대 5km', '배터리 최장 2년 저전력', '내장 3축 가속도계 + 온도', 'ISO-20816 기준 진동 판정', 'IP66 · 동작온도 -20~85℃'],
     },
     related: { label: '예지보전은 무엇을 예측하는가', href: '/blog/predictive-maintenance' },
     seo: {
@@ -35,7 +59,15 @@ export const useCases: UseCase[] = [
   },
   {
     slug: 'sensor-monitoring',
-    name: '다양한 센서 모니터링',
+    ctaTitle: '센서 모니터링, 우리 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
+    cardDesc: '진동 · 온도 · 전력 · 환경까지 흩어진 센서를<br>한 구조로 모아 감시합니다.',
+    name: '센서 모니터링(IoT)',
+    cardImage: {
+      src: '/use-cases/cards/sensor-monitoring.webp',
+      alt: '',
+      width: 854,
+      height: 480,
+    },
     tagline: '진동·온도·전력·환경까지, 흩어진 센서를 한 구조로 모아 감시합니다.',
     problem:
       '설비마다 다른 센서와 프로토콜이 섞여 있어, 데이터가 한곳에서 읽히지 않습니다. 신호가 흩어져 있으면 이상을 종합해 판단하기 어렵습니다.',
@@ -53,7 +85,15 @@ export const useCases: UseCase[] = [
   },
   {
     slug: 'power-management',
+    ctaTitle: '전력관리, 우리 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
+    cardDesc: '언제 어디서 얼마나 쓰는지 데이터로 파악해<br>전력 비용과 리스크를 줄입니다.',
     name: '전력관리',
+    cardImage: {
+      src: '/use-cases/cards/power-management.webp',
+      alt: '',
+      width: 854,
+      height: 480,
+    },
     tagline: '언제 어디서 얼마나 쓰는지 데이터로 파악해, 전력 비용과 리스크를 줄입니다.',
     problem:
       '전기 요금 고지서에는 총액과 피크 몇 가지만 찍혀 나옵니다. 정작 그 전력을 어느 설비가, 어느 시간대에, 왜 그만큼 썼는지는 거기 없습니다. 설비마다 계량이 따로 놀고 기록도 흩어져 있으니, 요금이 오르면 원인을 찾기보다 그냥 아껴 쓰라는 지시로 끝나기 쉽습니다. 계약전력을 넘겨 피크 요금을 무는 일도 지나고 나서야 고지서를 보고 아는 경우가 많습니다.',
@@ -77,7 +117,15 @@ export const useCases: UseCase[] = [
   },
   {
     slug: 'power-quality',
+    ctaTitle: '전력품질, 우리 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
+    cardDesc: '전압 변동 · 고조파 · 순간 정전 같은 품질 이상을<br>실시간으로 감시합니다.',
     name: '전력품질',
+    cardImage: {
+      src: '/use-cases/cards/power-quality.webp',
+      alt: '',
+      width: 854,
+      height: 480,
+    },
     tagline: '전압 변동·고조파·순간 정전 같은 품질 이상을 실시간으로 감시합니다.',
     problem:
       '설비가 이유 없이 멈추거나 멀쩡하던 라인에서 불량이 늘 때가 있습니다. 원인을 한참 찾다 보면 전력품질이 범인인 경우가 적지 않습니다. 순간적인 전압 강하나 고조파는 눈에 보이지도 오래 남지도 않아서, 상시로 지켜보지 않으면 지나간 뒤엔 흔적을 잡기 어렵습니다. 그래서 "왜 하필 그때 멈췄는지"가 끝내 미제로 남곤 합니다.',
@@ -101,6 +149,14 @@ export const useCases: UseCase[] = [
   },
   {
     slug: 'factory-energy',
+    ctaTitle: '공장 에너지관리, 우리 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
+    cardDesc: '공장 전체의 에너지 흐름을 한곳에서 보고<br>낭비와 배출을 함께 줄입니다.',
+    cardImage: {
+      src: '/use-cases/cards/factory-energy.webp',
+      alt: '',
+      width: 854,
+      height: 480,
+    },
     name: '공장 에너지관리',
     tagline: '공장 전체의 에너지 흐름을 한곳에서 보고, 낭비와 배출을 함께 줄입니다.',
     problem:
@@ -125,6 +181,14 @@ export const useCases: UseCase[] = [
   },
   {
     slug: 'energy-optimization',
+    ctaTitle: '에너지 최적화, 우리 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
+    cardDesc: '숨은 낭비와 피크를 데이터로 찾아 같은 일을<br>더 적은 비용으로 합니다.',
+    cardImage: {
+      src: '/use-cases/cards/energy-optimization.webp',
+      alt: '',
+      width: 854,
+      height: 480,
+    },
     name: '에너지 최적화',
     tagline: '숨은 낭비와 피크를 데이터로 찾아, 같은 일을 더 적은 비용으로 합니다.',
     problem:
@@ -143,6 +207,14 @@ export const useCases: UseCase[] = [
   },
   {
     slug: 'quality-prediction',
+    ctaTitle: '품질 예측, 우리 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
+    cardDesc: '공정 데이터에서 불량의 전조를 읽어<br>완성 전에 잡습니다.',
+    cardImage: {
+      src: '/use-cases/cards/quality-prediction.webp',
+      alt: '',
+      width: 854,
+      height: 480,
+    },
     name: '품질 예측',
     tagline: '공정 데이터에서 불량의 전조를 읽어, 완성 전에 잡습니다.',
     problem:
