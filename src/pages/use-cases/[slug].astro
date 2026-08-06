@@ -385,11 +385,11 @@ const jsonLd = {
     pointer-events: none; user-select: none;
   }
   /* 스크림 — 좌측(글이 놓이는 쪽)을 더 진하게 해 대비를 확보한다 */
-  /* 사진 위에 균일한 막 한 겹. 가로 그라데이션(왼쪽 74% → 오른쪽 26%)을
-     쓰던 것을 고른 농도로 바꾼다. 색은 '푸는 방식' 섹션과 같은 #111316. */
+  /* 사진 위 스크림 — 색은 '푸는 방식' 섹션과 같은 #111316.
+     위 70% → 아래 60%로, 태그라인·대제목이 놓인 위쪽을 조금 더 짙게 덮는다. */
   .uc-hero-bg::after {
     content: ''; position: absolute; inset: 0;
-    background: rgba(17, 19, 22, .7);
+    background: linear-gradient(180deg, rgba(17,19,22,.7) 0%, rgba(17,19,22,.6) 100%);
   }
   .uc-hero-bg > .ind-container { position: relative; z-index: 1; }
   .uc-hero-bg h1 { color: #fff; }
