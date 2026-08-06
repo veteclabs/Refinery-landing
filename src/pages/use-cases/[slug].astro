@@ -338,7 +338,8 @@ const jsonLd = {
   /* 알약 없이 아이콘 + 글자만. 면·테두리를 걷어내 밴드 위에 얹힌 라벨로 둔다. */
   .uc-template-badge {
     display: inline-flex; align-items: center; gap: 6px;
-    font-size: 12px; font-weight: 700; letter-spacing: .02em; color: #76a6d7;
+    /* 크기는 아래 설명(.uc-template p)과 같은 15px. 아이콘도 font-size를 따라 커진다. */
+    font-size: 15px; font-weight: 700; letter-spacing: .02em; color: #76a6d7;
     background: none; border: none; border-radius: 0; padding: 0;
   }
   /* 제목·설명 크기는 랜딩 산업 카드(.industry-name / .industry-desc)와 같은 값 —
