@@ -484,8 +484,9 @@ const jsonLd = {
   .uc-power-management .uc-hero-bg-img { object-position: center 25%; }
   .uc-power-quality .uc-hero-bg-img { object-position: center 16%; }
   .uc-factory-energy .uc-hero-bg-img { object-position: center 0%; }
-  /* 사진이 멀게 느껴져 확대한다. overflow:hidden이 걸린 섹션이라 넘친 부분은 잘린다. */
-  .uc-energy-optimization .uc-hero-bg-img { object-position: center 0%; transform: scale(1.45) translateY(4%); }
+  /* 에너지 최적화는 규칙이 없다 — 원본 정사각에서 히어로 비율(약 2.67:1)로
+     미리 잘라 넣었기 때문이다. 화면에서 잘라내는 게 아니라 파일이 이미 그 비율이라
+     초점을 옮길 여지가 없고, 옮길 필요도 없다. */
   /* 스크림 — 좌측(글이 놓이는 쪽)을 더 진하게 해 대비를 확보한다 */
   /* 사진 위 스크림 — 색은 '푸는 방식' 섹션과 같은 #111316.
      위 80% → 아래 50%로, 태그라인·대제목이 놓인 위쪽을 짙게 덮는다. */
