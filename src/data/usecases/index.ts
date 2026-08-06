@@ -60,6 +60,13 @@ export const useCases: UseCase[] = [
   },
   {
     slug: 'sensor-monitoring',
+    redesigned: true,
+    showBreadcrumb: false,
+    showEyebrow: false,
+    heroAlignsWithNav: true,
+    heroTaglineAsTitle: true,
+    heroTitle: '진동·온도·전력·환경까지, 흩어진 센서를<br>한 구조로 모아 감시합니다.',
+    showRelatedUseCases: true,
     ctaTitle: '센서 모니터링, 우리 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
     cardDesc: '진동 · 온도 · 전력 · 환경까지 흩어진 센서를<br>한 구조로 모아 감시합니다.',
     name: '센서 모니터링',
@@ -72,6 +79,8 @@ export const useCases: UseCase[] = [
     tagline: '진동·온도·전력·환경까지, 흩어진 센서를 한 구조로 모아 감시합니다.',
     problem:
       '설비마다 다른 센서와 프로토콜이 섞여 있어, 데이터가 한곳에서 읽히지 않습니다. 신호가 흩어져 있으면 이상을 종합해 판단하기 어렵습니다.',
+    problemHtml:
+      '설비마다 다른 센서와 프로토콜이 섞여 있어, 데이터가 한곳에서 읽히지 않습니다.<br>신호가 흩어져 있으면 이상을 종합해 판단하기 어렵습니다.',
     how: [
       { title: '다중 센서 수집', desc: 'IoT 센서부터 기존 계측기까지 다양한 소스를 표준화해 한곳에 모읍니다.' },
       { title: '온톨로지로 연결', desc: '각 신호가 어느 설비의 무엇인지 의미를 부여해 함께 해석합니다.' },
@@ -86,6 +95,13 @@ export const useCases: UseCase[] = [
   },
   {
     slug: 'power-management',
+    redesigned: true,
+    showBreadcrumb: false,
+    showEyebrow: false,
+    heroAlignsWithNav: true,
+    heroTaglineAsTitle: true,
+    heroTitle: '언제 어디서 얼마나 쓰는지 데이터로 파악해,<br>전력 비용과 리스크를 줄입니다.',
+    showRelatedUseCases: true,
     ctaTitle: '전력관리, 우리 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
     cardDesc: '언제 어디서 얼마나 쓰는지 데이터로 파악해<br>전력 비용과 리스크를 줄입니다.',
     name: '전력관리',
@@ -98,6 +114,8 @@ export const useCases: UseCase[] = [
     tagline: '언제 어디서 얼마나 쓰는지 데이터로 파악해, 전력 비용과 리스크를 줄입니다.',
     problem:
       '전기 요금 고지서에는 총액과 피크 몇 가지만 찍혀 나옵니다. 정작 그 전력을 어느 설비가, 어느 시간대에, 왜 그만큼 썼는지는 거기 없습니다. 설비마다 계량이 따로 놀고 기록도 흩어져 있으니, 요금이 오르면 원인을 찾기보다 그냥 아껴 쓰라는 지시로 끝나기 쉽습니다. 계약전력을 넘겨 피크 요금을 무는 일도 지나고 나서야 고지서를 보고 아는 경우가 많습니다.',
+    problemHtml:
+      '전기 요금 고지서에는 총액과 피크 몇 가지만 찍혀 나옵니다.<br>정작 그 전력을 어느 설비가, 어느 시간대에, 왜 그만큼 썼는지는 거기 없습니다.<br>설비마다 계량이 따로 놀고 기록도 흩어져 있으니, 요금이 오르면 원인을 찾기보다 그냥 아껴 쓰라는 지시로 끝나기 쉽습니다.<br>계약전력을 넘겨 피크 요금을 무는 일도 지나고 나서야 고지서를 보고 아는 경우가 많습니다.',
     how: [
       { title: '사용 가시화', desc: '설비와 구역, 시간대를 함께 놓고 전력을 봅니다. 어느 설비가 언제 얼마나 쓰는지가 한 화면에 모이면, 막연하던 소비가 눈에 잡히기 시작합니다.' },
       { title: '피크 관리', desc: '여러 설비가 동시에 돌아 피크를 만드는 순간을 찾습니다. 가동 시점을 조금씩 어긋나게 하거나 부하를 나누면, 계약전력과 피크 요금이 함께 내려갑니다.' },
@@ -118,6 +136,13 @@ export const useCases: UseCase[] = [
   },
   {
     slug: 'power-quality',
+    redesigned: true,
+    showBreadcrumb: false,
+    showEyebrow: false,
+    heroAlignsWithNav: true,
+    heroTaglineAsTitle: true,
+    heroTitle: '전압 변동·고조파·순간 정전 같은 품질 이상을<br>실시간으로 감시합니다.',
+    showRelatedUseCases: true,
     ctaTitle: '전력품질, 우리 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
     cardDesc: '전압 변동 · 고조파 · 순간 정전 같은 품질 이상을<br>실시간으로 감시합니다.',
     name: '전력품질',
@@ -130,6 +155,8 @@ export const useCases: UseCase[] = [
     tagline: '전압 변동·고조파·순간 정전 같은 품질 이상을 실시간으로 감시합니다.',
     problem:
       '설비가 이유 없이 멈추거나 멀쩡하던 라인에서 불량이 늘 때가 있습니다. 원인을 한참 찾다 보면 전력품질이 범인인 경우가 적지 않습니다. 순간적인 전압 강하나 고조파는 눈에 보이지도 오래 남지도 않아서, 상시로 지켜보지 않으면 지나간 뒤엔 흔적을 잡기 어렵습니다. 그래서 "왜 하필 그때 멈췄는지"가 끝내 미제로 남곤 합니다.',
+    problemHtml:
+      '설비가 이유 없이 멈추거나 멀쩡하던 라인에서 불량이 늘 때가 있습니다.<br>원인을 한참 찾다 보면 전력품질이 범인인 경우가 적지 않습니다.<br>순간적인 전압 강하나 고조파는 눈에 보이지도 오래 남지도 않아서, 상시로 지켜보지 않으면 지나간 뒤엔 흔적을 잡기 어렵습니다.<br>그래서 "왜 하필 그때 멈췄는지"가 끝내 미제로 남곤 합니다.',
     how: [
       { title: '품질 지표 감시', desc: '전압과 주파수, 고조파, 불평형 같은 지표를 실시간으로 지켜봅니다. 기준을 벗어나는 순간을 놓치지 않습니다.' },
       { title: '이벤트 자동 기록', desc: '순간 전압 강하(sag)나 상승(swell), 짧은 정전처럼 스쳐 지나가는 사건을 자동으로 기록해 둡니다. 나중에 되짚어 볼 근거가 남습니다.' },
@@ -150,6 +177,13 @@ export const useCases: UseCase[] = [
   },
   {
     slug: 'factory-energy',
+    redesigned: true,
+    showBreadcrumb: false,
+    showEyebrow: false,
+    heroAlignsWithNav: true,
+    heroTaglineAsTitle: true,
+    heroTitle: '공장 전체의 에너지 흐름을 한곳에서 보고,<br>낭비와 배출을 함께 줄입니다.',
+    showRelatedUseCases: true,
     ctaTitle: '공장 에너지관리, 우리 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
     cardDesc: '공장 전체의 에너지 흐름을 한곳에서 보고<br>낭비와 배출을 함께 줄입니다.',
     cardImage: {
@@ -162,6 +196,8 @@ export const useCases: UseCase[] = [
     tagline: '공장 전체의 에너지 흐름을 한곳에서 보고, 낭비와 배출을 함께 줄입니다.',
     problem:
       '공장은 전기·가스·스팀·용수 등 여러 에너지를 함께 씁니다. 그런데 이 소비가 부서별·설비별·시간대별로 흩어져 기록되어, 어디서 얼마나 왜 쓰는지가 한눈에 보이지 않습니다. 전체 흐름이 안 보이니 어디를 줄여야 할지 근거를 잡기 어렵고, 절감은 감에 의존하게 됩니다. ESG 보고를 위한 집계도 매번 수작업으로 반복됩니다.',
+    problemHtml:
+      '공장은 전기·가스·스팀·용수 등 여러 에너지를 함께 씁니다.<br>그런데 이 소비가 부서별·설비별·시간대별로 흩어져 기록되어, 어디서 얼마나 왜 쓰는지가 한눈에 보이지 않습니다.<br>전체 흐름이 안 보이니 어디를 줄여야 할지 근거를 잡기 어렵고, 절감은 감에 의존하게 됩니다.<br>ESG 보고를 위한 집계도 매번 수작업으로 반복됩니다.',
     how: [
       { title: '통합 계량', desc: '전기·가스·스팀·용수와 설비별 소비를 한 구조로 모아, 공장 전체의 에너지 흐름을 하나의 화면에서 봅니다.' },
       { title: '원단위 분석', desc: '생산량 대비 에너지 사용(원단위)을 비교해, 같은 일을 하는데 더 많이 쓰는 구간과 시점을 찾아냅니다.' },
@@ -182,6 +218,13 @@ export const useCases: UseCase[] = [
   },
   {
     slug: 'energy-optimization',
+    redesigned: true,
+    showBreadcrumb: false,
+    showEyebrow: false,
+    heroAlignsWithNav: true,
+    heroTaglineAsTitle: true,
+    heroTitle: '숨은 낭비와 피크를 데이터로 찾아,<br>같은 일을 더 적은 비용으로 합니다.',
+    showRelatedUseCases: true,
     ctaTitle: '에너지 최적화, 우리 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
     cardDesc: '숨은 낭비와 피크를 데이터로 찾아 같은 일을<br>더 적은 비용으로 합니다.',
     cardImage: {
@@ -194,6 +237,8 @@ export const useCases: UseCase[] = [
     tagline: '숨은 낭비와 피크를 데이터로 찾아, 같은 일을 더 적은 비용으로 합니다.',
     problem:
       '낭비는 큰 설비보다 눈에 잘 띄지 않는 곳에 흩어져 있습니다. 총량만 봐서는 어디를 손봐야 할지 보이지 않습니다.',
+    problemHtml:
+      '낭비는 큰 설비보다 눈에 잘 띄지 않는 곳에 흩어져 있습니다.<br>총량만 봐서는 어디를 손봐야 할지 보이지 않습니다.',
     how: [
       { title: '낭비 발굴', desc: '소비 패턴을 작업 맥락에 겹쳐 비효율을 찾습니다.' },
       { title: '피크 저감', desc: '피크가 생기는 시점을 파악해 부하를 분산합니다.' },
@@ -208,6 +253,13 @@ export const useCases: UseCase[] = [
   },
   {
     slug: 'quality-prediction',
+    redesigned: true,
+    showBreadcrumb: false,
+    showEyebrow: false,
+    heroAlignsWithNav: true,
+    heroTaglineAsTitle: true,
+    heroTitle: '공정 데이터에서 불량의 전조를 읽어,<br>완성 전에 잡습니다.',
+    showRelatedUseCases: true,
     ctaTitle: '품질 예측, 우리 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
     cardDesc: '공정 데이터에서 불량의 전조를 읽어<br>완성 전에 잡습니다.',
     cardImage: {
@@ -220,6 +272,8 @@ export const useCases: UseCase[] = [
     tagline: '공정 데이터에서 불량의 전조를 읽어, 완성 전에 잡습니다.',
     problem:
       '완성품 검사에서 불량을 찾으면 이미 자재와 시간이 들어간 뒤입니다. 완성품만 봐서는 원인도 알기 어렵습니다.',
+    problemHtml:
+      '완성품 검사에서 불량을 찾으면 이미 자재와 시간이 들어간 뒤입니다.<br>완성품만 봐서는 원인도 알기 어렵습니다.',
     how: [
       { title: '공정-품질 연결', desc: '공정 조건과 검사 결과를 이어, 어떤 조건이 불량과 상관 있는지 봅니다.' },
       { title: '전조 감지', desc: '온도·압력·원료 특성의 미세 변화에서 불량 전조를 읽습니다.' },
