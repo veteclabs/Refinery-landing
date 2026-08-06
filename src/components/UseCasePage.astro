@@ -43,9 +43,10 @@ const T = {
 
 const base = lang === 'en' ? '/en/use-cases' : '/use-cases';
 const path = `${base}/${uc.slug}`;
-// 새 디자인에서는 신호 섹션이 문제 바로 아래로 올라간다(문제 → 입력 → 처리 순서).
-// 기존 구성은 해법 다음에 온다.
-const signalsFirst = !!uc.signalsAsCards;
+// 개편 디자인에서는 섹션 순서가 문제 → 신호 → 해법이고(입력을 먼저 보이고 처리를 뒤에),
+// '왜 필요한가요?'가 배지 대신 태그라인 형태가 된다. 기존 구성은 문제 → 해법 → 신호.
+// 신호를 카드로 그릴지(signalsAsCards)는 아이콘 준비 여부라 별개로 둔다.
+const signalsFirst = !!uc.redesigned;
 // ko/en 양쪽이 모두 존재하는 페이지라 hreflang을 출력한다.
 const alternates = [
   { lang: 'ko', href: `/use-cases/${uc.slug}` },
