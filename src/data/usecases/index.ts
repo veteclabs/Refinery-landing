@@ -279,8 +279,8 @@ export const useCases: UseCase[] = [
     heroImage: {
       src: '/use-cases/heroes/energy-optimization.webp',
       alt: '',
-      width: 3600,
-      height: 1349,
+      width: 4140,
+      height: 2760,
     },
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     signalsAsCards: true,
