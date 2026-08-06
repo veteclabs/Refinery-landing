@@ -147,6 +147,9 @@ const jsonLd = {
 
         {uc.template && (
           <div class={uc.template.image ? 'uc-template uc-template--split' : 'uc-template'}>
+            {uc.template.decoImage && (
+              <img class="uc-template-deco" src={uc.template.decoImage} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+            )}
             <div class="uc-template-body">
               <span class="uc-template-badge"><i class="ph ph-blueprint" aria-hidden="true"></i> {uc.template.badge ?? '템플릿으로 시작'}</span>
               <h3>{uc.template.title}</h3>
@@ -598,7 +601,20 @@ const jsonLd = {
      위쪽에서 배어 나오는 하늘색 글로우로 '여기부터 다른 이야기'를 표시한다.
      하단이 아니라 상단인 이유: 아래는 체크 목록 자리이고 그 아이콘이
      #76A6D7이라, 같은 색을 깔면 아이콘이 제 배경에 묻힌다(7.27:1 → 4.7:1). */
+  /* 우측 상단 장식 — 글 뒤에 깔린다(.uc-template-body가 z-index로 위).
+     그림 바탕이 검정이라 mix-blend-mode: screen으로 어두운 픽셀을 날려
+     밴드 배경에 녹인다. 사각 모서리가 드러나지 않는다. */
+  .uc-template-deco {
+    position: absolute; top: -60px; right: -40px;
+    width: 480px; height: auto;
+    mix-blend-mode: screen; opacity: .8;
+    pointer-events: none; user-select: none;
+  }
+  .uc-template-body { position: relative; z-index: 1; }
+  @media (max-width: 860px) { .uc-template-deco { display: none; } }
+
   .uc-predictive-maintenance .uc-template {
+    position: relative; overflow: hidden;
     background:
       linear-gradient(180deg, rgba(118,166,215,.14) 0%, rgba(118,166,215,0) 55%),
       #111316;
@@ -719,6 +735,9 @@ const jsonLd = {
     pointer-events: none; user-select: none;
   }
   .uc-cta-bg .ind-container { position: relative; z-index: 1; }
+  /* ctaTitle 안의 과제명 강조. set:html로 넣은 노드는 Astro 스코프 속성을
+     받지 않으므로 :global로 잡아야 한다. */
+  .uc-cta-bg h2 :global(.uc-cta-em) { color: #76a6d7; }
   .uc-page .ind-cta.uc-cta-bg h2 {
     /* 랜딩 CTA(45px)보다 한 단계 작다. 유즈케이스는 하위 페이지라 위계가 낮고,
        문구가 더 길며, 버튼이 옆에 붙으면서 제목 폭이 781px로 좁아졌다.

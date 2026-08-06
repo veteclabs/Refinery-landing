@@ -54,6 +54,9 @@ export type UseCase = {
     includes?: string[];
     badge?: string;
     image?: UseCaseImage; // 있으면 밴드가 2컬럼(설명 + 이미지)이 된다.
+    /** 밴드 우측 상단에 얹는 장식 이미지(선택). 글 뒤에 깔리는 배경 요소라
+     *  내용을 담지 않는다(alt 없음, aria-hidden). image와 달리 레이아웃을 바꾸지 않는다. */
+    decoImage?: string;
   };
   signals: UseCaseSignal[];  // 다루는 데이터·신호
   /** related 링크를 신호 섹션 제목 오른쪽 끝에 배치한다(홈 히어로의 '데모 신청하기'와 같은 형태). 기본 false */

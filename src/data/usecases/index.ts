@@ -4,7 +4,7 @@ import type { UseCase } from './types';
 export const useCases: UseCase[] = [
   {
     slug: 'predictive-maintenance',
-    ctaTitle: '예지보전, 우리 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
+    ctaTitle: '<span class="uc-cta-em">예지보전</span>, 우리 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
     name: '예지보전',
     // 히어로를 제목 중심으로 정리 — 위치 표시·eyebrow를 빼고 좌측을 헤더 로고 선에 맞춘다.
     showBreadcrumb: false,
@@ -46,6 +46,7 @@ export const useCases: UseCase[] = [
     ctaBackgroundImage: '/use-cases/predictive-cta.webp',
     template: {
       badge: '무선 진동센서 · LoRaWAN',
+      decoImage: '/use-cases/template-deco.webp',
       title: 'WISE-2410 무선 센서로 배선 없이 시작',
       desc: '배선 공사 없이, 모터에 부착만 하면 시작됩니다. Advantech WISE-2410 무선 진동센서가 3축 진동과 온도를 재고, WISE-6610 게이트웨이가 LoRaWAN으로 데이터를 모읍니다.<br>배터리로 오래 돌고 거친 산업 환경에서도 견딥니다.',
       includes: ['배선 불필요 · 부착식 설치', 'LoRaWAN 무선 · 최대 5km', '배터리 최장 2년 저전력', '내장 3축 가속도계 + 온도', 'ISO-20816 기준 진동 판정', 'IP66 · 동작온도 -20~85℃'],
