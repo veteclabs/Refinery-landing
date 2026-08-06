@@ -12,7 +12,7 @@ export const useCases: UseCase[] = [
       height: 480,
     },
     redesigned: true,
-    ctaTitle: '예지보전, 우리 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
+    ctaTitle: '예지보전, 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
     name: '예지보전',
     // 히어로를 제목 중심으로 정리 — 위치 표시·eyebrow를 빼고 좌측을 헤더 로고 선에 맞춘다.
     showBreadcrumb: false,
@@ -84,7 +84,7 @@ export const useCases: UseCase[] = [
     heroTaglineAsTitle: true,
     heroTitle: '흩어진 센서를 한 구조로 모아<br>이상을 놓치지 않고 함께 읽습니다',
     showRelatedUseCases: true,
-    ctaTitle: '센서 모니터링, 우리 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
+    ctaTitle: '센서 모니터링, 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
     cardDesc: '진동 · 온도 · 전력 · 환경까지 흩어진 센서를<br>한 구조로 모아 감시합니다.',
     name: '센서 모니터링',
     cardImage: {
@@ -129,7 +129,7 @@ export const useCases: UseCase[] = [
     heroTaglineAsTitle: true,
     heroTitle: '언제 어디서 얼마나 쓰는지 데이터로 파악해,<br>전력 비용과 리스크를 줄입니다',
     showRelatedUseCases: true,
-    ctaTitle: '전력관리, 우리 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
+    ctaTitle: '전력관리, 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
     cardDesc: '언제 어디서 얼마나 쓰는지 데이터로 파악해<br>전력 비용과 리스크를 줄입니다.',
     name: '전력관리',
     cardImage: {
@@ -181,7 +181,7 @@ export const useCases: UseCase[] = [
     heroTaglineAsTitle: true,
     heroTitle: '전압 변동·고조파·순간 정전 같은 품질 이상을<br>실시간으로 감시합니다',
     showRelatedUseCases: true,
-    ctaTitle: '전력품질, 우리 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
+    ctaTitle: '전력품질, 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
     cardDesc: '전압 변동 · 고조파 · 순간 정전 같은 품질 이상을<br>실시간으로 감시합니다.',
     name: '전력품질',
     cardImage: {
@@ -233,7 +233,7 @@ export const useCases: UseCase[] = [
     heroTaglineAsTitle: true,
     heroTitle: '공장 전체의 에너지 흐름을 한곳에서 보고,<br>낭비와 배출을 함께 줄입니다',
     showRelatedUseCases: true,
-    ctaTitle: '공장 에너지관리, 우리 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
+    ctaTitle: '공장 에너지관리, 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
     cardDesc: '공장 전체의 에너지 흐름을 한곳에서 보고<br>낭비와 배출을 함께 줄입니다.',
     cardImage: {
       src: '/use-cases/cards/factory-energy.webp',
@@ -285,7 +285,7 @@ export const useCases: UseCase[] = [
     heroTaglineAsTitle: true,
     heroTitle: '숨은 낭비와 피크를 데이터로 찾아,<br>같은 일을 더 적은 비용으로 합니다',
     showRelatedUseCases: true,
-    ctaTitle: '에너지 최적화, 우리 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
+    ctaTitle: '에너지 최적화, 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
     cardDesc: '숨은 낭비와 피크를 데이터로 찾아 같은 일을<br>더 적은 비용으로 합니다.',
     cardImage: {
       src: '/use-cases/cards/energy-optimization.webp',
@@ -330,7 +330,7 @@ export const useCases: UseCase[] = [
     heroTaglineAsTitle: true,
     heroTitle: '공정 데이터에서 불량의 전조를 읽어,<br>완성 전에 잡습니다',
     showRelatedUseCases: true,
-    ctaTitle: '품질 예측, 우리 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
+    ctaTitle: '품질 예측, 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
     cardDesc: '공정 데이터에서 불량의 전조를 읽어<br>완성 전에 잡습니다.',
     cardImage: {
       src: '/use-cases/cards/quality-prediction.webp',
