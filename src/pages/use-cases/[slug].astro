@@ -599,11 +599,13 @@ const jsonLd = {
   /* hover는 랜딩 #integrations의 .rfn-node와 같은 방식 —
      테두리 색을 바꾸지 않고 box-shadow로 2px 링을 덧대고 그림자를 한 단계 키운다.
      레이아웃이 흔들리지 않고, 링크가 아닌 카드에 '누를 수 있다'는 신호도 주지 않는다. */
-  .uc-predictive-maintenance .ind-soft .ind-card {
+  .uc-predictive-maintenance .ind-soft .ind-card,
+  .uc-predictive-maintenance .uc-template {
     box-shadow: 0 1px 2px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
     transition: box-shadow .15s;
   }
-  .uc-predictive-maintenance .ind-soft .ind-card:hover {
+  .uc-predictive-maintenance .ind-soft .ind-card:hover,
+  .uc-predictive-maintenance .uc-template:hover {
     box-shadow: 0 0 0 2px #272b32, 0 2px 4px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
   }
   .uc-predictive-maintenance .ind-soft .ind-card h3 { color: #edeef0; }
