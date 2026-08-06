@@ -233,7 +233,7 @@ export const useCases: UseCase[] = [
     signalsAsCards: true,
     relatedAsHeaderLink: true,
     heroTaglineAsTitle: true,
-    heroTitle: '공장 전체의 에너지 흐름을 한곳에서 보고,<br>낭비와 배출을 함께 줄입니다',
+    heroTitle: '공장 전체의 에너지 흐름을 한곳에서<br>보고 낭비와 배출을 함께 줄입니다',
     showRelatedUseCases: true,
     ctaTitle: '공장 에너지관리, 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
     cardDesc: '공장 전체의 에너지 흐름을 한곳에서 보고<br>낭비와 배출을 함께 줄입니다.',
