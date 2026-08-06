@@ -148,7 +148,7 @@ const jsonLd = {
         {uc.template && (
           <div class={uc.template.image ? 'uc-template uc-template--split' : 'uc-template'}>
             <div class="uc-template-body">
-              <span class="uc-template-badge">{uc.template.badge ?? '템플릿으로 시작'}</span>
+              <span class="uc-template-badge"><i class="ph ph-blueprint" aria-hidden="true"></i> {uc.template.badge ?? '템플릿으로 시작'}</span>
               <h3>{uc.template.title}</h3>
               <p>{uc.template.desc}</p>
               {uc.template.includes && (
@@ -335,10 +335,11 @@ const jsonLd = {
     margin-top: 24px; background: #eef5fc; border: 1px solid #cfe0f0; border-radius: 14px;
     padding: 24px 26px;
   }
+  /* 알약 없이 아이콘 + 글자만. 면·테두리를 걷어내 밴드 위에 얹힌 라벨로 둔다. */
   .uc-template-badge {
-    display: inline-flex; align-items: center;
-    font-size: 12px; font-weight: 700; letter-spacing: .02em; color: #fff;
-    background: #76a6d7; border: 1px solid #76a6d7; border-radius: 999px; padding: 5px 12px;
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px; font-weight: 700; letter-spacing: .02em; color: #76a6d7;
+    background: none; border: none; border-radius: 0; padding: 0;
   }
   /* 제목·설명 크기는 랜딩 산업 카드(.industry-name / .industry-desc)와 같은 값 —
      위 '이렇게 풉니다' 카드, 아래 '다른 과제' 카드와 한 규격으로 맞춘다.
