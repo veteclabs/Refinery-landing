@@ -735,8 +735,8 @@ const jsonLd = {
     pointer-events: none; user-select: none;
   }
   .uc-cta-bg .ind-container { position: relative; z-index: 1; }
-  /* ctaTitle 안의 과제명 강조. set:html로 넣은 노드는 Astro 스코프 속성을
-     받지 않으므로 :global로 잡아야 한다. */
+  /* ctaTitle 일부를 다른 색으로 강조하고 싶을 때 쓴다(현재 사용처 없음).
+     set:html로 넣은 노드는 Astro 스코프 속성을 받지 않아 :global이 필요하다. */
   .uc-cta-bg h2 :global(.uc-cta-em) { color: #76a6d7; }
   .uc-page .ind-cta.uc-cta-bg h2 {
     /* 랜딩 CTA(45px)보다 한 단계 작다. 유즈케이스는 하위 페이지라 위계가 낮고,
