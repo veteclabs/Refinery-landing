@@ -350,6 +350,13 @@ const jsonLd = {
   .uc-template-list { list-style: none; padding: 0; margin: 16px 0 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px 20px; }
   .uc-template-list li { display: flex; align-items: center; gap: 8px; font-size: 15px; color: #16202c; }
   .uc-template-list li i { color: #2f6ba3; font-size: 15px; flex: none; }
+  /* 예지보전만 항목이 6개라 3열 2행이 딱 떨어진다.
+     나머지(전력관리·전력품질·공장 에너지관리)는 4개여서 3열이면 3+1로 남으므로
+     공용 2열 규칙을 그대로 둔다. */
+  .uc-predictive-maintenance .uc-template-list { grid-template-columns: repeat(3, 1fr); }
+  @media (max-width: 860px) {
+    .uc-predictive-maintenance .uc-template-list { grid-template-columns: repeat(2, 1fr); }
+  }
   @media (max-width: 560px) { .uc-template-list { grid-template-columns: 1fr; } }
 
   /* ───────────────────────────────────────────────────────────
