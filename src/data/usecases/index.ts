@@ -180,7 +180,7 @@ export const useCases: UseCase[] = [
     signalsAsCards: true,
     relatedAsHeaderLink: true,
     heroTaglineAsTitle: true,
-    heroTitle: '전압 변동·고조파·순간 정전 같은 품질 이상을<br>실시간으로 감시합니다',
+    heroTitle: '눈에 안 보이는 전력 품질 이상을<br>실시간으로 잡아 기록합니다',
     showRelatedUseCases: true,
     ctaTitle: '전력품질, 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
     cardDesc: '전압 변동 · 고조파 · 순간 정전 같은 품질 이상을<br>실시간으로 감시합니다.',
