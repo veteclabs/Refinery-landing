@@ -102,7 +102,14 @@ export const useCases: UseCase[] = [
       { icon: 'ph-tree-structure', title: '온톨로지로 연결', desc: '각 신호가 어느 설비의 무엇인지 의미를 부여해<br>함께 해석합니다.' },
       { icon: 'ph-pulse', title: '실시간 이상 감시', desc: '여러 신호를 한 화면에서 보고 평소와 다른<br>조합을 잡아냅니다.' },
     ],
-    signals: ['진동', '온도', '습도', '전력', '압력', '유량'],
+    signals: [
+      { label: '진동', icon: 'oscillation' },
+      { label: '온도', icon: 'temperature' },
+      { label: '습도', icon: 'humidity' },
+      { label: '전력', icon: 'power' },
+      { label: '압력', icon: 'pressure' },
+      { label: '유량', icon: 'flow' },
+    ],
     related: { label: '산업 데이터를 자산으로 만드는 5가지 원칙', href: '/blog/industrial-data-best-practices' },
     seo: {
       title: '센서 모니터링(IoT) | Refinery',
@@ -155,7 +162,13 @@ export const useCases: UseCase[] = [
       desc: '전력을 처음 들여다보는 현장이라면 무엇부터 재고 어떻게 봐야 할지 막막합니다. 여러 현장을 거치며 정리해 둔 템플릿에는 설비별 계량을 어떻게 잡고 피크와 역률을<br>어떤 기준으로 볼지가 담겨 있습니다. 설비 목록과 계약 조건만 맞춰 넣으면 구조를 처음부터 짤 필요 없이 바로 시작할 수 있습니다.',
       includes: ['설비 · 구역별 전력 계량 구조', '피크 · 계약전력 관리 기준', '역률 · 부하율 대시보드', '이상 사용 알람 규칙'],
     },
-    signals: ['유효/무효 전력', '역률', '부하율', '시간대별 소비', '피크'],
+    signals: [
+      { label: '유효/무효 전력', icon: 'power-active-reactive' },
+      { label: '역률', icon: 'power-factor' },
+      { label: '부하율', icon: 'load-rate' },
+      { label: '시간대별 소비', icon: 'hourly-usage' },
+      { label: '피크', icon: 'peak' },
+    ],
     related: { label: '낭비는 어디에 숨어 있나', href: '/blog/energy-optimization' },
     seo: {
       title: '전력관리 | Refinery',
@@ -208,7 +221,13 @@ export const useCases: UseCase[] = [
       desc: '무엇을 어느 기준으로 감시할지는 현장마다 다르지만 큰 틀은 비슷합니다. 여러 현장에서 쓰던 템플릿에는 주요 지표와 판단 기준,<br>자주 문제가 되는 이벤트 유형이 정리돼 있습니다. 계측 지점과 설비만 연결하면 어디를 어떻게 볼지 고민하는 단계를 건너뛰고 감시부터 시작할 수 있습니다.',
       includes: ['전압 · 주파수 · 고조파 감시 항목', 'sag/swell · 정전 이벤트 기준', '설비 이력 연계 뷰', '품질 이상 알람 규칙'],
     },
-    signals: ['전압', '주파수', '고조파(THD)', '불평형', 'sag/swell'],
+    signals: [
+      { label: '전압', icon: 'voltage' },
+      { label: '주파수', icon: 'frequency' },
+      { label: '고조파(THD)', icon: 'harmonics' },
+      { label: '불평형', icon: 'imbalance' },
+      { label: 'sag/swell', icon: 'sag-swell' },
+    ],
     related: { label: '산업 데이터를 자산으로 만드는 5가지 원칙', href: '/blog/industrial-data-best-practices' },
     seo: {
       title: '전력품질 감시 | Refinery',
@@ -261,7 +280,13 @@ export const useCases: UseCase[] = [
       desc: '새로 시작하는 현장도 구조를 처음부터 설계할 필요가 없습니다. 30년간 여러 현장에서 다져 온 템플릿에는 계량 구조부터<br>원단위 KPI, ESG 리포트 양식, 이상 · 피크 알람 규칙까지 들어 있습니다. 설비와 목표에 맞게 조정만 하면 검증된 구조 위에서 곧바로 운영을 시작할 수 있습니다.',
       includes: ['에너지원 · 설비 계량 구조', '원단위 KPI · 대시보드', 'ESG 리포트 양식', '이상 소비 · 피크 알람 규칙'],
     },
-    signals: ['전기 · 가스 · 스팀 · 용수', '생산량', '배출량', '원단위', '피크'],
+    signals: [
+      { label: '전기 · 가스 · 스팀 · 용수', icon: 'energy-sources' },
+      { label: '생산량', icon: 'output' },
+      { label: '배출량', icon: 'emissions' },
+      { label: '원단위', icon: 'intensity' },
+      { label: '피크', icon: 'peak' },
+    ],
     related: { label: '낭비는 어디에 숨어 있나', href: '/blog/energy-optimization' },
     seo: {
       title: '공장 에너지관리(FEMS) | Refinery',
@@ -307,7 +332,11 @@ export const useCases: UseCase[] = [
       { icon: 'ph-trend-down', title: '피크 저감', desc: '피크가 생기는 시점을 파악해 부하를 분산합니다.<br>계약전력과 요금 피크가 함께 내려갑니다.' },
       { icon: 'ph-arrows-clockwise', title: '지속 관리', desc: '개선 효과를 추적해 다시 새지 않게 관리합니다.<br>예전으로 돌아가는 구간을 바로 잡아냅니다.' },
     ],
-    signals: ['시간대별 소비', '피크', '원단위'],
+    signals: [
+      { label: '시간대별 소비', icon: 'hourly-usage' },
+      { label: '피크', icon: 'peak' },
+      { label: '원단위', icon: 'intensity' },
+    ],
     related: { label: '낭비는 어디에 숨어 있나', href: '/blog/energy-optimization' },
     seo: {
       title: '에너지 최적화 | Refinery',
@@ -352,7 +381,13 @@ export const useCases: UseCase[] = [
       { icon: 'ph-waveform', title: '전조 감지', desc: '온도 · 압력 · 원료 특성이 평소와 달라지는<br>지점을 잡아 불량의 조짐을 읽습니다.' },
       { icon: 'ph-bell-ringing', title: '사전 경고', desc: '위험 구간에 들어서면 미리 알립니다.<br>무엇을 왜 손봐야 하는지 근거와 함께 안내합니다.' },
     ],
-    signals: ['온도', '압력', '원료 로트', '공정 조건', '검사 결과'],
+    signals: [
+      { label: '온도', icon: 'temperature' },
+      { label: '압력', icon: 'pressure' },
+      { label: '원료 로트', icon: 'material-lot' },
+      { label: '공정 조건', icon: 'process-condition' },
+      { label: '검사 결과', icon: 'inspection-result' },
+    ],
     related: { label: '불량은 검사보다 먼저 드러난다', href: '/blog/quality-prediction' },
     seo: {
       title: '품질 예측 | Refinery',
