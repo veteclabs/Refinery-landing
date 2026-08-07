@@ -348,7 +348,7 @@ export const useCases: UseCase[] = [
     how: [
       { icon: 'ph-flow-arrow', title: '공정-품질 연결', desc: '공정 조건과 검사 결과를 하나로 잇습니다.<br>어떤 조건에서 불량이 늘었는지 보입니다.' },
       { icon: 'ph-waveform', title: '전조 감지', desc: '온도 · 압력 · 원료 특성이 평소와 달라지는<br>지점을 잡아 불량의 조짐을 읽습니다.' },
-      { icon: 'ph-bell-ringing', title: '사전 경고', desc: '위험 구간에 들어서면 미리 알립니다.<br>무엇을 왜 손봐야 하는지<br>근거와 함께 안내합니다.' },
+      { icon: 'ph-bell-ringing', title: '사전 경고', desc: '위험 구간에 들어서면 미리 알립니다.<br>무엇을 왜 손봐야 하는지 근거와 함께 안내합니다.' },
     ],
     signals: ['온도', '압력', '원료 로트', '공정 조건', '검사 결과'],
     related: { label: '불량이 나오기 전에: 품질 예측의 현실', href: '/blog/quality-prediction' },
