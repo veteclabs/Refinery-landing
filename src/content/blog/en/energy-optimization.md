@@ -1,5 +1,5 @@
 ---
-title: "Where the waste hides: starting with energy optimization"
+title: "Where the waste hides"
 description: "Energy cost leaks from the places nobody looks at, not the obvious ones. How to find waste and peaks in the data."
 pubDate: 2026-07-31
 updatedDate: 2026-07-31

@@ -10,6 +10,12 @@ export type UseCaseImage = {
   height: number;
   /** 캡션(선택). 화면 아래 작은 설명. */
   caption?: string;
+  /** object-position 값(선택, 예 '80% center'). 사진마다 담긴 장면이 달라
+   *  잘리는 위치를 조정할 때 쓴다. 미지정 시 가운데(50% 50%).
+   *  cardImage에서만 쓴다 — '함께 보면 좋은 과제' 카드는 자기 페이지가 아니라
+   *  다른 6개 페이지에 나오므로 페이지 스코프 CSS(.uc-<slug>)로는 잡을 수 없다.
+   *  (히어로는 자기 페이지에만 나오므로 UseCasePage의 CSS에서 slug로 지정한다) */
+  position?: string;
 };
 
 /** 다루는 데이터·신호 항목.
@@ -30,6 +36,11 @@ export type HowPoint = {
 export type UseCase = {
   slug: string;
   name: string;          // 예: 예지보전
+  /** 2026-08 개편 디자인을 적용한다(어두운 해법 섹션·큰 제목·넉넉한 섹션 여백 등).
+   *  켜면 <main>에 uc-redesigned 클래스가 붙고 그 스코프의 스타일이 전부 걸린다.
+   *  끄면(기본) 기존 유즈케이스 디자인 그대로다.
+   *  히어로 배경·신호 카드·다른 과제 목록 같은 개별 요소는 아래 각 필드로 따로 켠다. */
+  redesigned?: boolean;
   eyebrow?: string;      // 상단 소제목(기본 USE CASE)
   showBreadcrumb?: boolean; // 히어로 상단 위치 표시(Home › 유즈케이스 › ...). 기본 true
   showEyebrow?: boolean;    // 히어로 eyebrow(USE CASE) 노출. 기본 true
