@@ -21,10 +21,12 @@ interface Props {
 const { uc, lang = 'ko' } = Astro.props;
 
 // listHref가 없으면 브레드크럼의 목록 항목을 링크가 아닌 텍스트로 렌더한다.
-// (영어는 아직 /en/use-cases 목록 페이지가 없다)
+// ko·en 모두 목록 페이지가 없다 — 메가메뉴가 개별 과제로 바로 보내면서
+// 링크가 하나도 남지 않아 /use-cases를 지웠다. 브레드크럼을 다시 켜더라도
+// 죽은 링크가 생기지 않도록 여기도 비워 둔다.
 const T = {
   ko: {
-    crumbAria: '위치', home: 'Home', list: '유즈케이스', listHref: '/use-cases' as string | undefined,
+    crumbAria: '위치', home: 'Home', list: '유즈케이스', listHref: undefined as string | undefined,
     eyebrow: 'USE CASE', contact: '문의하기', contactHref: '/contact',
     secondary: '플랫폼 개요 →', secondaryPlain: '플랫폼 개요', secondaryHref: '/why-refinery',
     why: '왜 필요한가요?', how: 'Refinery로 푸는 방식', tmplBadge: '템플릿으로 시작',
