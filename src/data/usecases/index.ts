@@ -8,8 +8,8 @@ export const useCases: UseCase[] = [
     cardImage: {
       src: '/use-cases/cards/predictive-maintenance.webp',
       alt: '',
-      width: 854,
-      height: 480,
+      width: 1280,
+      height: 720,
     },
     redesigned: true,
     ctaTitle: '예지보전, 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
@@ -88,8 +88,8 @@ export const useCases: UseCase[] = [
     cardImage: {
       src: '/use-cases/cards/sensor-monitoring.webp',
       alt: '',
-      width: 854,
-      height: 480,
+      width: 1280,
+      height: 720,
     },
     tagline: '진동·온도·전력·환경까지, 흩어진 센서를 한 구조로 모아 감시합니다.',
     problem:
@@ -133,8 +133,8 @@ export const useCases: UseCase[] = [
     cardImage: {
       src: '/use-cases/cards/power-management.webp',
       alt: '',
-      width: 854,
-      height: 480,
+      width: 1280,
+      height: 720,
     },
     tagline: '언제 어디서 얼마나 쓰는지 데이터로 파악해, 전력 비용과 리스크를 줄입니다.',
     problem:
@@ -186,8 +186,8 @@ export const useCases: UseCase[] = [
     cardImage: {
       src: '/use-cases/cards/power-quality.webp',
       alt: '',
-      width: 854,
-      height: 480,
+      width: 1280,
+      height: 720,
     },
     tagline: '전압 변동·고조파·순간 정전 같은 품질 이상을 실시간으로 감시합니다.',
     problem:
@@ -238,8 +238,8 @@ export const useCases: UseCase[] = [
     cardImage: {
       src: '/use-cases/cards/factory-energy.webp',
       alt: '',
-      width: 854,
-      height: 480,
+      width: 1280,
+      height: 720,
     },
     name: '공장 에너지관리',
     tagline: '공장 전체의 에너지 흐름을 한곳에서 보고, 낭비와 배출을 함께 줄입니다.',
@@ -291,8 +291,8 @@ export const useCases: UseCase[] = [
     cardImage: {
       src: '/use-cases/cards/energy-optimization.webp',
       alt: '',
-      width: 854,
-      height: 480,
+      width: 1280,
+      height: 720,
     },
     name: '에너지 최적화',
     tagline: '숨은 낭비와 피크를 데이터로 찾아, 같은 일을 더 적은 비용으로 합니다.',
@@ -336,8 +336,8 @@ export const useCases: UseCase[] = [
     cardImage: {
       src: '/use-cases/cards/quality-prediction.webp',
       alt: '',
-      width: 854,
-      height: 480,
+      width: 1280,
+      height: 720,
     },
     name: '품질 예측',
     tagline: '공정 데이터가 보내는 신호를 읽어, 불량이 완성되기 전에 잡습니다.',
