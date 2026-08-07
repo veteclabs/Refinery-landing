@@ -294,7 +294,7 @@ export const useCases: UseCase[] = [
       alt: '',
       width: 1280,
       height: 720,
-      position: '40% center',
+      position: '30% center',
     },
     name: '에너지 최적화',
     tagline: '숨은 낭비와 피크를 데이터로 찾아, 같은 일을 더 적은 비용으로 합니다.',
