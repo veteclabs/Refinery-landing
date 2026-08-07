@@ -241,6 +241,7 @@ export const useCases: UseCase[] = [
       alt: '',
       width: 1280,
       height: 720,
+      position: '80% center',
     },
     name: '공장 에너지관리',
     tagline: '공장 전체의 에너지 흐름을 한곳에서 보고, 낭비와 배출을 함께 줄입니다.',
