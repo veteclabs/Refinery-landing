@@ -10,6 +10,12 @@ export type UseCaseImage = {
   height: number;
   /** 캡션(선택). 화면 아래 작은 설명. */
   caption?: string;
+  /** object-position 값(선택, 예 '80% center'). 사진마다 담긴 장면이 달라
+   *  잘리는 위치를 조정할 때 쓴다. 미지정 시 가운데(50% 50%).
+   *  cardImage에서만 쓴다 — '함께 보면 좋은 과제' 카드는 자기 페이지가 아니라
+   *  다른 6개 페이지에 나오므로 페이지 스코프 CSS(.uc-<slug>)로는 잡을 수 없다.
+   *  (히어로는 자기 페이지에만 나오므로 UseCasePage의 CSS에서 slug로 지정한다) */
+  position?: string;
 };
 
 /** 다루는 데이터·신호 항목.
