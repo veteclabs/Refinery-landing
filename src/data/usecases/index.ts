@@ -25,8 +25,8 @@ export const useCases: UseCase[] = [
     heroImage: {
       src: '/use-cases/predictive-hero.webp',
       alt: '펌프와 배관이 늘어선 공장 기계실. 예지보전으로 상태를 감시하는 대상 설비다.',
-      width: 1920,
-      height: 1206,
+      width: 3840,
+      height: 2411,
     },
     problem:
       '달력에 맞춘 정비는 아직 쓸 수 있는 부품을 버리거나 교체 주기 사이에 발생하는 갑작스러운 고장을 놓칩니다. 시간은 설비의 실제 상태를 반영하지 못하는 기준이기 때문입니다. 그렇다고 사람이 직접 현장을 돌며 진동을 측정하거나 설비마다 유선 센서를 배선하는 것도 현실적으로 부담이 큽니다.',
@@ -73,8 +73,8 @@ export const useCases: UseCase[] = [
     heroImage: {
       src: '/use-cases/heroes/sensor-monitoring.webp',
       alt: '',
-      width: 1920,
-      height: 1076,
+      width: 3840,
+      height: 2152,
     },
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     signalsAsCards: true,
@@ -126,8 +126,8 @@ export const useCases: UseCase[] = [
     heroImage: {
       src: '/use-cases/heroes/power-management.webp',
       alt: '',
-      width: 1920,
-      height: 1281,
+      width: 3840,
+      height: 2563,
     },
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     signalsAsCards: true,
@@ -185,8 +185,8 @@ export const useCases: UseCase[] = [
     heroImage: {
       src: '/use-cases/heroes/power-quality.webp',
       alt: '',
-      width: 1920,
-      height: 1076,
+      width: 3840,
+      height: 2152,
     },
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     signalsAsCards: true,
@@ -244,8 +244,8 @@ export const useCases: UseCase[] = [
     heroImage: {
       src: '/use-cases/heroes/factory-energy.webp',
       alt: '',
-      width: 1920,
-      height: 1076,
+      width: 3840,
+      height: 2152,
     },
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     signalsAsCards: true,
@@ -303,8 +303,8 @@ export const useCases: UseCase[] = [
     heroImage: {
       src: '/use-cases/heroes/energy-optimization.webp',
       alt: '',
-      width: 3600,
-      height: 2250,
+      width: 4710,
+      height: 2944,
     },
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     signalsAsCards: true,
@@ -353,8 +353,8 @@ export const useCases: UseCase[] = [
     heroImage: {
       src: '/use-cases/heroes/quality-prediction.webp',
       alt: '',
-      width: 3200,
-      height: 2009,
+      width: 4230,
+      height: 2656,
     },
     ctaBackgroundImage: '/use-cases/cta-bg.webp',
     signalsAsCards: true,
