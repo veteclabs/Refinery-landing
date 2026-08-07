@@ -765,8 +765,19 @@ const jsonLd = {
   .uc-redesigned .uc-template h3 { margin-top: 65px; }
   .uc-redesigned .uc-template {
     position: relative; overflow: hidden;
+    /* 빛의 원점을 장식 이미지와 같은 우상단 모서리에 둔다. 직선 그라데이션은
+       모든 높이에서 밝기가 같아 '오른쪽 벽이 빛난다'로 보였다 — 장식은 모서리에서
+       퍼지는데 빛은 변에서 오니 광원이 둘로 읽혔다.
+       단계는 감소폭을 줄여가며 놓아 이징 곡선을 흉내 낸다. 직선 램프는 끝나는
+       지점(기존 55%)에 눈에 띄는 경계가 생기고, 어두운 면 위 낮은 알파라
+       띠(밴딩)도 잘 보인다. */
     background:
-      linear-gradient(270deg, rgba(118,166,215,.2) 0%, rgba(118,166,215,0) 55%),
+      radial-gradient(120% 160% at 100% 0%,
+        rgba(118,166,215,.22) 0%,
+        rgba(118,166,215,.16) 22%,
+        rgba(118,166,215,.08) 45%,
+        rgba(118,166,215,.03) 65%,
+        rgba(118,166,215,0) 82%),
       #111316;
     border: 1px solid #272b32;
   }
