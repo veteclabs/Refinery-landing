@@ -487,6 +487,10 @@ const jsonLd = {
   .uc-power-management .uc-hero-bg-img { object-position: center 25%; }
   .uc-power-quality .uc-hero-bg-img { object-position: center 16%; }
   .uc-factory-energy .uc-hero-bg-img { object-position: center 0%; }
+  /* 배터리 기둥이 정중앙이라 대제목과 시선이 부딪힌다. 확대해 가로 여유를 만들고
+     원점을 왼쪽 변에 두어 오른쪽으로만 늘린다(=사진이 오른쪽으로 160px 밀린다).
+     translateX 대신 transform-origin을 쓴 이유: 이동 상한을 계산할 필요 없이
+     구조상 여유가 0이 된다. 세로는 object-position 하나로만 움직인다(0%=맨 아래). */
   .uc-energy-optimization .uc-hero-bg-img { object-position: center 36%; transform: scale(1.225); transform-origin: left center; }
   /* 스크림 — 좌측(글이 놓이는 쪽)을 더 진하게 해 대비를 확보한다 */
   /* 사진 위 스크림 — 색은 '푸는 방식' 섹션과 같은 #111316.
