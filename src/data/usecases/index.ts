@@ -329,10 +329,10 @@ export const useCases: UseCase[] = [
     signalsAsCards: true,
     relatedAsHeaderLink: true,
     heroTaglineAsTitle: true,
-    heroTitle: '공정 데이터에서 불량의 전조를 읽어,<br>완성 전에 잡습니다',
+    heroTitle: '공정 데이터가 보내는 신호를 읽어<br>불량이 완성되기 전에 잡습니다',
     showRelatedUseCases: true,
     ctaTitle: '품질 예측, 현장에 어떻게 적용될지<br>Refinery와 함께 확인해보세요.',
-    cardDesc: '공정 데이터에서 불량의 전조를 읽어<br>완성 전에 잡습니다.',
+    cardDesc: '공정 데이터가 보내는 신호를 읽어<br>불량이 완성되기 전에 잡습니다.',
     cardImage: {
       src: '/use-cases/cards/quality-prediction.webp',
       alt: '',
@@ -340,7 +340,7 @@ export const useCases: UseCase[] = [
       height: 480,
     },
     name: '품질 예측',
-    tagline: '공정 데이터에서 불량의 전조를 읽어, 완성 전에 잡습니다.',
+    tagline: '공정 데이터가 보내는 신호를 읽어, 불량이 완성되기 전에 잡습니다.',
     problem:
       '완성품 검사에서 불량을 찾으면 이미 자재와 시간이 들어간 뒤입니다. 완성품만 봐서는 원인도 알기 어렵습니다.',
     problemHtml:
@@ -354,7 +354,7 @@ export const useCases: UseCase[] = [
     related: { label: '불량이 나오기 전에: 품질 예측의 현실', href: '/blog/quality-prediction' },
     seo: {
       title: '품질 예측 | Refinery',
-      description: '공정 데이터에서 불량의 전조를 읽어 완성 전에 잡습니다. 공정과 검사 결과를 연결해 원인을 짚는 품질 예측 유즈케이스.',
+      description: '공정 데이터가 보내는 신호를 읽어 불량이 완성되기 전에 잡습니다. 공정과 검사 결과를 연결해 원인을 짚는 품질 예측 유즈케이스.',
     },
   },
 ];
