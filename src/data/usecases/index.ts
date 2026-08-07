@@ -4,7 +4,7 @@ import type { UseCase } from './types';
 export const useCases: UseCase[] = [
   {
     slug: 'predictive-maintenance',
-    cardDesc: '무선 진동센서로 모터의 고장 전조를 읽어<br>멈춤과 손실을 줄입니다.',
+    cardDesc: '무선 진동센서로 모터의 고장 전조를<br>읽어 멈춤과 손실을 줄입니다.',
     cardImage: {
       src: '/use-cases/cards/predictive-maintenance.webp',
       alt: '',
