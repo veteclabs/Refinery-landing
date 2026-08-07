@@ -90,7 +90,7 @@ export const useCases: UseCase[] = [
       alt: '',
       width: 1280,
       height: 720,
-      position: '90% center',
+      position: '75% center',
     },
     tagline: '진동·온도·전력·환경까지, 흩어진 센서를 한 구조로 모아 감시합니다.',
     problem:
