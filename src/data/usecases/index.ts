@@ -351,7 +351,7 @@ export const useCases: UseCase[] = [
       { icon: 'ph-bell-ringing', title: '사전 경고', desc: '위험 구간에 들어서면 미리 알립니다.<br>무엇을 왜 손봐야 하는지 근거와 함께 안내합니다.' },
     ],
     signals: ['온도', '압력', '원료 로트', '공정 조건', '검사 결과'],
-    related: { label: '불량이 나오기 전에: 품질 예측의 현실', href: '/blog/quality-prediction' },
+    related: { label: '불량은 검사보다 먼저 드러난다', href: '/blog/quality-prediction' },
     seo: {
       title: '품질 예측 | Refinery',
       description: '공정 데이터가 보내는 신호를 읽어 불량이 완성되기 전에 잡습니다. 공정과 검사 결과를 연결해 원인을 짚는 품질 예측 유즈케이스.',
